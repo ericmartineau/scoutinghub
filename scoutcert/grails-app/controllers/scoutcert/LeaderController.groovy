@@ -3,10 +3,13 @@ package scoutcert
 import grails.plugins.springsecurity.Secured
 
 @Secured(["ROLE_LEADER"])
-class HomePageController {
+class LeaderController {
 
     def index = {
-        forward(controller:'leader', action: 'index')
-
+        forward(action:'profile')
     }
+
+    def profile = {}
+
+    def training = {}
 }

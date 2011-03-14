@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+
+    <!--<beans:bean id="tokenServices"-->
+    <!--class="org.springframework.security.oauth2.provider.token.InMemoryOAuth2ProviderTokenServices">-->
+    <!--<beans:property name="supportRefreshToken" value="true"/>-->
+    <!--</beans:bean>-->
+
+
+    <!--<oauth:provider client-details-service-ref="clientDetails" token-services-ref="tokenServices">-->
+    <!--<oauth:verification-code user-approval-page="/oauth/confirm_access"/>-->
+    <!--</oauth:provider>-->
+
+    <!--<oauth:client-details-service id="clientDetails">-->
+    <!--<oauth:client clientId="my-trusted-client" authorizedGrantTypes="password,authorization_code,refresh_token"/>-->
+    <!--<oauth:client clientId="my-less-trusted-client" authorizedGrantTypes="authorization_code"/>-->
+    <!--<oauth:client clientId="tonr" authorizedGrantTypes="authorization_code"/>-->
+    <!--</oauth:client-details-service>-->
+
+
+    <!--<bean id="facebookAuthenticationFilter" class="org.springframework.security.facebook.FacebookAuthenticationFilter">-->
+        <!--<property name="authenticationManager" ref="authenticationManager"/>-->
+        <!--<property name="authenticationSuccessHandler">-->
+            <!--<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">-->
+                <!--<property name="defaultTargetUrl" value="/scoutcert/homePage/"/>-->
+                <!--<property name="alwaysUseDefaultTargetUrl" value="false"/>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="authenticationFailureHandler">-->
+            <!--<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">-->
+                <!--<property name="defaultFailureUrl" value="/scoutcert/login/auth"/>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+<!---->
+    <!--<bean id="facebookAuthenticationProvider" class="org.springframework.security.facebook.FacebookAuthenticationProvider">-->
+        <!--<property name="roles" value="ROLE_FACEBOOK_USER"/>-->
+    <!--</bean>-->
+<!---->
+    <!--<bean id="facebookHelper" class="org.springframework.security.facebook.FacebookHelper">-->
+        <!--<property name="apiKey" value="7ff080f0a28d435c77b2506472e4add1"/>-->
+        <!--<property name="secret" value="139698635a23301fa00e43cbdd254222"/>-->
+    <!--</bean>-->
+
+    <!--<security:authentication-manager alias="authenticationManager">-->
+        <!--<security:authentication-provider ref="authenticationProvider"/>-->
+    <!--</security:authentication-manager>-->
+
+</beans>

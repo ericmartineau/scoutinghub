@@ -2,6 +2,8 @@ import scoutcert.Role
 import scoutcert.Leader
 import scoutcert.LeaderRole
 import grails.plugins.springsecurity.SpringSecurityService
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 
 class BootStrap {
 
@@ -25,6 +27,7 @@ class BootStrap {
             admin.passwordExpired = false
             admin.accountLocked = false
             admin.accountExpired = false
+            admin.email = "admin@email.com"
             admin.save(failOnError:true)
             LeaderRole.create(admin, Role.findByAuthority("ROLE_ADMIN"), true)
 
@@ -32,6 +35,9 @@ class BootStrap {
             unitAdmin.username = "unitadmin"
             unitAdmin.password = springSecurityService.encodePassword("890iop")
             unitAdmin.enabled = true
+            unitAdmin.addToMyScoutingIds(myScoutingIdentifier:"123456")
+            unitAdmin.email = "unitAdmin@email.com"
+
             unitAdmin.save(failOnError:true)
             LeaderRole.create(unitAdmin, Role.findByAuthority("ROLE_UNITADMIN"), true)
 
@@ -41,10 +47,16 @@ class BootStrap {
             leader.passwordExpired = false
             leader.accountLocked = false
             leader.accountExpired = false
+            leader.email = "leader@email.com"
             leader.save(failOnError:true)
             LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"), true)
 
         }
+
+
+		SpringSecurityUtils.clientRegisterFilter 'facebookAuthenticationFilter',
+				SecurityFilterPosition.OPENID_FILTER.order - 10
+
     }
 
     def destroy = {

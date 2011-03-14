@@ -49,10 +49,10 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://localhost:8080"
+        grails.serverURL = "http://s.cubtrails.com:8080"
     }
     development {
-        grails.serverURL = "http://localhost:8080/${appName}"
+        grails.serverURL = "http://s.cubtrails.com:8080/${appName}"
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -92,6 +92,10 @@ grails.plugins.springsecurity.requestMap.className = 'scoutcert.RequestMap'
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_UNITADMIN
    ROLE_UNITADMIN > ROLE_LEADER
+   ROLE_FACEBOOK_USER > ROLE_ANONYMOUS
 '''
 
+grails.plugins.springsecurity.providerNames = ['openIDAuthProvider', 'facebookAuthenticationProvider','daoAuthenticationProvider', 'anonymousAuthenticationProvider', 'rememberMeAuthenticationProvider']
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.Annotation
+grails.plugins.springsecurity.openid.domainClass = 'scoutcert.OpenID'
+grails.plugins.springsecurity.openid.registration.autocreate=true

@@ -2,8 +2,8 @@ package scoutcert
 
 class HtmlContainersTagLib {
 
-    def header = {attrs->
-        out << "<h1 class=\"loginTitle\"><span>${attrs.title}</span></h1>"
+    def header = {attrs, body->
+        out << "<h1 class=\"loginTitle\"><span>${body()}</span></h1>"
     }
 
 }

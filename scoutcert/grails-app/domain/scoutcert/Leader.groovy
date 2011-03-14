@@ -1,24 +1,28 @@
 package scoutcert
 
-class Leader {
+class Leader implements Serializable {
 
-	String username
-	String password
-	boolean enabled
-	boolean accountExpired
-	boolean accountLocked
-	boolean passwordExpired
+    String username
+    String password
+    String email
+    boolean enabled
+    boolean accountExpired
+    boolean accountLocked
+    boolean passwordExpired
 
-	static constraints = {
-		username blank: false, unique: true
-		password blank: false
-	}
+    static hasMany = [openIds: OpenID, myScoutingIds: MyScoutingId]
 
-	static mapping = {
-		password column: '`password`'
-	}
+    static constraints = {
+        username blank: false, unique: true
+        password blank: true
+        email blank: true
+    }
 
-	Set<Role> getAuthorities() {
-		LeaderRole.findAllByLeader(this).collect { it.role } as Set
-	}
+    static mapping = {
+        password column: '`password`'
+    }
+
+    Set<Role> getAuthorities() {
+        LeaderRole.findAllByLeader(this).collect { it.role } as Set
+    }
 }

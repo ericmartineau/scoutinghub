@@ -5,7 +5,7 @@
 
     </head>
     <body>
-        <g:header title="My Training" />
-        <g:header title="My Other Stuff" />
+        <g:header><g:message code="title.training" /></g:header>
+
     </body>
 </html>
