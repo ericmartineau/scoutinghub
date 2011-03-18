@@ -1,132 +1,0 @@
-10
-
-dir
-659
-http://openid4java.googlecode.com/svn/branches/openid4java-0.9.5/maven2
-http://openid4java.googlecode.com/svn
-
-
-
-2009-06-16T16:42:53.499350Z
-607
-zhoushuqun
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-0ddc078c-3e21-0410-a0b4-493e83258d60
-
-openid4java-consumer-JdbcConsumerAssociationStore
-dir
-
-openid4java-xri
-dir
-
-openid4java
-dir
-
-openid4java-full
-dir
-
-openid4java-infocard
-dir
-
-openid4java-server
-dir
-
-openid4java-consumer-SampleConsumer
-dir
-
-openid4java-server-JdbcServerAssociationStore
-dir
-
-pom.xml
-file
-
-
-
-
-2011-03-17T04:17:19.000000Z
-a546e8d3f12893ef5dd7362f8961ce3e
-2009-06-16T16:42:53.499350Z
-607
-zhoushuqun
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10757
-
-README.txt
-file
-
-
-
-
-2011-03-17T04:17:19.000000Z
-84812b09ebbc688815277e4c23d5c1e6
-2009-05-11T23:03:49.273313Z
-580
-johnny.bufu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2258
-
-openid4java-consumer-JdbcNonceVerifier
-dir
-
-openid4java-consumer
-dir
-
-openid4java-server-SampleServer
-dir
-
-repo-adds
-dir
-
