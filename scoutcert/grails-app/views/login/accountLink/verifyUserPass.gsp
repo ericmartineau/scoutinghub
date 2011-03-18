@@ -7,19 +7,19 @@
 
 <div class='body'>
 
-    <g:header><g:message code="flow.verifyUserPass.title"/></g:header>
+    <g:msgbox type="warning" code="flow.verifyUserPass.title" code2="flow.verifyUserPass.message" />
+
+        %{--<g:header><g:message code="flow.verifyUserPass.title"/></g:header>--}%
 
 
     <div id="createAccount">
         <g:form action="accountLink">
-            <div class="explain"><g:message code="flow.verifyUserPass.message"/></div>
+            %{--<div class="explain"><g:message code="flow.verifyUserPass.message"/></div>--}%
             <table width="100%" id='createAccount'>
                 <tr>
                     <td width="50%" valign="top" align="center">
                         <g:if test="${error}">
-                            <div class="errors">
-                                <g:message code="${error}" />
-                            </div>
+                            <g:msgbox type="error" code="${error}" code2="${error2}" />
                         </g:if>
                         <table>
                             <tr>

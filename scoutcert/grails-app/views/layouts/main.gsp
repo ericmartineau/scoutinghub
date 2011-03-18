@@ -1,11 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- saved from url=(0056)https://myscouting.scouting.org/Pages/TrainingTools.aspx -->
-<html><head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
     <g:layoutHead/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="ROBOTS" content="NOHTMLINDEX">
 
-    <title><g:layoutTitle /></title>
+    <title><g:layoutTitle/></title>
 
     <g:javascript library="jquery-min"/>
 
@@ -18,7 +18,6 @@
 
 
     <g:javascript library="application"/>
-
 
 </head>
 <body>
@@ -34,18 +33,17 @@
             </tr>
             </tbody></table>
 
-        <div id="top">
+        <div>
             <div id="logo">
 
-                <table cellpadding="0" cellspacing="0">
-                    <tbody><tr>
-                        <td><img src="/scoutcert/images/BsaLogoOriginal.jpg" style="border-width:0px;"></td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td><g:link controller="leader" action="index"><img src="/scoutcert/images/BsaLogoOriginal.jpg" style="border-width:0px;"></g:link></td>
+                        <td align="right">
                             <img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;">
                         </td>
                     </tr>
-                    </tbody></table>
+                </table>
 
             </div>
 
@@ -53,7 +51,7 @@
         <div class="clear">
         </div>
 
-        <g:menu />
+        <g:menu/>
 
         <div id="content">
             <g:layoutBody/>
@@ -61,8 +59,7 @@
         <div style="clear: both">
         </div>
         <div id="bsafooter" style="padding-left: 20px">
-            <img src="/scoutcert/images/footerbsa.gif" />
-
+            <img src="/scoutcert/images/footerbsa.gif"/>
 
         </div>
     </div>

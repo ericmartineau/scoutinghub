@@ -6,5 +6,6 @@ class MyScoutingId implements Serializable{
     String myScoutingIdentifier
 
     static constraints = {
+        myScoutingIdentifier(unique:true)
     }
 }

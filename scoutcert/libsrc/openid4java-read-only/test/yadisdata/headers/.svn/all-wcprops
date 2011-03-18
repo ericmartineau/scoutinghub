@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers
+END
+redir_simplexrds
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/redir_simplexrds
+END
+invalidxrdslocation1
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/invalidxrdslocation1
+END
+invalidxrdslocation2
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/invalidxrdslocation2
+END
+redir_simplehtml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/redir_simplehtml
+END
+simpleheaders_xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/simpleheaders_xml
+END
+simpleheaders
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/simpleheaders
+END
+multiplexrdslocation
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/multiplexrdslocation
+END
+simplexrds
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/simplexrds
+END
+simplexml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/simplexml
+END
+redir_simpleheaders
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/redir_simpleheaders
+END
+simplehtml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/yadisdata/headers/simplehtml
+END

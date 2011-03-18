@@ -6,11 +6,6 @@
     <title><g:message code="menu.login"/></title>
     <style type="text/css">
 
-    .biglabel {
-        font-size: 14px;
-        font-weight: bold;
-    }
-
     .alabel {
         font-size: 14px;
     }
@@ -36,19 +31,6 @@
 
 <body>
 
-<div id="fb-root"></div>
-<script
-        src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"
-        type="text/javascript"></script>
-<script type="text/javascript">
-    FB.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
-    function facebook_onlogin() {
-        FB.Connect.ifUserConnected(function () {
-            // make request to the url 'fbconnect' for logging in bss
-            window.location = '/scoutcert/j_spring_facebook_security_check';
-        });
-    }
-</script>
 <div id='login'>
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
@@ -57,20 +39,17 @@
                     <tr>
 
                         <td align="center" width="50%">
+                            <h2><g:message code="login.enteruandp"/></h2>
+                            <g:if test='${flash.message}'>
+                                <g:msgbox type="error" code="${flash.message}"/>
+                            </g:if>
+
                             <table>
-                                <tr>
-                                    <td align="center">
-                                        <div class="biglabel"><g:message code="login.enteruandp"/></div>
-                                    </td>
-                                </tr>
+
                                 <tr>
                                     <td align="left">
 
-
                                         <div class='inner'>
-                                            <g:if test='${flash.message}'>
-                                                <div class='login_message'>${flash.message}</div>
-                                            </g:if>
                                             <div class="fldContainer"></div>
                                             <form action='${daoPostUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
                                                 <div class="fldContainer">
@@ -90,8 +69,8 @@
 
                                                 </div>
                                                 <p style="margin-top:30px; text-align:center">
-                                                    <g:link controller="login" action="forgotPassword">Forgot Password</g:link> |
-                                                    <g:link controller="login" action="createAccount">Create Account</g:link>
+                                                    %{--<g:link controller="login" action="forgotPassword">Forgot Password</g:link> |--}%
+                                                    <g:link controller="login" action="accountLink"><g:message code="label.createAccount"/></g:link>
                                                 </p>
                                             </form>
                                         </div>
@@ -102,17 +81,19 @@
 
                         </td>
                         <td valign="top" width="50%" align="center">
-                            <div class="biglabel"><g:message code="login.alternateproviders"/></div>
+                            <h2><g:message code="login.alternateproviders"/></h2>
 
                             <table cellpadding="5">
                                 <tr>
-                                    <td><a href="/scoutcert/j_spring_openid_security_check?openid_identifier=http://www.yahoo.com/"><img src="/scoutcert/images/yahoo.jpg"/></a></td>
-                                    <td><a href="/scoutcert/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"><img src="/scoutcert/images/google.jpg"/></a></td>
+                                    <td><a href="/scoutcert/openId/yahoo"><img src="/scoutcert/images/yahoo.jpg"/></a></td>
+                                    <td><a href="/scoutcert/openId/google"><img src="/scoutcert/images/google.jpg"/></a></td>
 
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="center">
-                                        <fb:login-button size="large" length="long" background="white"
+                                        %{--<a href="/scoutcert/openId/facebook"><img src="/scoutcert/images/facebook.jpg"/></a>--}%
+
+                                        <fb:login-button class="fbconnect_login" size="large" length="long" background="white"
                                                 onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button>
 
                                     </td>
@@ -122,11 +103,10 @@
 
                             %{--<div class="biglabel"><g:message code="login.createaccount"/></div>--}%
                             %{--<table>--}%
-                                %{--<tr>--}%
-                                    %{--<td>fdsdsjkl</td>--}%
-                                %{--</tr>--}%
+                            %{--<tr>--}%
+                            %{--<td>fdsdsjkl</td>--}%
+                            %{--</tr>--}%
                             %{--</table>--}%
-
 
                         </td>
                     </tr>
@@ -135,11 +115,35 @@
         </tr>
     </table>
 </div>
-<script type='text/javascript'>
+<div id="fb-root"></div>
+<script
+        src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    //    FB.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
+
+    function facebook_onlogin() {
+        FB.Connect.ifUserConnected(function () {
+            window.location = '/scoutcert/openId/facebook';
+        });
+    }
     <!--
-    (function() {
+    jQuery(document).ready(function() {
         document.forms['loginForm'].elements['j_username'].focus();
-    })();
+        FB_RequireFeatures(["XFBML"], function() {
+
+            FB.Facebook.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
+            FB.Facebook.get_initialized().waitUntilReady(function() {
+//                setTimeout(function() {
+                    jQuery(".FB_login_button").find("img").attr("src", "/scoutcert/images/facebook.jpg")
+//                }, 150)
+            })
+
+
+        });
+    });
+
+
     // -->
 </script>
 </body>

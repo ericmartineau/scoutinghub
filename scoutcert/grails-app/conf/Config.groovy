@@ -49,7 +49,7 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://s.cubtrails.com:8080"
+        grails.serverURL = "http://www.cubtrails.com/${appName}"
     }
     development {
         grails.serverURL = "http://s.cubtrails.com:8080/${appName}"

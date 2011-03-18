@@ -6,4 +6,23 @@ class HtmlContainersTagLib {
         out << "<h1 class=\"loginTitle\"><span>${body()}</span></h1>"
     }
 
+     def msgbox = {attrs, body->
+         out << "<div style=\"text-align:left\" class=\"ui-corner-all ${attrs.type}\">"
+
+         if(attrs.code) {
+             out << "<div class=\"msg1\">"
+             out << message(code: attrs.code)
+             out << "</div>"
+         } else {
+             out << body()
+         }
+         if(attrs.code2) {
+             out << "<div class=\"msg2\">"
+             out << message(code: attrs.code2)
+             out << "</div>"
+         }
+         out << '</div>'
+     }
+
+
 }

@@ -5,6 +5,6 @@
     </head>
 
     <body>
-        <g:header>Something Cool</g:header>
+        <g:header><g:message code="menu.leader.profile" /></g:header>
     </body>
 </html>

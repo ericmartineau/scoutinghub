@@ -2,9 +2,9 @@
     <ul>
         <g:each in="${menuItems}" var="menuItem">
             <g:if test="${menuItem.requiredRoles?.size() > 0}">
-                <sec:ifAnyGranted roles="${menuItem.requiredRoles?.join()}">
+                <sec:ifAllGranted roles="${menuItem.requiredRoles?.join()}">
                     <g:menuItem controller="${params.controller}" action="${params.action}" menuItem="${menuItem}" />
-                </sec:ifAnyGranted>
+                </sec:ifAllGranted>
             </g:if>
             <g:else>
                 <g:menuItem controller="${params.controller}" action="${params.action}" menuItem="${menuItem}" />

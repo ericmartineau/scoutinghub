@@ -4,6 +4,9 @@ import org.springframework.security.facebook.FacebookAuthenticationProvider
 import org.springframework.security.facebook.FacebookHelper
 import scoutcert.FacebookAuthenticationFailureHandler
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import scoutcert.GrailsOpenIDAuthenticationFilter
+import scoutcert.OpenIdSocialAuthenticationFilter
+import scoutcert.FacebookSocialAuthenticationFilter
 
 // Place your Spring DSL code here
 beans = {
@@ -27,10 +30,13 @@ beans = {
         grailsApplication = ref("grailsApplication")
     }
 
-    facebookAuthenticationFilter(FacebookAuthenticationFilter) {
+    facebookAuthenticationFilter(FacebookSocialAuthenticationFilter) {
         authenticationManager = ref("authenticationManager")
         authenticationSuccessHandler = ref("authenticationSuccessHandler")
         authenticationFailureHandler = ref("facebookAuthenticationFailureHandler")
+        socialFacebookHelper = ref("facebookHelper")
+        facebookHelper = ref("facebookHelper")
+        springSecurityService = ref("springSecurityService")
 
     }
 
@@ -50,6 +56,19 @@ beans = {
     facebookHelper(FacebookHelper) {
         apiKey = "d6fc406cd3f5f8d3458eda5bd4e19e75"
         secret = "ab725467de1c9853e5f45ed389ce48d9"
+    }
+
+    openIDAuthenticationFilter(OpenIdSocialAuthenticationFilter) {
+        claimedIdentityFieldName = conf.openid.claimedIdentityFieldName // openid_identifier
+        consumer = ref('openIDConsumer')
+        rememberMeServices = ref('rememberMeServices')
+        authenticationManager = ref('authenticationManager')
+        authenticationSuccessHandler = ref('authenticationSuccessHandler')
+        authenticationFailureHandler = ref('authenticationFailureHandler')
+        authenticationDetailsSource = ref('authenticationDetailsSource')
+        sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
+        springSecurityService = ref("springSecurityService")
+        filterProcessesUrl = '/j_spring_openid_security_check' // not configurable
     }
 
 }

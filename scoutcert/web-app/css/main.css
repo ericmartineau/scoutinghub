@@ -296,8 +296,11 @@ th.desc a {
 }
 
 .biglabel {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+}
+
+.label {
+    font-size: 16px;
 }
 
 .loginForm {

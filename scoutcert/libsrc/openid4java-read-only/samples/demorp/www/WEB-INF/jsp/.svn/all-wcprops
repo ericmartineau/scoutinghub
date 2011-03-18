@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/demorp/www/WEB-INF/jsp
+END
+post.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/demorp/www/WEB-INF/jsp/post.jsp
+END
+login.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/demorp/www/WEB-INF/jsp/login.jsp
+END
+home.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/demorp/www/WEB-INF/jsp/home.jsp
+END
+error.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/demorp/www/WEB-INF/jsp/error.jsp
+END

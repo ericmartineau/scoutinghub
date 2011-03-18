@@ -1,22 +1,28 @@
+import org.springframework.security.core.context.SecurityContextHolder as SCH
+
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 import javax.servlet.http.HttpServletResponse
-
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-
+import org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler
 import org.springframework.security.authentication.AccountExpiredException
 import org.springframework.security.authentication.CredentialsExpiredException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.LockedException
-import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import grails.plugins.springsecurity.Secured
-import org.springframework.web.servlet.ModelAndView
 import scoutcert.Leader
-import org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler
+import scoutcert.SocialLoginService
+import scoutcert.LeaderRole
+import scoutcert.Role
+import grails.plugin.mail.MailService
+import scoutcert.EmailVerifyService
+import scoutcert.LeaderService
+import scoutcert.ScoutUnit
+import scoutcert.CreateAccountCommand
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.web.savedrequest.DefaultSavedRequest
+import org.springframework.security.core.Authentication
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -30,6 +36,16 @@ class LoginController {
      * Dependency injection for the springSecurityService.
      */
     def springSecurityService
+
+    AuthenticationManager authenticationManager
+
+    SocialLoginService socialLoginService
+
+    MailService mailService
+
+    EmailVerifyService emailVerifyService
+
+    LeaderService leaderService
 
     /**
      * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
@@ -133,6 +149,10 @@ class LoginController {
         render([success: true, username: springSecurityService.authentication.name] as JSON)
     }
 
+    @Secured(["ROLE_LEADER"])
+    def suggestSocialLogin = {
+    }
+
     /**
      * The Ajax denied redirect url.
      */
@@ -143,44 +163,92 @@ class LoginController {
     def createAccount = {
     }
 
+    def emailVerify = {
+        Leader leader = Leader.findByVerifyHash(params.code)
+        if (!leader) {
+
+        }
+    }
+
+
     def accountLinkFlow = {
-        locateAccount {
-            on("createAccount").to "enterAccountDetails"
-            on("findByEmail").to "verifyAccountAction"
-            on("findByScoutId").to "verifyAccountAction"
-            on("findByName").to "verifyAccountAction"
+        locateSocialLogin {
+            action {
+                String socialProvider = session["LAST_AUTH_PROVIDER"]
+                String socialPrincipal = session[OpenIdAuthenticationFailureHandler.LAST_OPENID_USERNAME]
+
+                flash.hasSocialAuth = socialProvider && socialPrincipal
+                flash.socialProvider = socialProvider
+                flash.socialPrincipal = socialPrincipal
+                return success()
+            }
+            on("success").to "locateAccount"
         }
 
-        verifyAccountAction {
+        locateAccount {
+            on("linkSocial").to "submitVerifyUserPass"
+            on("createNewAccount").to "verifyAccountExists"
+        }
+
+
+
+        verifyAccountExists {
             action {
-                Leader leader
-                if (params.email != "") {
-                    leader = Leader.findByEmail(params.email)
-                    if (!leader) {
-                        flash.emailError = "error.emailNotFound"
-                    }
-                }
+                flow.createAccount = new CreateAccountCommand(
+                        firstName: params.firstName,
+                        lastName: params.lastName,
+                        email: params.email,
+                        unitNumber: params.unitNumber,
+                        scoutid: params.scoutid,
+                )
 
-                if(params.scoutid != "") {
-                    def c = Leader.createCriteria();
-                    leader = c.get {
-                        myScoutingIds {
-                            eq('myScoutingIdentifier', params.scoutid)
+                Leader leader = leaderService.findExactLeaderMatch(params.scoutid, params.email,
+                        params.firstName, params.lastName, params.unitNumber)
+                if (leader) {
+                    flow.leader = leader
+                    return foundSingleExistingRecord()
+                } else {
+                    Collection<Leader> leaderSet = leaderService.findLeaders(params.scoutid, params.email,
+                            params.firstName, params.lastName, params.unitNumber)
+
+                    if (leaderSet.size() > 0) { //Ambigious
+                        flow.leaderSet = leaderSet
+                        return foundMultipleMatches()
+                    } else {
+                        def errors = []
+                        def requiredProps = ["firstName", "lastName", "email", "unitNumber"]
+
+                        requiredProps.each {
+                            if (!params[it]) errors << "${it}.validation.error"
                         }
-                    };
-                    if(!leader) {
-                        flash.scoutIdError = "error.scoutIdNotFound"
+
+                        if (errors.size() > 0) {
+                            flash.errors = errors
+                            return error();
+                        } else {
+                            return proceedNewAccount()
+                        }
                     }
-
                 }
 
-                if (!leader) {
-                    return error();
-                }
+
+            }
+            on("proceedNewAccount").to "selectUsernameAndPassword"
+            on("foundMultipleMatches").to "foundMultipleMatches"
+            on("foundSingleExistingRecord").to "foundSingleExistingRecord"
+            on("error").to "locateSocialLogin"
+        }
+
+
+
+        foundSingleExistingRecord {
+            action {
+                Leader leader = flow.leader
                 if (leader?.enabled) {
                     if (leader?.username) {
                         return verifyUserPass()
                     } else if (leader?.email) {
+                        flash.leader = leader
                         return verifyEmail()
                     } else {
                         return enterAccountDetails()
@@ -188,26 +256,107 @@ class LoginController {
                 } else {
                     //First time setup
                     if (leader?.email) {
+                        flash.leader = leader;
                         return verifyEmail()
                     } else {
                         return enterAccountDetails()
                     }
 
                 }
-            }
-            on("verifyEmail").to "verifyEmail"
-            on("verifyUserPass").to "verifyUserPass"
-            on("enterAccountDetails").to "enterAccountDetails"
-            on("error").to "locateAccount"
 
+            }
+            on("verifyUserPass").to "verifyUserPass"
+            on("verifyEmail").to "sendVerifyEmail"
+            on("enterAccountDetails").to "enterAccountDetails"
+        }
+
+        foundMultipleMatches {
+            on("selectLeader").to "selectLeader"
+        }
+
+        selectLeader {
+            action {
+                flow.leaderSet = null
+                int leaderId = Integer.parseInt(params.leaderId)
+                Leader leader
+                if (leaderId == 0) {
+                    return selectUsernameAndPassword()
+//                    leader = leaderService.createLeader(flow.createAccount)
+                } else {
+                    leader = Leader.get(leaderId)
+                    flow.leader = leader
+                    return foundSingleExistingRecord()
+                }
+
+                //Add unit
+//                ScoutUnit scoutUnit = ScoutUnit.findByUnitIdentifier(flow.createAccount?.unitNumber)
+//                if(scoutUnit) {
+//                    scoutUnit.addToLeaders(leader)
+//                    scoutUnit.save(failOnError:true)
+//                }
+//
+//                socialLoginService.linkSocialLogin(leader, session)
+//                return success()
+            }
+            on("foundSingleExistingRecord").to "foundSingleExistingRecord"
+            on("selectUsernameAndPassword").to "selectUsernameAndPassword"
+        }
+
+        selectUsernameAndPassword {
+            on("submitUsernameAndPassword").to "submitUsernameAndPassword"
+        }
+
+        submitUsernameAndPassword {
+            action {
+                flow.createAccount.username = params.username
+                flow.createAccount.password = params.password
+
+                if (Leader.findByUsername(params.username)) {
+                    flash.error = "flow.submitUsernameAndPassword.usernameTaken"
+                    return error()
+                } else if (params.password != params.confirmPassword) {
+                    flash.error = "flow.submitUsernameAndPassword.passwordMismatch"
+                    return error()
+                } else if (!params.username || !params.password) {
+                    flash.error = "flow.submitUsernameAndPassword.bothRequired"
+                    return error()
+                } else {
+                    Leader leader = leaderService.createLeader(flow.createAccount)
+                    flow.leader = leader;
+                    flow.newSetup = true
+                    return success()
+                }
+
+            }
+            on("success").to "linkSocial"
+            on("error").to "selectUsernameAndPassword"
         }
 
         enterAccountDetails {
-
         }
 
         verifyEmail {
+            on("noCode").to "enterAccountDetails"
+            on("processVerifyEmail").to "processVerifyEmail"
+        }
 
+        processVerifyEmail {
+            action {
+                Leader leader = Leader.findByVerifyHash(params.code)
+                if (leader) {
+                    leader.verifyHash = null
+                    leader.save(failOnError: true)
+                    flow.leader = leader
+                    return linkSocial()
+
+                } else {
+                    flash.verifyError = "flow.verifyEmail.codeMismatch"
+                    return failVerify()
+                }
+
+            }
+            on("linkSocial").to "linkSocial"
+            on("failVerify").to "verifyEmail"
         }
 
         verifyUserPass {
@@ -217,48 +366,87 @@ class LoginController {
 
         sendVerifyEmail {
             action {
+                if (!flow.leader?.email) {
+                    return noEmail()
+                } else {
+                    try {
+                        String subject = message(code: "verifyEmail.message.subject")
+                        emailVerifyService.generateTokenForEmailValidation(flow.leader, subject)
+                        return success()
+                    } catch (Exception e) {
+                        flash.exceptionMessage = e.message
+                        flash.errorMessage = "flow.verifyEmail.cantsend"
+                        return error();
+                    }
+
+                }
 
             }
-            on("success").to "login"
+            on("success").to "verifyEmail"
+            on("error").to "errorVerifyEmail"
         }
+
+        errorVerifyEmail {
+
+        }
+
+
 
         submitVerifyUserPass {
             action {
-                Leader verifiedLeader = Leader.findByUsernameAndPassword(params.username,
-                        springSecurityService.encodePassword(params.password))
-                if (verifiedLeader) {
-                    def lastOpenId = session[OpenIdAuthenticationFailureHandler.LAST_OPENID_USERNAME]
-                    if (lastOpenId) {
-                        Leader.withTransaction { status ->
-                            verifiedLeader.addToOpenIds(url: lastOpenId)
-                            if (!verifiedLeader.validate()) {
-                                status.setRollbackOnly()
-                            } else {
-                                springSecurityService.reauthenticate verifiedLeader.username
-                                session.removeAttribute OpenIdAuthenticationFailureHandler.LAST_OPENID_USERNAME
-                                session.removeAttribute OpenIdAuthenticationFailureHandler.LAST_OPENID_ATTRIBUTES
-                            }
-                        }
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(params.username, params.password)
+                try {
+                    Authentication authenticate = authenticationManager.authenticate(token)
+                    if (authenticate.authenticated) {
+                        flow.leader = Leader.findByUsername(params.username)
+                        return successVerify()
+                    } else {
+                        return failedVerify();
                     }
-                    return successVerify()
-                } else {
-
-                    return failedVerify();
+                } catch (Exception e) {
+                    return failedVerify()
                 }
+
             }
+
+
             on("failedVerify") {
                 flash.error = "flow.verifyUserPass.failedVerify"
+                flash.error2 = "flow.verifyUserPass.failedVerifyMessage"
             }.to "verifyUserPass"
             on("successVerify") {
                 redirect(controller: "leader", action: "index")
-            }.to "login"
+            }.to "linkSocial"
 
         }
+
+        linkSocial {
+            action {
+                Leader leader = flow.leader
+                boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
+                if(!linkedSocial) {
+                    springSecurityService.reauthenticate(leader.username, leader.password)
+                }
+                if (flow.newSetup && !linkedSocial) {
+                    return redirectSuggestSocialLogin()
+                } else {
+                    return login()
+                }
+            }
+            on("login").to "login"
+            on("error").to "locateSocialLogin"
+            on("redirectSuggestSocialLogin").to "redirectSuggestSocialLogin"
+        }
+
+        redirectSuggestSocialLogin {
+            redirect(controller: "login", action: "suggestSocialLogin")
+        }
+
 
         login {
             redirect(controller: "leader", action: "index")
         }
-
-
     }
 }
+
+

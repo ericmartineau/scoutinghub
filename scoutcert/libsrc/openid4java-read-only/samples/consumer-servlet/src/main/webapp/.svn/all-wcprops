@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/consumer-servlet/src/main/webapp
+END
+index.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/consumer-servlet/src/main/webapp/index.jsp
+END
+logout.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/consumer-servlet/src/main/webapp/logout.jsp
+END
+formredirection.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/consumer-servlet/src/main/webapp/formredirection.jsp
+END
+return.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/consumer-servlet/src/main/webapp/return.jsp
+END

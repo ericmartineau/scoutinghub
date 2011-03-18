@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server
+END
+InMemoryServerAssociationStoreTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/InMemoryServerAssociationStoreTest.java
+END
+AbstractServerAssociationStoreTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/AbstractServerAssociationStoreTest.java
+END
+RealmTestData.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/RealmTestData.xml
+END
+IncrementalNonceGeneratorTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/IncrementalNonceGeneratorTest.java
+END
+RealmVerifierTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/RealmVerifierTest.java
+END
+AbstractNonceGeneratorTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/server/AbstractNonceGeneratorTest.java
+END

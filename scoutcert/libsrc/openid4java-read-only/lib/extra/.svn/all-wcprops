@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra
+END
+jdom-1.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/jdom-1.0.jar
+END
+svnjavahl-1.0.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/svnjavahl-1.0.0.jar
+END
+maven-ant-tasks-2.0.7.jar
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/maven-ant-tasks-2.0.7.jar
+END
+servlet-api-2.4.jar
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/servlet-api-2.4.jar
+END
+svnClientAdapter-1.0.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/svnClientAdapter-1.0.0.jar
+END
+svnant-1.0.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/601/branches/openid4java-0.9.5/lib/extra/svnant-1.0.0.jar
+END

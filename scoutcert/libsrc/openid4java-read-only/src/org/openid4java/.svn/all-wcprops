@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java
+END
+openid4java-default.properties
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/openid4java-default.properties
+END
+OpenIDException.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/OpenIDException.java
+END

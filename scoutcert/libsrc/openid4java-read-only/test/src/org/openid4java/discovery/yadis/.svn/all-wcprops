@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis
+END
+issue83.html
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis/issue83.html
+END
+YadisResolverTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis/YadisResolverTest.java
+END
+YadisUrlTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis/YadisUrlTest.java
+END
+CyberNekoDOMYadisHtmlParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis/CyberNekoDOMYadisHtmlParserTest.java
+END
+YadisTestServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/yadis/YadisTestServlet.java
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util
+END
+InternetDateFormat.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/InternetDateFormat.java
+END
+OpenID4JavaDOMParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/OpenID4JavaDOMParser.java
+END
+HttpCache.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/HttpCache.java
+END
+HttpRequestOptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/HttpRequestOptions.java
+END
+OpenID4JavaUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/OpenID4JavaUtils.java
+END
+HttpClientFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/HttpClientFactory.java
+END
+HttpResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/HttpResponse.java
+END
+ProxyProperties.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/util/ProxyProperties.java
+END

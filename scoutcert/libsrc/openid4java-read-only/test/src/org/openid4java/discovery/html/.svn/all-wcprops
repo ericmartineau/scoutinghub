@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/html
+END
+CyberNekoDOMHtmlParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/html/CyberNekoDOMHtmlParserTest.java
+END
+identityPage.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/html/identityPage.html
+END
+identityPage-with-xml-namespace.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/601/branches/openid4java-0.9.5/test/src/org/openid4java/discovery/html/identityPage-with-xml-namespace.html
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/simple-openid
+END
+log4j.properties
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/simple-openid/log4j.properties
+END
+pom.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/simple-openid/pom.xml
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/601/branches/openid4java-0.9.5/samples/simple-openid/README.txt
+END

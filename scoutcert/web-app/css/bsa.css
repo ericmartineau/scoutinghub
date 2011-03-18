@@ -450,11 +450,11 @@ A .ir {
 }
 
 #logo {
-    PADDING-BOTTOM: 0px;
+    PADDING-BOTTOM: 5px;
     PADDING-LEFT: 10px;
-    WIDTH: 500px;
+    /*WIDTH: 500px;*/
     PADDING-RIGHT: 0px;
-    FLOAT: left;
+    /*FLOAT: left;*/
     HEIGHT: 85px;
     PADDING-TOP: 0px
 }
@@ -1326,7 +1326,6 @@ H4.registerTitle {
 
 .biglabel {
     font-size: 14px;
-    font-weight: bold;
 }
 
 .loginForm {
@@ -1348,4 +1347,46 @@ H4.registerTitle {
 
 .errors {
     color: red;
+}
+
+.info, .success, .warning, .error, .validation {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 85px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('/scoutcert/images/info.png');
+}
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('/scoutcert/images/success.png');
+}
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('/scoutcert/images/warning.png');
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('/scoutcert/images/error.png');
+}
+
+.msg1 {
+    font-size: 16px;
+}
+
+.msg2 {
+    font-size: 13px;
+    margin-top:5px;
+}
+
+a.buttonLink {
+
+    margin-left: 25px;
 }

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax
+END
+AxPayload.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/AxPayload.java
+END
+FetchRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/FetchRequest.java
+END
+StoreRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/StoreRequest.java
+END
+FetchResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/FetchResponse.java
+END
+StoreResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/StoreResponse.java
+END
+AxMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ax/AxMessage.java
+END

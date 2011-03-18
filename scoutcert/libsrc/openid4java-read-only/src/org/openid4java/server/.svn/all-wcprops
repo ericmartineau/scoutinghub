@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server
+END
+ServerAssociationStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/ServerAssociationStore.java
+END
+InMemoryServerAssociationStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/InMemoryServerAssociationStore.java
+END
+ServerManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/ServerManager.java
+END
+JdbcServerAssociationStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/JdbcServerAssociationStore.java
+END
+ServerException.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/ServerException.java
+END
+SampleServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/SampleServer.java
+END
+NonceGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/NonceGenerator.java
+END
+IncrementalNonceGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/IncrementalNonceGenerator.java
+END
+RealmVerifier.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/RealmVerifier.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/server/package.html
+END

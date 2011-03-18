@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message
+END
+MessageException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/MessageException.java
+END
+MessageExtensionFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/MessageExtensionFactory.java
+END
+AuthFailure.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AuthFailure.java
+END
+AuthRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AuthRequest.java
+END
+IndirectError.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/IndirectError.java
+END
+ParameterList.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/ParameterList.java
+END
+VerifyRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/VerifyRequest.java
+END
+Parameter.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/Parameter.java
+END
+MessageExtension.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/MessageExtension.java
+END
+VerifyResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/VerifyResponse.java
+END
+Message.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/Message.java
+END
+DirectError.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/DirectError.java
+END
+AssociationRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AssociationRequest.java
+END
+AssociationError.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AssociationError.java
+END
+AuthImmediateFailure.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AuthImmediateFailure.java
+END
+AuthSuccess.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AuthSuccess.java
+END
+AssociationResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/601/branches/openid4java-0.9.5/src/org/openid4java/message/AssociationResponse.java
+END
