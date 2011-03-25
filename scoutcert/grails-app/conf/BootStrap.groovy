@@ -6,6 +6,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import scoutcert.ScoutUnit
 import scoutcert.ScoutUnitType
+import scoutcert.Certification
 
 class BootStrap {
 
@@ -116,6 +117,77 @@ class BootStrap {
             unit.addToLeaders(newLeader)
             unit.addToLeaders(newLeader2)
             unit.save(failOnError:true)
+
+            Certification fastStartTraining = new Certification(externalId: "faststart",
+                                                  name: "Fast Start Training",
+                                                  description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: false);
+            fastStartTraining.save(failOnError:true)
+
+            Certification ypt = new Certification(externalId: "ypt",
+                                                  name: "Youth Protection Training",
+                                                  description: "YPT ensures boys involved in scouting are kept safe. At least one adult on every Scout outing must be Youth Protection Trained.",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: true);
+            ypt.save(failOnError:true)
+
+            Certification indoor = new Certification(externalId: "indoor",
+                                                  name: "Leader Specific Training",
+                                                  description: "Once a volunteer has a solid overview of the scouting program, training for a specific Scouting position continues through Leader Specific training. This training provides the specialized knowledge a new leader needs to assume a leadership role.",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: true);
+            indoor.save(failOnError:true)
+
+            Certification outdoor = new Certification(externalId: "outdoor",
+                                                  name: "Outdoor Leader Skills",
+                                                  description: "Outdoor skills are critical to the success of the Scouting program. Training in outdoor skills is required before taking scouts on outings.",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: true);
+            outdoor.save(failOnError:true)
+
+            Certification woodBadge = new Certification(externalId: "woodBadge",
+                                                  name: "Wood Badge",
+                                                  description: "Advanced training in leadership and team development, bringing together all programs - Cub Scouting, Boy Scouting, and Venturing.",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: false);
+            woodBadge.save(failOnError:true)
+
+            Certification weather = new Certification(externalId: "weather",
+                                                  name: "Hazardous Weather",
+                                                  description: "planning and decision making regarding weather for a safe outing. Can be taken online at BSA Hazardous Weather",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: true);
+            weather.save(failOnError:true)
+
+            Certification safeSwim = new Certification(externalId: "safeswim",
+                                                  name: "Safe Swim Defense",
+                                                  description: "Introduction to BSA water safety policies. Can be taken online at BSA Aquatics",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: true);
+            safeSwim.save(failOnError:true)
+
+            Certification safetyAfloat = new Certification(externalId: "safetyafloat",
+                                                  name: "Safety Afloat",
+                                                  description: "Introduction to BSA boating policies.  Water craft events required Safety Afloat trained leaders. Can be taken online at BSA Aquatics.",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: true);
+            safetyAfloat.save(failOnError:true)
+
+            Certification climbOn = new Certification(externalId: "climbon",
+                                                  name: "Climb On Safely",
+                                                  description: "This training lasts about 45 minutes and provides all the information you need to meet the minimum requirements for a climbing activity. This does not consist of any training or certifications in climbing, but provides the essential components of a safe outing.",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: true);
+            climbOn.save(failOnError:true)
+
+            Certification cpr = new Certification(externalId: "cpr",
+                                                  name: "CPR Certification",
+                                                  description: "Normally not offered through a BSA unit, but at least two currently CPR certified adults are required on many high adventure outings.",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: false);
+            cpr.save(failOnError:true)
+
         }
 
 
