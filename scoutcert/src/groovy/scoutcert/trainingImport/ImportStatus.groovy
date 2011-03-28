@@ -6,5 +6,6 @@ package scoutcert.trainingImport
  * Time: 5:21 PM
  */
 public enum ImportStatus {
+    Waiting,Processing,Complete
 
 }

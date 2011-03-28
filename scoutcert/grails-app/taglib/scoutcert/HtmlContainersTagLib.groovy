@@ -24,5 +24,14 @@ class HtmlContainersTagLib {
          out << '</div>'
      }
 
+    def tableHeader = {attrs, body->
+        out << "<td class='ui-widget-header ui-state-active tableHeader'>"
+        if(attrs.code) {
+            out << message(code: attrs.code)
+        }
+        out << body()
+        out << "</td>"
+    }
+
 
 }

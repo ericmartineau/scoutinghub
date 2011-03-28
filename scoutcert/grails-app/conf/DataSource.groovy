@@ -13,7 +13,7 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+            dbCreate = "update" // one of 'create', 'create-drop','update'
             url = "jdbc:mysql://localhost/scoutcert"
         }
     }
@@ -27,6 +27,23 @@ environments {
         dataSource {
             dbCreate = "update"
             url = "jdbc:mysql://localhost/scoutcert"
+            properties {
+                maxActive = 50
+                maxIdle = 25
+                minIdle = 1
+                initialSize = 1
+                minEvictableIdleTimeMillis = 60000
+                timeBetweenEvictionRunsMillis = 60000
+                numTestsPerEvictionRun = 3
+                maxWait = 10000
+
+                testOnBorrow = true
+                testWhileIdle = true
+                testOnReturn = false
+
+                validationQuery = "SELECT 1"
+            }
+
         }
     }
 }

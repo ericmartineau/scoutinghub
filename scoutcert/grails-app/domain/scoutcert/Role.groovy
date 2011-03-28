@@ -12,3 +12,4 @@ class Role implements Serializable {
 		authority blank: false, unique: true
 	}
 }
+

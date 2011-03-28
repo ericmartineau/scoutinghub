@@ -6,4 +6,19 @@ package scoutcert.trainingImport
  * Time: 1:16 PM
  */
 class ImportedRecord {
+    String scoutingId
+    String firstName
+    String lastName
+    String email
+    String unitNumber
+    String unitType
+
+    Date yptDate
+    Date thisIsScoutingDate
+    Date fastStartDate
+    Date leaderSpecificDate
+    Date outdoorSkillsDate
+    Date y02CrewSkillsDate
+    Date effectiveDate
+
 }

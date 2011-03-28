@@ -9,6 +9,10 @@ import javax.servlet.RequestDispatcher
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 /**
+ * This class helps when your app sits behind a reverse proxy.  The social libraries we use check against the url in the
+ * request object, which will always be the non-proxied address.  This is usually NOT the address the request was initiated
+ * with.
+ *
  * User: eric
  * Date: 3/16/11
  * Time: 9:52 PM

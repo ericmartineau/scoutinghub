@@ -52,11 +52,11 @@
                         <tr>
                             <td align="left">
                                 <div class="fldContainer">
-                                    <label class="biglabel" for='firstName'><g:message code="label.firstName"/></label><br/>
+                                    <label class="biglabel" for='firstName'><g:message code="leader.firstName.label"/></label><br/>
                                     <g:textField class="loginForm ui-corner-all" name='firstName' value=''/>
                                 </div>
                                 <div class="fldContainer">
-                                    <label class="biglabel" for='lastName'><g:message code="label.lastName"/></label><br/>
+                                    <label class="biglabel" for='lastName'><g:message code="leader.lastName.label"/></label><br/>
                                     <g:textField class="loginForm ui-corner-all" name='lastName' value=''/>
                                 </div>
                                 <div class="fldContainer">

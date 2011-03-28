@@ -35,7 +35,7 @@ class FacebookSocialAuthenticationFilter extends FacebookAuthenticationFilter {
         }
 
         @Override
-        String getIdentityUrl(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String getSocialUserId(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
             return socialFacebookHelper.getLoggedInUserId(httpServletRequest, httpServletResponse)
         }
 

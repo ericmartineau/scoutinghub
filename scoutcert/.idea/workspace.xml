@@ -26,54 +26,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98bc8592-8e58-4f71-a75a-ed3559e0fdd4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/DuplicateLeader.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/EmailVerifyService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/ImportExportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/LeaderService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/SocialLoginService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/emails/confirmationEmail.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/enterAccountDetails.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/errorVerifyEmail.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/foundMultipleMatches.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/selectUsernameAndPassword.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/verifyEmail.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/login/suggestSocialLogin.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/CreateAccountCommand.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/GrailsHttpServletRequest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/GrailsOpenIDAuthenticationFilter.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/ImportedRecord.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/OpenIdSocialAuthenticationFilter.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/scoutcert/ScoutUnitType.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/mysql-connector-java.jar" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/scoutcert/PermissionsController.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/trainingImport/ImportTrainingService.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/permissions/index.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/training/getImportErrors.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/training/importStatus.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/training/importTraining.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/training/processImportTraining.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/trainingImport/ImportError.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/trainingImport/ImportJob.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/trainingImport/ImportSheet.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/trainingImport/ImportStatus.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/ImportedRecord.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/trainingImport/ImportedRecord.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application.properties" afterPath="$PROJECT_DIR$/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/LoginController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/LoginController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/OpenIdController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/OpenIdController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/scoutcert/LeaderController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/scoutcert/LeaderController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/scoutcert/TrainingController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/scoutcert/TrainingController.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/scoutcert/Leader.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/Leader.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/scoutcert/MyScoutingId.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/MyScoutingId.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/scoutcert/OpenID.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/OpenID.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/scoutcert/Role.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/Role.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/ImportExportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/ImportExportService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/LeaderService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/LeaderService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/MenuService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/MenuService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/scoutcert/MenuTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/scoutcert/MenuTagLib.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/_menu.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/_menu.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/main.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/main.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/leader/profile.gsp" afterPath="$PROJECT_DIR$/grails-app/views/leader/profile.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/login/accountLink/locateAccount.gsp" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/locateAccount.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/login/accountLink/verifyUserPass.gsp" afterPath="$PROJECT_DIR$/grails-app/views/login/accountLink/verifyUserPass.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/login/createAccount.gsp" afterPath="$PROJECT_DIR$/grails-app/views/login/createAccount.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/openId/auth.gsp" afterPath="$PROJECT_DIR$/grails-app/views/openId/auth.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scoutcert-grailsPlugins.iml" afterPath="$PROJECT_DIR$/scoutcert-grailsPlugins.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scoutcert.iml" afterPath="$PROJECT_DIR$/scoutcert.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/stacktrace.log" afterPath="$PROJECT_DIR$/target/stacktrace.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/GrailsHttpServletRequest.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/GrailsHttpServletRequest.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/OpenIdSocialAuthenticationFilter.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/OpenIdSocialAuthenticationFilter.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/ScoutUserDetailsService.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/ScoutUserDetailsService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/scoutcert/FacebookAuthenticationFailureHandler.java" afterPath="$PROJECT_DIR$/src/java/scoutcert/FacebookAuthenticationFailureHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/scoutcert/menu/MenuItem.java" afterPath="$PROJECT_DIR$/src/java/scoutcert/menu/MenuItem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/css/bsa.css" afterPath="$PROJECT_DIR$/web-app/css/bsa.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/css/main.css" afterPath="$PROJECT_DIR$/web-app/css/main.css" />
     </list>
     <ignored path="scoutcert.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,7 +91,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-openid-1.0.1/src/groovy/org/codehaus/groovy/grails/plugins/springsecurity/openid/OpenIdUserDetailsService.groovy" line="40" class="Class at OpenIdUserDetailsService.groovy:40" package="">
+      <breakpoint url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-openid-1.0.1/src/groovy/org/codehaus/groovy/grails/plugins/springsecurity/openid/OpenIdUserDetailsService.groovy" line="40" class="org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdUserDetailsService" package="org.codehaus.groovy.grails.plugins.springsecurity.openid">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -108,7 +104,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-openid-1.0.1/src/groovy/org/codehaus/groovy/grails/plugins/springsecurity/openid/OpenIdUserDetailsService.groovy" line="31" class="Class at OpenIdUserDetailsService.groovy:31" package="">
+      <breakpoint url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-openid-1.0.1/src/groovy/org/codehaus/groovy/grails/plugins/springsecurity/openid/OpenIdUserDetailsService.groovy" line="31" class="org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdUserDetailsService" package="org.codehaus.groovy.grails.plugins.springsecurity.openid">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -121,7 +117,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="jar://$PROJECT_DIR$/libsrc/spring-security-core-3.0.4.RELEASE-sources.jar!/org/springframework/security/core/userdetails/UsernameNotFoundException.java" line="35" class="org.springframework.security.core.userdetails.UsernameNotFoundException" package="org.springframework.security.core.userdetails">
+      <breakpoint url="file://$PROJECT_DIR$/grails-app/controllers/LoginController.groovy" line="422" class="LoginController$_closure12_closure27_closure41" package="">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -134,7 +130,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="jar://$PROJECT_DIR$/libsrc/spring-security-core-3.0.4.RELEASE-sources.jar!/org/springframework/security/core/userdetails/UsernameNotFoundException.java" line="57" class="org.springframework.security.core.userdetails.UsernameNotFoundException" package="org.springframework.security.core.userdetails">
+      <breakpoint url="file://$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" line="43" class="scoutcert.FacebookSocialAuthenticationFilter$FacebookSocialAuthenticationProcessor" package="scoutcert">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -147,7 +143,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/grails-app/controllers/LoginController.groovy" line="418" class="Class at LoginController.groovy:418" package="">
+      <breakpoint url="file://$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" line="48" class="scoutcert.FacebookSocialAuthenticationFilter$FacebookSocialAuthenticationProcessor" package="scoutcert">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -160,72 +156,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/grails-app/services/scoutcert/SocialLoginService.groovy" line="16" class="Class at SocialLoginService.groovy:16" package="">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="jar://$PROJECT_DIR$/libsrc/spring-security-openid-3.0.4.RELEASE-sources (1).jar!/org/springframework/security/openid/OpenIDAuthenticationFilter.java" line="194" class="org.springframework.security.openid.OpenIDAuthenticationFilter" package="org.springframework.security.openid">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" line="43" class="Class at FacebookSocialAuthenticationFilter.groovy:43" package="">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" line="48" class="Class at FacebookSocialAuthenticationFilter.groovy:48" package="">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/java/scoutcert/FacebookAuthenticationFailureHandler.java" line="41" class="scoutcert.FacebookAuthenticationFailureHandler" package="scoutcert">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" line="43" class="Class at AbstractSocialAuthenticationProcessor.groovy:43" package="">
+      <breakpoint url="file://$PROJECT_DIR$/grails-app/controllers/scoutcert/TrainingController.groovy" line="85" class="scoutcert.TrainingController$_closure6" package="scoutcert">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -296,10 +227,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DataSource.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
+      <file leaf-file-name="PermissionsController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/scoutcert/PermissionsController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="59" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0">
+            <state line="34" column="65" selection-start="878" selection-end="878" vertical-scroll-proportion="-14.652174">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FacebookAuthenticationFailureHandler.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/java/scoutcert/FacebookAuthenticationFailureHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="0" selection-start="1935" selection-end="1935" vertical-scroll-proportion="0.33333334">
               <folding />
             </state>
           </provider>
@@ -308,7 +248,7 @@
       <file leaf-file-name="LoginController.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/controllers/LoginController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="414" column="71" selection-start="14256" selection-end="14256" vertical-scroll-proportion="-6.612245">
+            <state line="311" column="0" selection-start="10629" selection-end="10629" vertical-scroll-proportion="-6.0869565">
               <folding />
             </state>
           </provider>
@@ -316,38 +256,75 @@
       </file>
       <file leaf-file-name="messages.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="207" column="75" selection-start="9997" selection-end="9997" vertical-scroll-proportion="-14.227273">
+              <folding />
+            </state>
+          </provider>
           <provider editor-type-id="ResourceBundle">
             <state />
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Leader.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/domain/scoutcert/Leader.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="46" selection-start="6719" selection-end="6719" vertical-scroll-proportion="-16.181818">
+            <state line="52" column="0" selection-start="1357" selection-end="1357" vertical-scroll-proportion="-7.266667">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScoutUnit.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="42" selection-start="1207" selection-end="1207" vertical-scroll-proportion="-8.333333">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/index.gsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="12" selection-start="694" selection-end="694" vertical-scroll-proportion="-8.347826">
+              <folding>
+                <marker date="1301297448000" expanded="true" signature="184:854" placeholder="&lt;xml/&gt;" />
+                <marker date="1301297448000" expanded="true" signature="865:928" placeholder="&lt;xml/&gt;" />
+                <marker date="1301297448000" expanded="true" signature="873:928" placeholder="&lt;xml/&gt;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="leaderQuery.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="89" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-5.818182">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuildConfig.groovy" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
+      <file leaf-file-name="bsa.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/css/bsa.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="37" selection-start="1159" selection-end="1159" vertical-scroll-proportion="0.91553134">
+            <state line="1419" column="19" selection-start="23358" selection-end="23358" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImportedRecord.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/groovy/scoutcert/ImportedRecord.groovy">
+      <file leaf-file-name="DataSource.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="4" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="verifyUserPass.gsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/login/accountLink/verifyUserPass.gsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="82" selection-start="766" selection-end="766" vertical-scroll-proportion="-2.1818182">
+            <state line="15" column="30" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -367,22 +344,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/GrailsOpenIDAuthenticationFilter.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationFilter.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/FacebookAuthenticationFilter.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/OpenIdSocialAuthenticationFilter.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/OpenIdController.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/views/emails/confirmationEmail.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/openId/auth.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/login/accountLink/enterAccountDetails.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/login/accountLink/verifyUserPass.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/login/createAccount.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/login/accountLink/locateAccount.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/domain/scoutcert/Role.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/LoginController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/leader/profile.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/scoutcert/trainingImport/ImportTrainingService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/scoutcert/MyScoutingId.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy" />
+        <option value="$PROJECT_DIR$/web-app/css/bsa.css" />
         <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
-        <option value="$PROJECT_DIR$/src/groovy/scoutcert/ImportedRecord.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/scoutcert/Leader.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/permissions/index.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/scoutcert/PermissionsController.groovy" />
       </list>
     </option>
   </component>
@@ -419,6 +396,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -451,47 +430,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -523,14 +462,198 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scoutcert-grailsPlugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groovy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trainingImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="taglib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trainingImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="domain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scoutcert" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Favorites" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -564,6 +687,7 @@
       <recent name="scoutcert.menu" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="scoutcert.trainingImport" />
       <recent name="scoutcert" />
     </key>
   </component>
@@ -725,23 +849,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="874" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3633952" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23076923" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41511935" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34615386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Grails View" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24820144" sideWeight="0.58488065" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19640288" sideWeight="0.58565736" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20503597" sideWeight="0.58488065" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892086" sideWeight="0.65384614" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934928" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -788,89 +912,130 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Thread.class">
+    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="0" selection-start="8730" selection-end="8730" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/leader/profile.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="18" selection-start="0" selection-end="3599" vertical-scroll-proportion="-1.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/scoutcert/trainingImport/ImportTrainingService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="297" column="81" selection-start="12864" selection-end="12864" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/grails-app/controllers/SearchableController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="4" selection-start="807" selection-end="1182" vertical-scroll-proportion="-13.086957">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/login/createAccount.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="91" selection-start="781" selection-end="816" vertical-scroll-proportion="-6.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/scoutcert/MyScoutingId.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="8" selection-start="93" selection-end="93" vertical-scroll-proportion="-1.3333334">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="30" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/scoutcert/ScoutUnit.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="42" selection-start="1207" selection-end="1207" vertical-scroll-proportion="-8.333333">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/css/bsa.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1419" column="19" selection-start="23358" selection-end="23358" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="75" selection-start="9997" selection-end="9997" vertical-scroll-proportion="-14.227273">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/scoutcert/Leader.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="0" selection-start="1357" selection-end="1357" vertical-scroll-proportion="-7.266667">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="89" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-5.818182">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/index.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="12" selection-start="694" selection-end="694" vertical-scroll-proportion="-8.347826">
+          <folding>
+            <marker date="1301297448000" expanded="true" signature="184:854" placeholder="&lt;xml/&gt;" />
+            <marker date="1301297448000" expanded="true" signature="865:928" placeholder="&lt;xml/&gt;" />
+            <marker date="1301297448000" expanded="true" signature="873:928" placeholder="&lt;xml/&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/LoginController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="311" column="0" selection-start="10629" selection-end="10629" vertical-scroll-proportion="-6.0869565">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/scoutcert/PermissionsController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="65" selection-start="878" selection-end="878" vertical-scroll-proportion="-14.652174">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/scoutcert/FacebookAuthenticationFailureHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1687" selection-end="1687" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/scoutcert/FacebookSocialAuthenticationFilter.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="70" selection-start="1177" selection-end="1177" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/scoutcert/ScoutUserDetailsService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/scoutcert/SocialLoginService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="629" selection-end="629" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="823" selection-end="823" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="59" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/login/accountLink/verifyUserPass.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="82" selection-start="766" selection-end="766" vertical-scroll-proportion="-2.1818182">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/LoginController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="414" column="71" selection-start="14256" selection-end="14256" vertical-scroll-proportion="-6.612245">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/scoutcert/ImportedRecord.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="4" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="46" selection-start="6719" selection-end="6719" vertical-scroll-proportion="-16.181818">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="37" selection-start="1159" selection-end="1159" vertical-scroll-proportion="0.91553134">
+        <state line="48" column="0" selection-start="1935" selection-end="1935" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
@@ -882,7 +1047,7 @@
         <entry key="scoutcert">
           <value>
             <GrailsSettings>
-              <option name="buildConfigCrc" value="-566771822" />
+              <option name="buildConfigCrc" value="-1272759734" />
               <option name="pluginDependenciesCrc" value="887744358" />
               <option name="properties">
                 <map>

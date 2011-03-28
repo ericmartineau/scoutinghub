@@ -1390,3 +1390,32 @@ a.buttonLink {
 
     margin-left: 25px;
 }
+
+.profileData {
+    font-weight:bold;
+    font-size:18px;
+}
+
+.groupSection {
+    padding-left:12px;
+    margin-bottom:10px;
+}
+
+.toolboxItem {
+    margin-bottom:4px;
+}
+
+table.recordTable td {
+    padding-left:12px;
+    padding-bottom:12px;
+}
+
+.tableHeader {
+    font-size:14px;
+    padding: 4px;
+}
+
+td.tabular {
+    padding:3px;
+    font-size:14px;
+}

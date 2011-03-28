@@ -36,7 +36,7 @@ class OpenIdSocialAuthenticationFilter extends OpenIDAuthenticationFilter {
         }
 
         @Override
-        String getIdentityUrl(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String getSocialUserId(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
             return httpServletRequest.getParameter("openid.identity")
         }
 

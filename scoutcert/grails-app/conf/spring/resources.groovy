@@ -1,12 +1,10 @@
-import scoutcert.ScoutUserDetailsService
-import org.springframework.security.facebook.FacebookAuthenticationFilter
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.security.facebook.FacebookAuthenticationProvider
 import org.springframework.security.facebook.FacebookHelper
 import scoutcert.FacebookAuthenticationFailureHandler
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import scoutcert.GrailsOpenIDAuthenticationFilter
-import scoutcert.OpenIdSocialAuthenticationFilter
 import scoutcert.FacebookSocialAuthenticationFilter
+import scoutcert.OpenIdSocialAuthenticationFilter
+import scoutcert.ScoutUserDetailsService
 
 // Place your Spring DSL code here
 beans = {

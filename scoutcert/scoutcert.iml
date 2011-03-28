@@ -59,6 +59,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/jars/mail-1.4.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.icegreen/greenmail/jars/greenmail-1.3.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.activation/activation/jars/activation-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>

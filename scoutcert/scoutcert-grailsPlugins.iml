@@ -8,6 +8,7 @@
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/mail-1.0-SNAPSHOT/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/mail-1.0-SNAPSHOT/grails-app/views" relative="/" />
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -42,6 +43,15 @@
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/oauth-0.10/target/classes" />
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/oauth-0.10/target/test-classes" />
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/oauth-0.10/web-app/plugins" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/grails-app/services" isTestSource="false" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/target/classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/target/test-classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/web-app/plugins" />
     </content>
     <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-core-1.1.2">
       <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/spring-security-core-1.1.2/src/java" isTestSource="false" />
@@ -94,6 +104,8 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/jars/mail-1.4.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.icegreen/greenmail/jars/greenmail-1.3.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.activation/activation/jars/activation-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.7.jar!/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -103,6 +115,7 @@
           <root url="file://$MODULE_DIR$/libsrc/openid4java-read-only/src" />
         </SOURCES>
         <jarDirectory url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/tomcat-1.3.4/lib" recursive="false" />
       </library>
     </orderEntry>

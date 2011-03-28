@@ -68,10 +68,7 @@
                                                     <span><label for='remember_me'><g:message code="label.rememberMe"/></label></span>
 
                                                 </div>
-                                                <p style="margin-top:30px; text-align:center">
-                                                    %{--<g:link controller="login" action="forgotPassword">Forgot Password</g:link> |--}%
-                                                    <g:link controller="login" action="accountLink"><g:message code="label.createAccount"/></g:link>
-                                                </p>
+
                                             </form>
                                         </div>
 
@@ -100,6 +97,15 @@
                                 </tr>
 
                             </table>
+
+                            <hr/>
+
+                            <div style="margin-top:30px; text-align:center">
+                                %{--<g:link controller="login" action="forgotPassword">Forgot Password</g:link> |--}%
+                                <h2><g:message code="login.firstTimeHere"/></h2>
+
+                                <g:link controller="login" action="accountLink"><g:message code="label.createAccount"/></g:link>
+                            </div>
 
                             %{--<div class="biglabel"><g:message code="login.createaccount"/></div>--}%
                             %{--<table>--}%
@@ -135,7 +141,7 @@
             FB.Facebook.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
             FB.Facebook.get_initialized().waitUntilReady(function() {
 //                setTimeout(function() {
-                    jQuery(".FB_login_button").find("img").attr("src", "/scoutcert/images/facebook.jpg")
+                jQuery(".FB_login_button").find("img").attr("src", "/scoutcert/images/facebook.jpg")
 //                }, 150)
             })
 

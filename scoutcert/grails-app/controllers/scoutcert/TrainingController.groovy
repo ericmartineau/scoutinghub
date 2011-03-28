@@ -9,8 +9,6 @@ import scoutcert.trainingImport.ImportJob
 import scoutcert.trainingImport.ImportSheet
 import scoutcert.trainingImport.ImportTrainingService
 import org.apache.poi.ss.usermodel.*
-import org.hibernate.validator.NotNull
-import org.hibernate.validator.Email
 
 @Secured(["ROLE_LEADER"])
 class TrainingController {
@@ -126,33 +124,6 @@ class TrainingController {
         }
     }
 
-    class ImportedRecordCommand {
-        @NotNull
-        String scoutingId
 
-        @NotNull
-        String firstName
-
-        @NotNull
-        String lastName
-
-        @Email
-        String email
-
-        @NotNull
-        String unitNumber
-
-        String unitType
-
-
-        Date yptDate
-        Date thisIsScoutingDate
-        Date fastStartDate
-        Date leaderSpecificDate
-        Date outdoorSkillsDate
-        Date y02CrewSkillsDate
-        Date effectiveDate
-
-    }
 }
 

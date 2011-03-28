@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdUserDetail
 import org.springframework.security.core.userdetails.UserDetails
 
 /**
+ * User details service that allows a social userid to be passed and maps to an actual leader record.
  * User: eric
  * Date: 3/12/11
  * Time: 5:43 PM

@@ -21,7 +21,6 @@ public abstract class MenuItem {
         this.labelCode = labelCode;
         this.action = action;
         this.requiredRoles = Arrays.asList(requiredRoles);
-        this.action = "index";
     }
 
 

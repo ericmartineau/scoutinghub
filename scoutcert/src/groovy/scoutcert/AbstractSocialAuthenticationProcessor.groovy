@@ -1,12 +1,10 @@
 package scoutcert
 
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
 import org.springframework.security.core.Authentication
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import grails.plugins.springsecurity.SpringSecurityService
-import org.springframework.security.openid.OpenIDAuthenticationToken
 
 /**
  * User: eric
@@ -17,17 +15,25 @@ abstract class AbstractSocialAuthenticationProcessor {
 
     Authentication processAuthentication(HttpServletRequest request, HttpServletResponse response, SpringSecurityService springSecurityService) {
         Authentication rtn = null
-        String identityUrl = getIdentityUrl(request, response)
+        String socialUserId = getSocialUserId(request, response)
+
+        //This value will be set in the session when the user initiates the social login process AFTER they've already
+        //been logged into the software using their regular ScoutCert login
         Integer userId = request.session["open_link_userid"]
 
-        if (identityUrl && userId) {
+        if (socialUserId && userId) {
+            //Check if the social userid has already been linked
             def c = Leader.createCriteria();
             Leader leader = c.get {
                 openIds {
-                    eq('url', identityUrl)
+                    eq('url', socialUserId)
                 }
             }
 
+            //Kinda hacky, but couldn't think of another way around it.  The social authentication providers will
+            //already have authenticated the social login, so if we find that it (the social username) has already
+            //been registered to another user, we need to unauthenticate the social login and reauthenticate them
+            //as the user that was originally logged manually into the software
             if (leader && leader?.id != userId) {
                 Leader existing = Leader.get(userId)
                 springSecurityService.reauthenticate(existing?.username, existing?.password)
@@ -40,21 +46,24 @@ abstract class AbstractSocialAuthenticationProcessor {
         if (!rtn) {
             try {
                 rtn = doAttemptAuthentication(new GrailsHttpServletRequest(request), response)
-            } catch (UsernameNotFoundException une) { //Exception thrown because the account isn't linked
+            } catch (UsernameNotFoundException une) { //Exception thrown because the social username can't be linked to a Leader record
+                //This logic could be handled by an AuthenticationFailedHandler, but it's much harder to use becuase
+                //it's abstract.  I should look into it, though
                 boolean handled = false
-                if (userId && identityUrl) {
+                if (userId && socialUserId) {
 
                     if (this.handles(une.authentication)) {
-                        if(this.wasSuccessful(une.authentication)) {
-                            //Let's link them up
+
+                        if(this.wasSuccessful(une.authentication)) {//Social login was successful
                             Leader.withTransaction {
                                 Leader leader = Leader.get(userId)
-                                new OpenID(url: identityUrl, leader: leader).save()
+                                new OpenID(url: socialUserId, leader: leader).save()
 
                                 request.session.removeAttribute("open_link_userid")
                                 springSecurityService.reauthenticate(leader.username, leader.password)
 
                             }
+                            //This redirect should go to the default spring security page (after login)
                             response.sendRedirect("/scoutcert/leader/index");
                             return null
                         }
@@ -70,11 +79,12 @@ abstract class AbstractSocialAuthenticationProcessor {
         return rtn;
     }
 
-    abstract String getIdentityUrl(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+    abstract String getSocialUserId(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
 
     abstract Authentication doAttemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 
     abstract boolean handles(Authentication authentication);
+
     abstract boolean wasSuccessful(Authentication authentication);
 
 }

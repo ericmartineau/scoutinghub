@@ -89,6 +89,7 @@ class LoginController {
     /**
      * Show denied page.
      */
+    @Secured(["ROLE_ANONYMOUS"])
     def denied = {
         if (springSecurityService.isLoggedIn() &&
                 authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
@@ -321,9 +322,15 @@ class LoginController {
                     flash.error = "flow.submitUsernameAndPassword.bothRequired"
                     return error()
                 } else {
-                    Leader leader = leaderService.createLeader(flow.createAccount)
-                    flow.leader = leader;
-                    flow.newSetup = true
+                    if (flow.leader) {
+                        flow.leader.username = params.username
+                        flow.leader.password = springSecurityService.encodePassword(params.password)
+                    } else {
+
+                        Leader leader = leaderService.createLeader(flow.createAccount)
+                        flow.leader = leader;
+                        flow.newSetup = true
+                    }
                     return success()
                 }
 
@@ -390,8 +397,6 @@ class LoginController {
 
         }
 
-
-
         submitVerifyUserPass {
             action {
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(params.username, params.password)
@@ -406,7 +411,6 @@ class LoginController {
                 } catch (Exception e) {
                     return failedVerify()
                 }
-
             }
 
 
@@ -423,10 +427,23 @@ class LoginController {
         linkSocial {
             action {
                 Leader leader = flow.leader
+                leader.enabled = true
+                leader.save(failOnError: true)
+                if (!leader.username || !leader.password) {
+                    return selectUsernameAndPassword()
+                }
                 boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
-                if(!linkedSocial) {
+                if (!linkedSocial) {
                     springSecurityService.reauthenticate(leader.username, leader.password)
                 }
+                if (!leader.setupDate) {
+                    leader.setupDate = new Date()
+                    if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {
+                        LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"))
+                    }
+                }
+
+                flow.leader = null
                 if (flow.newSetup && !linkedSocial) {
                     return redirectSuggestSocialLogin()
                 } else {
@@ -435,6 +452,7 @@ class LoginController {
             }
             on("login").to "login"
             on("error").to "locateSocialLogin"
+            on("selectUsernameAndPassword").to "selectUsernameAndPassword"
             on("redirectSuggestSocialLogin").to "redirectSuggestSocialLogin"
         }
 
