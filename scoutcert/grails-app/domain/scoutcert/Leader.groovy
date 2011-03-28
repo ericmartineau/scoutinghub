@@ -21,8 +21,6 @@ class Leader implements Serializable {
     boolean passwordExpired
 
     static belongsTo = ScoutUnit
-    static hasMany = [openIds: OpenID, myScoutingIds: MyScoutingId, units: ScoutUnit]
-
     static constraints = {
         username(nullable: true, unique: true)
         password(nullable: true)
@@ -31,6 +29,7 @@ class Leader implements Serializable {
         setupDate(nullable:true)
     }
 
+    static hasMany = [openIds: OpenID, myScoutingIds: MyScoutingId, units: ScoutUnit]
     static mapping = {
         password column: '`password`'
     }
@@ -52,6 +51,10 @@ class Leader implements Serializable {
             }
         }
         return hasScoutingId
+    }
+    
+    Set<LeaderCertification> getLeaderCertifications() {
+         LeaderCertification.findAllByLeader(this).collect {it.leaderCertification} as Set
     }
 
 
