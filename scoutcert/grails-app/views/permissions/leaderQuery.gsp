@@ -1,5 +1,5 @@
 <h2>Results</h2>
-<table cellpadding="0" cellspacing="0" class="tabular">
+<table cellpadding="0" cellspacing="1" class="tabular">
     <tr>
         <g:tableHeader code="leader.firstName.label"/>
         <g:tableHeader code="leader.lastName.label"/>
@@ -22,8 +22,8 @@
             <td class="tabular">${leader?.lastName}</td>
             <td class="tabular">${leader?.email}</td>
             <td class="tabular">
-                <g:if test="${leader?.units}">
-                    <g:join in="${leader?.units}" delimiter=","/>
+                <g:if test="${leader?.groups}">
+                    <g:join in="${leader?.groups.collect {it.scoutGroup.groupLabel ?: it.scoutGroup.groupIdentifier}}" delimiter=","/>
                 </g:if>
                 <g:else>
                     None

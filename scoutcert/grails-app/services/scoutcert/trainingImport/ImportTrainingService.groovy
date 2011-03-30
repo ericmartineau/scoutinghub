@@ -11,8 +11,12 @@ import org.springframework.context.support.DefaultMessageSourceResolvable
 import org.springframework.validation.ObjectError
 import scoutcert.Leader
 import scoutcert.LeaderService
-import scoutcert.ScoutUnit
+import scoutcert.ScoutGroup
+import scoutcert.ScoutGroupType
 import scoutcert.ScoutUnitType
+import scoutcert.Certification
+import scoutcert.LeaderCertification
+import scoutcert.LeaderCertificationEnteredType
 
 class ImportTrainingService {
 
@@ -41,6 +45,15 @@ class ImportTrainingService {
             "EffectiveDate": "effectiveDate"
     ]
 
+    def certDefinitionMap = [
+            "yptDate": "ypt",
+            "thisIsScoutingDate": "thisisscouting",
+            "fastStartDate": "faststart",
+            "leaderSpecificDate": "indoor",
+            "outdoorSkillsDate": "outdoor"
+
+    ]
+
     /**
      * @todo: eric: I think the Y02CrewsOnly has a different name in other spreadsheets, more research is necessary
      */
@@ -56,12 +69,12 @@ class ImportTrainingService {
     def stringClosure = {
         def rtn
         if (it?.cellType == 0) { //A number
-            rtn =new DecimalFormat("############################").format(it?.numericCellValue)
+            rtn = new DecimalFormat("############################").format(it?.numericCellValue)
         } else {
             rtn = it?.stringCellValue
         }
         rtn = rtn?.trim()
-        if(rtn == "") rtn = null
+        if (rtn == "") rtn = null
         return rtn
     }
 
@@ -232,6 +245,10 @@ class ImportTrainingService {
         //This happens in a thread, so manual transaction and session boundaries are required
         Leader.withTransaction {
             Leader.withSession {Session session ->
+                def certificationMap = [:]
+                Certification.list().each {Certification certification ->
+                    certificationMap[certification.externalId] = certification
+                }
                 for (ImportSheet currentSheet: importJob.sheetsToImport) {
                     importJob.currentSheet = currentSheet
                     currentSheet.importStatus = ImportStatus.Processing
@@ -258,7 +275,7 @@ class ImportTrainingService {
                                     record.setProperty(importRecoredPropertyName, spreadSheetData)
                                 }
 
-                                if(!record.unitNumber) {
+                                if (!record.unitNumber) {
                                     //@todo this pains me to do this - wrestled with validation before giving up
                                     throw new IllegalStateException("Missing unit number")
                                 }
@@ -266,13 +283,14 @@ class ImportTrainingService {
                                 //@todo Very expensive stuff - make it work, then optimize
 
                                 //Make sure unit exists
-                                ScoutUnit existingUnit = ScoutUnit.findByUnitIdentifier(record.unitNumber)
+                                ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifier(record.unitNumber)
                                 if (!existingUnit) {
                                     //Add the unit.  These should all be pre-created, though
-                                    existingUnit = new ScoutUnit()
-                                    existingUnit.unitIdentifier = record.unitNumber
-                                    existingUnit.unitLabel = record.unitNumber
-                                    existingUnit.unitType = ScoutUnitType.Unit
+                                    existingUnit = new ScoutGroup()
+                                    existingUnit.groupIdentifier = record.unitNumber
+                                    existingUnit.groupLabel = record.unitNumber
+                                    existingUnit.groupType = ScoutGroupType.Unit
+                                    existingUnit.unitType = ScoutUnitType.valueOf(record.unitType)
                                     existingUnit.save(failOnError: true)
                                 }
 
@@ -283,8 +301,30 @@ class ImportTrainingService {
                                     leader.firstName = record.firstName
                                     leader.lastName = record.lastName
                                     leader.email = record.email
+
                                     leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
-                                    existingUnit.addToLeaders(leader)
+                                    leader.save(failOnError: true)
+
+                                    existingUnit.addToLeaderGroups([leader: leader])
+
+                                    certDefinitionMap.each {entry ->
+                                        Date trainingDate = record.getProperty(entry.key)
+                                        if (trainingDate) {
+                                            Certification certification = certificationMap[entry.value]
+                                            if (!certification) {
+                                                throw new IllegalStateException("Certification ${entry.value} not found")
+                                            }
+                                            LeaderCertification leaderCertification = new LeaderCertification()
+                                            leaderCertification.leader = leader
+                                            leaderCertification.certification = certification
+                                            leaderCertification.dateEarned = trainingDate
+                                            leaderCertification.dateEntered = new Date()
+                                            leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
+                                            leaderCertification.enteredBy = importJob.importedBy
+                                            leaderCertification.save(failOnError: true)
+                                        }
+                                    }
+
 
                                 } else {
                                     leader.firstName = record.firstName ?: leader.firstName
@@ -293,17 +333,44 @@ class ImportTrainingService {
                                     if (!leader.hasScoutingId(record.scoutingId)) {
                                         leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                     }
+                                    leader.save(failOnError: true)
+
 
                                     if (record.unitNumber) {
-                                        if(!existingUnit.leaders?.collect{it.id}?.contains(leader.id)) {
-                                            existingUnit.addToLeaders(leader)
+                                        if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
+                                            existingUnit.addToLeaderGroups([leader: leader])
                                         }
                                     }
 
+                                    certDefinitionMap.each {entry ->
+                                        Date trainingDate = record.getProperty(entry.key)
+                                        if (trainingDate) {
+
+                                            Certification certification = certificationMap[entry.value]
+                                            if (!certification) {
+                                                throw new IllegalStateException("Certification ${entry.value} not found")
+                                            }
+
+                                            //Check to make sure there's not a newer training date on the record
+                                            LeaderCertification existing = leader.certifications.find {return it.certification.id == certification.id}
+                                            if (existing && trainingDate.after(existing.dateEarned)) {
+                                                existing.dateEarned = trainingDate
+                                                existing.save(failOnError: true)
+                                            } else if (!existing) {
+                                                LeaderCertification leaderCertification = new LeaderCertification()
+                                                leaderCertification.leader = leader
+                                                leaderCertification.certification = certification
+                                                leaderCertification.dateEarned = trainingDate
+                                                leaderCertification.dateEntered = new Date()
+                                                leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
+                                                leaderCertification.enteredBy = importJob.importedBy
+                                                leaderCertification.save(failOnError: true)
+                                            }
+                                        }
+                                    }
                                 }
 
 
-                                leader.save(failOnError: true)
                                 existingUnit.save(failOnError: true)
                                 //session.flush()
 

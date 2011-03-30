@@ -54,8 +54,11 @@ class LeaderService {
                 eq('firstName', firstName)
                 eq('lastName', lastName)
 
-                units {
-                    eq('unitIdentifier', unitNumber)
+                groups {
+                    scoutGroup {
+                        eq('groupIdentifier', unitNumber)
+                    }
+
                 }
             }
         }

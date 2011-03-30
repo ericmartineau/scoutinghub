@@ -3,7 +3,11 @@ package scoutcert
 class HtmlContainersTagLib {
 
     def header = {attrs, body->
-        out << "<h1 class=\"loginTitle\"><span>${body()}</span></h1>"
+//        out << "<h1 class=\"loginTitle\"><span>${body()}</span></h1>"
+        out << "<h1 class=\"ui-corner-all ui-widget-header ui-state-active\">"
+        out << body()
+        out << "</h1>"
+
     }
 
      def msgbox = {attrs, body->
@@ -25,7 +29,7 @@ class HtmlContainersTagLib {
      }
 
     def tableHeader = {attrs, body->
-        out << "<td class='ui-widget-header ui-state-active tableHeader'>"
+        out << "<td class='ui-state-hover tableHeader'>"
         if(attrs.code) {
             out << message(code: attrs.code)
         }

@@ -62,10 +62,10 @@
                         </g:else>
                     </td>
                     <td valign="top">
-                        <g:message code="leader.profile.units"/>:
-                        <g:if test="${leader?.units?.size()}">
-                            <g:each in="${leader.units}" var="unit">
-                                <div class="profileData">${unit.unitLabel ?: unit.unitIdentifier}</div>
+                        <g:message code="leader.profile.groups"/>:
+                        <g:if test="${leader?.groups?.size()}">
+                            <g:each in="${leader.groups}" var="group">
+                                <div class="profileData">${group?.scoutGroup?.unitType} ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}</div>
                             </g:each>
                         </g:if>
                         <g:else>
@@ -73,14 +73,29 @@
                         </g:else>
                     </td>
                 </tr>
-
             </table>
+            <g:header><g:message code="leader.profile.mytraining"/></g:header>
+
+            <div class="groupSection">
+                <g:if test="${leader.certifications?.size() == 0}">
+                    <div class="profileData">No Training Completed</div>
+                </g:if>
+                <g:each in="${leader.certifications}" var="certification">
+                    <div class="fldContainer">
+                        Good until <g:formatDate date="${certification.goodUntilDate()}" format="MM-dd-yyyy" /><br />
+                        <div class="profileData">${certification.certification.name}</div>
+                        ${certification.enteredType} by ${certification.enteredBy} <g:formatDate date="${certification.dateEntered}" format="MM-yyyy" />
+
+                    </div>
+                </g:each>
+            </div>
+
         </td>
         <td valign="top" width="200">
             <g:header><g:message code="ui.tools"/></g:header>
             <div class="groupSection">
-                <div class="toolboxItem"><a class="ui-button" href="javascript:attachScoutingId(${leader?.id})"><g:message code="leader.profile.linkScoutingId"/></a></div>
-                <div class="toolboxItem"><a class="ui-button" href="javascript:attachUnit(${leader?.id})"><g:message code="leader.profile.addToUnit"/></a></div>
+                <div class="toolboxItem"><a href="javascript:attachScoutingId(${leader?.id})"><g:message code="leader.profile.linkScoutingId"/></a></div>
+                <div class="toolboxItem"><a href="javascript:attachUnit(${leader?.id})"><g:message code="leader.profile.addToUnit"/></a></div>
             </div>
         </td>
     </tr>

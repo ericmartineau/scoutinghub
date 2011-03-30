@@ -18,7 +18,7 @@ import scoutcert.Role
 import grails.plugin.mail.MailService
 import scoutcert.EmailVerifyService
 import scoutcert.LeaderService
-import scoutcert.ScoutUnit
+
 import scoutcert.CreateAccountCommand
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -329,7 +329,7 @@ class LoginController {
 
                         Leader leader = leaderService.createLeader(flow.createAccount)
                         flow.leader = leader;
-                        flow.newSetup = true
+
                     }
                     return success()
                 }
@@ -432,16 +432,19 @@ class LoginController {
                 if (!leader.username || !leader.password) {
                     return selectUsernameAndPassword()
                 }
-                boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
-                if (!linkedSocial) {
-                    springSecurityService.reauthenticate(leader.username, leader.password)
-                }
+                flow.newSetup = leader.setupDate == null
                 if (!leader.setupDate) {
                     leader.setupDate = new Date()
                     if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {
                         LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"))
                     }
                 }
+
+                boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
+                if (!linkedSocial) {
+                    springSecurityService.reauthenticate(leader.username, leader.password)
+                }
+
 
                 flow.leader = null
                 if (flow.newSetup && !linkedSocial) {

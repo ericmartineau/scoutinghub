@@ -4,9 +4,12 @@ import scoutcert.LeaderRole
 import grails.plugins.springsecurity.SpringSecurityService
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
-import scoutcert.ScoutUnit
-import scoutcert.ScoutUnitType
+import scoutcert.ScoutGroup
+import scoutcert.ScoutGroupType
 import scoutcert.Certification
+import scoutcert.ScoutGroup
+import scoutcert.ScoutGroupType
+import scoutcert.ScoutUnitType
 
 class BootStrap {
 
@@ -25,29 +28,30 @@ class BootStrap {
 
 
         if (Leader.list()?.size() == 0) {
-            ScoutUnit council = new ScoutUnit(
-                    unitType: ScoutUnitType.Council,
-                    unitIdentifier: "grandcanyon",
-                    unitLabel: "Grand Canyon Council"
+            ScoutGroup council = new ScoutGroup(
+                    groupType: ScoutGroupType.Council,
+                    groupIdentifier: "grandcanyon",
+                    groupLabel: "Grand Canyon Council"
             ).save(failOnError: true)
 
-            ScoutUnit district1 = new ScoutUnit(
-                    unitType: ScoutUnitType.District,
-                    unitIdentifier: "baltic",
-                    unitLabel: "Baltic District",
+            ScoutGroup district1 = new ScoutGroup(
+                    groupType: ScoutGroupType.District,
+                    groupIdentifier: "baltic",
+                    groupLabel: "Baltic District",
                     parent: council
             ).save(failOnError: true)
 
-            council.addToChildUnits(district1)
+            council.addToChildGroups(district1)
             council.save(failOnError: true)
 
-            ScoutUnit unit = new ScoutUnit(
-                    unitType: ScoutUnitType.Unit,
-                    unitIdentifier: "451",
-                    unitLabel: "Unit 451",
-                    parent: district1
+            ScoutGroup unit = new ScoutGroup(
+                    groupType: ScoutGroupType.Unit,
+                    groupIdentifier: "451",
+                    groupLabel: "Unit 451",
+                    parent: district1,
+                    unitType: ScoutUnitType.Troop
             ).save(failOnError: true)
-            district1.addToChildUnits(unit)
+            district1.addToChildGroups(unit)
             district1.save(failOnError: true)
 
             Leader admin = new Leader(enabled: true)
@@ -112,10 +116,10 @@ class BootStrap {
             newLeader2.save(failOnError: true)
             LeaderRole.create(newLeader2, Role.findByAuthority("ROLE_LEADER"), true)
 
-            unit.addToLeaders(admin)
-            unit.addToLeaders(leader)
-            unit.addToLeaders(newLeader)
-            unit.addToLeaders(newLeader2)
+            unit.addToLeaderGroups([leader: admin, admin:true])
+            unit.addToLeaderGroups([leader: leader, admin:true])
+            unit.addToLeaderGroups([leader: newLeader, admin:true])
+            unit.addToLeaderGroups([leader: newLeader2, admin:true])
             unit.save(failOnError:true)
 
             Certification fastStartTraining = new Certification(externalId: "faststart",
@@ -187,6 +191,13 @@ class BootStrap {
                                                   durationInDays: 730,
                                                   tourPermitRequired: false);
             cpr.save(failOnError:true)
+
+            Certification thisIsScouting = new Certification(externalId: "thisisscouting",
+                                                  name: "This is Scouting",
+                                                  description: "Not sure what the description is or how long it takes",
+                                                  durationInDays: 730,
+                                                  tourPermitRequired: false);
+            thisIsScouting.save(failOnError:true)
 
         }
 

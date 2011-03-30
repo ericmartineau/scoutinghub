@@ -9,11 +9,13 @@ import scoutcert.trainingImport.ImportJob
 import scoutcert.trainingImport.ImportSheet
 import scoutcert.trainingImport.ImportTrainingService
 import org.apache.poi.ss.usermodel.*
+import grails.plugins.springsecurity.SpringSecurityService
 
 @Secured(["ROLE_LEADER"])
 class TrainingController {
 
     ImportTrainingService importTrainingService
+    SpringSecurityService springSecurityService
     MessageSource messageSource
 
     def index = { }
@@ -115,7 +117,7 @@ class TrainingController {
                     flash.fileErrors = validationErrors
                     redirect(action: "importTraining")
                 } else {
-                    def importJob = new ImportJob(xlsFile, importTrainingService)
+                    def importJob = new ImportJob(xlsFile, importTrainingService, springSecurityService.currentUser)
                     session.importJob = importJob
                     importJob.start()
                     redirect(action: "importStatus")

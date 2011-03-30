@@ -1,23 +1,31 @@
 package scoutcert
 
-class ScoutUnit implements Serializable {
+class ScoutGroup implements Serializable {
 
     static searchable = true
-    String unitIdentifier
-    String unitLabel
-    ScoutUnit parent;
+    String groupIdentifier
+    String groupLabel
+    ScoutGroup parent;
+    ScoutGroupType groupType
     ScoutUnitType unitType
+
     Integer leftNode
     Integer rightNode
 
-    static hasMany = [childUnits:ScoutUnit, leaders:Leader]
+    static hasMany = [childGroups:ScoutGroup, leaderGroups:LeaderGroup]
 
     static constraints = {
-        unitIdentifier(unique:true)
-        unitLabel(nullable:true)
+        groupIdentifier(unique:true)
+        groupLabel(nullable:true)
         parent(nullable:true)
         leftNode(nullable:true)
         rightNode(nullable:true)
+        unitType(nullable:true, validator: {val, ScoutGroup grp->
+            if(grp.groupType == ScoutGroupType.Unit && !grp.unitType) {
+                return ['scoutGroup.unitType.required']
+            }
+        })
+
     }
 
     static mapping = {
@@ -26,10 +34,10 @@ class ScoutUnit implements Serializable {
 
     String toCrumbString() {
         List<String> names = []
-        ScoutUnit unit = this;
+        ScoutGroup unit = this;
         StringBuilder rtn = new StringBuilder()
         while(unit) {
-            names << unit?.unitLabel ?: unit.unitIdentifier
+            names << unit?.groupLabel ?: unit.groupIdentifier
             unit = unit.parent
         }
 
@@ -45,6 +53,6 @@ class ScoutUnit implements Serializable {
 
     @Override
     String toString() {
-        return unitLabel ?: unitIdentifier
+        return groupLabel ?: groupIdentifier
     }
 }

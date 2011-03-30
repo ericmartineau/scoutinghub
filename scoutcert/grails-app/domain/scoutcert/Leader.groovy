@@ -5,7 +5,7 @@ class Leader implements Serializable {
     static searchable = {
             only: ['firstName', 'lastName', 'email']
             myScoutingIds component: true
-            units component: true
+            groups component: true
     }
 
     String firstName
@@ -20,7 +20,7 @@ class Leader implements Serializable {
     boolean accountLocked
     boolean passwordExpired
 
-    static belongsTo = ScoutUnit
+    static belongsTo = ScoutGroup
     static constraints = {
         username(nullable: true, unique: true)
         password(nullable: true)
@@ -29,7 +29,7 @@ class Leader implements Serializable {
         setupDate(nullable:true)
     }
 
-    static hasMany = [openIds: OpenID, myScoutingIds: MyScoutingId, units: ScoutUnit]
+    static hasMany = [certifications: LeaderCertification, openIds: OpenID, myScoutingIds: MyScoutingId, groups: LeaderGroup]
     static mapping = {
         password column: '`password`'
     }
@@ -55,6 +55,11 @@ class Leader implements Serializable {
     
     Set<LeaderCertification> getLeaderCertifications() {
          LeaderCertification.findAllByLeader(this).collect {it.leaderCertification} as Set
+    }
+
+    @Override
+    String toString() {
+        return firstName + " " + lastName
     }
 
 

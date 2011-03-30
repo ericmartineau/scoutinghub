@@ -40,8 +40,12 @@ TD {
 
 H1 {
     FONT-FAMILY: arial, helvetica, sans-serif;
-    COLOR: #252525;
-    FONT-SIZE: 13px
+    /*//COLOR: #252525;*/
+    font-size: 18px;
+    padding: 5px;
+    margin:0px;
+    margin-bottom:5px;
+
 }
 
 H2 {
@@ -128,14 +132,6 @@ H6 {
     LINE-HEIGHT: 16px
 }
 
-H1 {
-    PADDING-BOTTOM: 0px;
-    MARGIN: 0px;
-    PADDING-LEFT: 0px;
-    PADDING-RIGHT: 0px;
-    PADDING-TOP: 0px
-}
-
 H2 {
     PADDING-BOTTOM: 0px;
     MARGIN: 0px;
@@ -174,13 +170,6 @@ H6 {
     PADDING-LEFT: 0px;
     PADDING-RIGHT: 0px;
     PADDING-TOP: 0px
-}
-
-H1 {
-    LINE-HEIGHT: 20px;
-    MARGIN-BOTTOM: 20px;
-    FONT-SIZE: 18px;
-    FONT-WEIGHT: normal
 }
 
 H2 {
@@ -451,10 +440,8 @@ A .ir {
 
 #logo {
     PADDING-BOTTOM: 5px;
-    PADDING-LEFT: 10px;
-    /*WIDTH: 500px;*/
-    PADDING-RIGHT: 0px;
-    /*FLOAT: left;*/
+    PADDING-LEFT: 10px; /*WIDTH: 500px;*/
+    PADDING-RIGHT: 0px; /*FLOAT: left;*/
     HEIGHT: 85px;
     PADDING-TOP: 0px
 }
@@ -469,11 +456,11 @@ A .ir {
     WIDTH: 100%;
     FONT-SIZE: 16px;
     height: 25px;
-    background-color:#E8E8E8;
+    background-color: #E8E8E8;
 }
 
 #top-nav UL {
-    /*LIST-STYLE-TYPE: none*/
+/*LIST-STYLE-TYPE: none*/
     background-color: red;
 }
 
@@ -1323,13 +1310,16 @@ H4.registerTitle {
     FONT-SIZE: 12px
 }
 
-
 .biglabel {
     font-size: 14px;
 }
 
 .loginForm {
     font-size: 24px;
+}
+
+.regularForm {
+    font-size: 16px;
 }
 
 .fldContainer {
@@ -1352,25 +1342,29 @@ H4.registerTitle {
 .info, .success, .warning, .error, .validation {
     border: 1px solid;
     margin: 10px 0px;
-    padding:15px 10px 15px 85px;
+    padding: 15px 10px 15px 85px;
     background-repeat: no-repeat;
     background-position: 10px center;
 }
+
 .info {
     color: #00529B;
     background-color: #BDE5F8;
     background-image: url('/scoutcert/images/info.png');
 }
+
 .success {
     color: #4F8A10;
     background-color: #DFF2BF;
-    background-image:url('/scoutcert/images/success.png');
+    background-image: url('/scoutcert/images/success.png');
 }
+
 .warning {
     color: #9F6000;
     background-color: #FEEFB3;
     background-image: url('/scoutcert/images/warning.png');
 }
+
 .error {
     color: #D8000C;
     background-color: #FFBABA;
@@ -1383,7 +1377,7 @@ H4.registerTitle {
 
 .msg2 {
     font-size: 13px;
-    margin-top:5px;
+    margin-top: 5px;
 }
 
 a.buttonLink {
@@ -1392,30 +1386,44 @@ a.buttonLink {
 }
 
 .profileData {
-    font-weight:bold;
-    font-size:18px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .groupSection {
-    padding-left:12px;
-    margin-bottom:10px;
+    padding-left: 12px;
+    margin-bottom: 10px;
 }
 
 .toolboxItem {
-    margin-bottom:4px;
+    margin-bottom: 4px;
 }
 
 table.recordTable td {
-    padding-left:12px;
-    padding-bottom:12px;
+    padding-left: 12px;
+    padding-bottom: 12px;
 }
 
 .tableHeader {
-    font-size:14px;
+    font-size: 14px;
+    font-weight:normal;
     padding: 4px;
 }
 
 td.tabular {
-    padding:3px;
-    font-size:14px;
+    padding: 3px;
+    font-size: 14px;
 }
+
+.name {
+    white-space: nowrap;
+    font-size: 16px;
+    text-align: right
+}
+
+.value {
+    font-size: 16px;
+}
+
+
+
