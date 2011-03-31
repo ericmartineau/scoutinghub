@@ -10,6 +10,7 @@ import scoutcert.Certification
 import scoutcert.ScoutGroup
 import scoutcert.ScoutGroupType
 import scoutcert.ScoutUnitType
+import scoutcert.LeaderPositionType
 
 class BootStrap {
 
@@ -52,6 +53,16 @@ class BootStrap {
                     unitType: ScoutUnitType.Troop
             ).save(failOnError: true)
             district1.addToChildGroups(unit)
+
+            ScoutGroup unit2 = new ScoutGroup(
+                    groupType: ScoutGroupType.Unit,
+                    groupIdentifier: "452",
+                    groupLabel: "Unit 452",
+                    parent: district1,
+                    unitType: ScoutUnitType.Troop
+            ).save(failOnError: true)
+            district1.addToChildGroups(unit2)
+
             district1.save(failOnError: true)
 
             Leader admin = new Leader(enabled: true)
@@ -116,11 +127,14 @@ class BootStrap {
             newLeader2.save(failOnError: true)
             LeaderRole.create(newLeader2, Role.findByAuthority("ROLE_LEADER"), true)
 
-            unit.addToLeaderGroups([leader: admin, admin:true])
-            unit.addToLeaderGroups([leader: leader, admin:true])
-            unit.addToLeaderGroups([leader: newLeader, admin:true])
-            unit.addToLeaderGroups([leader: newLeader2, admin:true])
+            unit.addToLeaderGroups([leader: admin, position: LeaderPositionType.Scoutmaster,admin:true])
+            unit.addToLeaderGroups([leader: leader, position: LeaderPositionType.AssistantScoutMaster, admin:true])
+            unit.addToLeaderGroups([leader: newLeader, position: LeaderPositionType.CommitteeChair, admin:true])
+            unit.addToLeaderGroups([leader: newLeader2, position: LeaderPositionType.CharterRep, admin:true])
             unit.save(failOnError:true)
+
+            unit2.addToLeaderGroups([leader: admin, position: LeaderPositionType.CommitteeChair,admin:true])
+            unit2.save(failOnError:true)
 
             Certification fastStartTraining = new Certification(externalId: "faststart",
                                                   name: "Fast Start Training",

@@ -17,5 +17,10 @@ class LeaderController {
         return [leader: springSecurityService.currentUser]
     }
 
+    def view = {
+        Leader leader = Leader.get(params.id)
+        render(view:"profile", model: [leader:leader])
+    }
+
     def training = {}
 }

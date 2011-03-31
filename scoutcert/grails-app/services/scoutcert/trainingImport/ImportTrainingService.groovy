@@ -17,6 +17,7 @@ import scoutcert.ScoutUnitType
 import scoutcert.Certification
 import scoutcert.LeaderCertification
 import scoutcert.LeaderCertificationEnteredType
+import scoutcert.LeaderPositionType
 
 class ImportTrainingService {
 
@@ -36,6 +37,7 @@ class ImportTrainingService {
             "Email": "email",
             "Unit#": "unitNumber",
             "UnitType": "unitType",
+            "PositionCode": "position",
             "YPT": "yptDate",
             "ThisIsScouting": "thisIsScoutingDate",
             "FastStart": "fastStartDate",
@@ -51,7 +53,25 @@ class ImportTrainingService {
             "fastStartDate": "faststart",
             "leaderSpecificDate": "indoor",
             "outdoorSkillsDate": "outdoor"
+    ]
 
+    def leaderPositionTypeMap = [
+            "CharterRep": LeaderPositionType.CharterRep,
+            "CommitteeChair": LeaderPositionType.CommitteeChair,
+            "CommitteeMember": LeaderPositionType.CommitteeMember,
+            "Scoutmaster": LeaderPositionType.Scoutmaster,
+            "AssistantScoutMaster": LeaderPositionType.AssistantScoutMaster,
+            "Cubmaster": LeaderPositionType.Cubmaster,
+            "AssistantCubmaster": LeaderPositionType.AssistantCubmaster,
+            "TigerLeader": LeaderPositionType.TigerLeader,
+            "DenLeader": LeaderPositionType.DenLeader,
+            "WebelosLeader": LeaderPositionType.WebelosLeader,
+            "AssistantDenLeader": LeaderPositionType.AssistantDenLeader,
+            "AssistantWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
+            "Varsity Scout Coach": LeaderPositionType.VarsityCoach,
+            "AssistantVarsityCoach": LeaderPositionType.AssistantVarsityCoach,
+            "Venturing Crew Advisor": LeaderPositionType.CrewAdvisor,
+            "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor
     ]
 
     /**
@@ -111,6 +131,7 @@ class ImportTrainingService {
             "Email": stringClosure,
             "Unit#": stringClosure,
             "UnitType": stringClosure,
+            "PositionCode": stringClosure,
             "YPT": dateClosure,
             "ThisIsScouting": dateClosure,
             "FastStart": dateClosure,
@@ -305,7 +326,8 @@ class ImportTrainingService {
                                     leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                     leader.save(failOnError: true)
 
-                                    existingUnit.addToLeaderGroups([leader: leader])
+                                    List position = leaderPositionTypeMap[record.position]
+                                    existingUnit.addToLeaderGroups([leader: leader, position: position])
 
                                     certDefinitionMap.each {entry ->
                                         Date trainingDate = record.getProperty(entry.key)
@@ -338,7 +360,7 @@ class ImportTrainingService {
 
                                     if (record.unitNumber) {
                                         if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
-                                            existingUnit.addToLeaderGroups([leader: leader])
+                                            existingUnit.addToLeaderGroups([leader: leader, position: leaderPositionTypeMap[record.position]])
                                         }
                                     }
 

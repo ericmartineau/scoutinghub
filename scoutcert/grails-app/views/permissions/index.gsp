@@ -2,13 +2,8 @@
 <head>
     <title><g:message code="permissions.index.title"/></title>
     <meta name="layout" content="main"/>
-    <g:javascript library="jquery.ba-throttle-debounce.min"/>
-    <script type="text/javascript">
-        function leaderQuery() {
-            var searchTerm = jQuery("#leaderQuery").val();
-            jQuery("#searchResults").load("/scoutcert/permissions/leaderQuery", {leaderQuery:searchTerm});
-        }
 
+    <script type="text/javascript">
         function togglePermission(checkbox, leaderid, roleid) {
             jQuery.ajax({
                     url:"/scoutcert/permissions/setPermission",
@@ -16,11 +11,8 @@
             });
         }
 
-        jQuery(document).ready(function() {
-            jQuery("#leaderQuery").keypress(jQuery.throttle(250, leaderQuery)).focus();
-        });
-
     </script>
+
 
 </head>
 

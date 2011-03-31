@@ -7,5 +7,6 @@ class LeaderGroup implements Serializable {
     Leader leader
     ScoutGroup scoutGroup
     boolean admin
+    LeaderPositionType position
 
 }

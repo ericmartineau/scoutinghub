@@ -1,6 +1,7 @@
 <h2>Results</h2>
 <table cellpadding="0" cellspacing="1" class="tabular">
     <tr>
+        <g:tableHeader code="View"/>
         <g:tableHeader code="leader.firstName.label"/>
         <g:tableHeader code="leader.lastName.label"/>
         <g:tableHeader code="leader.email.label"/>
@@ -18,6 +19,7 @@
     </g:if>
     <g:each in="${results}" var="leader">
         <tr>
+            <td class="tabular"><g:link controller="leader" action="view" id="${leader?.id}"><g:message code="View" /></g:link></td>
             <td class="tabular">${leader?.firstName}</td>
             <td class="tabular">${leader?.lastName}</td>
             <td class="tabular">${leader?.email}</td>

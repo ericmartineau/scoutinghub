@@ -12,6 +12,7 @@ class ImportedRecord {
     String email
     String unitNumber
     String unitType
+    String position
 
     Date yptDate
     Date thisIsScoutingDate

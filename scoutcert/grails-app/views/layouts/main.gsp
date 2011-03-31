@@ -13,6 +13,9 @@
     <g:javascript library="jquery.hotkeys"/>
     <g:javascript library="jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min"/>
 
+    <g:javascript library="jquery.ba-throttle-debounce.min"/>
+    <g:javascript library="bsa" />
+
     <link rel="stylesheet" href="${resource(dir: 'js/jquery-ui-1.8.4.custom/css/custom-theme', file: 'jquery-ui-1.8.10.custom.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bsa.css')}"/>
 
@@ -42,6 +45,25 @@
                         <td align="right">
                             <img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;">
                         </td>
+                        <td valign="bottom">
+                            <div style="text-align:right">
+                                <table width="100%">
+                                    <tr>
+                                        <td align="right">
+                                            <table>
+                                                <tr>
+                                                    <td align="right"><g:textField name="leaderQuery" id="leaderQuery" class="ui-corner-all"/></td>
+                                                    <td><a href="javascript:leaderQuery()" style="font-size:12px" class="ui-button"><g:message code="permission.index.searchButton"/></a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </td>
+
                     </tr>
                 </table>
 

@@ -62,13 +62,20 @@
                         </g:else>
                     </td>
                     <td valign="top">
-                        <g:message code="leader.profile.groups"/>:
                         <g:if test="${leader?.groups?.size()}">
                             <g:each in="${leader.groups}" var="group">
-                                <div class="profileData">${group?.scoutGroup?.unitType} ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}</div>
+                                <div class="fldContainer">
+                                    <g:message code="${group?.position}.label"/>
+                                    <div class="profileData">
+                                        ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}<br/>
+                                    </div>
+
+
+                                </div>
                             </g:each>
                         </g:if>
                         <g:else>
+                            <g:message code="leader.profile.groups"/>:
                             <div class="profileData">None (Yet)</div>
                         </g:else>
                     </td>
@@ -82,9 +89,9 @@
                 </g:if>
                 <g:each in="${leader.certifications}" var="certification">
                     <div class="fldContainer">
-                        Good until <g:formatDate date="${certification.goodUntilDate()}" format="MM-dd-yyyy" /><br />
+                        Good until <g:formatDate date="${certification.goodUntilDate()}" format="MM-dd-yyyy"/><br/>
                         <div class="profileData">${certification.certification.name}</div>
-                        ${certification.enteredType} by ${certification.enteredBy} <g:formatDate date="${certification.dateEntered}" format="MM-yyyy" />
+                        ${certification.enteredType} by ${certification.enteredBy} <g:formatDate date="${certification.dateEntered}" format="MM-yyyy"/>
 
                     </div>
                 </g:each>
