@@ -7,6 +7,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import scoutcert.ScoutGroup
 import scoutcert.ScoutGroupType
 import scoutcert.Certification
+import scoutcert.ProgramCertification
 import scoutcert.ScoutGroup
 import scoutcert.ScoutGroupType
 import scoutcert.ScoutUnitType
@@ -164,12 +165,19 @@ class BootStrap {
                                                   tourPermitRequired: true);
             outdoor.save(failOnError:true)
 
-            Certification woodBadge = new Certification(externalId: "woodBadge",
+            Certification baloo = new Certification(externalId: "baloo",
+                                                  name: "BALOO - Basic Adult Leader Outdoor Orientation",
+                                                  description: "for Cub Scout leaders is a one-day training event that introduces participants to the skills needed to plan and conduct Pack outdoor activities, particularly pack camping.",
+                                                  durationInDays: 1780,
+                                                  tourPermitRequired: true);
+            baloo.save(failOnError:true)
+
+            Certification woodbadge = new Certification(externalId: "woodBadge",
                                                   name: "Wood Badge",
                                                   description: "Advanced training in leadership and team development, bringing together all programs - Cub Scouting, Boy Scouting, and Venturing.",
                                                   durationInDays: 1780,
                                                   tourPermitRequired: false);
-            woodBadge.save(failOnError:true)
+            woodbadge.save(failOnError:true)
 
             Certification weather = new Certification(externalId: "weather",
                                                   name: "Hazardous Weather",
@@ -212,6 +220,155 @@ class BootStrap {
                                                   durationInDays: 730,
                                                   tourPermitRequired: false);
             thisIsScouting.save(failOnError:true)
+
+            // Fast Start required for all
+            ProgramCertification packFastStart = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:fastStartTraining,
+                                                  positionType: null, required:true);
+            packFastStart.save(failOnError:true);
+
+            ProgramCertification troopFastStart = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:fastStartTraining,
+                                                  positionType: null, required:true);
+            troopFastStart.save(failOnError:true);
+
+            ProgramCertification teamFastStart = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:fastStartTraining,
+                                                  positionType: null, required:true);
+            teamFastStart.save(failOnError:true);
+
+            ProgramCertification crewFastStart = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:fastStartTraining,
+                                                  required:true);
+            crewFastStart.save(failOnError:true);
+
+            // YPT required for all
+            ProgramCertification packYPT = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:ypt,
+                                                  required:true);
+            packYPT.save(failOnError:true);
+
+            ProgramCertification troopYPT = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:ypt,
+                                                  required:true);
+            troopYPT.save(failOnError:true);
+
+            ProgramCertification teamYPT = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:ypt,
+                                                  required:true);
+            teamYPT.save(failOnError:true);
+
+            ProgramCertification crewYPT = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:ypt,
+                                                  required:true);
+            crewYPT.save(failOnError:true);
+
+            // Leader Specific required for all
+            ProgramCertification packLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:indoor,
+                                                  required:true);
+            packLeaderSpecific.save(failOnError:true);
+
+
+            ProgramCertification troopLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:indoor,
+                                                  required:true);
+            troopLeaderSpecific.save(failOnError:true);
+
+            ProgramCertification teamLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:indoor,
+                                                  required:true);
+            teamLeaderSpecific.save(failOnError:true);
+
+            ProgramCertification crewLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:indoor,
+                                                  required:true);
+            crewLeaderSpecific.save(failOnError:true);
+
+            // Baloo.  Tour permit required for pack, but not required for pack
+            ProgramCertification packBaloo = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:baloo,
+                                                  required:false);
+            packBaloo.save(failOnError:true)
+
+
+            //Outdoor.  Required
+            ProgramCertification troopOutdoor = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:outdoor,
+                                                  required:true);
+            troopOutdoor.save(failOnError:true)
+
+            ProgramCertification teamOutdoor = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:outdoor,
+                                                  required:true);
+            teamOutdoor.save(failOnError:true)
+
+            ProgramCertification crewOutdoor = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:outdoor,
+                                                  required:true);
+            crewOutdoor.save(failOnError:true)
+
+            // This Is Scouting required for all
+            ProgramCertification packThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:thisIsScouting,
+                                                  required:true);
+            packThisIsScouting.save(failOnError:true);
+
+            ProgramCertification troopThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:thisIsScouting,
+                                                  required:true);
+            troopThisIsScouting.save(failOnError:true);
+
+            ProgramCertification teamThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:thisIsScouting,
+                                                  required:true);
+            teamThisIsScouting.save(failOnError:true);
+
+            ProgramCertification crewThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:thisIsScouting,
+                                                  required:true);
+            crewThisIsScouting.save(failOnError:true);
+
+            // Hazardous Weather, tour permit required only
+            ProgramCertification packWeather = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:weather,
+                                                  required:false);
+            packWeather.save(failOnError:true);
+
+            ProgramCertification troopWeather = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:weather,
+                                                  required:false);
+            troopWeather.save(failOnError:true);
+
+            ProgramCertification teamWeather = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:weather,
+                                                  required:false);
+            teamWeather.save(failOnError:true);
+
+            ProgramCertification crewWeather = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:weather,
+                                                  required:false);
+            crewWeather.save(failOnError:true);
+
+            //Woodbadge.  Required for none
+            ProgramCertification packWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Pack,
+                                                  certification:woodbadge,
+                                                  required:false);
+            packWoodbadge.save(failOnError:true)
+            ProgramCertification troopWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Troop,
+                                                  certification:woodbadge,
+                                                  required:false);
+            troopWoodbadge.save(failOnError:true)
+
+            ProgramCertification teamWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Team,
+                                                  certification:woodbadge,
+                                                  required:false);
+            teamWoodbadge.save(failOnError:true)
+
+            ProgramCertification crewWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Crew,
+                                                  certification:woodbadge,
+                                                  positionType: null,required:false);
+            crewWoodbadge.save(failOnError:true)
 
         }
 
