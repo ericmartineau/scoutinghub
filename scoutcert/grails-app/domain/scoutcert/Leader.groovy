@@ -20,6 +20,9 @@ class Leader implements Serializable {
     boolean accountLocked
     boolean passwordExpired
 
+    Date createDate;
+    Date updateDate;
+
     static belongsTo = ScoutGroup
     static constraints = {
         username(nullable: true, unique: true)
@@ -27,6 +30,8 @@ class Leader implements Serializable {
         email(nullable: true, email:true)
         verifyHash(nullable:true)
         setupDate(nullable:true)
+        createDate nullable: true
+        updateDate nullable: true
     }
 
     static hasMany = [certifications: LeaderCertification, openIds: OpenID, myScoutingIds: MyScoutingId, groups: LeaderGroup]
@@ -72,5 +77,12 @@ class Leader implements Serializable {
         return firstName + " " + lastName
     }
 
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
+    }
 
 }

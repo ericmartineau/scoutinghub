@@ -7,7 +7,20 @@ class MyScoutingId implements Serializable{
     Leader leader
     String myScoutingIdentifier
 
+    Date createDate;
+    Date updateDate;
+
     static constraints = {
         myScoutingIdentifier(unique:true)
+        createDate nullable: true
+        updateDate nullable: true
+    }
+
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
     }
 }

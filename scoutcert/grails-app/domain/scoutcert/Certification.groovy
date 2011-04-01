@@ -7,6 +7,9 @@ class Certification {
     int durationInDays;
     boolean tourPermitRequired;
 
+    Date createDate;
+    Date updateDate;
+
 
     static hasMany = [leaderCertifications: LeaderCertification]
     static constraints = {
@@ -15,6 +18,15 @@ class Certification {
         description blank: true, maxSize: 1000
         durationInDays blank: true
         tourPermitRequired blank: false
+        createDate nullable: true
+        updateDate nullable: true
+    }
 
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
     }
 }

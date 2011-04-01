@@ -9,4 +9,20 @@ class LeaderGroup implements Serializable {
     boolean admin
     LeaderPositionType position
 
+    Date createDate;
+    Date updateDate;
+
+    static constraints = {
+        createDate nullable: true
+        updateDate nullable: true
+    }
+
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
+    }
+
 }

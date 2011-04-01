@@ -7,6 +7,14 @@ class LeaderRole implements Serializable {
 	Leader leader
 	Role role
 
+    Date createDate;
+    Date updateDate;
+
+    static constraints = {
+        createDate nullable: true
+        updateDate nullable: true
+    }
+
 	boolean equals(other) {
 		if (!(other instanceof LeaderRole)) {
 			return false
@@ -49,4 +57,13 @@ class LeaderRole implements Serializable {
 		id composite: ['role', 'leader']
 		version false
 	}
+
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
+    }
+
 }
