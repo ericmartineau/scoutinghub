@@ -1425,5 +1425,13 @@ td.tabular {
     font-size: 16px;
 }
 
+.missingTraining {
+    color:#FF0000;
+}
+
+ui-dialog-title {
+    font-size: 16px
+}
+
 
 

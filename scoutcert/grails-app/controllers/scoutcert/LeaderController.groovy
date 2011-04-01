@@ -10,16 +10,40 @@ class LeaderController {
 
 
     def index = {
-        forward(action:'profile')
+        forward(action: 'profile')
     }
 
     def profile = {
-        return [leader: springSecurityService.currentUser]
+        def c = ProgramCertification.createCriteria()
+        Leader leader = springSecurityService.currentUser
+        def requiredCertifications = c.list {
+
+            and {
+                or {
+                    inList('unitType', leader.groups?.collect {it.scoutGroup.unitType})
+                    inList('positionType', leader.groups?.collect {it.position})
+                }
+                eq('required', true)
+            }
+        }
+
+        int countCompleted = 0
+        requiredCertifications?.each {
+            if(leader.hasCertification(it.certification)) {
+                countCompleted++
+            }
+        }
+
+        def rtn = [requiredCertifications: requiredCertifications, leader: leader]
+        if (requiredCertifications?.size() > 0 && countCompleted > 0) {
+            rtn.trainingCompletePct = countCompleted / requiredCertifications?.size() * 100
+        }
+        return rtn
     }
 
     def view = {
-        Leader leader = Leader.get(params.id)
-        render(view:"profile", model: [leader:leader])
+        Leader leader = Leader.get (params.id)
+        render(view: "profile", model: [leader: leader])
     }
 
     def training = {}

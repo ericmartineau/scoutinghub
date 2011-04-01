@@ -1,6 +1,11 @@
 package scoutcert
 
+import grails.converters.JSON
+import grails.plugins.springsecurity.SpringSecurityService
+
 class LeaderCertificationController {
+
+    SpringSecurityService springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -19,6 +24,12 @@ class LeaderCertificationController {
         return [leaderCertificationInstance: leaderCertificationInstance]
     }
 
+    def createForm = {
+        int certificationId = Integer.parseInt(params.certificationId)
+        Certification certification = Certification.get(certificationId)
+        return [certificationName:certification?.name]
+    }
+
     def save = {
         def leaderCertificationInstance = new LeaderCertification(params)
         if (leaderCertificationInstance.save(flush: true)) {
@@ -28,6 +39,29 @@ class LeaderCertificationController {
         else {
             render(view: "create", model: [leaderCertificationInstance: leaderCertificationInstance])
         }
+    }
+
+    def saveCertification = {
+        Leader leader = Leader.get(Integer.parseInt(params.leaderId));
+        Certification certification = Certification.get(Integer.parseInt(params.certificationId));
+        Date dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned);
+        def rtn = [:]
+        if(leader && certification && dateEarned) {
+            LeaderCertification leaderCertification = new LeaderCertification()
+            leaderCertification.leader = leader
+            leaderCertification.certification = certification
+            leaderCertification.dateEarned = dateEarned
+            leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+            leaderCertification.enteredBy = springSecurityService.currentUser
+            leaderCertification.dateEntered = new Date()
+            leader.addToCertifications(leaderCertification)
+            leader.save(failOnError:true)
+
+            rtn.success = true
+        } else {
+            rtn.success = false
+        }
+        render rtn as JSON
     }
 
     def show = {

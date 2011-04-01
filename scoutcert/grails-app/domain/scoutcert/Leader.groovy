@@ -42,6 +42,16 @@ class Leader implements Serializable {
         return LeaderRole.findByLeaderAndRole(this, role) != null
     }
 
+    boolean hasCertification(Certification certification) {
+        return findCertification(certification) != null
+    }
+
+    LeaderCertification findCertification(Certification certification) {
+        return certifications?.find{it.certification.id == certification?.id}
+    }
+
+
+
     boolean hasScoutingId(String scoutId) {
         boolean hasScoutingId = false
         myScoutingIds?.each{
