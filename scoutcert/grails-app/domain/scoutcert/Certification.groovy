@@ -22,6 +22,11 @@ class Certification {
         updateDate nullable: true
     }
 
+    @Override
+    String toString() {
+        return name
+    }
+
     def beforeInsert = {
         createDate = new Date()
     }

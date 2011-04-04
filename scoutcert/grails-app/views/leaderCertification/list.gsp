@@ -8,12 +8,11 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
+        <g:header><g:message code="default.list.label" args="[entityName]" /></g:header>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -22,13 +21,14 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'leaderCertification.id.label', default: 'Id')}" />
+                            <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="id" title="${message(code: 'leaderCertification.id.label', default: 'Id')}" />
+                            <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="certification" title="${message(code: 'leaderCertification.certification.label', default: 'Certification')}" />
                         
-                            <th><g:message code="leaderCertification.certification.label" default="Certification" /></th>
+                            <!--<th><g:message code="leaderCertification.certification.label" default="Certification" /></th>-->
                         
-                            <g:sortableColumn property="dateEarned" title="${message(code: 'leaderCertification.dateEarned.label', default: 'Date Earned')}" />
-                        
-                            <th><g:message code="leaderCertification.leader.label" default="Leader" /></th>
+                            <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="dateEarned" title="${message(code: 'leaderCertification.dateEarned.label', default: 'Date Earned')}" />
+                            <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="dateEarned" title="${message(code: 'leaderCertification.leader.label', default: 'Leader')}" />
+                            <!--<th><g:message code="leaderCertification.leader.label" default="Leader" /></th>-->
                         
                         </tr>
                     </thead>
