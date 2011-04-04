@@ -6,6 +6,9 @@ class ProgramCertification {
     Certification certification
     boolean required
 
+    Date startDate;
+    Date endDate;
+
     Date createDate;
     Date updateDate;
 
@@ -18,6 +21,9 @@ class ProgramCertification {
                 return ["programCertification.leaderType.exclusiveOr"]
             }
         }
+        startDate nullable: false
+        endDate nullable: false
+
         createDate nullable: true
         updateDate nullable: true
     }

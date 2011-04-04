@@ -221,153 +221,213 @@ class BootStrap {
                                                   tourPermitRequired: false);
             thisIsScouting.save(failOnError:true)
 
+            Date startDate = new Date().parse('yyyy/MM/dd', '1973/01/01')
+            Date endDate = new Date().parse('yyyy/MM/dd', '2030/01/01')
+
             // Fast Start required for all
             ProgramCertification packFastStart = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:fastStartTraining,
-                                                  positionType: null, required:true);
+                                                  positionType: null, required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packFastStart.save(failOnError:true);
 
             ProgramCertification troopFastStart = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:fastStartTraining,
-                                                  positionType: null, required:true);
+                                                  positionType: null, required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopFastStart.save(failOnError:true);
 
             ProgramCertification teamFastStart = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:fastStartTraining,
-                                                  positionType: null, required:true);
+                                                  positionType: null, required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamFastStart.save(failOnError:true);
 
             ProgramCertification crewFastStart = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:fastStartTraining,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewFastStart.save(failOnError:true);
 
             // YPT required for all
             ProgramCertification packYPT = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:ypt,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packYPT.save(failOnError:true);
 
             ProgramCertification troopYPT = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:ypt,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopYPT.save(failOnError:true);
 
             ProgramCertification teamYPT = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:ypt,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamYPT.save(failOnError:true);
 
             ProgramCertification crewYPT = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:ypt,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewYPT.save(failOnError:true);
 
             // Leader Specific required for all
             ProgramCertification packLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:indoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packLeaderSpecific.save(failOnError:true);
 
 
             ProgramCertification troopLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:indoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopLeaderSpecific.save(failOnError:true);
 
             ProgramCertification teamLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:indoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamLeaderSpecific.save(failOnError:true);
 
             ProgramCertification crewLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:indoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewLeaderSpecific.save(failOnError:true);
 
             // Baloo.  Tour permit required for pack, but not required for pack
             ProgramCertification packBaloo = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:baloo,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packBaloo.save(failOnError:true)
 
 
             //Outdoor.  Required
             ProgramCertification troopOutdoor = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:outdoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopOutdoor.save(failOnError:true)
 
             ProgramCertification teamOutdoor = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:outdoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamOutdoor.save(failOnError:true)
 
             ProgramCertification crewOutdoor = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:outdoor,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewOutdoor.save(failOnError:true)
 
             // This Is Scouting required for all
             ProgramCertification packThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:thisIsScouting,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packThisIsScouting.save(failOnError:true);
 
             ProgramCertification troopThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:thisIsScouting,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopThisIsScouting.save(failOnError:true);
 
             ProgramCertification teamThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:thisIsScouting,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamThisIsScouting.save(failOnError:true);
 
             ProgramCertification crewThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:thisIsScouting,
-                                                  required:true);
+                                                  required:true,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewThisIsScouting.save(failOnError:true);
 
             // Hazardous Weather, tour permit required only
             ProgramCertification packWeather = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:weather,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packWeather.save(failOnError:true);
 
             ProgramCertification troopWeather = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:weather,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopWeather.save(failOnError:true);
 
             ProgramCertification teamWeather = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:weather,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamWeather.save(failOnError:true);
 
             ProgramCertification crewWeather = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:weather,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewWeather.save(failOnError:true);
 
             //Woodbadge.  Required for none
             ProgramCertification packWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Pack,
                                                   certification:woodbadge,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             packWoodbadge.save(failOnError:true)
             ProgramCertification troopWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Troop,
                                                   certification:woodbadge,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             troopWoodbadge.save(failOnError:true)
 
             ProgramCertification teamWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Team,
                                                   certification:woodbadge,
-                                                  required:false);
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             teamWoodbadge.save(failOnError:true)
 
             ProgramCertification crewWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Crew,
                                                   certification:woodbadge,
-                                                  positionType: null,required:false);
+                                                  positionType: null,
+                                                  required:false,
+                                                  startDate: startDate,
+                                                  endDate: endDate);
             crewWoodbadge.save(failOnError:true)
 
         }

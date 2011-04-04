@@ -14,7 +14,6 @@ class Leader implements Serializable {
     String password
     String email
     String verifyHash
-    Date setupDate
     boolean enabled
     boolean accountExpired
     boolean accountLocked
@@ -29,7 +28,6 @@ class Leader implements Serializable {
         password(nullable: true)
         email(nullable: true, email:true)
         verifyHash(nullable:true)
-        setupDate(nullable:true)
         createDate nullable: true
         updateDate nullable: true
     }

@@ -432,9 +432,9 @@ class LoginController {
                 if (!leader.username || !leader.password) {
                     return selectUsernameAndPassword()
                 }
-                flow.newSetup = leader.setupDate == null
-                if (!leader.setupDate) {
-                    leader.setupDate = new Date()
+                flow.newSetup = leader.createDate == null
+                if (!leader.createDate) {
+                    leader.createDate = new Date()
                     if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {
                         LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"))
                     }

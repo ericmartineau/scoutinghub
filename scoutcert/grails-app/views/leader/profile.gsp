@@ -64,10 +64,10 @@
                         <span class="profileData">${leader?.email}</span>
                     </td>
                     <td valign="top">
-                        <g:message code="leader.setupDate.label"/>:<br/>
+                        <g:message code="leader.createDate.label"/>:<br/>
                         <span class="profileData">
-                            <g:if test="${leader?.setupDate}">
-                                <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
+                            <g:if test="${leader?.createDate}">
+                                <g:formatDate date="${leader?.createDate}" format="MM-dd-yyyy"/>
                             </g:if>
                             <g:else>
                                 Not Set Up Yet

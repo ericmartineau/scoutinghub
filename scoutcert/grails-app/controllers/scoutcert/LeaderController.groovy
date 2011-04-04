@@ -14,6 +14,7 @@ class LeaderController {
     }
 
     def profile = {
+        def now = new Date()
         def c = ProgramCertification.createCriteria()
         Leader leader = springSecurityService.currentUser
         def requiredCertifications = c.list {
@@ -24,6 +25,8 @@ class LeaderController {
                     inList('positionType', leader.groups?.collect {it.position})
                 }
                 eq('required', true)
+                lt('startDate', now)
+                gt('endDate', now)
             }
         }
 
