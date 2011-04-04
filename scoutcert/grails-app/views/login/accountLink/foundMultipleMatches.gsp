@@ -1,65 +1,48 @@
+<html>
 <head>
-    <meta name='layout' content='main'/>
+    <meta name='layout' content='${layoutName}'/>
     <title><g:message code="flow.foundMultipleMatches.title"/></title>
 </head>
 
 <body>
 
-<div class='body'>
+<s:content>
 
-    %{--<g:header><g:message code="flow.verifyEmail.title"/></g:header>--}%
+    <g:form action="accountLink">
 
-    <table width="100%">
-        <tr>
-            <td align="center">
+        <s:section header="small" code="flow.foundMultipleMatches.title">
+            <s:msg type="warning" code="flow.foundMultipleMatches.message"/>
+            <g:if test="${error}">
+                <s:msg code="${error}"/>
+            </g:if>
 
-                <div id="createAccount" style="width:400px">
-                    <g:msgbox type="warning" code="flow.foundMultipleMatches.title" code2="flow.foundMultipleMatches.message"/>
-                    <g:if test="${verifyError}">
-                        <g:msgbox type="error" code="${verifyError}"/>
-                    </g:if>
+            <g:if test="${verifyError}">
+                <s:msg type="error" code="${verifyError}"/>
+            </g:if>
 
-                    <g:form action="accountLink">
-                    %{--<g:if test="${verifyMessage}">--}%
-                    %{--<div class="explain"><g:message code="${verifyMessage}"/></div>--}%
-                    %{--</g:if>--}%
+            <g:each in="${leaderSet}" var="leaderInSet">
+                <s:pageItem type="radiobutton" name="${leaderInSet?.firstName} ${leaderInSet.lastName}">
+                    <s:radioItem name="leaderId" value="${leaderInSet?.id}"/>
+                </s:pageItem>
+            </g:each>
 
-                    %{--<div class="explain"><g:message code="flow.verifyEmail.message"/></div>--}%
-                        <table width="100%">
-                            <tr>
-                                <td width="50%" valign="top" align="center">
-                                    <g:if test="${error}">
-                                        <div class="errors">
-                                            <g:message code="${error}"/>
-                                        </div>
-                                    </g:if>
-                                    <div style="text-align:left">
-                                        <g:each in="${leaderSet}" var="leaderInSet">
-                                            <div class="fldContainer">
-                                                <g:radio name="leaderId" value="${leaderInSet?.id}"/> <big>${leaderInSet?.firstName} ${leaderInSet.lastName}</big>
-                                            </div>
-                                        </g:each>
-                                        <div class="fldContainer">
-                                            <g:radio name="leaderId" value="0" checked="${true}"/> <big><g:message code="label.noneOfThese"/></big>
-                                        </div>
-                                    </div>
+        </s:section>
 
-                                    <div class="fldContainer">
-                                        <g:submitButton name="selectLeader" class="ui-button" value="${message(code: 'flow.foundMultipleMatches.button')}"/>
-                                        %{--<g:link style="margin-left:20px" action="accountLink" event="noCode"><g:message code="flow.verifyEmail.nocode"/></g:link>--}%
-                                    </div>
+        <s:section>
+            <s:pageItem type="radiobutton" name="${message(code:'label.noneOfThese')}">
+                <s:radioItem name="leaderId" value="0" checked="${true}"/>
+            </s:pageItem>
+        %{--<div class="fldContainer">--}%
+        %{--<g:radio name="leaderId" value="0" checked="${true}"/> <big></big>--}%
+        %{--</div>--}%
 
-                                </td>
+        </s:section>
 
-                            </tr>
-                        </table>
-
-                    </g:form>
-                </div>
-
-            </td>
-        </tr>
-    </table>
-</div>
+        <s:section header="small">
+            <s:submit name="selectLeader" value="${message(code: 'flow.foundMultipleMatches.button')}"/>
+        </s:section>
+    </g:form>
+</s:content>
 
 </body>
+</html>

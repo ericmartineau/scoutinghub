@@ -1,0 +1,294 @@
+package scoutcert
+
+import webkit.IphoneTagLib
+import scoutcert.menu.MenuItem
+import scoutcert.menu.MainMenuItem
+import scoutcert.menu.SubMenuItem
+import grails.plugins.springsecurity.SpringSecurityService
+import org.springframework.security.core.GrantedAuthority
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
+/**
+ * This class will provide switching between mobile and regular tags
+ */
+class SwitchingTagLib {
+    MenuService menuService
+
+    SpringSecurityService securityService
+
+    static namespace = "s"
+
+    def propertyList = {attrs, body ->
+        out << "<ul>${body()}</ul>"
+    }
+
+    def property = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
+        } else {
+            out << "<span class='prop'>"
+            if(attrs.code) {
+                out << message(code: attrs.code)
+                out << "<br/>"
+            }
+            out << "<span class='profileData'>${body()}</span>"
+            out << "</span>"
+        }
+    }
+
+    def pageItem = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='${attrs.type}'><span class='name'>${message(code:attrs.name)}</span>${body()}</li>"
+        } else {
+            out << "<div class='${attrs.type}'><span class='name'>${message(code:attrs.name)}</span>${body()}</div>"
+        }
+    }
+
+    def item = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='textbox'>${body()}</li>"
+        } else {
+            out << "<div class='profileData'>${body()}</div>"
+        }
+    }
+
+    def content = {attrs, body ->
+        if (session.isMobile) {
+            out << iwebkit.content(attrs, body)
+        } else {
+            out << "<div class='content ${attrs.class ?: ""}'>"
+            out << body()
+//            out << "<div style='clear:both;'></div>"
+            out << "</div>"
+        }
+    }
+
+    def text = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='textbox'>"
+            out << body()
+            out << "</li>"
+        } else {
+            out << body()
+
+        }
+    }
+
+    def smallHeader = {attrs, body ->
+        if (session.isMobile) {
+            out << "<span class='graytitle'>${body()}</span>"
+        } else {
+            out << "<h2>${body()}</h2>"
+        }
+
+    }
+
+    def form = {attrs, body ->
+        out << body()
+    }
+
+    def leaderTraining = {attrs ->
+        if (session.isMobile) {
+            LeaderCertificationInfo certificationInfo = attrs.certificationInfo
+            def editLink
+            if (certificationInfo?.leaderCertification) {
+                editLink = link(id: certificationInfo?.leaderCertification?.id, controller: 'leaderCertification', action: 'quickEdit') {
+                    certificationInfo?.certification?.name
+                }
+            } else {
+                def params = [
+                        'leader.id': certificationInfo.leader.id,
+                        'certification.id': certificationInfo.certification.id
+                ]
+                editLink = link(params: params, controller: 'leaderCertification', action: 'quickCreate') {
+                    certificationInfo?.certification?.name
+                }
+            }
+
+            out << linker(comment: certificationInfo.certificationStatus) { editLink }
+        } else {
+            out << f.leaderTraining(certificationInfo: attrs.certificationInfo)
+        }
+    }
+
+    def submit = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='button'>"
+            out << submitButton(attrs)
+            out << "</li>"
+        } else {
+            attrs.class += " ui-button"
+            out << submitButton(attrs)
+        }
+
+    }
+
+    def checkbox = {attrs, body ->
+        if (session.isMobile) {
+
+//            out << property(attrs) {
+
+            out << """<li class='checkbox'>
+                    <span class='name'>${message(code: attrs.code)}</span>
+                    <input type='checkbox' name='${attrs.name}' value='yes' />
+                    </li>"""
+//                out << iwebkit.checkbox(attrs, body)
+//            }
+
+        } else {
+            out << "<div class='${attrs.class}'>"
+            out << checkBox(attrs)
+            out << message(code: attrs.code)
+            out << "</div>"
+        }
+    }
+
+    def msg = {attrs, body ->
+        if (session.isMobile) {
+            out << item {
+                out << "<div class='${attrs.type}'>"
+                if (attrs.code) {
+                    out << message(code: attrs.code)
+                }
+                out << body()
+                out << "</div>"
+            }
+        } else {
+            out << msgbox(attrs, body)
+        }
+    }
+
+    def menu = {attrs, body ->
+        if (session.isMobile) {
+            menuService.menu?.each {
+                MainMenuItem menuItem ->
+
+                //First, build a list of subItems that would
+                //be rendered
+                List<SubMenuItem> toRender = [];
+                menuItem.subItems?.each {SubMenuItem subItem ->
+                    if (subItem.requiredRoles?.size() > 0) {
+                        if (SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
+                            toRender << subItem
+                        }
+                    } else {
+                        toRender << subItem
+                    }
+                }
+
+
+                if (toRender?.size() > 0) {
+
+
+                    out << section(code: menuItem.labelCode) {
+                        toRender?.each {SubMenuItem subItem ->
+
+                            out << linker(attrs) {
+                                out << link(controller: subItem.controller, action: subItem.action) {
+                                    out << message(code: subItem.labelCode)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        } else {
+            //out << menuItem(attrs, body)
+        }
+
+    }
+
+    def linker = {attrs, body ->
+        if (session.isMobile) {
+            out << "<li class='menu'>"
+            out << "<span class='name'>${body()}</span>"
+            if (attrs.comment) {
+                out << "<span class='comment'>${attrs.comment}</span>"
+            }
+            out << "<span class='arrow'></span>"
+            out << "</li>"
+
+        } else {
+
+            out << link(attrs, body)
+
+        }
+    }
+
+    def div = {attrs, body ->
+        if (session.isMobile) {
+            out << body()
+        } else {
+            out << "<div class='${attrs.class}'>${body()}</div>"
+        }
+
+    }
+
+
+    def bigButton = {attrs ->
+        if (session.isMobile) {
+            out << linker(attrs) {
+                out << link(attrs) {attrs.value}
+            }
+        } else {
+            out << link(attrs) {
+                attrs.class = "ui-state-active ui-header ui-corner-all"
+                attrs.style = "cursor:pointer;font-size:20px; padding:12px"
+                out << submitButton(attrs)
+            }
+        }
+    }
+
+    def radioItem = {attrs ->
+        if (session.isMobile) {
+            out << radio(attrs)
+        } else {
+            out << radio(attrs)
+        }
+
+    }
+
+    def bigTextField = {attrs ->
+        if (session.isMobile) {
+            out << "<li class='bigfield'>"
+            def type = attrs.type ?: "text"
+            out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
+            out << "</li>"
+        } else {
+            out << f.bigTextField(attrs)
+        }
+
+    }
+
+
+
+    def section = {attrs, body ->
+        if (session.isMobile) {
+
+            if (attrs.code) {
+                out << "<span class='graytitle'>${message(code: attrs.code)}</span>"
+            }
+            out << iwebkit.section(attrs, body)
+        } else {
+            out << "<div class='section ${attrs.class ?: "singleColumn"}'>"
+            if (attrs.code) {
+                if (attrs.header == "small") {
+                    out << smallHeader { out << message(code: attrs.code) }
+                } else {
+                    out << header { message(code: attrs.code) }
+                }
+
+            }
+
+            out << body()
+//            out << "<div style='clear:both;'></div>"
+            out << "</div>"
+
+
+        }
+    }
+
+
+}

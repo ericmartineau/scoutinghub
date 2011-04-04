@@ -2,125 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
         xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.facebook.com/2008/fbml ">
 <head>
-    <meta name='layout' content='main'/>
+    <meta name='layout' content='${layoutName}'/>
     <title><g:message code="menu.login"/></title>
-    <style type="text/css">
-
-    .alabel {
-        font-size: 14px;
-    }
-
-    a {
-        font-size: 14px;
-    }
-
-    .loginForm {
-        font-size: 24px;
-    }
-
-    .fldContainer {
-        margin-bottom: 15px;
-    }
-
-    .login_message {
-        color: #990000;
-    }
-    </style>
 
 </head>
 
 <body>
 
-<div id='login'>
-    <table width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-            <td width="100%" align="center">
-                <table width="100%">
-                    <tr>
+<s:content class="twoContent">
 
-                        <td align="center" width="50%">
-                            <h2><g:message code="login.enteruandp"/></h2>
-                            <g:if test='${flash.message}'>
-                                <g:msgbox type="error" code="${flash.message}"/>
-                            </g:if>
+%{--<s:smallHeader><g:message code=""/></s:smallHeader>--}%
+    <form action='${daoPostUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+        <s:section header="small" code="login.enteruandp" class="twoSection">
+            <g:if test='${flash.message}'>
+                <s:msg type="error" code="${flash.message}"/>
+            </g:if>
 
-                            <table>
 
-                                <tr>
-                                    <td align="left">
+            <s:bigTextField name="j_username" code="${message(code:'label.username')}" placeholder="${message(code:'label.username')}"/>
+            <s:bigTextField type="password" name="j_password" code="${message(code:'label.password')}" placeholder="${message(code:'label.password')}"/>
+            <s:div class="loginPlusRememberMe">
+                <s:checkbox class='rememberMe' code='label.rememberMe' name='${rememberMeParameter}'/>
+                <s:submit name="login" class="ui-button" value="${message(code: 'label.login')}"/>
+            </s:div>
+        </s:section>
 
-                                        <div class='inner'>
-                                            <div class="fldContainer"></div>
-                                            <form action='${daoPostUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
-                                                <div class="fldContainer">
-                                                    <label class='alabel' for='username'><g:message code="label.username"/></label><br/>
-                                                    <input type='text' class='loginForm ui-corner-all' name='j_username' id='username'/>
-                                                </div>
-                                                <div class="fldContainer">
-                                                    <label class='alabel' for='password'><g:message code="label.password"/></label><br/>
-                                                    <input type='password' class='loginForm ui-corner-all' name='j_password' id='password'/>
-                                                </div>
+    </form>
 
-                                                <div class="fldContainer">
-                                                    <span><input type='submit' value='${message(code: 'label.login')}' class="ui-button"/></span>
-                                                    <span><input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
-                                                        <g:if test='${hasCookie}'>checked='checked'</g:if>/></span>
-                                                    <span><label for='remember_me'><g:message code="label.rememberMe"/></label></span>
+    <s:section header="small" code="login.firstTimeHere" class="twoSection">
+        <s:bigButton controller="login" action="accountLink" name="createAccount" value="${message(code:'label.createAccount')}"/>
+    </s:section>
 
-                                                </div>
+</s:content>
 
-                                            </form>
-                                        </div>
 
-                                    </td>
-                                </tr>
-                            </table>
 
-                        </td>
-                        <td valign="top" width="50%" align="center">
-                            <h2><g:message code="login.alternateproviders"/></h2>
 
-                            <table cellpadding="5">
-                                <tr>
-                                    <td><a href="/scoutcert/openId/yahoo"><img src="/scoutcert/images/yahoo.jpg"/></a></td>
-                                    <td><a href="/scoutcert/openId/google"><img src="/scoutcert/images/google.jpg"/></a></td>
-
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="center">
-                                        %{--<a href="/scoutcert/openId/facebook"><img src="/scoutcert/images/facebook.jpg"/></a>--}%
-
-                                        <fb:login-button class="fbconnect_login" size="large" length="long" background="white"
-                                                onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button>
-
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                            <hr/>
-
-                            <div style="margin-top:30px; text-align:center">
-                                %{--<g:link controller="login" action="forgotPassword">Forgot Password</g:link> |--}%
-                                <h2><g:message code="login.firstTimeHere"/></h2>
-
-                                <g:link controller="login" action="accountLink"><g:message code="label.createAccount"/></g:link>
-                            </div>
-
-                            %{--<div class="biglabel"><g:message code="login.createaccount"/></div>--}%
-                            %{--<table>--}%
-                            %{--<tr>--}%
-                            %{--<td>fdsdsjkl</td>--}%
-                            %{--</tr>--}%
-                            %{--</table>--}%
-
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>
 <div id="fb-root"></div>
 <script
         src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"

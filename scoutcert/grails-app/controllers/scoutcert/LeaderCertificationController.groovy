@@ -18,6 +18,86 @@ class LeaderCertificationController {
         [leaderCertificationInstanceList: LeaderCertification.list(params), leaderCertificationInstanceTotal: LeaderCertification.count()]
     }
 
+    def quickCreate = {
+        LeaderCertification leaderCertification = new LeaderCertification(params)
+        return [leaderCertification: leaderCertification, postAction: "processQuickCreate"]
+    }
+
+    def quickEdit = {
+        LeaderCertification leaderCertification = LeaderCertification.get(params.id)
+        render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+    }
+
+    def processQuickEdit = {
+        int certId = Integer.parseInt(params['leaderCertification.id'])
+        LeaderCertification leaderCertification = LeaderCertification.get(certId)
+        Date dateEarned
+        try {
+            dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
+        } catch (Exception e) {
+            e.printStackTrace()
+            flash.error = "leaderCertification.create.invalidDate"
+            render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+            return
+
+        }
+        if (dateEarned) {
+            try {
+                Leader leader = leaderCertification.leader
+                leaderCertification.dateEarned = dateEarned
+                leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+                leaderCertification.enteredBy = springSecurityService.currentUser
+                leaderCertification.dateEntered = new Date()
+                leader.addToCertifications(leaderCertification)
+                leader.save(failOnError: true)
+
+            } catch (Exception e) {
+                flash.error = "leaderCertification.create.error"
+                render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+                return
+            }
+        }
+
+        redirect(controller: "leader", action: "view", id: leaderCertification?.leader?.id)
+
+
+    }
+
+    def processQuickCreate = {
+        LeaderCertification leaderCertification = new LeaderCertification(params)
+        Leader leader = leaderCertification.leader
+
+        Date dateEarned
+        try {
+            dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
+        } catch (Exception e) {
+            e.printStackTrace()
+            flash.error = "leaderCertification.create.invalidDate"
+            render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickCreate"])
+            return
+
+        }
+        if (dateEarned) {
+            try {
+                leaderCertification.dateEarned = dateEarned
+                leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+                leaderCertification.enteredBy = springSecurityService.currentUser
+                leaderCertification.dateEntered = new Date()
+                leader.addToCertifications(leaderCertification)
+                leader.save(failOnError: true)
+
+            } catch (Exception e) {
+                flash.error = "leaderCertification.create.error"
+                render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickCreate"])
+                return
+            }
+        }
+
+        redirect(controller: "leader", action: "view", id: leaderCertification?.leader?.id)
+    }
+
+
+
     def create = {
         def leaderCertificationInstance = new LeaderCertification()
         leaderCertificationInstance.properties = params
@@ -27,7 +107,7 @@ class LeaderCertificationController {
     def createForm = {
         int certificationId = Integer.parseInt(params.certificationId)
         Certification certification = Certification.get(certificationId)
-        return [certificationName:certification?.name]
+        return [certificationName: certification?.name]
     }
 
     def save = {
@@ -42,25 +122,46 @@ class LeaderCertificationController {
     }
 
     def saveCertification = {
-        Leader leader = Leader.get(Integer.parseInt(params.leaderId));
-        Certification certification = Certification.get(Integer.parseInt(params.certificationId));
-        Date dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned);
         def rtn = [:]
-        if(leader && certification && dateEarned) {
-            LeaderCertification leaderCertification = new LeaderCertification()
-            leaderCertification.leader = leader
-            leaderCertification.certification = certification
-            leaderCertification.dateEarned = dateEarned
-            leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
-            leaderCertification.enteredBy = springSecurityService.currentUser
-            leaderCertification.dateEntered = new Date()
-            leader.addToCertifications(leaderCertification)
-            leader.save(failOnError:true)
+        if (params.dateEarned) {
 
-            rtn.success = true
+            Leader leader = Leader.get(Integer.parseInt(params.leaderId));
+            Certification certification = Certification.get(Integer.parseInt(params.certificationId));
+            Date dateEarned
+            try {
+                dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
+            } catch (Exception e) {
+                rtn.success = false
+                rtn.message = "Invalid date.  Please enter in the format dd/mm/yyyy"
+                return rtn
+            }
+            if (leader && certification && dateEarned) {
+                try {
+                    LeaderCertification leaderCertification = new LeaderCertification()
+                    leaderCertification.leader = leader
+                    leaderCertification.certification = certification
+                    leaderCertification.dateEarned = dateEarned
+                    leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+                    leaderCertification.enteredBy = springSecurityService.currentUser
+                    leaderCertification.dateEntered = new Date()
+                    leader.addToCertifications(leaderCertification)
+                    leader.save(failOnError: true)
+                    rtn.success = true
+                } catch (Exception e) {
+                    rtn.success = false
+                    rtn.message = "Error saving certification: ${e.message}"
+
+                }
+
+
+            } else {
+                rtn.success = false
+            }
         } else {
             rtn.success = false
+            rtn.message = "You must submit a value for date"
         }
+
         render rtn as JSON
     }
 
@@ -92,7 +193,7 @@ class LeaderCertificationController {
             if (params.version) {
                 def version = params.version.toLong()
                 if (leaderCertificationInstance.version > version) {
-                    
+
                     leaderCertificationInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'leaderCertification.label', default: 'LeaderCertification')] as Object[], "Another user has updated this LeaderCertification while you were editing")
                     render(view: "edit", model: [leaderCertificationInstance: leaderCertificationInstance])
                     return

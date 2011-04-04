@@ -326,7 +326,7 @@ class ImportTrainingService {
                                     leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                     leader.save(failOnError: true)
 
-                                    List position = leaderPositionTypeMap[record.position]
+                                    LeaderPositionType position = leaderPositionTypeMap[record.position]
                                     existingUnit.addToLeaderGroups([leader: leader, position: position])
 
                                     certDefinitionMap.each {entry ->

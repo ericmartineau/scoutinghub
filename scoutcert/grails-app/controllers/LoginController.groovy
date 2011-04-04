@@ -448,7 +448,10 @@ class LoginController {
 
                 flow.leader = null
                 if (flow.newSetup && !linkedSocial) {
-                    return redirectSuggestSocialLogin()
+                    return login()
+                    //Social login was removed - this line should be uncommented to add
+                    //back in
+                    //return redirectSuggestSocialLogin()
                 } else {
                     return login()
                 }

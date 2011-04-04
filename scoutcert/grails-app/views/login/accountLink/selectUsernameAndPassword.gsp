@@ -1,65 +1,35 @@
+<html>
 <head>
-    <meta name='layout' content='main'/>
+    <meta name='layout' content='${layoutName}'/>
     <title><g:message code="flow.selectUsernameAndPassword.title"/></title>
 </head>
 
 <body>
 
-<div class='body'>
+<s:content>
+    <g:form action="accountLink">
+        <s:section code="flow.selectUsernameAndPassword.title">
+            <s:msg type="info" code="flow.selectUsernameAndPassword.message"/>
 
-        %{--<g:header><g:message code="flow.verifyUserPass.title"/></g:header>--}%
+            <g:if test="${error}">
+                <s:msg type="error" code="${error}"/>
+            </g:if>
 
+            <s:bigTextField name="username" code="${message(code:'label.username')}" placeholder="${message(code:'label.username')}"
+                    value="${createAccount.username ?: createAccount.email}" />
+            <s:bigTextField type="password" name="password" code="${message(code:'label.password')}" placeholder="${message(code:'label.password')}" />
 
-    <div>
-        <g:form action="accountLink">
+            <s:bigTextField type="password" name="confirmPassword" code="${message(code:'label.confirmPassword')}" placeholder="${message(code:'label.confirmPassword')}" />
 
-            <table width="100%">
-                <tr>
-                    <td width="100%" valign="top" align="center">
-                        <div style="width:425px">
-                            <g:msgbox type="info" code="flow.selectUsernameAndPassword.title" code2="flow.selectUsernameAndPassword.message" />
-                        </div>
+            <s:submit name="submitUsernameAndPassword" class="ui-button" value="${message(code: 'flow.selectUsernameAndPassword.button')}"/>
 
-                        <g:if test="${error}">
-                            <div style="width:425px">
-                                <g:msgbox type="error" code="${error}" />
-                            </div>
+        </s:section>
+    </g:form>
 
-                        </g:if>
-                        <table>
-                            <tr>
-                                <td align="left">
-
-                                    <div class="fldContainer">
-                                        <label class="biglabel" for='username'><g:message code="label.username"/></label><br/>
-                                        <g:textField class="loginForm ui-corner-all horizButton" name='username' value='${createAccount.username}'/>
-                                    </div>
-
-                                    <div class="fldContainer">
-                                        <label class="biglabel" for='password'><g:message code="label.password"/></label><br/>
-                                        <g:passwordField class="loginForm ui-corner-all horizButton" name='password' value=''/>
-                                    </div>
-
-                                    <div class="fldContainer">
-                                        <label class="biglabel" for='confirmPassword'><g:message code="label.confirmPassword"/></label><br/>
-                                        <g:passwordField class="loginForm ui-corner-all horizButton" name='confirmPassword' value=''/>
-                                    </div>
-
-                                    <div class="fldContainer">
-                                        <g:submitButton name="submitUsernameAndPassword" class="ui-button" value="${message(code: 'flow.selectUsernameAndPassword.button')}" />
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-
-        </g:form>
-    </div>
+</s:content>
 
 
-</div>
+
 
 </body>
+</html>

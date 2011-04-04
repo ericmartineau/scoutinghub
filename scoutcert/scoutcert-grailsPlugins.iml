@@ -9,6 +9,11 @@
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/mail-1.0-SNAPSHOT/grails-app/views" relative="/" />
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2/grails-app/views" relative="/" />
           <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -16,6 +21,23 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/grails-app/taglib" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/test/unit" isTestSource="true" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/target/classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/target/test-classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/browser-detection-0.1/web-app/plugins" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/grails-app/domain" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/grails-app/taglib" isTestSource="false" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/target/classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/target/test-classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/geolocation-0.1/web-app/plugins" />
+    </content>
     <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2">
       <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/greenmail-1.2.2/grails-app/controllers" isTestSource="false" />
@@ -27,6 +49,12 @@
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/hibernate-1.3.4/target/classes" />
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/hibernate-1.3.4/target/test-classes" />
       <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/hibernate-1.3.4/web-app/plugins" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/grails-app/taglib" isTestSource="false" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/target/classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/target/test-classes" />
+      <excludeFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/iwebkit-0.5/web-app/plugins" />
     </content>
     <content url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/mail-1.0-SNAPSHOT">
       <sourceFolder url="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/mail-1.0-SNAPSHOT/src/groovy" isTestSource="false" />

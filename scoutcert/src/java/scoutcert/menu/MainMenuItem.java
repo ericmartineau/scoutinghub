@@ -13,7 +13,7 @@ public class MainMenuItem extends MenuItem {
         super(controller, labelCode, requiredRoles);
     }
 
-    private ArrayList<SubMenuItem> subItems = new ArrayList<SubMenuItem>();
+    ArrayList<SubMenuItem> subItems = new ArrayList<SubMenuItem>();
 
     public MainMenuItem addMenuItem(SubMenuItem menuItem) {
         menuItem.setMainMenuItem(this);

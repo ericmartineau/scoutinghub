@@ -39,12 +39,11 @@ TD {
 }
 
 H1 {
-    FONT-FAMILY: arial, helvetica, sans-serif;
-    /*//COLOR: #252525;*/
+    FONT-FAMILY: arial, helvetica, sans-serif; /*//COLOR: #252525;*/
     font-size: 18px;
     padding: 5px;
-    margin:0px;
-    margin-bottom:5px;
+    margin: 0px;
+    margin-bottom: 5px;
 
 }
 
@@ -198,7 +197,7 @@ FIELDSET {
     BORDER-RIGHT: 0px
 }
 
-UL {
+#navigation UL {
     PADDING-BOTTOM: 0px;
     LIST-STYLE-TYPE: none;
     MARGIN: 0px;
@@ -208,7 +207,7 @@ UL {
     PADDING-TOP: 0px
 }
 
-UL LI {
+#navigation UL LI {
     PADDING-BOTTOM: 0px;
     LIST-STYLE-TYPE: none;
     MARGIN: 0px;
@@ -462,6 +461,13 @@ A .ir {
 #top-nav UL {
 /*LIST-STYLE-TYPE: none*/
     background-color: red;
+    PADDING-BOTTOM: 0px;
+    LIST-STYLE-TYPE: none;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    LIST-STYLE-IMAGE: none;
+    PADDING-TOP: 0px
 }
 
 #top-nav LI {
@@ -1322,8 +1328,18 @@ H4.registerTitle {
     font-size: 16px;
 }
 
+
 .fldContainer {
     margin-bottom: 15px;
+    text-align:center;
+    /*float:left;*/
+    /*margin-left:auto;*/
+    /*margin-right:auto;*/
+}
+
+.fldContainerOuter {
+    text-align:center;
+
 }
 
 .login_message {
@@ -1345,6 +1361,7 @@ H4.registerTitle {
     padding: 15px 10px 15px 85px;
     background-repeat: no-repeat;
     background-position: 10px center;
+    text-align:left;
 }
 
 .info {
@@ -1356,7 +1373,6 @@ H4.registerTitle {
 .success {
     color: #4F8A10;
     background-color: #DFF2BF;
-    background-image: url('/scoutcert/images/success.png');
 }
 
 .warning {
@@ -1369,6 +1385,27 @@ H4.registerTitle {
     color: #D8000C;
     background-color: #FFBABA;
     background-image: url('/scoutcert/images/error.png');
+}
+
+.warningIcon {
+    background-image: url('/scoutcert/images/warning.png');
+    border-color: #666;
+}
+
+.errorIcon, .error {
+    background-image: url('/scoutcert/images/error.png');
+    border-color:#666;
+}
+
+.success, .successIcon {
+    background-image: url('/scoutcert/images/success.png');
+    border-color:#666;
+}
+
+.profileCertification {
+    margin: 10px 0px;
+    padding: 5px 10px 5px 85px;
+
 }
 
 .msg1 {
@@ -1406,7 +1443,7 @@ table.recordTable td {
 
 .tableHeader {
     font-size: 14px;
-    font-weight:normal;
+    font-weight: normal;
     padding: 4px;
 }
 
@@ -1426,12 +1463,92 @@ td.tabular {
 }
 
 .missingTraining {
-    color:#FF0000;
+    color: #FF0000;
 }
 
 ui-dialog-title {
     font-size: 16px
 }
+
+.trainingDetails {
+    margin-left: 15px;
+    margin-top: 4px;
+}
+
+.prop {
+    width: 220px;
+    float:left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+
+.rememberMe {
+    float:right;
+    height:20px;
+    line-height:25px;
+}
+
+/*.content {*/
+    /*overflow:auto;*/
+    /*overflow:hidden;*/
+/*}*/
+
+.twoContent {
+    width:600px;
+}
+
+.twoSection {
+    float:left;
+    width:300px;
+    /*padding-left:90px;*/
+    margin:auto;
+    text-align:center;
+}
+
+.authWidth {
+    width: 290px;
+}
+
+.loginPlusRememberMe {
+    text-align:left !important;
+    vertical-align:middle;
+}
+
+.section {
+
+}
+
+.floatContent {
+    width: 700px;
+}
+.floatSection {
+    width:550px;
+    overflow:auto;
+    float:left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    overflow:hidden;
+}
+
+.singleColumn {
+    margin:auto;
+    width:350px;
+
+}
+
+.radiobutton {
+    margin-bottom: 10px;
+}
+
+.radiobutton .name {
+    width:150px;
+    overflow:hidden;
+    float:left;
+    text-align:left;
+}
+
 
 
 

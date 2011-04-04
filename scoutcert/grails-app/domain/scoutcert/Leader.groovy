@@ -46,6 +46,10 @@ class Leader implements Serializable {
         return findCertification(certification) != null
     }
 
+    boolean certificationExpired(Certification certification) {
+        return findCertification(certification)?.goodUntilDate()?.before(new Date())
+    }
+
     LeaderCertification findCertification(Certification certification) {
         return certifications?.find{it.certification.id == certification?.id}
     }

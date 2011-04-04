@@ -7,10 +7,14 @@ class UrlMappings {
          action = 'auth'
       }
 
-      "/login/openIdCreateAccount" {
+        /*
+        "/login/openIdCreateAccount" {
          controller = 'login'
          action = 'accountLink'
       }
+
+         */
+
 
 		"/$controller/$action?/$id?"{
 			constraints {

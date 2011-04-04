@@ -8,42 +8,56 @@ class LeaderController {
 
     SpringSecurityService springSecurityService
 
-
     def index = {
+        //@todo this should be secured
         forward(action: 'profile')
     }
 
     def profile = {
-        def c = ProgramCertification.createCriteria()
-        Leader leader = springSecurityService.currentUser
-        def requiredCertifications = c.list {
-
-            and {
-                or {
-                    inList('unitType', leader.groups?.collect {it.scoutGroup.unitType})
-                    inList('positionType', leader.groups?.collect {it.position})
-                }
-                eq('required', true)
-            }
-        }
-
-        int countCompleted = 0
-        requiredCertifications?.each {
-            if(leader.hasCertification(it.certification)) {
-                countCompleted++
-            }
-        }
-
-        def rtn = [requiredCertifications: requiredCertifications, leader: leader]
-        if (requiredCertifications?.size() > 0 && countCompleted > 0) {
-            rtn.trainingCompletePct = countCompleted / requiredCertifications?.size() * 100
-        }
-        return rtn
+        forward(action:"view")
     }
 
     def view = {
-        Leader leader = Leader.get (params.id)
-        render(view: "profile", model: [leader: leader])
+        Leader leader
+        if (params.id) {
+            leader = Leader.get(params.id)
+        } else {
+            leader = springSecurityService.currentUser
+        }
+        def requiredCertifications
+        def certificationInfo = []
+        if(leader.groups?.size() > 0) {
+
+            def c = ProgramCertification.createCriteria()
+
+            requiredCertifications = c.list {
+                and {
+                    or {
+                        inList('unitType', leader.groups?.collect {it.scoutGroup.unitType})
+                        inList('positionType', leader.groups?.collect {it.position})
+                    }
+                    eq('required', true)
+                }
+                certification {
+                    sort: 'name'
+                }
+
+            }
+
+            requiredCertifications?.each{
+                ProgramCertification programCertification->
+                certificationInfo << new LeaderCertificationInfo(leader, programCertification.certification)
+            }
+
+
+
+        }
+
+        def rtn = [certificationInfo: certificationInfo, leader: leader]
+
+        return rtn
+
+
     }
 
     def training = {}
