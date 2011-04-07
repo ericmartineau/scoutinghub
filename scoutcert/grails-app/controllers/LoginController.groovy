@@ -23,6 +23,8 @@ import scoutcert.CreateAccountCommand
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import scoutcert.LeaderPositionType
+import scoutcert.ScoutGroup
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -195,41 +197,58 @@ class LoginController {
 
         verifyAccountExists {
             action {
-                flow.createAccount = new CreateAccountCommand(
-                        firstName: params.firstName,
-                        lastName: params.lastName,
-                        email: params.email,
-                        unitNumber: params.unitNumber,
-                        scoutid: params.scoutid,
-                )
 
-                Leader leader = leaderService.findExactLeaderMatch(params.scoutid, params.email,
-                        params.firstName, params.lastName, params.unitNumber)
-                if (leader) {
-                    flow.leader = leader
-                    return foundSingleExistingRecord()
+                flow.createAccount = new CreateAccountCommand();
+                CreateAccountCommand createCommand = flow.createAccount
+                createCommand.firstName = params.firstName
+                createCommand.lastName = params.lastName
+                createCommand.email = params.email
+                createCommand.password = params.password
+                createCommand.confirmPassword = params.confirmPassword
+                createCommand.scoutid = params.scoutid
+
+                if (params.unitNumberId) {
+                    int unitId = Integer.parseInt(params.unitNumberId)
+                    if (unitId > 0) {
+                        createCommand.unit = ScoutGroup.get(unitId)
+                    }
+                }
+
+                if (params.unitPosition) {
+                    createCommand.unitPosition = LeaderPositionType.values().find{it.code == params.unitPosition}
+                }
+
+
+
+                def errors = []
+                def requiredProps = ["firstName", "lastName", "email", "unit", "password", "confirmPassword", "unitPosition"]
+
+                requiredProps.each {
+                    if (!createCommand.getProperty(it)) errors << "${it}.validation.error"
+                }
+
+                if (errors.size() > 0) {
+                    flash.errors = errors
+                    return error();
                 } else {
-                    Collection<Leader> leaderSet = leaderService.findLeaders(params.scoutid, params.email,
-                            params.firstName, params.lastName, params.unitNumber)
+                    Leader leader = leaderService.findExactLeaderMatch(params.scoutid, params.email,
+                            params.firstName, params.lastName, createCommand.unit)
 
-                    if (leaderSet.size() > 0) { //Ambigious
-                        flow.leaderSet = leaderSet
-                        return foundMultipleMatches()
+                    if (leader) {
+                        flow.leader = leader
+                        return foundSingleExistingRecord()
                     } else {
-                        def errors = []
-                        def requiredProps = ["firstName", "lastName", "email", "unitNumber"]
+                        Collection<Leader> leaderSet = leaderService.findLeaders(params.scoutid, params.email,
+                                params.firstName, params.lastName, createCommand.unit)
 
-                        requiredProps.each {
-                            if (!params[it]) errors << "${it}.validation.error"
-                        }
-
-                        if (errors.size() > 0) {
-                            flash.errors = errors
-                            return error();
+                        if (leaderSet.size() > 0) { //Ambigious
+                            flow.leaderSet = leaderSet
+                            return foundMultipleMatches()
                         } else {
                             return proceedNewAccount()
                         }
                     }
+
                 }
 
 

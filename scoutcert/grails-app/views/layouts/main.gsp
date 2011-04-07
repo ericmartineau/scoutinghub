@@ -12,16 +12,42 @@
     <g:javascript library="jquery.cookie"/>
     <g:javascript library="jquery.hotkeys"/>
     <g:javascript library="jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min"/>
+    <g:javascript library="jquery.ui.selectmenu"/>
+    <g:javascript library="jquery.selectBox-1.0.1/jquery.selectBox.min"/>
 
     <g:javascript library="jquery.ba-throttle-debounce.min"/>
     <g:javascript library="bsa"/>
 
+    <link rel="stylesheet" href="${resource(dir: 'js/jquery.selectBox-1.0.1', file: 'jquery.selectBox.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'js/jquery-ui-1.8.4.custom/css/custom-theme', file: 'jquery-ui-1.8.10.custom.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bsa.css')}"/>
-
+    <link rel="stylesheet" href="${resource(dir: 'js/themes/default', file: 'style.css')}"/>
 
     <g:javascript library="application"/>
     <g:layoutHead/>
+
+    <style type="text/css">
+        /*.jstree-default .jstree-clicked {*/
+            /*background: #164184;*/
+            /*color:#FFF;*/
+            /*border: 1px solid #FFF;*/
+%{----}%
+        /*}*/
+%{----}%
+        /*.jstree-default .jstree-hovered {*/
+            /*background: #164184;*/
+            /*color:#FFF;*/
+            /*border: 1px solid #FFF;*/
+%{----}%
+        /*}*/
+
+
+    .jstree a {
+        font-size:14px;
+        padding:4px;
+    }
+
+    </style>
 </head>
 <body>
 

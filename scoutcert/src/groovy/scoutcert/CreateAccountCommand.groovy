@@ -10,10 +10,12 @@ class CreateAccountCommand implements Serializable {
     String firstName
     String lastName
     String email
-    String unitNumber
+    ScoutGroup unit
+    LeaderPositionType unitPosition
     String scoutid
 
     String username
     String password
+    String confirmPassword
 
 }

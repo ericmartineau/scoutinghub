@@ -1,8 +1,4 @@
-/*
- * Created by IntelliJ IDEA.
- * User: eric
- * Date: 4/4/11
- * Time: 10:32 PM
- */
-package ;
-public groovyserverpage.gsp importUnits.gsp { }
+<g:form action="processImportUnits" enctype="multipart/form-data">
+    <input type="file" name="importFile" />
+    <g:submitButton name="submit" value="Submit" />
+    </g:form>

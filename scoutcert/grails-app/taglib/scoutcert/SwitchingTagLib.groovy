@@ -154,6 +154,8 @@ class SwitchingTagLib {
                 out << "</div>"
             }
         } else {
+            attrs.code2 = attrs.code
+            attrs.code = null
             out << msgbox(attrs, body)
         }
     }
@@ -250,14 +252,35 @@ class SwitchingTagLib {
 
     }
 
-    def bigTextField = {attrs ->
+    def bigTextField = {attrs, body ->
         if (session.isMobile) {
             out << "<li class='bigfield'>"
             def type = attrs.type ?: "text"
             out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
             out << "</li>"
         } else {
-            out << f.bigTextField(attrs)
+            out << f.bigTextField(attrs, body)
+        }
+    }
+
+    def unitSelector = {attrs ->
+        if(session.isMobile) {
+            out << bigTextField(attrs)
+        } else {
+            out << f.dynamicUnitSelector(attrs)
+        }
+    }
+
+    def selecter = {attrs->
+        if (session.isMobile) {
+            out << "<li class='select'>"
+            out << select(attrs)
+            out << "<span class='arrow'></span>"
+            out << "</li>"
+        } else {
+            out << f.formControl(attrs) {
+                out << select(attrs)
+            }
         }
 
     }

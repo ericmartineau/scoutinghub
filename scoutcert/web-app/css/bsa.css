@@ -39,7 +39,7 @@ TD {
 }
 
 H1 {
-    FONT-FAMILY: arial, helvetica, sans-serif; /*//COLOR: #252525;*/
+    FONT-FAMILY: arial, helvetica, sans-serif; //COLOR: #252525;
     font-size: 18px;
     padding: 5px;
     margin: 0px;
@@ -291,7 +291,7 @@ A .ir {
     PADDING-BOTTOM: 0px;
     MARGIN: 0px auto;
     PADDING-LEFT: 0px;
-    WIDTH: 940px;
+    WIDTH: 700px;
     PADDING-RIGHT: 0px;
     BACKGROUND: #fff;
     PADDING-TOP: 0px
@@ -439,8 +439,8 @@ A .ir {
 
 #logo {
     PADDING-BOTTOM: 5px;
-    PADDING-LEFT: 10px; /*WIDTH: 500px;*/
-    PADDING-RIGHT: 0px; /*FLOAT: left;*/
+    PADDING-LEFT: 10px; WIDTH: 500px;
+    PADDING-RIGHT: 0px; FLOAT: left;
     HEIGHT: 85px;
     PADDING-TOP: 0px
 }
@@ -459,7 +459,7 @@ A .ir {
 }
 
 #top-nav UL {
-/*LIST-STYLE-TYPE: none*/
+LIST-STYLE-TYPE: none
     background-color: red;
     PADDING-BOTTOM: 0px;
     LIST-STYLE-TYPE: none;
@@ -506,7 +506,7 @@ A .ir {
 
 #rightColumn {
     MARGIN: 0px;
-    WIDTH: 740px;
+    WIDTH: 600px;
     FLOAT: left;
     HEIGHT: 1%;
     PADDING-TOP: 5px
@@ -1333,13 +1333,17 @@ H4.registerTitle {
     margin-bottom: 15px;
     text-align:center;
     /*float:left;*/
-    /*margin-left:auto;*/
-    /*margin-right:auto;*/
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+.fldContainer .fldInput, .selecter {
+    width: 300px;
 }
 
 .fldContainerOuter {
     text-align:center;
-
 }
 
 .login_message {
@@ -1410,11 +1414,12 @@ H4.registerTitle {
 
 .msg1 {
     font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .msg2 {
     font-size: 13px;
-    margin-top: 5px;
+
 }
 
 a.buttonLink {
@@ -1490,18 +1495,18 @@ ui-dialog-title {
     line-height:25px;
 }
 
-/*.content {*/
-    /*overflow:auto;*/
-    /*overflow:hidden;*/
-/*}*/
+.content {
+    overflow:auto;
+    overflow:hidden;
+}
 
 .twoContent {
-    width:600px;
+    width:650px;
 }
 
 .twoSection {
     float:left;
-    width:300px;
+    width:310px;
     /*padding-left:90px;*/
     margin:auto;
     text-align:center;
@@ -1514,6 +1519,9 @@ ui-dialog-title {
 .loginPlusRememberMe {
     text-align:left !important;
     vertical-align:middle;
+}
+.text .fldInput {
+    width: 290px;
 }
 
 .section {
@@ -1548,6 +1556,24 @@ ui-dialog-title {
     float:left;
     text-align:left;
 }
+
+.unitSelector {
+    /*This should be added back if being used with the selector tree*/
+    /*margin-bottom:0px;*/
+    font-size:14px;
+    width: 300px;
+}
+
+.unitSelectTree {
+    text-align:left;
+    margin-bottom:15px;
+    /*width:300px;*/
+}
+
+.centered {
+    text-align:center;
+}
+
 
 
 

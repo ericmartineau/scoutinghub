@@ -18,7 +18,6 @@
                 <s:msg type="error" code="${flash.message}"/>
             </g:if>
 
-
             <s:bigTextField name="j_username" code="${message(code:'label.username')}" placeholder="${message(code:'label.username')}"/>
             <s:bigTextField type="password" name="j_password" code="${message(code:'label.password')}" placeholder="${message(code:'label.password')}"/>
             <s:div class="loginPlusRememberMe">

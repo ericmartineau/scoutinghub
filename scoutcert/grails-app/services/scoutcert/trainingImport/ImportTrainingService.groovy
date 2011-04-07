@@ -316,7 +316,7 @@ class ImportTrainingService {
                                 }
 
                                 Leader leader = leaderService.findExactLeaderMatch(record.scoutingId, record.email, record.firstName,
-                                        record.lastName, record.unitNumber)
+                                        record.lastName, existingUnit)
                                 if (!leader) {
                                     leader = new Leader()
                                     leader.firstName = record.firstName

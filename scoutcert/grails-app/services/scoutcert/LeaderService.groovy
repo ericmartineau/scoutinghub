@@ -26,7 +26,10 @@ class LeaderService {
         return leader
     }
 
-    Leader findExactLeaderMatch(String scoutid, String email, String firstName, String lastName, String unitNumber) {
+    Leader findExactLeaderMatch(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup) {
+        if (scoutGroup == null) {
+            return null
+        }
         Leader leader = null
         if (!leader && scoutid != "") {
             def c = Leader.createCriteria();
@@ -55,9 +58,10 @@ class LeaderService {
                 eq('lastName', lastName)
 
                 groups {
-                    scoutGroup {
-                        eq('groupIdentifier', unitNumber)
-                    }
+                    eq('scoutGroup', scoutGroup)
+//                    scoutGroup {
+//                        eq('groupIdentifier', unitNumber)
+//                    }
 
                 }
             }
@@ -65,23 +69,27 @@ class LeaderService {
         return leader
     }
 
-    Set<Leader> findLeaders(String scoutid, String email, String firstName, String lastName, String unitNumber) {
+    Set<Leader> findLeaders(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup) {
         Set<Leader> rtn = new HashSet<Leader>();
 
-        Leader match = findExactLeaderMatch(scoutid, email, firstName, lastName, unitNumber)
-        if (match) {
-            rtn.add(match);
-        }
+        if (scoutGroup != null) {
 
-        //Try email
-
-        if (email) {
-            Collection<Leader> leaders = Leader.findAllByEmail(email)
-            if (leaders?.size() > 0) {
-                rtn.addAll(leaders)
+            Leader match = findExactLeaderMatch(scoutid, email, firstName, lastName, scoutGroup)
+            if (match) {
+                rtn.add(match);
             }
-        }
 
+            //Try email
+
+            if (email) {
+                Collection<Leader> leaders = Leader.findAllByEmail(email)
+                if (leaders?.size() > 0) {
+                    rtn.addAll(leaders)
+                }
+            }
+
+
+        }
 
 
 

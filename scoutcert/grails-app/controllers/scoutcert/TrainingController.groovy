@@ -74,6 +74,28 @@ class TrainingController {
         return [errors: errors]
     }
 
+    def importUnits = {
+
+    }
+
+    def processImportUnits = {
+        CommonsMultipartFile importFile = request.getFile("importFile")
+        Workbook xlsFile = WorkbookFactory.create(importFile.inputStream);
+        for (int i = 1; i < xlsFile.numberOfSheets - 1; i++) {
+            Sheet currentSheet = xlsFile.getSheetAt(i)
+            println xlsFile.getSheetName(i) + ":" + currentSheet.getRow(0)?.getCell(0)?.stringCellValue
+            String currCharter = null
+            for(int r=5; r<currentSheet.lastRowNum; r++) {
+                Row row = currentSheet.getRow(r)
+                if(row?.getCell(0)?.stringCellValue) {
+                    println "\t${row?.getCell(0)?.stringCellValue}"
+                    currCharter = row?.getCell(0)?.stringCellValue
+                }
+
+            }
+        }
+    }
+
     def processImportTraining = {
         if (session.importJob) {
             flash.message = "training.importTraining.alreadyRunning"

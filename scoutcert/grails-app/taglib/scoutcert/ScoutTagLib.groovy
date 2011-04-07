@@ -10,14 +10,35 @@ class ScoutTagLib {
 
     def bigTextField = {attrs, body ->
         def type = attrs.type ?: "text"
-        out << "<table class='fldContainer'><tr><td align='left'>"
+        out << "<table cellpadding='0' cellspacing='0' class='fldContainer ${attrs.class}'><tr><td align='left'>"
 //        out << "<span class='fldContainerSpacer'></span>"
 //        out << "<span class='fldContainer'>"
         out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
-        out << "<input type='${type}' class='fldInput loginForm ui-corner-all' name='${attrs.name}' id='${attrs.name}'/>"
-        out << "</td></tr></table>"
+        out << "<input type='${type}' value='${attrs.value}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
+        out << "</td></tr>"
+        if(body) {
+            out << "<tr><td>${body()}</td></tr>"
+        }
+        out << "</table>"
+
 //        out << "<span class='fldContainerSpacer'></span>"
 //        out << "</div>"
+
+    }
+
+    def formControl = {attrs, body->
+        def type = attrs.type ?: "text"
+        out << "<table cellpadding='0' cellspacing='0' class='fldContainer ${attrs.class}'><tr><td align='left'>"
+//        out << "<span class='fldContainerSpacer'></span>"
+//        out << "<span class='fldContainer'>"
+        out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
+        out << body()
+        out << "</td></tr></table>"
+//
+    }
+
+    def dynamicUnitSelector = {attrs->
+        out << "<div class='unitSelectTree'></div>"
 
     }
 }

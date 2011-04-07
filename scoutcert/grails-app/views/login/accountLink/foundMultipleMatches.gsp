@@ -10,7 +10,7 @@
 
     <g:form action="accountLink">
 
-        <s:section header="small" code="flow.foundMultipleMatches.title">
+        <s:section code="flow.foundMultipleMatches.title">
             <s:msg type="warning" code="flow.foundMultipleMatches.message"/>
             <g:if test="${error}">
                 <s:msg code="${error}"/>
