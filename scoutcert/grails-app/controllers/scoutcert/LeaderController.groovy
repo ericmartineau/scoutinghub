@@ -38,10 +38,13 @@ class LeaderController {
                     }
                     eq('required', true)
                 }
+                eq('required', true)
+                lt('startDate', now)
+                gt('endDate', now)
+
                 certification {
                     sort: 'name'
                 }
-
             }
 
             requiredCertifications?.each{

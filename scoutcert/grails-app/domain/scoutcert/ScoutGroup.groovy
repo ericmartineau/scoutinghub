@@ -11,6 +11,8 @@ class ScoutGroup implements Serializable {
 
     Integer leftNode
     Integer rightNode
+    Date createDate;
+    Date updateDate;
 
     static hasMany = [childGroups:ScoutGroup, leaderGroups:LeaderGroup]
 
@@ -25,6 +27,8 @@ class ScoutGroup implements Serializable {
                 return ['scoutGroup.unitType.required']
             }
         })
+        createDate nullable: true
+        updateDate nullable: true
 
     }
 
@@ -54,5 +58,13 @@ class ScoutGroup implements Serializable {
     @Override
     String toString() {
         return groupLabel ?: groupIdentifier
+    }
+
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
     }
 }

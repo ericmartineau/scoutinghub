@@ -9,12 +9,11 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
+        <g:header><g:message code="default.create.label" args="[entityName]" /></g:header>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -51,7 +50,7 @@
                                     <label for="description"><g:message code="certification.description.label" default="Description" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${certificationInstance?.description}" />
+                                    <g:textArea name="description" cols="40" rows="5" value="${certificationInstance?.description}" />
                                 </td>
                             </tr>
                         
@@ -70,6 +69,24 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'tourPermitRequired', 'errors')}">
                                     <g:checkBox name="tourPermitRequired" value="${certificationInstance?.tourPermitRequired}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="createDate"><g:message code="certification.createDate.label" default="Create Date" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'createDate', 'errors')}">
+                                    <g:datePicker name="createDate" precision="day" value="${certificationInstance?.createDate}" noSelection="['': '']" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="updateDate"><g:message code="certification.updateDate.label" default="Update Date" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'updateDate', 'errors')}">
+                                    <g:datePicker name="updateDate" precision="day" value="${certificationInstance?.updateDate}" noSelection="['': '']" />
                                 </td>
                             </tr>
                         

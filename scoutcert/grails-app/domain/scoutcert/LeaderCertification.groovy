@@ -8,9 +8,13 @@ class LeaderCertification implements Serializable{
     Date dateEntered
     LeaderCertificationEnteredType enteredType
 
+    Date createDate;
+    Date updateDate;
+
     static belongsTo = [Certification, Leader]
     static constraints = {
-
+        createDate nullable: true
+        updateDate nullable: true
     }
 
     Date goodUntilDate() {
@@ -18,5 +22,13 @@ class LeaderCertification implements Serializable{
         calendar.setTime(dateEarned)
         calendar.add(Calendar.DATE, certification.durationInDays)
         return calendar.time
+    }
+
+    def beforeInsert = {
+        createDate = new Date()
+    }
+
+    def beforeUpdate = {
+        updateDate = new Date()
     }
 }
