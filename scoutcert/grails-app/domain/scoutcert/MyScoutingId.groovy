@@ -11,7 +11,7 @@ class MyScoutingId implements Serializable{
     Date updateDate;
 
     static constraints = {
-        myScoutingIdentifier(unique:true)
+        myScoutingIdentifier(unique:true, blank:false)
         createDate nullable: true
         updateDate nullable: true
     }

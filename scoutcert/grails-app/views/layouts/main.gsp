@@ -18,8 +18,13 @@
     <g:javascript library="jquery.ba-throttle-debounce.min"/>
     <g:javascript library="bsa"/>
 
+    <g:javascript library="prototype" />
+
+    <script src="http://maps.google.com/maps?file=api&v=2&sensor=false&key=${grailsApplication.config.google.key}" type="text/javascript"></script>
+
+
     <link rel="stylesheet" href="${resource(dir: 'js/jquery.selectBox-1.0.1', file: 'jquery.selectBox.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'js/jquery-ui-1.8.4.custom/css/custom-theme', file: 'jquery-ui-1.8.10.custom.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'js/jquery-ui-1.8.11.custom/css/start', file: 'jquery-ui-1.8.11.custom.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bsa.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'js/themes/default', file: 'style.css')}"/>
 
@@ -27,102 +32,101 @@
     <g:layoutHead/>
 
     <style type="text/css">
-        /*.jstree-default .jstree-clicked {*/
-            /*background: #164184;*/
-            /*color:#FFF;*/
-            /*border: 1px solid #FFF;*/
-%{----}%
-        /*}*/
-%{----}%
-        /*.jstree-default .jstree-hovered {*/
-            /*background: #164184;*/
-            /*color:#FFF;*/
-            /*border: 1px solid #FFF;*/
-%{----}%
-        /*}*/
-
+    /*.jstree-default .jstree-clicked {*/
+    /*background: #164184;*/
+    /*color:#FFF;*/
+    /*border: 1px solid #FFF;*/
+    %{----}%
+    /*}*/
+    %{----}%
+    /*.jstree-default .jstree-hovered {*/
+    /*background: #164184;*/
+    /*color:#FFF;*/
+    /*border: 1px solid #FFF;*/
+    %{----}%
+    /*}*/
 
     .jstree a {
-        font-size:14px;
-        padding:4px;
+        font-size: 14px;
+        padding: 4px;
     }
 
     </style>
 </head>
 <body>
 
+<div style="display:none; width:800px; height:600px" id="mapper">&nbsp;</div>
+
 <div class="mainBody">
-    <div id="outer">
 
-        <table height="100%" class="ms-siteaction" cellpadding="0" cellspacing="0">
-            <tbody><tr>
-                <td class="ms-siteactionsmenu" id="siteactiontd">
-
-                </td>
-            </tr>
-            </tbody></table>
-
-        <div>
-            <div id="logo">
-
-                <table cellpadding="0" cellspacing="0" width="100%">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <td><g:link controller="leader" action="index"><img src="/scoutcert/images/BsaLogoOriginal.jpg" style="border-width:0px;"></g:link></td>
-                        <td align="right">
-                            <img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;">
+                        <td align="center">
+
+                            <div id="logo">
+                                <span class="logoBar"><g:link controller="leader" action="index"><img src="/scoutcert/images/ScoutHub.png" style="border-width:0px;"></g:link></span>
+                                %{--<span class="logoBar"><img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>--}%
+                                <span style="float:right;vertical-align:bottom;margin-top:100px">
+                                    <sec:ifLoggedIn>
+                                        %{--<div style="text-align:right">--}%
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="right">
+                                                        <table>
+                                                            <tr>
+                                                                <td align="right"><g:textField name="leaderQuery" id="leaderQuery" class="ui-corner-all"/></td>
+                                                                <td><a href="javascript:leaderQuery()" style="font-size:12px" class="ui-button"><g:message code="permission.index.searchButton"/></a></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        %{--</div>--}%
+                                    </sec:ifLoggedIn>
+                                </span>
+
+                            </div>
+
                         </td>
-                        <sec:ifLoggedIn>
-                            <td valign="bottom">
-                                <div style="text-align:right">
-                                    <table width="100%">
-                                        <tr>
-                                            <td align="right">
-                                                <table>
-                                                    <tr>
-                                                        <td align="right"><g:textField name="leaderQuery" id="leaderQuery" class="ui-corner-all"/></td>
-                                                        <td><a href="javascript:leaderQuery()" style="font-size:12px" class="ui-button"><g:message code="permission.index.searchButton"/></a></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                            </td>
-                        </sec:ifLoggedIn>
-
                     </tr>
+
                 </table>
 
-            </div>
 
-        </div>
-        <div class="clear">
-        </div>
 
-        <g:menu/>
+                <div id="outer" class="ui-corner-all">
 
-        <div id="content">
-            <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td align="center">
-                        <table cellpadding="0" cellspacing="0">
+                    <g:menu/>
+
+                    <div id="content">
+                        <table width="100%" cellpadding="0" cellspacing="0">
                             <tr>
-                                <td><g:layoutBody/></td>
+                                <td align="center">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td><g:layoutBody/></td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div style="clear: both">
-        </div>
-        <div id="bsafooter" style="padding-left: 20px">
-            <img src="/scoutcert/images/footerbsa.gif"/>
+                    </div>
+                    <div style="clear: both">
+                    </div>
+                    <div id="bsafooter" class="ui-corner-bl ui-corner-br" style="padding-left: 20px">
+                        <img src="/scoutcert/images/footerbsa.gif"/>
+                        <g:pageProperty name="page.footer"/>
 
-        </div>
-    </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
 </div>
 
 </body></html>

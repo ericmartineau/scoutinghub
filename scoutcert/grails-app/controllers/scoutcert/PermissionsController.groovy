@@ -2,6 +2,7 @@ package scoutcert
 
 import org.compass.core.engine.SearchEngineQueryParseException
 import grails.plugins.springsecurity.Secured
+import grails.converters.JSON
 
 @Secured(["ROLE_ADMIN"])
 class PermissionsController {
@@ -38,6 +39,9 @@ class PermissionsController {
         } else {
             LeaderRole.findByLeaderAndRole(leader, role)?.delete()
         }
+
+        def rtn = [success:true]
+        render rtn as JSON
 
     }
 }

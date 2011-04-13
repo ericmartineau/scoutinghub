@@ -35,23 +35,9 @@ class MenuTagLib {
                 out << '<div id="top-nav"><ul>'
                 mainMenuItem.subItems?.each {
                     SubMenuItem subItem ->
-                    boolean shouldShow = true
-                    if (subItem.requiredRoles?.size() > 0) {
-                        Set<String> grantedRoles = SpringSecurityUtils.authoritiesToRoles(springSecurityService.authentication?.authorities)
-                        boolean missingAnyRoles = false
-                        subItem.requiredRoles.each {String role ->
-                            if (!grantedRoles?.contains(role)) {
-                                missingAnyRoles = true
-                            }
-                        }
-                        if (missingAnyRoles) {
-                            shouldShow = false;
-                        }
-                    }
-                    if (shouldShow) {
+                    if(SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
                         out << menuItem(controller: attrs.controller, action: attrs.controller, menuItem: subItem)
                     }
-
                 }
                 out << '</ul></div>'
             }

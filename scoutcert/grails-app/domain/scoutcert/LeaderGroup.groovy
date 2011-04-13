@@ -19,6 +19,7 @@ class LeaderGroup implements Serializable {
 
     def beforeInsert = {
         createDate = new Date()
+        updateDate = new Date()
     }
 
     def beforeUpdate = {

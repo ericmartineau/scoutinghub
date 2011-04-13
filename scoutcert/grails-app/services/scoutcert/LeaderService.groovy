@@ -6,6 +6,8 @@ import grails.plugins.springsecurity.SpringSecurityService
 
 class LeaderService {
 
+    static transactional = false
+
     SpringSecurityService springSecurityService
 
     Leader createLeader(def params) {

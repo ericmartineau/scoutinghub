@@ -14,7 +14,12 @@ class ScoutTagLib {
 //        out << "<span class='fldContainerSpacer'></span>"
 //        out << "<span class='fldContainer'>"
         out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
-        out << "<input type='${type}' value='${attrs.value}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
+
+        out << "<input "
+        attrs.otherAttrs?.each {
+            out << "${it.key}='${it.value}' "
+        }
+        out << " type='${type}' value='${attrs.value ?: ""}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
         out << "</td></tr>"
         if(body) {
             out << "<tr><td>${body()}</td></tr>"

@@ -25,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import scoutcert.LeaderPositionType
 import scoutcert.ScoutGroup
+import scoutcert.LeaderGroup
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -42,6 +43,8 @@ class LoginController {
     AuthenticationManager authenticationManager
 
     SocialLoginService socialLoginService
+
+    def searchableService
 
     MailService mailService
 
@@ -198,8 +201,9 @@ class LoginController {
         verifyAccountExists {
             action {
 
-                flow.createAccount = new CreateAccountCommand();
-                CreateAccountCommand createCommand = flow.createAccount
+                CreateAccountCommand createCommand = new CreateAccountCommand()
+                flow.createAccount = createCommand;
+
                 createCommand.firstName = params.firstName
                 createCommand.lastName = params.lastName
                 createCommand.email = params.email
@@ -215,10 +219,8 @@ class LoginController {
                 }
 
                 if (params.unitPosition) {
-                    createCommand.unitPosition = LeaderPositionType.values().find{it.code == params.unitPosition}
+                    createCommand.unitPosition = LeaderPositionType.values().find {it.name() == params.unitPosition}
                 }
-
-
 
                 def errors = []
                 def requiredProps = ["firstName", "lastName", "email", "unit", "password", "confirmPassword", "unitPosition"]
@@ -253,7 +255,7 @@ class LoginController {
 
 
             }
-            on("proceedNewAccount").to "selectUsernameAndPassword"
+            on("proceedNewAccount").to "submitUsernameAndPassword"
             on("foundMultipleMatches").to "foundMultipleMatches"
             on("foundSingleExistingRecord").to "foundSingleExistingRecord"
             on("error").to "locateSocialLogin"
@@ -279,7 +281,8 @@ class LoginController {
                         flash.leader = leader;
                         return verifyEmail()
                     } else {
-                        return enterAccountDetails()
+                        //Finish creating account
+                        return proceedNewAccount()
                     }
 
                 }
@@ -287,7 +290,7 @@ class LoginController {
             }
             on("verifyUserPass").to "verifyUserPass"
             on("verifyEmail").to "sendVerifyEmail"
-            on("enterAccountDetails").to "enterAccountDetails"
+            on("proceedNewAccount").to "submitUsernameAndPassword"
         }
 
         foundMultipleMatches {
@@ -322,28 +325,31 @@ class LoginController {
             on("selectUsernameAndPassword").to "selectUsernameAndPassword"
         }
 
+
+
         selectUsernameAndPassword {
             on("submitUsernameAndPassword").to "submitUsernameAndPassword"
         }
 
         submitUsernameAndPassword {
             action {
-                flow.createAccount.username = params.username
-                flow.createAccount.password = params.password
+                CreateAccountCommand createAccount = flow.createAccount
+                createAccount.username = params.username ?: createAccount.username ?: createAccount.email
+                createAccount.password = params.password ?: createAccount.password
 
-                if (Leader.findByUsername(params.username)) {
+                if (Leader.findByUsername(createAccount?.username)) {
                     flash.error = "flow.submitUsernameAndPassword.usernameTaken"
                     return error()
-                } else if (params.password != params.confirmPassword) {
+                } else if (createAccount.password != createAccount.confirmPassword) {
                     flash.error = "flow.submitUsernameAndPassword.passwordMismatch"
                     return error()
-                } else if (!params.username || !params.password) {
+                } else if (!createAccount.username || !createAccount.password) {
                     flash.error = "flow.submitUsernameAndPassword.bothRequired"
                     return error()
                 } else {
                     if (flow.leader) {
-                        flow.leader.username = params.username
-                        flow.leader.password = springSecurityService.encodePassword(params.password)
+                        flow.leader.username = createAccount.username
+                        flow.leader.password = springSecurityService.encodePassword(createAccount.password)
                     } else {
 
                         Leader leader = leaderService.createLeader(flow.createAccount)
@@ -459,6 +465,18 @@ class LoginController {
                     }
                 }
 
+                //add to unit
+                CreateAccountCommand createAccount = flow.createAccount
+                createAccount.unit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, position:
+                createAccount.unitPosition));
+                searchableService.stopMirroring()
+
+                createAccount.unit?.save(flush: true, failOnError: true)
+                searchableService.startMirroring()
+                createAccount.unit?.reindex()
+
+
+
                 boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
                 if (!linkedSocial) {
                     springSecurityService.reauthenticate(leader.username, leader.password)
@@ -490,6 +508,7 @@ class LoginController {
             redirect(controller: "leader", action: "index")
         }
     }
+
 }
 
 

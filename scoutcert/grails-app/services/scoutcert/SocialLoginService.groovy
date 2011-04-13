@@ -5,6 +5,8 @@ import grails.plugins.springsecurity.SpringSecurityService
 
 class SocialLoginService {
 
+    static transactional = false
+
     SpringSecurityService springSecurityService;
 
     public boolean linkSocialLogin(Leader leader, def session) {

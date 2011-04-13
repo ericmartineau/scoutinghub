@@ -3,15 +3,6 @@
     <title><g:message code="permissions.index.title"/></title>
     <meta name="layout" content="main"/>
 
-    <script type="text/javascript">
-        function togglePermission(checkbox, leaderid, roleid) {
-            jQuery.ajax({
-                    url:"/scoutcert/permissions/setPermission",
-                    data: {checked: checkbox.checked, leaderId:leaderid, roleId: roleid}
-            });
-        }
-
-    </script>
 
 
 </head>

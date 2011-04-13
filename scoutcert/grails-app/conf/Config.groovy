@@ -50,15 +50,20 @@ grails.spring.bean.packages = []
 environments {
     production {
         grails.serverURL = "http://www.cubtrails.com/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
+
     }
     development {
         grails.serverURL = "http://s.cubtrails.com:8080/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
+
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
     }
 
 }
+
 
 // log4j configuration
 log4j = {

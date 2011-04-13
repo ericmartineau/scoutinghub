@@ -6,9 +6,10 @@
         <g:tableHeader code="leader.lastName.label"/>
         <g:tableHeader code="leader.email.label"/>
         <g:tableHeader code="label.unitNumber"/>
-        <g:each in="${roles}" var="role">
-            <g:tableHeader>${role.authority}</g:tableHeader>
-        </g:each>
+        <g:tableHeader code="label.position"/>
+        %{--<g:each in="${roles}" var="role">--}%
+            %{--<g:tableHeader>${role.authority}</g:tableHeader>--}%
+        %{--</g:each>--}%
 
     </tr>
 
@@ -25,17 +26,21 @@
             <td class="tabular">${leader?.email}</td>
             <td class="tabular">
                 <g:if test="${leader?.groups}">
-                    <g:join in="${leader?.groups.collect {it.scoutGroup.groupLabel ?: it.scoutGroup.groupIdentifier}}" delimiter=","/>
+
+                    <g:join in="${leader?.groups?.collect {it.scoutGroup.groupLabel ?: it.scoutGroup.groupIdentifier}}" delimiter=","/>
                 </g:if>
                 <g:else>
                     None
                 </g:else>
             </td>
-            <g:each in="${roles}" var="role">
-                <td align="center">
-                    <g:checkBox onclick="togglePermission(this, ${leader?.id}, ${role?.id})" checked="${leader.hasAuthority(role)}" />
-                </td>
-            </g:each>
+            <td class="tabular">
+                <g:join in="${leader?.groups?.collect {it.position?.name()?.humanize()}}" />
+            </td>
+            %{--<g:each in="${roles}" var="role">--}%
+                %{--<td align="center">--}%
+                    %{--<g:checkBox onclick="togglePermission(this, ${leader?.id}, ${role?.id})" checked="${leader.hasAuthority(role)}" />--}%
+                %{--</td>--}%
+            %{--</g:each>--}%
 
         </tr>
     </g:each>

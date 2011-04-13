@@ -1,19 +1,70 @@
 BODY {
-    BACKGROUND-IMAGE: url(/scoutcert/images/bkg.gif);
-    BACKGROUND-COLOR: #005696;
+/*BACKGROUND-IMAGE: url(../images/bg-pattern1.gif);*/
+
+    BACKGROUND-COLOR: #eee; /*BACKGROUND-COLOR: #005696;*/
     BACKGROUND-REPEAT: repeat-x
 }
 
 BODY .mainBody {
-    BACKGROUND-IMAGE: url(/scoutcert/images/bkg.gif);
+/*BACKGROUND-IMAGE: url(../images/bkg.gif);*/
     TEXT-ALIGN: center;
-    PADDING-BOTTOM: 30px;
-    BACKGROUND-COLOR: #005696;
+    PADDING-BOTTOM: 30px; /*BACKGROUND-COLOR: #005696;*/
+    BACKGROUND-COLOR: #eee;
+
     MARGIN: 0px;
     PADDING-LEFT: 0px;
     PADDING-RIGHT: 0px;
     BACKGROUND-REPEAT: repeat-x;
     PADDING-TOP: 0px
+}
+
+#logo {
+    PADDING-BOTTOM: 5px;
+    PADDING-TOP: 0px;
+    text-align: center;
+    overflow: hidden;
+    width: 700px;
+}
+
+.logoBar {
+    float: left;
+    vertical-align: bottom;
+
+}
+
+#outer {
+    POSITION: relative;
+    TEXT-ALIGN: left;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px auto;
+    PADDING-LEFT: 0px;
+    WIDTH: 700px;
+    PADDING-RIGHT: 0px;
+    BACKGROUND: #fff;
+    PADDING-TOP: 0px; /*-moz-border-radius: 8px;*/
+/*border-radius: 8px;*/
+
+}
+
+.shadow, #outer {
+    box-shadow: 2px 2px 2px #777;
+    -moz-box-shadow: 2px 2px 2px #777;
+    -webkit-box-shadow: 2px 2px 2px #777;
+
+}
+
+.error ul {
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style-type: none;
+    list-style: none;
+}
+
+.error li {
+    list-style: none;
+    list-style-type: none;
+    margin-left: 0px;
+    padding-left: 0px;
 }
 
 #content {
@@ -39,12 +90,35 @@ TD {
 }
 
 H1 {
-    FONT-FAMILY: arial, helvetica, sans-serif; //COLOR: #252525;
+    FONT-FAMILY: arial, helvetica, sans-serif;
+    COLOR: #252525;
     font-size: 18px;
     padding: 5px;
     margin: 0px;
-    margin-bottom: 5px;
+}
 
+.dialog .prop {
+    float:none;
+}
+
+.nav {
+    margin-bottom: 10px;
+    text-align:right;
+}
+
+.menuButton a {
+    padding:5px;
+    text-decoration:none;
+}
+
+th {
+    padding:5px;
+    font-size: 14px;
+    font-weight:normal;
+}
+
+.home {
+    display:none;
 }
 
 H2 {
@@ -285,18 +359,6 @@ A .ir {
     CURSOR: pointer
 }
 
-#outer {
-    POSITION: relative;
-    TEXT-ALIGN: left;
-    PADDING-BOTTOM: 0px;
-    MARGIN: 0px auto;
-    PADDING-LEFT: 0px;
-    WIDTH: 700px;
-    PADDING-RIGHT: 0px;
-    BACKGROUND: #fff;
-    PADDING-TOP: 0px
-}
-
 #top {
     POSITION: relative;
     HEIGHT: 80px
@@ -437,14 +499,6 @@ A .ir {
     COLOR: #069
 }
 
-#logo {
-    PADDING-BOTTOM: 5px;
-    PADDING-LEFT: 10px; WIDTH: 500px;
-    PADDING-RIGHT: 0px; FLOAT: left;
-    HEIGHT: 85px;
-    PADDING-TOP: 0px
-}
-
 #welcomeLogin {
     WIDTH: 250px;
     PADDING-RIGHT: 15px;
@@ -459,8 +513,7 @@ A .ir {
 }
 
 #top-nav UL {
-LIST-STYLE-TYPE: none
-    background-color: red;
+    LIST-STYLE-TYPE: none background-color: red;
     PADDING-BOTTOM: 0px;
     LIST-STYLE-TYPE: none;
     MARGIN: 0px;
@@ -1328,13 +1381,11 @@ H4.registerTitle {
     font-size: 16px;
 }
 
-
 .fldContainer {
     margin-bottom: 15px;
-    text-align:center;
-    /*float:left;*/
-    margin-left:auto;
-    margin-right:auto;
+    text-align: center; /*float:left;*/
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
@@ -1343,7 +1394,16 @@ H4.registerTitle {
 }
 
 .fldContainerOuter {
-    text-align:center;
+    text-align: center;
+}
+
+.progress {
+    min-width:150px;
+}
+
+.progressMsg {
+    position:absolute;
+    padding: 5px;
 }
 
 .login_message {
@@ -1359,19 +1419,25 @@ H4.registerTitle {
     color: red;
 }
 
-.info, .success, .warning, .error, .validation {
+.info, .success, .warning, .error, .star, .validation {
     border: 1px solid;
     margin: 10px 0px;
     padding: 15px 10px 15px 85px;
     background-repeat: no-repeat;
     background-position: 10px center;
-    text-align:left;
+    text-align: left;
 }
 
 .info {
     color: #00529B;
     background-color: #BDE5F8;
     background-image: url('/scoutcert/images/info.png');
+}
+
+.star {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('/scoutcert/images/star.png');
 }
 
 .success {
@@ -1398,18 +1464,44 @@ H4.registerTitle {
 
 .errorIcon, .error {
     background-image: url('/scoutcert/images/error.png');
-    border-color:#666;
+    border-color: #666;
 }
 
 .success, .successIcon {
     background-image: url('/scoutcert/images/success.png');
-    border-color:#666;
+    border-color: #666;
+}
+
+.profileCertificationContainer {
+    overflow: hidden;
+    width: 100%
+}
+
+.next {
+    /*position:relative;*/
+    /*left: -48px;*/
+    float:right;
+    width: 20px;
 }
 
 .profileCertification {
     margin: 10px 0px;
-    padding: 5px 10px 5px 85px;
+    float: left;
+    width: 300px;
+}
 
+.trainingStatus {
+    float: left
+}
+
+.trainingReportUnit {
+    font-size: 14px;
+}
+
+div.currentTraining {
+    padding-left: 10px;
+
+    height: 100%;
 }
 
 .msg1 {
@@ -1427,9 +1519,45 @@ a.buttonLink {
     margin-left: 25px;
 }
 
-.profileData {
+.prop {
+    list-style: none;
+    list-style-type: none;
+    width: 300px;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.propLabel {
+
+}
+
+.propData, .headerText {
     font-weight: bold;
     font-size: 18px;
+}
+
+.propData a {
+    font-size:14px;
+}
+
+.propTable .prop {
+    float: none;
+    /*overflow: hidden;*/
+}
+
+.propTable .propLabel {
+    float: left;
+    width: 100px;
+    white-space:nowrap;
+}
+
+.propTable .propData {
+    font-size:16px;
+    white-space:nowrap;
+    font-weight:normal;
+
 }
 
 .groupSection {
@@ -1471,6 +1599,26 @@ td.tabular {
     color: #FF0000;
 }
 
+.addressProperty {
+    font-weight: normal;
+    font-size: 13px;
+
+}
+
+.registerHeader {
+    padding-left: 40px;
+    padding-top: 5px;
+
+}
+
+.trainingClass {
+    padding-left: 10px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipses;
+    white-space: nowrap;
+}
+
 ui-dialog-title {
     font-size: 16px
 }
@@ -1478,38 +1626,29 @@ ui-dialog-title {
 .trainingDetails {
     margin-left: 15px;
     margin-top: 4px;
+    float: left;
 }
-
-.prop {
-    width: 220px;
-    float:left;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
 
 .rememberMe {
-    float:right;
-    height:20px;
-    line-height:25px;
+    float: right;
+    height: 20px;
+    line-height: 25px;
 }
 
 .content {
-    overflow:auto;
-    overflow:hidden;
+    overflow: auto;
+    overflow: hidden;
 }
 
 .twoContent {
-    width:650px;
+    width: 700px;
 }
 
 .twoSection {
-    float:left;
-    width:310px;
-    /*padding-left:90px;*/
-    margin:auto;
-    text-align:center;
+    float: left;
+    width: 300px; /*padding-left:90px;*/
+    margin: auto;
+    text-align: center;
 }
 
 .authWidth {
@@ -1517,9 +1656,10 @@ ui-dialog-title {
 }
 
 .loginPlusRememberMe {
-    text-align:left !important;
-    vertical-align:middle;
+    text-align: left !important;
+    vertical-align: middle;
 }
+
 .text .fldInput {
     width: 290px;
 }
@@ -1528,21 +1668,28 @@ ui-dialog-title {
 
 }
 
+
+h1.ui-widget-header {
+    font-size: 16px;
+    padding:6px;
+}
+
 .floatContent {
     width: 700px;
 }
+
 .floatSection {
-    width:550px;
-    overflow:auto;
-    float:left;
+    width: 650px;
+    overflow: auto;
+    float: left;
     margin-left: 10px;
     margin-bottom: 10px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .singleColumn {
-    margin:auto;
-    width:350px;
+    margin: auto;
+    width: 350px;
 
 }
 
@@ -1551,27 +1698,30 @@ ui-dialog-title {
 }
 
 .radiobutton .name {
-    width:150px;
-    overflow:hidden;
-    float:left;
-    text-align:left;
+    width: 150px;
+    overflow: hidden;
+    float: left;
+    text-align: left;
 }
 
 .unitSelector {
-    /*This should be added back if being used with the selector tree*/
-    /*margin-bottom:0px;*/
-    font-size:14px;
+/*This should be added back if being used with the selector tree*/
+/*margin-bottom:0px;*/
+    font-size: 16px;
     width: 300px;
 }
 
+.unitSelector .fldInput {
+    font-size: 16px;
+}
+
 .unitSelectTree {
-    text-align:left;
-    margin-bottom:15px;
-    /*width:300px;*/
+    text-align: left;
+    margin-bottom: 15px; /*width:300px;*/
 }
 
 .centered {
-    text-align:center;
+    text-align: center;
 }
 
 

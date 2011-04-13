@@ -17,7 +17,7 @@ class ScoutGroup implements Serializable {
     static hasMany = [childGroups:ScoutGroup, leaderGroups:LeaderGroup]
 
     static constraints = {
-        groupIdentifier(unique:true)
+
         groupLabel(nullable:true)
         parent(nullable:true)
         leftNode(nullable:true)
@@ -55,9 +55,26 @@ class ScoutGroup implements Serializable {
         return rtn.toString()
     }
 
+    boolean canBeAdministeredBy(Leader leader) {
+        LeaderGroup found = leader.groups?.find {LeaderGroup lg ->
+            return lg.scoutGroup.id == this.id && lg.admin
+        }
+        boolean rtn
+        if(found) {
+            rtn = true
+        } else {
+            rtn = parent?.canBeAdministeredBy(leader)
+        }
+        return rtn
+    }
+
     @Override
     String toString() {
-        return groupLabel ?: groupIdentifier
+        String rootName = groupLabel ?: groupIdentifier
+        if(unitType) {
+            rootName += " (${unitType})"
+        }
+        return rootName
     }
 
     def beforeInsert = {

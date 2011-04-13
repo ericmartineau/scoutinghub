@@ -1,34 +1,39 @@
 package scoutcert;
 
+import static scoutcert.ScoutUnitType.*;
+
 /**
  * User: eric
  * Date: 3/30/11
  * Time: 10:39 PM
  */
 public enum LeaderPositionType {
-    CharterRep("CR", null),
-    CommitteeChair("CC", null),
-    CommitteeMember("MC", null),
-    Scoutmaster("SM", ScoutUnitType.Troop),
-    AssistantScoutMaster("SA", ScoutUnitType.Troop),
-    Cubmaster("CM", ScoutUnitType.Pack),
-    AssistantCubmaster("CA", ScoutUnitType.Pack),
-    TigerLeader("TL", ScoutUnitType.Pack),
-    DenLeader("DL", ScoutUnitType.Pack),
-    WebelosLeader("WL", ScoutUnitType.Pack),
-    AssistantDenLeader("DA", ScoutUnitType.Pack),
-    AssistantWebelosLeader("WA", ScoutUnitType.Pack),
-    VarsityCoach("VC", ScoutUnitType.Team),
-    AssistantVarsityCoach("VA", ScoutUnitType.Team),
-    CrewAdvisor("NL", ScoutUnitType.Crew),
-    AssistantCrewAdvisor("NA", ScoutUnitType.Crew);
+    CharterRep("CR", Troop, Pack, Crew, Team),
+    CommitteeChair("CC", Troop, Pack, Crew, Team),
+    CommitteeMember("MC", Troop, Pack, Crew, Team),
+    Executive("EX"),
+    Volunteer("VO"),
+    Scoutmaster("SM", Troop),
+    AssistantScoutMaster("SA", Troop),
+    Cubmaster("CM", Pack),
+    AssistantCubmaster("CA", Pack),
+    TigerLeader("TL", Pack),
+    DenLeader("DL", Pack),
+    WebelosLeader("WL", Pack),
+    AssistantDenLeader("DA", Pack),
+    AssistantWebelosLeader("WA", Pack),
+    VarsityCoach("VC", Team),
+    AssistantVarsityCoach("VA", Team),
+    CrewAdvisor("NL", Crew),
+    AssistantCrewAdvisor("NA", Crew);
 
 
-    LeaderPositionType(String code, ScoutUnitType scoutUnitType) {
+
+    LeaderPositionType(String code, ScoutUnitType... scoutUnitTypes) {
         this.code = code;
-        this.scoutUnitType = scoutUnitType;
+        this.scoutUnitTypes = scoutUnitTypes;
     }
 
-    public final ScoutUnitType scoutUnitType;
+    public final ScoutUnitType[] scoutUnitTypes;
     public final String code;
 }

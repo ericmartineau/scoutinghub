@@ -1,7 +1,7 @@
 <form>
     <div class="fldContainer" style="text-align:left">
         %{--<g:message code="leaderCertification.certification.label"/>--}%
-        <div class="profileData">${certificationName}</div>
+        <div class="headerText">${certificationName}</div>
         <div style="margin-top:10px">
             <g:message code="leaderCertification.create.message"/>
             <ul>

@@ -1,5 +1,4 @@
-
-<div id="navigation">
+<div id="navigation" class="ui-corner-tl ui-corner-tr">
     <ul>
         <g:each in="${menuItems}" var="menuItem">
             <g:if test="${menuItem.requiredRoles?.size() > 0}">
@@ -13,7 +12,10 @@
         </g:each>
 
         <sec:ifLoggedIn>
+
             <li><a href="/scoutcert/logout/"><g:message code="menu.logout"/></a></li>
+
+
         </sec:ifLoggedIn>
     </ul>
 

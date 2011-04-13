@@ -1,26 +1,17 @@
-import scoutcert.Role
-import scoutcert.Leader
-import scoutcert.LeaderRole
 import grails.plugins.springsecurity.SpringSecurityService
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
-import scoutcert.ScoutGroup
-import scoutcert.ScoutGroupType
-import scoutcert.Certification
-import scoutcert.ProgramCertification
-import scoutcert.ScoutGroup
-import scoutcert.ScoutGroupType
-import scoutcert.ScoutUnitType
-import scoutcert.LeaderPositionType
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import scoutcert.*
 
 class BootStrap {
 
+    ScoutGroupService scoutGroupService
     SpringSecurityService springSecurityService
 
     def init = { servletContext ->
-        def defaultRoleNames = ["ROLE_LEADER", "ROLE_UNITADMIN", "ROLE_ADMIN"]
+        def defaultRoleNames = ["ROLE_LEADER", "ROLE_ADMIN"]
         def existingRoleNames = Role.list()?.collect {it.authority}
 
         defaultRoleNames.each {
@@ -38,36 +29,6 @@ class BootStrap {
                     groupLabel: "Grand Canyon Council"
             ).save(failOnError: true)
 
-            ScoutGroup district1 = new ScoutGroup(
-                    groupType: ScoutGroupType.District,
-                    groupIdentifier: "baltic",
-                    groupLabel: "Baltic District",
-                    parent: council
-            ).save(failOnError: true)
-
-            council.addToChildGroups(district1)
-            council.save(failOnError: true)
-
-            ScoutGroup unit = new ScoutGroup(
-                    groupType: ScoutGroupType.Unit,
-                    groupIdentifier: "451",
-                    groupLabel: "Unit 451",
-                    parent: district1,
-                    unitType: ScoutUnitType.Troop
-            ).save(failOnError: true)
-            district1.addToChildGroups(unit)
-
-            ScoutGroup unit2 = new ScoutGroup(
-                    groupType: ScoutGroupType.Unit,
-                    groupIdentifier: "452",
-                    groupLabel: "Unit 452",
-                    parent: district1,
-                    unitType: ScoutUnitType.Troop
-            ).save(failOnError: true)
-            district1.addToChildGroups(unit2)
-
-            district1.save(failOnError: true)
-
             Leader admin = new Leader(enabled: true)
             admin.username = "admin"
             admin.password = springSecurityService.encodePassword("890iop")
@@ -79,65 +40,9 @@ class BootStrap {
             admin.email = "admin@email.com"
             admin.save(failOnError: true)
             LeaderRole.create(admin, Role.findByAuthority("ROLE_ADMIN"), true)
+            ScoutUnitType crew = ScoutUnitType.Crew
+            ScoutUnitType troop = ScoutUnitType.Troop
 
-            Leader unitAdmin = new Leader(enabled: true)
-            unitAdmin.username = "unitadmin"
-            unitAdmin.password = springSecurityService.encodePassword("890iop")
-            unitAdmin.firstName = "Unit Admin"
-            unitAdmin.lastName = "Leader"
-            unitAdmin.enabled = true
-            unitAdmin.addToMyScoutingIds(myScoutingIdentifier: "123456")
-            unitAdmin.email = "unitAdmin@email.com"
-
-            unitAdmin.save(failOnError: true)
-            LeaderRole.create(unitAdmin, Role.findByAuthority("ROLE_UNITADMIN"), true)
-
-            Leader leader = new Leader(enabled: true)
-            leader.username = "leader"
-            leader.firstName = "Regular"
-            leader.lastName = "Leader"
-            leader.password = springSecurityService.encodePassword("890iop")
-            leader.passwordExpired = false
-            leader.accountLocked = false
-            leader.accountExpired = false
-            leader.email = "leader@email.com"
-            leader.save(failOnError: true)
-            LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"), true)
-
-            Leader newLeader = new Leader(enabled: false)
-            newLeader.username = "newLeader"
-            newLeader.password = springSecurityService.encodePassword("890iop")
-            newLeader.passwordExpired = false
-            newLeader.accountLocked = false
-            newLeader.accountExpired = false
-            newLeader.firstName = "New"
-            newLeader.lastName = "Leader"
-            newLeader.email = "newleader@email.com"
-            newLeader.addToMyScoutingIds(myScoutingIdentifier: "54321")
-            newLeader.save(failOnError: true)
-            LeaderRole.create(newLeader, Role.findByAuthority("ROLE_LEADER"), true)
-
-            Leader newLeader2 = new Leader(enabled: false)
-            newLeader2.username = "newLeader2"
-            newLeader2.password = springSecurityService.encodePassword("890iop")
-            newLeader2.passwordExpired = false
-            newLeader2.accountLocked = false
-            newLeader2.accountExpired = false
-            newLeader2.firstName = "Mrs. New"
-            newLeader2.lastName = "Leader"
-            newLeader2.email = "newleader@email.com"
-            newLeader2.addToMyScoutingIds(myScoutingIdentifier: "4321")
-            newLeader2.save(failOnError: true)
-            LeaderRole.create(newLeader2, Role.findByAuthority("ROLE_LEADER"), true)
-
-            unit.addToLeaderGroups([leader: admin, position: LeaderPositionType.Scoutmaster, admin: true])
-            unit.addToLeaderGroups([leader: leader, position: LeaderPositionType.AssistantScoutMaster, admin: true])
-            unit.addToLeaderGroups([leader: newLeader, position: LeaderPositionType.CommitteeChair, admin: true])
-            unit.addToLeaderGroups([leader: newLeader2, position: LeaderPositionType.CharterRep, admin: true])
-            unit.save(failOnError: true)
-
-            unit2.addToLeaderGroups([leader: admin, position: LeaderPositionType.CommitteeChair, admin: true])
-            unit2.save(failOnError: true)
 
             Certification fastStartTraining = new Certification(externalId: "faststart",
                     name: "Fast Start Training",
@@ -223,221 +128,236 @@ class BootStrap {
                     tourPermitRequired: false);
             thisIsScouting.save(failOnError: true)
 
+            CertificationClass certClass = new CertificationClass()
+            certClass.location = new Address(locationName: "Galveston Ward Building", address: "123 W. East", city: "Gilbert",
+                    state: "AZ", zip: "14324").save(failOnError: true)
+            certClass.classDate = new Date() + 1
+            certClass.time = "8AM-10PM"
+//            certClass.coordinator = admin
+            certClass.certification = outdoor
+            certClass.save(failOnError: true)
+
+
             Date startDate = new Date().parse('yyyy/MM/dd', '1973/01/01')
             Date endDate = new Date().parse('yyyy/MM/dd', '2030/01/01')
 
             // Fast Start required for all
-            ProgramCertification packFastStart = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:fastStartTraining,
-                                                  positionType: null, required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packFastStart.save(failOnError:true);
+            ScoutUnitType pack = ScoutUnitType.Pack
+            ProgramCertification packFastStart = new ProgramCertification(unitType: pack,
+                    certification: fastStartTraining,
+                    positionType: null, required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            packFastStart.save(failOnError: true);
 
-            ProgramCertification troopFastStart = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:fastStartTraining,
-                                                  positionType: null, required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopFastStart.save(failOnError:true);
+            ProgramCertification troopFastStart = new ProgramCertification(unitType: troop,
+                    certification: fastStartTraining,
+                    positionType: null, required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopFastStart.save(failOnError: true);
 
             ProgramCertification teamFastStart = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:fastStartTraining,
-                                                  positionType: null, required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamFastStart.save(failOnError:true);
+                    certification: fastStartTraining,
+                    positionType: null, required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamFastStart.save(failOnError: true);
 
             ProgramCertification crewFastStart = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:fastStartTraining,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewFastStart.save(failOnError:true);
+                    certification: fastStartTraining,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewFastStart.save(failOnError: true);
 
             // YPT required for all
-            ProgramCertification packYPT = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:ypt,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packYPT.save(failOnError:true);
+            ProgramCertification packYPT = new ProgramCertification(unitType: pack,
+                    certification: ypt,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            packYPT.save(failOnError: true);
 
-            ProgramCertification troopYPT = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:ypt,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopYPT.save(failOnError:true);
+            ProgramCertification troopYPT = new ProgramCertification(unitType: troop,
+                    certification: ypt,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopYPT.save(failOnError: true);
 
             ProgramCertification teamYPT = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:ypt,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamYPT.save(failOnError:true);
+                    certification: ypt,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamYPT.save(failOnError: true);
 
             ProgramCertification crewYPT = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:ypt,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewYPT.save(failOnError:true);
+                    certification: ypt,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewYPT.save(failOnError: true);
 
             // Leader Specific required for all
-            ProgramCertification packLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:indoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packLeaderSpecific.save(failOnError:true);
+            ProgramCertification packLeaderSpecific = new ProgramCertification(unitType: pack,
+                    certification: indoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            packLeaderSpecific.save(failOnError: true);
 
 
-            ProgramCertification troopLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:indoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopLeaderSpecific.save(failOnError:true);
+            ProgramCertification troopLeaderSpecific = new ProgramCertification(unitType: troop,
+                    certification: indoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopLeaderSpecific.save(failOnError: true);
 
             ProgramCertification teamLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:indoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamLeaderSpecific.save(failOnError:true);
+                    certification: indoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamLeaderSpecific.save(failOnError: true);
 
             ProgramCertification crewLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:indoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewLeaderSpecific.save(failOnError:true);
+                    certification: indoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewLeaderSpecific.save(failOnError: true);
 
             // Baloo.  Tour permit required for pack, but not required for pack
-            ProgramCertification packBaloo = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:baloo,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packBaloo.save(failOnError:true)
+            ProgramCertification packBaloo = new ProgramCertification(unitType: pack,
+                    certification: baloo,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            packBaloo.save(failOnError: true)
 
             //Outdoor.  Required
-            ProgramCertification troopOutdoor = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:outdoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopOutdoor.save(failOnError:true)
+            ProgramCertification troopOutdoor = new ProgramCertification(unitType: troop,
+                    certification: outdoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopOutdoor.save(failOnError: true)
 
             ProgramCertification teamOutdoor = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:outdoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamOutdoor.save(failOnError:true)
+                    certification: outdoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamOutdoor.save(failOnError: true)
 
             ProgramCertification crewOutdoor = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:outdoor,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewOutdoor.save(failOnError:true)
+                    certification: outdoor,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewOutdoor.save(failOnError: true)
 
             // This Is Scouting required for all
-            ProgramCertification packThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:thisIsScouting,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packThisIsScouting.save(failOnError:true);
+            ProgramCertification packThisIsScouting = new ProgramCertification(unitType: pack,
+                    certification: thisIsScouting,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            packThisIsScouting.save(failOnError: true);
 
-            ProgramCertification troopThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:thisIsScouting,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopThisIsScouting.save(failOnError:true);
+            ProgramCertification troopThisIsScouting = new ProgramCertification(unitType: troop,
+                    certification: thisIsScouting,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopThisIsScouting.save(failOnError: true);
 
             ProgramCertification teamThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:thisIsScouting,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamThisIsScouting.save(failOnError:true);
+                    certification: thisIsScouting,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamThisIsScouting.save(failOnError: true);
 
             ProgramCertification crewThisIsScouting = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:thisIsScouting,
-                                                  required:true,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewThisIsScouting.save(failOnError:true);
+                    certification: thisIsScouting,
+                    required: true,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewThisIsScouting.save(failOnError: true);
 
             // Hazardous Weather, tour permit required only
-            ProgramCertification packWeather = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:weather,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packWeather.save(failOnError:true);
+            ProgramCertification packWeather = new ProgramCertification(unitType: pack,
+                    certification: weather,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            packWeather.save(failOnError: true);
 
-            ProgramCertification troopWeather = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:weather,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopWeather.save(failOnError:true);
+            ProgramCertification troopWeather = new ProgramCertification(unitType: troop,
+                    certification: weather,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopWeather.save(failOnError: true);
 
             ProgramCertification teamWeather = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:weather,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamWeather.save(failOnError:true);
+                    certification: weather,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamWeather.save(failOnError: true);
 
             ProgramCertification crewWeather = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:weather,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewWeather.save(failOnError:true);
+                    certification: weather,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewWeather.save(failOnError: true);
 
             //Woodbadge.  Required for none
-            ProgramCertification packWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Pack,
-                                                  certification:woodbadge,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            packWoodbadge.save(failOnError:true)
-            ProgramCertification troopWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Troop,
-                                                  certification:woodbadge,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            troopWoodbadge.save(failOnError:true)
+            ProgramCertification packWoodbadge = new ProgramCertification(unitType: pack,
+                    certification: woodbadge,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            packWoodbadge.save(failOnError: true)
+            ProgramCertification troopWoodbadge = new ProgramCertification(unitType: troop,
+                    certification: woodbadge,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            troopWoodbadge.save(failOnError: true)
 
             ProgramCertification teamWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Team,
-                                                  certification:woodbadge,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            teamWoodbadge.save(failOnError:true)
+                    certification: woodbadge,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            teamWoodbadge.save(failOnError: true)
 
             ProgramCertification crewWoodbadge = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                                                  certification:woodbadge,
-                                                  positionType: null,
-                                                  required:false,
-                                                  startDate: startDate,
-                                                  endDate: endDate);
-            crewWoodbadge.save(failOnError:true)
+                    certification: woodbadge,
+                    positionType: null,
+                    required: false,
+                    startDate: startDate,
+                    endDate: endDate);
+            crewWoodbadge.save(failOnError: true)
 
-            ScoutGroup sanTanDistrict = new ScoutGroup(parent:council, groupLabel: "San Tan District", groupType: ScoutGroupType.District,
+            ScoutGroup sanTanDistrict = new ScoutGroup(parent: council, groupLabel: "San Tan District", groupType: ScoutGroupType.District,
                     groupIdentifier: "SanTanDistrict")
+
+            sanTanDistrict.addToLeaderGroups([leader: admin, position: LeaderPositionType.Executive, admin: true])
+            sanTanDistrict.save(failOnError: true)
 
             ScoutGroup scoutGroup = new ScoutGroup(groupLabel: "Chandler Stake", groupIdentifier: "ChandlerStake", groupType: ScoutGroupType.CharteringOrg, parent: sanTanDistrict).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
 
+            addUnit scoutGroup, "Ray 3nd Ward - Unit 81"
             addUnit scoutGroup, "Ray 2nd Ward - Unit 185"
             addUnit scoutGroup, "Ray 1st Ward - Unit 281"
             addUnit scoutGroup, "Cooper Ward  - Unit 489"
@@ -448,6 +368,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Chandler East Stake", groupIdentifier: "ChandlerEastStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Greenfield 2nd Ward - Unit 834"
             addUnit scoutGroup, "Grove 2nd Ward - Unit 841"
             addUnit scoutGroup, "Grove 3rd Ward - Unit 876"
             addUnit scoutGroup, "Grove 1st Ward - Unit 882"
@@ -459,6 +380,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Chandler West Stake", groupIdentifier: "ChandlerWestStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Del Rio 1st Ward - Unit 188"
             addUnit scoutGroup, "Del Rio 2nd Ward - Unit 425"
             addUnit scoutGroup, "Galveston 1st Ward - Unit 485"
             addUnit scoutGroup, "Galveston 2nd Ward - Unit 585"
@@ -469,6 +391,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stake", groupIdentifier: "GilbertStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Val Vista Ward - Unit 83"
             addUnit scoutGroup, "Gilbert 2nd Ward - Unit 183"
             addUnit scoutGroup, "Gilbert 11 Branch - Unit 210"
             addUnit scoutGroup, "Mesquite Ward - Unit 212"
@@ -482,6 +405,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilbert Greenfield Stake", groupIdentifier: "GilbertGreenfieldStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Ray Ward - Unit 189"
             addUnit scoutGroup, "Western Skies Ward - Unit 289"
             addUnit scoutGroup, "Ashland Ranch Ward - Unit 290"
             addUnit scoutGroup, "Crossroads Park Ward - Unit 507"
@@ -493,6 +417,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilbert Highland Stake", groupIdentifier: "GilbertHighlandStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Lakeview Trails Ward - Unit 44"
             addUnit scoutGroup, "Gilbert 3rd Ward - Unit 383"
             addUnit scoutGroup, "Higley Groves Ward - Unit 393"
             addUnit scoutGroup, "Cornerstone Ward - Unit 398"
@@ -505,6 +430,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilbert Higley Stake", groupIdentifier: "GilbertHigleyStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Higley Ward - Unit 307"
             addUnit scoutGroup, "Fairview Ward - Unit 381"
             addUnit scoutGroup, "Ashley Heights Ward - Unit 780"
             addUnit scoutGroup, "Gateway Garden Ward - Unit 783"
@@ -516,6 +442,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stapley Stake", groupIdentifier: "GilbertStapleyStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Islands Ward - Unit 181"
             addUnit scoutGroup, "Cooper Ward - Unit 528"
             addUnit scoutGroup, "McQueen Ward - Unit 569"
             addUnit scoutGroup, "Gilbert Harris Ward - Unit 583"
@@ -526,6 +453,7 @@ class BootStrap {
             scoutGroup = new ScoutGroup(groupLabel: "Gilber Val Vista Stake", groupIdentifier: "GilbertValVistaStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "Gilbert 12th Ward - Unit 80"
             addUnit scoutGroup, "Lakeside Ward - Unit 218"
             addUnit scoutGroup, "Lindsay Ward - Unit 482"
             addUnit scoutGroup, "Gilbert 4th Ward - Unit 483"
@@ -533,9 +461,11 @@ class BootStrap {
             addUnit scoutGroup, "Emerald Bay Ward - Unit 680"
             addUnit scoutGroup, "Voyager Ward - Unit 681"
             addUnit scoutGroup, "Crystal Shores Ward - Unit 806"
+
             scoutGroup = new ScoutGroup(groupLabel: "San Tan Stake", groupIdentifier: "SanTanStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
+            addUnit scoutGroup, "San Tan 1st Ward - Unit 811"
             addUnit scoutGroup, "Coronado 1st Ward - Unit 812"
             addUnit scoutGroup, "Maplewood Ward - Unit 830"
             addUnit scoutGroup, "San Tan 2nd Ward - Unit 831"
@@ -544,7 +474,34 @@ class BootStrap {
             addUnit scoutGroup, "Power Ranch Ward - Unit 883"
             addUnit scoutGroup, "Coronado 2nd Ward - Unit 912"
 
+            addCommunityUnit("Chandler Lions Club - Unit 58", sanTanDistrict, [troop: "58"])
+            addCommunityUnit("Gilbert United Methodist Church - Unit 88", sanTanDistrict,
+                    [pack: "88",
+                    troop: "88",
+                    crew: "2088"])
 
+            addCommunityUnit("Deseret Gateway Baptist Church - Unit 104", sanTanDistrict, [troop: "104"])
+            addCommunityUnit("Sant Tan Scouts - Unit 125", sanTanDistrict, [troop: "125", pack: "125"])
+            addCommunityUnit("Knights of Columbus - Unit 132", sanTanDistrict, [troop: "132", pack: "132"])
+            addCommunityUnit("St Matthews Episcopal Church  - Unit 233", sanTanDistrict, [troop: "233"])
+            addCommunityUnit("Epiphany Lutheran Church - Unit 280", sanTanDistrict, [troop: "280"])
+            addCommunityUnit("Christs Greenfield Lutheran Church - Unit 282", sanTanDistrict, [troop: "282", pack: "282"])
+            addCommunityUnit("Chandler united Methodist - Unit 283", sanTanDistrict, [troop: "283"])
+            addCommunityUnit("Chandler Christian Church - Unit 285", sanTanDistrict, [troop: "285", pack: "285"])
+            addCommunityUnit("Gilbert Presbyterian - Unit 286", sanTanDistrict, [troop: "286"])
+            addCommunityUnit("St Anne's Church - Unit 312", sanTanDistrict, [troop: "312", crew: "2312"])
+            addCommunityUnit("New Hope Community Church - Unit 322", sanTanDistrict, [troop: "322", pack: "322"])
+            addCommunityUnit("Rancho Solano School - Unit 330", sanTanDistrict, [pack: "330"])
+            addCommunityUnit("Gilbert Boys and Girls Club - 382", sanTanDistrict, [pack: "382"])
+            addCommunityUnit("St Mary's Church - Unit 522", sanTanDistrict, [pack: "522", troop: "522"])
+            addCommunityUnit("San Tan Pack - Unit 524", sanTanDistrict, [pack: "524"])
+            addCommunityUnit("Hope Covenant Church - Unit 584", sanTanDistrict, [pack: "584"])
+            addCommunityUnit("Sanborn Elem PTO - Unit 587", sanTanDistrict, [pack: "587"])
+            addCommunityUnit("East Valley Bible Church - Unit 923", sanTanDistrict, [troop: "923"])
+            addCommunityUnit("Chandler Elks  - Unit 984", sanTanDistrict, [pack: "984"])
+            addCommunityUnit("Phoenix Scuba - Unit 2228", sanTanDistrict, [crew: "2228"])
+
+            scoutGroupService.reindex()
         }
 
 
@@ -595,12 +552,45 @@ class BootStrap {
     def destroy = {
     }
 
+    void addCommunityUnit(String name, ScoutGroup parent, def childUnits) {
+        String orgName = name.substring(0, name.indexOf(" -"));
+        ScoutGroup community = new ScoutGroup(groupLabel: orgName, groupIdentifier: orgName.replaceAll("\\w", ""),
+                groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
+        parent.addToChildGroups(community)
+        parent.save(failOnError: true)
+
+        childUnits.each{
+            String key = it.key
+            key = key.charAt(0).toString().toUpperCase() + key.substring(1)
+            ScoutGroup unit = new ScoutGroup(groupLabel: name, groupIdentifier: it.value, groupType: ScoutGroupType.Unit,
+                unitType: ScoutUnitType.valueOf(key), parent:community).save(failOnError:true)
+            community.addToChildGroups(unit)
+            community.save(failOnError:true)
+        }
+
+    }
+
+
+
     void addUnit(ScoutGroup parent, String unitName) {
+        String orgName = unitName.substring(0, unitName.indexOf(" -"));
+        ScoutGroup wardUnit = new ScoutGroup(
+                groupLabel: orgName, groupIdentifier: orgName.replaceAll("\\w", ""),
+                groupType: ScoutGroupType.Ward, parent: parent).save(failOnError: true)
+        parent.addToChildGroups(wardUnit)
+        parent.save(failOnError: true)
+
         def indexOf = unitName.indexOf("Unit ")
         String unitNumber = unitName.substring(indexOf + 4)?.trim()
 
-        ScoutGroup scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: unitNumber, unitType: ScoutUnitType.Troop, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
+        parent = wardUnit
+        ScoutGroup scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: unitNumber, unitType: ScoutUnitType.Troop,
+                groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
         parent.addToChildGroups(scoutGroup)
+        parent.save(failOnError: true)
+
+        ScoutGroup pack = new ScoutGroup(groupLabel: unitName, groupIdentifier: unitNumber, unitType: ScoutUnitType.Pack, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
+        parent.addToChildGroups(pack)
         parent.save(failOnError: true)
 
         scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: "6" + unitNumber, unitType: ScoutUnitType.Team, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)

@@ -13,26 +13,38 @@ class Leader implements Serializable {
     String username
     String password
     String email
+    String phone
     String verifyHash
     boolean enabled
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
+    double pctTrained
 
     Date createDate;
     Date updateDate;
 
-    static belongsTo = ScoutGroup
+    /**
+     * The date the user set up their account (and logged in) to the system.
+     */
+    Date setupDate
+
+    static belongsTo = [ScoutGroup,CertificationClass]
     static constraints = {
         username(nullable: true, unique: true)
         password(nullable: true)
         email(nullable: true, email:true)
         verifyHash(nullable:true)
+        phone(nullable:true)
         createDate nullable: true
         updateDate nullable: true
+        setupDate nullable:true
     }
 
-    static hasMany = [certifications: LeaderCertification, openIds: OpenID, myScoutingIds: MyScoutingId, groups: LeaderGroup]
+
+
+    static hasMany = [certificationClasses:CertificationClass, certifications: LeaderCertification, openIds: OpenID, myScoutingIds: MyScoutingId, groups: LeaderGroup]
+
     static mapping = {
         password column: '`password`'
     }

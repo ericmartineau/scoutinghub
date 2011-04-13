@@ -32,9 +32,47 @@ class TrainingController {
         }
     }
 
+    def trainingReport = {
+
+        Leader currentUser = springSecurityService.currentUser;
+        def adminGroups
+        ScoutGroup reportGroup
+        if(Integer.parseInt(params.id ?: "0") > 0) {
+            reportGroup = ScoutGroup.get(params.id)
+            if(!reportGroup?.canBeAdministeredBy(currentUser)) {
+                render(view:"/accessDenied")
+            }
+            adminGroups = ScoutGroup.findAllByParent(reportGroup)
+        } else {
+            adminGroups = LeaderGroup.findAllByLeaderAndAdmin(currentUser, true)?.collect {it.scoutGroup}
+        }
+
+        def reports = []
+        adminGroups.each {ScoutGroup scoutGroup ->
+
+            def results = ScoutGroup.withCriteria {
+                ge('leftNode', scoutGroup.leftNode)
+                le('rightNode', scoutGroup.rightNode)
+                leaderGroups {
+                    leader {
+                        projections {
+                            avg('pctTrained')
+                        }
+                    }
+                }
+            }
+
+            reports << new CertificationReport(scoutGroup: scoutGroup, pctTrained: results?.first(), reportDate: new Date())
+
+        }
+        return [reportGroup: reportGroup, reports: reports]
+    }
+
+
     def importStatus = {
 
     }
+
 
     def importStatusPoll = {
         Map rtn = [:]
@@ -85,9 +123,9 @@ class TrainingController {
             Sheet currentSheet = xlsFile.getSheetAt(i)
             println xlsFile.getSheetName(i) + ":" + currentSheet.getRow(0)?.getCell(0)?.stringCellValue
             String currCharter = null
-            for(int r=5; r<currentSheet.lastRowNum; r++) {
+            for (int r = 5; r < currentSheet.lastRowNum; r++) {
                 Row row = currentSheet.getRow(r)
-                if(row?.getCell(0)?.stringCellValue) {
+                if (row?.getCell(0)?.stringCellValue) {
                     println "\t${row?.getCell(0)?.stringCellValue}"
                     currCharter = row?.getCell(0)?.stringCellValue
                 }
@@ -129,7 +167,9 @@ class TrainingController {
                     }
 
                     headerMap.keySet().each {
-                        if (!optionalFields.contains(it) && !foundFields.contains(it)) {
+                        String mappedValue = headerMap[it]
+                        boolean foundMappedValue = foundFields.find { headerMap[it] == mappedValue}
+                        if (!optionalFields.contains(it) && !foundMappedValue) {
                             validationErrors << [code: "training.importTraining.missingField", data: [xlsFile.getSheetName(i), it]]
                         }
                     }

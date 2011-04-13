@@ -6,5 +6,5 @@ package scoutcert;
  * Time: 9:54 PM
  */
 public enum ScoutGroupType {
-    Council,District,CharteringOrg,Unit
+    Council,District,CharteringOrg,Ward,Unit
 }

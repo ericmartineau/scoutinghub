@@ -54,7 +54,7 @@
         </s:section>
 
         <s:section code="flow.locateAccount.unitInfo">
-            <s:bigTextField name="unitNumber" class="unitSelector" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
+            <s:bigTextField name="unitNumber" otherAttrs="[idField:'unitNumberId', positionField:'unitPosition']" class="unitSelector" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
                                 placeholder="${message(code:'label.unitNumber')}">
                         </s:bigTextField>
 
@@ -62,7 +62,7 @@
                         <g:hiddenField name="unitNumberId" value="${createAccount?.unit?.id}"/>
 
             <s:selecter class="selecter" from="${LeaderPositionType.values()}" optionKey="code" optionValue="${{it.name()?.humanize()}}"
-                    name="unitPosition" value="${createAccount?.unitPosition?.code}" code="${message(code:'label.unitPosition')}"
+                    id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.code}" code="${message(code:'label.unitPosition')}"
                     noSelection="${['':"Select Position"]}"
                     placeholder="${message(code:'label.unitPosition')}"/>
 

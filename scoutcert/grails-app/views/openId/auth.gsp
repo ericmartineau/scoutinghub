@@ -9,6 +9,8 @@
 
 <body>
 
+
+
 <s:content class="twoContent">
 
 %{--<s:smallHeader><g:message code=""/></s:smallHeader>--}%
@@ -35,6 +37,33 @@
 </s:content>
 
 
+<content tag="footer">
+    %{--<div style="text-align:right">--}%
+%{----}%
+%{----}%
+%{----}%
+                            %{--<table>--}%
+%{----}%
+                                %{--<tr>--}%
+                                    %{--<td><g:message code="login.alternateproviders"/></td>--}%
+                                    %{--<td><a href="/scoutcert/openId/yahoo"><img src="../images/yahoo-logo-square.png"/></a></td>--}%
+                                    %{--<td><a href="/scoutcert/openId/google"><img src="../images/google-logo-square.png"/></a></td>--}%
+                                    %{--<td><fb:login-button class="fbconnect_login" size="large" length="long" background="white"--}%
+                                                %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
+                                %{--</tr>--}%
+%{----}%
+                            %{--</table>--}%
+
+                            %{--<div class="biglabel"><g:message code="login.createaccount"/></div>--}%
+                            %{--<table>--}%
+                            %{--<tr>--}%
+                            %{--<td>fdsdsjkl</td>--}%
+                            %{--</tr>--}%
+                            %{--</table>--}%
+
+
+    %{--</div>--}%
+</content>
 
 
 <div id="fb-root"></div>

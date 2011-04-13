@@ -1,6 +1,10 @@
 package scoutcert
 
 class LeaderCertification implements Serializable{
+
+    transient TrainingService trainingService
+
+    static transients = ["trainingService"]
     Date dateEarned;
     Certification certification
     Leader leader
@@ -17,6 +21,10 @@ class LeaderCertification implements Serializable{
         updateDate nullable: true
     }
 
+    boolean hasExpired() {
+        return goodUntilDate()?.before(new Date())
+    }
+
     Date goodUntilDate() {
         Calendar calendar = Calendar.getInstance()
         calendar.setTime(dateEarned)
@@ -26,9 +34,18 @@ class LeaderCertification implements Serializable{
 
     def beforeInsert = {
         createDate = new Date()
+
     }
 
     def beforeUpdate = {
         updateDate = new Date()
+    }
+
+    def afterInsert = {
+        trainingService.recalculatePctTrainedIfEnabled(leader)
+    }
+
+    def afterUpdate = {
+        trainingService.recalculatePctTrainedIfEnabled(leader)
     }
 }

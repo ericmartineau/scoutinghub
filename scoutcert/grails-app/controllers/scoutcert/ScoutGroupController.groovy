@@ -2,8 +2,30 @@ package scoutcert
 
 import grails.converters.JSON
 import org.compass.core.engine.SearchEngineQueryParseException
+import grails.plugins.springsecurity.Secured
 
 class ScoutGroupController {
+
+    ScoutGroupService scoutGroupService
+
+    def show = {
+        redirect(controller:"training", action:"trainingReport", id:params.id)
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def makeAdmin = {
+        LeaderGroup leaderGroup = LeaderGroup.get(params.id)
+        leaderGroup.admin = true
+        leaderGroup.save(failOfError:true)
+
+        redirect(controller:"leader", view:"view", id:leaderGroup.leader.id)
+    }
+
+    def reindex = {
+        scoutGroupService.reindex()
+        render("Done")
+
+    }
 
     def findUnits = {
 

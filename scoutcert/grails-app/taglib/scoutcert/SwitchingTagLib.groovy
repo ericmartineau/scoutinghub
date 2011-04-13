@@ -22,25 +22,49 @@ class SwitchingTagLib {
         out << "<ul>${body()}</ul>"
     }
 
+    def address = {attrs, body ->
+        Address addr = attrs.address
+        if (session.isMobile) {
+//            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
+        } else {
+            out << "<div class='fldData'>${addr.locationName}</div>"
+            out << "<div class='addressProperty'>${addr.address}</div>";
+            out << "<div class='addressProperty'>${addr.city} ${addr.state} ${addr.zip}</div>";
+            out << "</span>"
+        }
+    }
+
+    def mapLink = {attrs, body ->
+        if (session.isMobile) {
+
+        } else {
+            Address addr = attrs.address
+            String addrString = "${addr.address} ${addr.city}, ${addr.state} ${addr.zip}"
+            out << "<a href=\"javascript:showMap('${addrString}')\">${addrString}</a>"
+        }
+    }
+
     def property = {attrs, body ->
         if (session.isMobile) {
             out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
         } else {
-            out << "<span class='prop'>"
-            if(attrs.code) {
+            out << "<li class='prop'>"
+            if (attrs.code) {
+                out << "<div class='propLabel'>"
                 out << message(code: attrs.code)
-                out << "<br/>"
+                out << "</div>"
             }
-            out << "<span class='profileData'>${body()}</span>"
-            out << "</span>"
+
+            out << "<div class='propData'>${body()}</span>"
+            out << "</li>"
         }
     }
 
     def pageItem = {attrs, body ->
         if (session.isMobile) {
-            out << "<li class='${attrs.type}'><span class='name'>${message(code:attrs.name)}</span>${body()}</li>"
+            out << "<li class='${attrs.type}'><span class='name'>${message(code: attrs.name)}</span>${body()}</li>"
         } else {
-            out << "<div class='${attrs.type}'><span class='name'>${message(code:attrs.name)}</span>${body()}</div>"
+            out << "<div class='${attrs.type}'><span class='name'>${message(code: attrs.name)}</span>${body()}</div>"
         }
     }
 
@@ -48,7 +72,7 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << "<li class='textbox'>${body()}</li>"
         } else {
-            out << "<div class='profileData'>${body()}</div>"
+            out << "<div class='headerText'>${body()}</div>"
         }
     }
 
@@ -154,8 +178,8 @@ class SwitchingTagLib {
                 out << "</div>"
             }
         } else {
-            attrs.code2 = attrs.code
-            attrs.code = null
+//            attrs.code2 = attrs.code
+//            attrs.code = null
             out << msgbox(attrs, body)
         }
     }
@@ -264,14 +288,25 @@ class SwitchingTagLib {
     }
 
     def unitSelector = {attrs ->
-        if(session.isMobile) {
+        if (session.isMobile) {
             out << bigTextField(attrs)
         } else {
             out << f.dynamicUnitSelector(attrs)
         }
     }
 
-    def selecter = {attrs->
+    def permission = {attrs->
+        Leader leader = attrs.leader
+        Role role = attrs.role
+        if(session.isMobile) {
+            out << pageItem { out << "Log in with a browser"}
+        } else {
+            out << checkBox(onclick:"togglePermission(this, ${leader?.id}, ${role?.id})", checked:leader.hasAuthority(role))
+            out << message(code:"${role.authority}.label")
+        }
+    }
+
+    def selecter = {attrs ->
         if (session.isMobile) {
             out << "<li class='select'>"
             out << select(attrs)

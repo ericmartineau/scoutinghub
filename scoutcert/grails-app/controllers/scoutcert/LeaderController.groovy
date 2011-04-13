@@ -13,11 +13,16 @@ class LeaderController {
         forward(action: 'profile')
     }
 
+    def show = {
+        forward(action:"view")
+    }
+
     def profile = {
         forward(action:"view")
     }
 
     def view = {
+        Date now = new Date()
         Leader leader
         if (params.id) {
             leader = Leader.get(params.id)
@@ -47,9 +52,14 @@ class LeaderController {
                 }
             }
 
-            requiredCertifications?.each{
-                ProgramCertification programCertification->
-                certificationInfo << new LeaderCertificationInfo(leader, programCertification.certification)
+            def certificationIds = new HashSet();
+
+            requiredCertifications?.each {
+                ProgramCertification programCertification ->
+                if (!certificationIds.contains(programCertification.certification.id)) {
+                    certificationInfo << new LeaderCertificationInfo(leader, programCertification.certification)
+                    certificationIds.add(programCertification.certification.id)
+                }
             }
 
 

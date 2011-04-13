@@ -18,6 +18,8 @@ import scoutcert.Certification
 import scoutcert.LeaderCertification
 import scoutcert.LeaderCertificationEnteredType
 import scoutcert.LeaderPositionType
+import scoutcert.ScoutGroupService
+import scoutcert.TrainingService
 
 class ImportTrainingService {
 
@@ -25,6 +27,10 @@ class ImportTrainingService {
     static transactional = false
 
     LeaderService leaderService
+    ScoutGroupService scoutGroupService
+    TrainingService trainingService
+
+    def searchableService
 
     /**
      * Eventually, this map may need to be customizable on a per-spreadsheet configuration.  For the spreadsheets we've
@@ -38,6 +44,7 @@ class ImportTrainingService {
             "Unit#": "unitNumber",
             "UnitType": "unitType",
             "PositionCode": "position",
+            "Position": "position",
             "YPT": "yptDate",
             "ThisIsScouting": "thisIsScoutingDate",
             "FastStart": "fastStartDate",
@@ -68,16 +75,17 @@ class ImportTrainingService {
             "WebelosLeader": LeaderPositionType.WebelosLeader,
             "AssistantDenLeader": LeaderPositionType.AssistantDenLeader,
             "AssistantWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
-            "Varsity Scout Coach": LeaderPositionType.VarsityCoach,
+            "VarsityScoutCoach": LeaderPositionType.VarsityCoach,
             "AssistantVarsityCoach": LeaderPositionType.AssistantVarsityCoach,
-            "Venturing Crew Advisor": LeaderPositionType.CrewAdvisor,
-            "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor
+            "VenturingCrewAdvisor": LeaderPositionType.CrewAdvisor,
+            "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor,
+
     ]
 
     /**
      * @todo: eric: I think the Y02CrewsOnly has a different name in other spreadsheets, more research is necessary
      */
-    def optionalFields = ["Email", "UnitType", "Y02CrewsOnly", "EffectiveDate"]
+    def optionalFields = ["Email", "Y02CrewsOnly", "EffectiveDate"]
 
     /**
      * The POI libraries don't provide an easy way to retrieve the value of a cell as the underlying object it represents (like
@@ -132,6 +140,7 @@ class ImportTrainingService {
             "Unit#": stringClosure,
             "UnitType": stringClosure,
             "PositionCode": stringClosure,
+            "Position": stringClosure,
             "YPT": dateClosure,
             "ThisIsScouting": dateClosure,
             "FastStart": dateClosure,
@@ -263,122 +272,94 @@ class ImportTrainingService {
      * @param importJob
      */
     void processImportJob(ImportJob importJob) {
+
+
+        searchableService.stopMirroring()
+        trainingService.disableRecalculation()
         //This happens in a thread, so manual transaction and session boundaries are required
         Leader.withTransaction {
-            Leader.withSession {Session session ->
-                def certificationMap = [:]
-                Certification.list().each {Certification certification ->
-                    certificationMap[certification.externalId] = certification
-                }
-                for (ImportSheet currentSheet: importJob.sheetsToImport) {
-                    importJob.currentSheet = currentSheet
-                    currentSheet.importStatus = ImportStatus.Processing
+            try {
+                Leader.withSession {Session session ->
+                    def certificationMap = [:]
+                    Certification.list().each {Certification certification ->
+                        certificationMap[certification.externalId] = certification
+                    }
+                    for (ImportSheet currentSheet: importJob.sheetsToImport) {
+                        importJob.currentSheet = currentSheet
+                        currentSheet.importStatus = ImportStatus.Processing
 
-                    int startRowNumber = currentSheet.headerRow.getRowNum()
-                    int endRowNumber = currentSheet.workbookSheet.physicalNumberOfRows
-                    for (int i = startRowNumber + 1; i < endRowNumber; i++) {
-                        Row row = currentSheet.workbookSheet.getRow(i)
-                        if (containsDataToImport(row, currentSheet.pidIndex)) {
-                            ImportedRecord record = null
-                            try {
-                                record = new ImportedRecord()
-                                currentSheet.headerIndex.each {
-                                    int cellIndex = it.value
-                                    String spreadsheetFieldName = it.key
-                                    Cell cell = row.getCell(cellIndex)
-                                    def dataClosure = dataTypeMap[spreadsheetFieldName]
-                                    if (!dataClosure) {
-                                        throw new IllegalStateException("Closure mapping missing for field ${spreadsheetFieldName}")
-                                    }
-                                    def spreadSheetData = dataClosure(cell)
-
-                                    String importRecoredPropertyName = headerMap[spreadsheetFieldName]
-                                    record.setProperty(importRecoredPropertyName, spreadSheetData)
-                                }
-
-                                if (!record.unitNumber) {
-                                    //@todo this pains me to do this - wrestled with validation before giving up
-                                    throw new IllegalStateException("Missing unit number")
-                                }
-
-                                //@todo Very expensive stuff - make it work, then optimize
-
-                                //Make sure unit exists
-                                ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifier(record.unitNumber)
-                                if (!existingUnit) {
-                                    //Add the unit.  These should all be pre-created, though
-                                    existingUnit = new ScoutGroup()
-                                    existingUnit.groupIdentifier = record.unitNumber
-                                    existingUnit.groupLabel = record.unitNumber
-                                    existingUnit.groupType = ScoutGroupType.Unit
-                                    existingUnit.unitType = ScoutUnitType.valueOf(record.unitType)
-                                    existingUnit.save(failOnError: true)
-                                }
-
-                                Leader leader = leaderService.findExactLeaderMatch(record.scoutingId, record.email, record.firstName,
-                                        record.lastName, existingUnit)
-                                if (!leader) {
-                                    leader = new Leader()
-                                    leader.firstName = record.firstName
-                                    leader.lastName = record.lastName
-                                    leader.email = record.email
-
-                                    leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
-                                    leader.save(failOnError: true)
-
-                                    LeaderPositionType position = leaderPositionTypeMap[record.position]
-                                    existingUnit.addToLeaderGroups([leader: leader, position: position])
-
-                                    certDefinitionMap.each {entry ->
-                                        Date trainingDate = record.getProperty(entry.key)
-                                        if (trainingDate) {
-                                            Certification certification = certificationMap[entry.value]
-                                            if (!certification) {
-                                                throw new IllegalStateException("Certification ${entry.value} not found")
-                                            }
-                                            LeaderCertification leaderCertification = new LeaderCertification()
-                                            leaderCertification.leader = leader
-                                            leaderCertification.certification = certification
-                                            leaderCertification.dateEarned = trainingDate
-                                            leaderCertification.dateEntered = new Date()
-                                            leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
-                                            leaderCertification.enteredBy = importJob.importedBy
-                                            leaderCertification.save(failOnError: true)
+                        int startRowNumber = currentSheet.headerRow.getRowNum()
+                        int endRowNumber = currentSheet.workbookSheet.physicalNumberOfRows
+                        for (int i = startRowNumber + 1; i < endRowNumber; i++) {
+                            Row row = currentSheet.workbookSheet.getRow(i)
+                            if (containsDataToImport(row, currentSheet.pidIndex)) {
+                                ImportedRecord record = null
+                                try {
+                                    record = new ImportedRecord()
+                                    currentSheet.headerIndex.each {
+                                        int cellIndex = it.value
+                                        String spreadsheetFieldName = it.key
+                                        Cell cell = row.getCell(cellIndex)
+                                        def dataClosure = dataTypeMap[spreadsheetFieldName]
+                                        if (!dataClosure) {
+                                            throw new IllegalStateException("Closure mapping missing for field ${spreadsheetFieldName}")
                                         }
+                                        def spreadSheetData = dataClosure(cell)
+
+                                        String importRecoredPropertyName = headerMap[spreadsheetFieldName]
+                                        record.setProperty(importRecoredPropertyName, spreadSheetData)
                                     }
 
+                                    if (!record.unitNumber) {
+                                        //@todo this pains me to do this - wrestled with validation before giving up
+                                        throw new IllegalStateException("Missing unit number")
+                                    }
 
-                                } else {
-                                    leader.firstName = record.firstName ?: leader.firstName
-                                    leader.lastName = record.lastName ?: leader.lastName
-                                    leader.email = record.email ?: leader.email
-                                    if (!leader.hasScoutingId(record.scoutingId)) {
+                                    //@todo Very expensive stuff - make it work, then optimize
+
+                                    ScoutUnitType unitType = ScoutUnitType.valueOf(record.unitType)
+
+                                    //Make sure unit exists
+                                    ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifierAndUnitType(record.unitNumber, unitType)
+                                    if (!existingUnit) {
+                                        throw new Exception("Unknown unit")
+
+                                        //Add the unit.  These should all be pre-created, though
+//                                    existingUnit = new ScoutGroup()
+//                                    existingUnit.groupIdentifier = record.unitNumber
+//                                    existingUnit.groupLabel = record.unitNumber
+//                                    existingUnit.groupType = ScoutGroupType.Unit
+//
+//                                    existingUnit.unitType = unitType
+//                                    existingUnit.save(failOnError: true)
+                                    }
+
+                                    LeaderPositionType position = leaderPositionTypeMap[record.position?.replaceAll("\\s", "")]
+                                    if (position == null) {
+                                        throw new Exception("No position code")
+                                    }
+
+                                    Leader leader = leaderService.findExactLeaderMatch(record.scoutingId, record.email, record.firstName,
+                                            record.lastName, existingUnit)
+                                    if (!leader) {
+                                        leader = new Leader()
+                                        leader.firstName = record.firstName
+                                        leader.lastName = record.lastName
+                                        leader.email = record.email
+
                                         leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
-                                    }
-                                    leader.save(failOnError: true)
+                                        leader.save(failOnError: true)
 
 
-                                    if (record.unitNumber) {
-                                        if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
-                                            existingUnit.addToLeaderGroups([leader: leader, position: leaderPositionTypeMap[record.position]])
-                                        }
-                                    }
+                                        existingUnit.addToLeaderGroups([leader: leader, position: position])
 
-                                    certDefinitionMap.each {entry ->
-                                        Date trainingDate = record.getProperty(entry.key)
-                                        if (trainingDate) {
-
-                                            Certification certification = certificationMap[entry.value]
-                                            if (!certification) {
-                                                throw new IllegalStateException("Certification ${entry.value} not found")
-                                            }
-
-                                            //Check to make sure there's not a newer training date on the record
-                                            LeaderCertification existing = leader.certifications.find {return it.certification.id == certification.id}
-                                            if (existing && trainingDate.after(existing.dateEarned)) {
-                                                existing.dateEarned = trainingDate
-                                                existing.save(failOnError: true)
-                                            } else if (!existing) {
+                                        certDefinitionMap.each {entry ->
+                                            Date trainingDate = record.getProperty(entry.key)
+                                            if (trainingDate) {
+                                                Certification certification = certificationMap[entry.value]
+                                                if (!certification) {
+                                                    throw new IllegalStateException("Certification ${entry.value} not found")
+                                                }
                                                 LeaderCertification leaderCertification = new LeaderCertification()
                                                 leaderCertification.leader = leader
                                                 leaderCertification.certification = certification
@@ -387,43 +368,101 @@ class ImportTrainingService {
                                                 leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
                                                 leaderCertification.enteredBy = importJob.importedBy
                                                 leaderCertification.save(failOnError: true)
+                                                leader.addToCertifications(leaderCertification)
+
                                             }
                                         }
+
+
+                                    } else {
+                                        leader.firstName = record.firstName ?: leader.firstName
+                                        leader.lastName = record.lastName ?: leader.lastName
+                                        leader.email = record.email ?: leader.email
+                                        if (!leader.hasScoutingId(record.scoutingId)) {
+                                            leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
+                                        }
+                                        leader.save(failOnError: true)
+
+
+                                        if (record.unitNumber) {
+                                            if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
+                                                existingUnit.addToLeaderGroups([leader: leader, position: leaderPositionTypeMap[record.position]])
+                                            }
+                                        }
+
+                                        certDefinitionMap.each {entry ->
+                                            Date trainingDate = record.getProperty(entry.key)
+                                            if (trainingDate) {
+
+                                                Certification certification = certificationMap[entry.value]
+                                                if (!certification) {
+                                                    throw new IllegalStateException("Certification ${entry.value} not found")
+                                                }
+
+                                                //Check to make sure there's not a newer training date on the record
+                                                LeaderCertification existing = leader.certifications.find {return it.certification.id == certification.id}
+                                                if (existing && trainingDate.after(existing.dateEarned)) {
+                                                    existing.dateEarned = trainingDate
+                                                    existing.save(failOnError: true)
+                                                } else if (!existing) {
+                                                    LeaderCertification leaderCertification = new LeaderCertification()
+                                                    leaderCertification.leader = leader
+                                                    leaderCertification.certification = certification
+                                                    leaderCertification.dateEarned = trainingDate
+                                                    leaderCertification.dateEntered = new Date()
+                                                    leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
+                                                    leaderCertification.enteredBy = importJob.importedBy
+                                                    leaderCertification.save(failOnError: true)
+                                                    leader.addToCertifications(leaderCertification)
+                                                }
+                                            }
+                                        }
+
                                     }
-                                }
 
+                                    trainingService.recalculatePctTrained(leader)
 
-                                existingUnit.save(failOnError: true)
-                                //session.flush()
+                                    existingUnit.save(flush:true, failOnError: true)
+                                    //session.flush()
 
-                            } catch (Exception e) {
-                                if (e instanceof ValidationException) {
-                                    ValidationException ve = (ValidationException) e;
-                                    ImportError importError = new ImportError(record: record)
-                                    ve.errors.allErrors.each {   ObjectError err ->
-                                        importError.addMessage(err)
+                                } catch (Exception e) {
+                                    if (e instanceof ValidationException) {
+                                        ValidationException ve = (ValidationException) e;
+                                        ImportError importError = new ImportError(record: record)
+                                        ve.errors.allErrors.each {   ObjectError err ->
+                                            importError.addMessage(err)
+                                        }
+                                        currentSheet.errors << importError
+                                    } else {
+                                        e.printStackTrace()
+                                        currentSheet.errors << new ImportError(record: record).addMessage(new DefaultMessageSourceResolvable(null, e.message))
                                     }
-                                    currentSheet.errors << importError
-                                } else {
-                                    e.printStackTrace()
-                                    currentSheet.errors << new ImportError(record: record).addMessage(new DefaultMessageSourceResolvable(null, e.message))
+
+                                    currentSheet.totalErrors++
+
+                                    //Make sure we don't attempt to save data in the session
+                                    session.clear()
+                                } finally {
+                                    currentSheet.totalComplete++
                                 }
-
-                                currentSheet.totalErrors++
-
-                                //Make sure we don't attempt to save data in the session
-                                session.clear()
-                            } finally {
-                                currentSheet.totalComplete++
                             }
+
                         }
+                        currentSheet.totalComplete = currentSheet.totalToImport
+                        currentSheet.importStatus = ImportStatus.Complete
+
 
                     }
-                    currentSheet.totalComplete = currentSheet.totalToImport
-                    currentSheet.importStatus = ImportStatus.Complete
                 }
+
+            } finally {
+                trainingService.enableRecalculation()
+                scoutGroupService.reindex();
+                searchableService.startMirroring()
+
             }
         }
+
 
     }
 

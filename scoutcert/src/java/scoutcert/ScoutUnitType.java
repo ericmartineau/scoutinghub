@@ -6,14 +6,9 @@ package scoutcert;
  * Time: 9:45 PM
  */
 public enum ScoutUnitType {
-    Pack(LeaderPositionType.Cubmaster),
-    Troop(LeaderPositionType.Scoutmaster),
-    Crew(LeaderPositionType.CrewAdvisor),
-    Team(LeaderPositionType.VarsityCoach);
+    Pack,
+    Troop,
+    Crew,
+    Team
 
-    ScoutUnitType(LeaderPositionType unitLeaderType) {
-        this.unitLeaderType = unitLeaderType;
-    }
-
-    public final LeaderPositionType unitLeaderType;
 }
