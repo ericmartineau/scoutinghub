@@ -97,7 +97,7 @@ grails.plugins.springsecurity.requestMap.className = 'scoutcert.RequestMap'
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_UNITADMIN
    ROLE_UNITADMIN > ROLE_LEADER
-   ROLE_FACEBOOK_USER > ROLE_ANONYMOUS
+   ROLE_LEADER > ROLE_ANONYMOUS
 '''
 
 grails.plugins.springsecurity.providerNames = ['openIDAuthProvider', 'facebookAuthenticationProvider','daoAuthenticationProvider', 'anonymousAuthenticationProvider', 'rememberMeAuthenticationProvider']

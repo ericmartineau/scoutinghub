@@ -8,7 +8,7 @@ class Role implements Serializable {
     Date updateDate;
 
 	static mapping = {
-		cache true
+		cache(true)
 	}
 
 	static constraints = {

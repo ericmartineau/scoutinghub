@@ -22,6 +22,10 @@ class Certification {
         updateDate nullable: true
     }
 
+    static mapping = {
+        cache(true)
+    }
+
     @Override
     String toString() {
         return name

@@ -501,6 +501,7 @@ class BootStrap {
             addCommunityUnit("Chandler Elks  - Unit 984", sanTanDistrict, [pack: "984"])
             addCommunityUnit("Phoenix Scuba - Unit 2228", sanTanDistrict, [crew: "2228"])
 
+            council.save(flush:true)
             scoutGroupService.reindex()
         }
 

@@ -2,7 +2,9 @@ package scoutcert
 
 class LeaderGroup implements Serializable {
 
-    static searchable = true
+    static searchable = {
+        scoutGroup component: true
+    }
 
     Leader leader
     ScoutGroup scoutGroup
@@ -13,8 +15,9 @@ class LeaderGroup implements Serializable {
     Date updateDate;
 
     static constraints = {
-        createDate nullable: true
-        updateDate nullable: true
+        createDate(nullable: true)
+        updateDate(nullable: true)
+        scoutGroup(unique: 'leader')
     }
 
     def beforeInsert = {

@@ -459,6 +459,7 @@ class ImportTrainingService {
                 trainingService.enableRecalculation()
                 scoutGroupService.reindex();
                 searchableService.startMirroring()
+                searchableService.reindexAll()
 
             }
         }

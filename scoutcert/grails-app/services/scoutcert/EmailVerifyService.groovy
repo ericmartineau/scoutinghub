@@ -11,6 +11,8 @@ class EmailVerifyService {
 
     MailService mailService
 
+    RecordSavingService recordSavingService
+
     void generateTokenForEmailValidation(Leader leader, String messageSubject) {
 
         //Generate token for verifying email address
@@ -18,7 +20,11 @@ class EmailVerifyService {
         String toHash = System.currentTimeMillis() + ""
         def hash = generateHash(toHash).substring(0, 7)
         leader.verifyHash = hash
-        leader.save(failOnError: true)
+
+        recordSavingService.op(leader) {merged->
+            merged.save(failOnError: true)
+        }
+
 
         mailService.sendMail {
             to leader.email

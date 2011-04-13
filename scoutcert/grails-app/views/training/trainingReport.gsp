@@ -14,7 +14,13 @@
 
                     <div style="overflow:hidden;">
                         <h1 style="margin-top:8px; margin-bottom:8px; vertical-align:middle;float:left">${reportGroup}</h1>
-                        <div style="float:right; margin-top:8px; margin-bottom:8px;"><g:link action="trainingReport" id="${reportGroup.parent?.id}">Go Back</g:link></div>
+                        <div style="float:right; margin-top:8px; margin-bottom:8px;">
+                            <g:if test="${reportGroup.parent}">
+                                <p:canAdministerGroup scoutGroup="${reportGroup.parent}">
+                                    <g:link class="ui-button" action="trainingReport" id="${reportGroup.parent?.id}">Go Back</g:link>
+                                </p:canAdministerGroup>
+                            </g:if>
+                        </div>
                     </div>
 
                 </td>

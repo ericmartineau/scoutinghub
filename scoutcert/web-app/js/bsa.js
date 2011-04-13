@@ -1,9 +1,17 @@
+/**
+ * Initiates the top-right leader search
+ */
 function leaderQuery() {
     var searchTerm = jQuery("#leaderQuery").val();
     jQuery("#content").load("/scoutcert/permissions/leaderQuery", {leaderQuery:searchTerm});
 }
 
 
+/**
+ * Used for a pop-up selector for a unit - don't think it's actually being used
+ * @param name
+ * @param unitid
+ */
 function selectUnit(name, unitid) {
     jQuery("#dialog").remove();
     var params = unitid ? {unitId:unitid} : "";
@@ -24,6 +32,9 @@ function selectUnit(name, unitid) {
     });
 }
 
+/**
+ * The following three functions are for the jstree implementation for the scouting group tree browser.
+ */
 function nodeOpened(event, data) {
     jQuery(this).find("a").attr("href", "javascript:void(0)");
 }
@@ -50,16 +61,22 @@ function jsTreeConfig(url) {
 }
 
 
-
 function delegateClicks(e) {
     jQuery("#achievementTree").jstree("toggle_node", this);
 }
 
+
+/**
+ * Main function on page load.  The leaderQuery keypress should only run once (as opposed to each time ajax is completed
+ */
 jQuery(document).ready(function() {
     jQuery("#leaderQuery").keypress(jQuery.throttle(250, leaderQuery)).focus();
-    decorate()
+    decorate();
 });
 
+/**
+ * Helper function to create jquery dialog boxes
+ */
 function createDialog(url, data, config) {
     jQuery("#dialog").remove();
     jQuery("<div id='dialog'></div>").load(url, data, function(result) {
@@ -67,10 +84,16 @@ function createDialog(url, data, config) {
     });
 }
 
+/**
+ * Does all the progressive enhancement stuff.
+ */
 function decorate() {
-    jQueryBridge();
-    jQuery(".registerForTraining").each(function() {
 
+    //Bridges local styles with jquery styles
+    jQueryBridge();
+
+    //Make all the training registration links open jquery dialogs
+    jQuery(".registerForTraining").each(function() {
         var oldHref = this.href;
         this.href = "javascript:void(0)";
         jQuery(this).click(
@@ -85,27 +108,66 @@ function decorate() {
                 }).removeClass("registerForTraining")
 
     });
+
+    //Converts progress bar divs to progress bars
     jQuery(".progress").each(function() {
         var jthis = jQuery(this);
         var pct = parseInt(jthis.attr("value"));
         jthis.progressbar({value:pct});
         jthis.prepend("<span class='progressMsg'>" + pct + "%</span>")
     });
-    jQuery(".ui-button").button().removeClass("ui-button");
-    jQuery(".datePicker").datepicker();
-    jQuery(".selecter").selectBox();
-//    jQuery(".unitSelectTree")
-//            .bind("open_node.jstree loaded.jstree", nodeOpened)
-//            .jstree(jsTreeConfig())
-//            .delegate("a", "click", delegateClicks);
-//    jQuery(".unitSelectTree a").live("click", function(e) {
-//
-//    });
 
+    //Creates jquery buttons
+    jQuery(".ui-button").button().removeClass("ui-button");
+
+    //Creates jquery date pickers
+    jQuery(".datePicker").datepicker();
+
+    //Creates jquery select boxes
+    jQuery(".selecter").selectBox();
+
+    //Drop function that gets called when you drop one leader on top of another
+    function mergeLeaders(event, ui) {
+        var dragger = jQuery(ui.draggable);
+        var dropper = jQuery(this);
+        var leaderidA = dragger.attr("leaderid");
+        var leaderidB = dropper.attr("leaderid");
+
+        createDialog("/scoutcert/leader/merge", {leaderA:leaderidA, leaderB:leaderidB}, {title:'Merge', modal:true, width: 500});
+
+    }
+
+
+    function startDrag() {
+        jQuery(this).css("zIndex", 5000);
+    }
+
+    function stopDrag() {
+        jQuery(this).css("zIndex", 500);
+    }
+
+    //Creates drag and drop regions for leader record merging
+    jQuery(".leaderResult")
+            .draggable({ start:startDrag, stop:stopDrag, axis: "y", opacity:0.35, cursor:'move', handle: ".leaderName", containment: ".leaderResultContainer", revert:true })
+            .droppable({hoverClass: 'leaderResultAccept', accept: ".leaderResult", drop: mergeLeaders});
+
+    //Creates unit selector widget (autocomplete) (that communicates with position drop-down boxes)
     jQuery(".unitSelector").each(function() {
         var jthis = jQuery(this);
+
+        //This prevents it from running again
+        jthis.removeClass("unitSelector");
+
+
         var idField = jQuery("#" + jthis.attr("idField"));
-        var positionField = jQuery("#" + jthis.attr("positionField"))
+        var positionField = jQuery("#" + jthis.attr("positionField"));
+
+        //Let's initialize the drop-down right now
+        if (idField.val()) {
+            getApplicablePositions(positionField, idField.val());
+        }
+
+
         jthis.autocomplete({
             source:getUnitData,
             autoFill: true,
@@ -133,11 +195,14 @@ function decorate() {
 
     function jQueryBridge() {
         jQuery(".nav a").button();
-        jQuery(":submit").button()
+        jQuery(":submit").button();
         //jQuery("h1").addClass("ui-corner-all ui-widget-header ui-state-active");
         jQuery("th").addClass("ui-widget-header");
     }
 
+    /**
+     * Next three functions help out with the autocomplete text control
+     */
     function findValue(li) {
         if (li == null)
             return alert("No match!");
@@ -159,28 +224,22 @@ function decorate() {
         return row[0]; //value
     }
 
-//    {dateFormat: 'mm/dd/yy', changeYear:true, yearRange: '-11:+1'}).removeClass("datePicker");
-
-}
-
-//source:function(term, callback)
-//        {
-//            jQuery.getJSON("/cubtrail/secUser/findByUsername", term, function(json)
-//            {
-//                callback(json);
-//            });
-//        }
-
-function getApplicablePositions(selectFld, unitId) {
-    selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
-    jQuery.getJSON("/scoutcert/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
-        selectFld.html("");
-        for (i in json) {
-            var obj = json[i];
-            selectFld.selectBox('options', json);
+    /**
+     * Ajax call to retrieve positions that apply based on the unit type
+     * @param selectFld
+     * @param unitId
+     */
+    function getApplicablePositions(selectFld, unitId) {
+        selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
+        jQuery.getJSON("/scoutcert/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
+            selectFld.html("");
+            for (i in json) {
+                var obj = json[i];
+                selectFld.selectBox('options', json);
 //            append("<option value='" + obj.objectValue + "'>" + obj.objectLabel + "</option>");
-        }
-    });
+            }
+        });
+    }
 }
 
 
@@ -190,16 +249,16 @@ function getUnitData(term, callback) {
     })
 }
 
+
+/**
+ * Makes sure that all the progressive enhancement stuff happens on ajax calls
+ */
 jQuery(document).bind("ajaxComplete", function() {
     var show = function() {
         jQuery(this).datepicker("show")
     };
     decorate();
     jQuery(".datePicker").datepicker().click(show).keypress(show);
-
-
-//    {dateFormat: 'mm/dd/yy', changeYear:true, yearRange: '-11:+1'}).removeClass("datePicker");
-
 });
 
 
@@ -209,7 +268,6 @@ jQuery(document).bind("ajaxComplete", function() {
 var geocoder;
 
 function showMap(address) {
-
 
     geocoder.getLatLng(
             address,
@@ -235,11 +293,11 @@ function showMap(address) {
 }
 
 function initializeMaps() {
-
     geocoder = new GClientGeocoder();
 }
 
 jQuery(document).ready(initializeMaps);
+
 
 
 

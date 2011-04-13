@@ -2,7 +2,11 @@ package scoutcert
 
 class ScoutGroup implements Serializable {
 
-    static searchable = true
+    static searchable = {
+        id name: 'scoutGroupId'
+        parent component: [maxDepth: 6]
+    }
+
     String groupIdentifier
     String groupLabel
     ScoutGroup parent;

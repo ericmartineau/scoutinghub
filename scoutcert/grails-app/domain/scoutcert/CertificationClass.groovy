@@ -11,4 +11,8 @@ class CertificationClass {
 
     static constraints = {
     }
+
+    static mapping = {
+        cache(true)
+    }
 }

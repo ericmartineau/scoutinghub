@@ -14,11 +14,27 @@ class LeaderController {
     }
 
     def show = {
-        forward(action:"view")
+        forward(action: "view")
     }
 
     def profile = {
-        forward(action:"view")
+        forward(action: "view")
+    }
+
+    def merge = {
+        Leader leaderA = Leader.get(Integer.parseInt(params.leaderA))
+        Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
+
+        return [leaderA: leaderA, leaderB: leaderB]
+    }
+
+    def doMerge = {
+        Leader leaderA = Leader.get(Integer.parseInt(params.leaderA))
+        Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
+
+        leaderB.delete()
+        redirect(view:"view", id:leaderA.id)
+
     }
 
     def view = {
@@ -31,7 +47,7 @@ class LeaderController {
         }
         def requiredCertifications
         def certificationInfo = []
-        if(leader.groups?.size() > 0) {
+        if (leader.groups?.size() > 0) {
 
             def c = ProgramCertification.createCriteria()
 
@@ -61,7 +77,6 @@ class LeaderController {
                     certificationIds.add(programCertification.certification.id)
                 }
             }
-
 
 
         }

@@ -43,7 +43,11 @@ class Leader implements Serializable {
 
 
 
-    static hasMany = [certificationClasses:CertificationClass, certifications: LeaderCertification, openIds: OpenID, myScoutingIds: MyScoutingId, groups: LeaderGroup]
+    static hasMany = [certificationClasses:CertificationClass,
+            certifications: LeaderCertification,
+            openIds: OpenID,
+            myScoutingIds: MyScoutingId,
+            groups: LeaderGroup]
 
     static mapping = {
         password column: '`password`'

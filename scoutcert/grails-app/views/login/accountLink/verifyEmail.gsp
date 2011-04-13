@@ -6,7 +6,7 @@
 
 <body>
 
-<s:content>
+<s:content class="centered">
 
     <g:form action="accountLink">
         <s:section header="small" code="flow.verifyEmail.title">

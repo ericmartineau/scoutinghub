@@ -414,6 +414,7 @@ class LoginController {
                 }
 
             }
+            on("noEmail").to "verifyUserPass"
             on("success").to "verifyEmail"
             on("error").to "errorVerifyEmail"
         }

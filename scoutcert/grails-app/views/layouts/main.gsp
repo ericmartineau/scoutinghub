@@ -11,7 +11,7 @@
 
     <g:javascript library="jquery.cookie"/>
     <g:javascript library="jquery.hotkeys"/>
-    <g:javascript library="jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min"/>
+    <g:javascript library="jquery-ui-1.8.11.custom/js/jquery-ui-1.8.11.custom.min"/>
     <g:javascript library="jquery.ui.selectmenu"/>
     <g:javascript library="jquery.selectBox-1.0.1/jquery.selectBox.min"/>
 
@@ -69,7 +69,7 @@
                             <div id="logo">
                                 <span class="logoBar"><g:link controller="leader" action="index"><img src="/scoutcert/images/ScoutHub.png" style="border-width:0px;"></g:link></span>
                                 %{--<span class="logoBar"><img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>--}%
-                                <span style="float:right;vertical-align:bottom;margin-top:100px">
+                                <span style="float:right;vertical-align:bottom;margin-top:75px">
                                     <sec:ifLoggedIn>
                                         %{--<div style="text-align:right">--}%
                                             <table width="100%">
@@ -78,7 +78,8 @@
                                                         <table>
                                                             <tr>
                                                                 <td align="right"><g:textField name="leaderQuery" id="leaderQuery" class="ui-corner-all"/></td>
-                                                                <td><a href="javascript:leaderQuery()" style="font-size:12px" class="ui-button"><g:message code="permission.index.searchButton"/></a></td>
+                                                                <td><a href="javascript:leaderQuery()" style="font-size:14px" class="ui-button ui-button-style">
+                                                                    <g:message code="permission.index.searchButton"/></a></td>
                                                             </tr>
                                                         </table>
                                                     </td>

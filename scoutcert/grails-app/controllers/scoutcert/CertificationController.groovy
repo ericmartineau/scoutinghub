@@ -1,5 +1,8 @@
 package scoutcert
 
+import grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_ADMIN'])
 class CertificationController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
