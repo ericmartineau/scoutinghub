@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/scoutcert.iml" filepath="$PROJECT_DIR$/scoutcert.iml" />
-      <module fileurl="file://$PROJECT_DIR$/scoutcert-grailsPlugins.iml" filepath="$PROJECT_DIR$/scoutcert-grailsPlugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scoutcert2.iml" filepath="$PROJECT_DIR$/scoutcert2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scoutcert2-grailsPlugins.iml" filepath="$PROJECT_DIR$/scoutcert2-grailsPlugins.iml" />
     </modules>
   </component>
 </project>

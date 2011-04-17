@@ -12,7 +12,7 @@ import org.springframework.validation.ObjectError
 import scoutcert.Leader
 import scoutcert.LeaderService
 import scoutcert.ScoutGroup
-import scoutcert.ScoutGroupType
+
 import scoutcert.ScoutUnitType
 import scoutcert.Certification
 import scoutcert.LeaderCertification
@@ -24,7 +24,7 @@ import scoutcert.TrainingService
 class ImportTrainingService {
 
     //Maybe it should be?
-    static transactional = false
+    static transactional = true
 
     LeaderService leaderService
     ScoutGroupService scoutGroupService
@@ -55,11 +55,37 @@ class ImportTrainingService {
     ]
 
     def certDefinitionMap = [
-            "yptDate": "ypt",
-            "thisIsScoutingDate": "thisisscouting",
-            "fastStartDate": "faststart",
-            "leaderSpecificDate": "indoor",
-            "outdoorSkillsDate": "outdoor"
+            "yptDate": "Y01",
+            "y02CrewSkillsDate": "Y02",
+            "thisIsScoutingDate": "WA01",
+            "outdoorSkillsDate": "S11"
+    ]
+
+    def cubmasterSpecificMap = [
+            "leaderSpecificDate": "C40",
+            "fastStartDate": "CF3"
+    ]
+
+    def scoutmasterSpecificMap = [
+            "leaderSpecificDate": "S24",
+            "fastStartDate": "SFS"
+    ]
+
+    def varsityCoachSpecificMap = [
+            "leaderSpecificDate": "V21",
+            "fastStartDate": "VFS"
+    ]
+
+    def crewAdviserSpecificMap = [
+            "leaderSpecificDate": "P21",
+            "fastStartDate": "PFS"
+    ]
+
+    def positionTypeToSpecificMap = [
+        (LeaderPositionType.Cubmaster):cubmasterSpecificMap,
+        (LeaderPositionType.Scoutmaster):scoutmasterSpecificMap,
+        (LeaderPositionType.VarsityCoach):varsityCoachSpecificMap,
+        (LeaderPositionType.CrewAdvisor):crewAdviserSpecificMap
     ]
 
     def leaderPositionTypeMap = [
@@ -348,29 +374,16 @@ class ImportTrainingService {
                                         leader.email = record.email
 
                                         leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
-                                        leader.save(failOnError: true)
+                                        leader.save(flush:true, failOnError: true)
 
 
                                         existingUnit.addToLeaderGroups([leader: leader, position: position])
 
-                                        certDefinitionMap.each {entry ->
-                                            Date trainingDate = record.getProperty(entry.key)
-                                            if (trainingDate) {
-                                                Certification certification = certificationMap[entry.value]
-                                                if (!certification) {
-                                                    throw new IllegalStateException("Certification ${entry.value} not found")
-                                                }
-                                                LeaderCertification leaderCertification = new LeaderCertification()
-                                                leaderCertification.leader = leader
-                                                leaderCertification.certification = certification
-                                                leaderCertification.dateEarned = trainingDate
-                                                leaderCertification.dateEntered = new Date()
-                                                leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
-                                                leaderCertification.enteredBy = importJob.importedBy
-                                                leaderCertification.save(failOnError: true)
-                                                leader.addToCertifications(leaderCertification)
+                                        processCertification(record,certDefinitionMap, certificationMap,leader,importJob);
 
-                                            }
+                                        // leader specific
+                                        if(position) {
+                                            processCertification(record, positionTypeToSpecificMap.get(position), certificationMap, leader, importJob);
                                         }
 
 
@@ -381,7 +394,7 @@ class ImportTrainingService {
                                         if (!leader.hasScoutingId(record.scoutingId)) {
                                             leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                         }
-                                        leader.save(failOnError: true)
+                                        leader.save(flush:true, failOnError: true)
 
 
                                         if (record.unitNumber) {
@@ -390,39 +403,19 @@ class ImportTrainingService {
                                             }
                                         }
 
-                                        certDefinitionMap.each {entry ->
-                                            Date trainingDate = record.getProperty(entry.key)
-                                            if (trainingDate) {
+                                        processCertification(record, certDefinitionMap, certificationMap,leader,importJob);
 
-                                                Certification certification = certificationMap[entry.value]
-                                                if (!certification) {
-                                                    throw new IllegalStateException("Certification ${entry.value} not found")
-                                                }
-
-                                                //Check to make sure there's not a newer training date on the record
-                                                LeaderCertification existing = leader.certifications.find {return it.certification.id == certification.id}
-                                                if (existing && trainingDate.after(existing.dateEarned)) {
-                                                    existing.dateEarned = trainingDate
-                                                    existing.save(failOnError: true)
-                                                } else if (!existing) {
-                                                    LeaderCertification leaderCertification = new LeaderCertification()
-                                                    leaderCertification.leader = leader
-                                                    leaderCertification.certification = certification
-                                                    leaderCertification.dateEarned = trainingDate
-                                                    leaderCertification.dateEntered = new Date()
-                                                    leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
-                                                    leaderCertification.enteredBy = importJob.importedBy
-                                                    leaderCertification.save(failOnError: true)
-                                                    leader.addToCertifications(leaderCertification)
-                                                }
-                                            }
+                                        // leader specific
+                                        if(position) {
+                                            processCertification(record, positionTypeToSpecificMap.get(position), certificationMap, leader, importJob);
                                         }
-
                                     }
 
-                                    trainingService.recalculatePctTrained(leader)
+
 
                                     existingUnit.save(flush:true, failOnError: true)
+                                    leader.save(flush:true, failOnError: true)
+                                    trainingService.recalculatePctTrained(leader)
                                     //session.flush()
 
                                 } catch (Exception e) {
@@ -467,5 +460,35 @@ class ImportTrainingService {
 
     }
 
+    void processCertification(ImportedRecord record, Map definitionMap, Map certificationMap, Leader leader, ImportJob importJob) {
+        definitionMap.each {entry ->
+            Date trainingDate = record.getProperty(entry.key)
+            if (trainingDate) {
+
+                Certification certification = certificationMap[entry.value]
+                if (!certification) {
+                    throw new IllegalStateException("Certification ${entry.value} not found")
+                }
+
+                //Check to make sure there's not a newer training date on the record
+                LeaderCertification existing = leader.certifications.find {return it.certification.id == certification.id}
+                if (existing && trainingDate.after(existing.dateEarned)) {
+                    existing.dateEarned = trainingDate
+                    existing.save(failOnError: true)
+                } else if (!existing) {
+                    LeaderCertification leaderCertification = new LeaderCertification()
+                    leaderCertification.leader = leader
+                    leaderCertification.certification = certification
+                    leaderCertification.dateEarned = trainingDate
+                    leaderCertification.dateEntered = new Date()
+                    leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
+                    leaderCertification.enteredBy = importJob.importedBy
+                    leaderCertification.save(failOnError: true)
+                    leader.addToCertifications(leaderCertification)
+                    leader.save(failOnError: true)
+                }
+            }
+        }
+    }
 
 }

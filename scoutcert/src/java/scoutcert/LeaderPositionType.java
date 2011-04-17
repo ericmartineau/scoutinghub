@@ -15,6 +15,7 @@ public enum LeaderPositionType {
     Executive("EX", false, Council),
     Volunteer("VO", false, Council, District, CharteringOrg, Ward),
     Commissioner("DC", false, District),
+    MeritBadgeCouncilor("MB", true, District),
     Chairman("DM", false, District),
     Professional("PF", false, Council),
     WardCharterRep("WR", false, Ward),

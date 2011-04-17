@@ -30,7 +30,13 @@
   <component name="ChangeListManager">
     <list default="true" id="98bc8592-8e58-4f71-a75a-ed3559e0fdd4" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/CreateAccountService.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scoutcert2-grailsPlugins.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scoutcert2.iml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/js/jquery-1.5.1.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
@@ -48,6 +54,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/MenuService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/MenuService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/ScoutGroupService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/ScoutGroupService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/scoutcert/trainingImport/ImportTrainingService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/scoutcert/trainingImport/ImportTrainingService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/scoutcert/ScoutTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/scoutcert/ScoutTagLib.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/scoutcert/SwitchingTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/scoutcert/SwitchingTagLib.groovy" />
@@ -62,6 +69,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/openId/auth.gsp" afterPath="$PROJECT_DIR$/grails-app/views/openId/auth.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp" afterPath="$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/training/trainingReport.gsp" afterPath="$PROJECT_DIR$/grails-app/views/training/trainingReport.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scoutcert-grailsPlugins.iml" afterPath="$PROJECT_DIR$/scoutcert-grailsPlugins.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scoutcert.iml" afterPath="$PROJECT_DIR$/scoutcert.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/AbstractSocialAuthenticationProcessor.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/scoutcert/CreateAccountCommand.groovy" afterPath="$PROJECT_DIR$/src/groovy/scoutcert/CreateAccountCommand.groovy" />
@@ -352,15 +360,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.gsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="96" selection-start="698" selection-end="698" vertical-scroll-proportion="-7.428571">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="HtmlContainersTagLib.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/taglib/scoutcert/HtmlContainersTagLib.groovy">
           <provider selected="true" editor-type-id="text-editor">
@@ -379,10 +378,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leaderQuery.gsp" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="leaderQuery.gsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="76" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
+            <state line="0" column="76" selection-start="76" selection-end="76" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeaderPositionType.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/java/scoutcert/LeaderPositionType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="44" selection-start="555" selection-end="555" vertical-scroll-proportion="0.41025642">
               <folding />
             </state>
           </provider>
@@ -456,7 +464,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../spring-security-facebook-read-only/src/main/java/org/springframework/security/facebook/FacebookHelper.java" />
         <option value="$PROJECT_DIR$/src/groovy/scoutcert/OpenIdSocialAuthenticationFilter.groovy" />
         <option value="$PROJECT_DIR$/../facebook-java-api-read-only/facebook-java-api/src/main/java/com/google/code/facebookapi/FacebookWebappHelper.java" />
         <option value="$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/docs/gapi/src/test/functional/groovy/org/codehaus/groovy/grails/plugins/searchable/test/domainclasses/searchablecomponent/A.html" />
@@ -472,6 +479,7 @@
         <option value="$PROJECT_DIR$/grails-app/views/login/suggestSocialLogin.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/leader/view.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp" />
+        <option value="$PROJECT_DIR$/src/java/scoutcert/LeaderPositionType.java" />
       </list>
     </option>
   </component>
@@ -947,11 +955,11 @@
     <frame x="0" y="22" width="1440" height="874" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26029217" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26029217" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40371847" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35059762" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35059762" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3678619" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994652" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
@@ -960,7 +968,7 @@
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19856115" sideWeight="0.6494024" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19856115" sideWeight="0.7397078" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1008,11 +1016,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-app/js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.grails/1.3.4/projects/scoutcert/plugins/searchable-0.5.5.1/docs/gapi/src/test/functional/groovy/org/codehaus/groovy/grails/plugins/searchable/test/domainclasses/searchablecomponent/A.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="15" selection-start="486" selection-end="486" vertical-scroll-proportion="-5.714286">
@@ -1117,6 +1120,13 @@
     <entry file="file://$PROJECT_DIR$/grails-app/views/permissions/leaderQuery.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="76" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/scoutcert/LeaderPositionType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="44" selection-start="555" selection-end="555" vertical-scroll-proportion="0.41025642">
           <folding />
         </state>
       </provider>
