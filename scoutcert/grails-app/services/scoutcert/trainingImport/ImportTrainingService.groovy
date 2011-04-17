@@ -414,9 +414,9 @@ class ImportTrainingService {
 
 
                                     existingUnit.save(flush:true, failOnError: true)
-                                    leader.save(flush:true, failOnError: true)
+                                    leader.refresh()
+                                    existingUnit.refresh();
                                     trainingService.recalculatePctTrained(leader)
-                                    //session.flush()
 
                                 } catch (Exception e) {
                                     if (e instanceof ValidationException) {
