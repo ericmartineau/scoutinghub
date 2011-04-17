@@ -5284,7 +5284,7 @@ $.widget("ui.menu", {
 					return;
 				}
 				// temporary
-				event.preventDefault();
+//				event.preventDefault();
 				self.select( event );
 			});
 		this.refresh();

@@ -55,7 +55,7 @@ class SwitchingTagLib {
                 out << "</div>"
             }
 
-            out << "<div class='propData'>${body()}</span>"
+            out << "<div class='propData'>${body()}</div>"
             out << "</li>"
         }
     }
@@ -253,17 +253,23 @@ class SwitchingTagLib {
     }
 
 
-    def bigButton = {attrs ->
+    def bigButton = {attrs, body ->
         if (session.isMobile) {
             out << linker(attrs) {
                 out << link(attrs) {attrs.value}
             }
         } else {
+            out << "<div class='big-button-container'>"
+            attrs.class = "${attrs.class?:""} big-button ui-state-active"
             out << link(attrs) {
-                attrs.class = "ui-state-active ui-header ui-corner-all"
-                attrs.style = "cursor:pointer;font-size:20px; padding:12px"
-                out << submitButton(attrs)
+                if(attrs.value) {
+                    out << attrs.value
+                } else {
+                    out << body()
+                }
+
             }
+            out << "</div>"
         }
     }
 
@@ -313,9 +319,11 @@ class SwitchingTagLib {
             out << "<span class='arrow'></span>"
             out << "</li>"
         } else {
+//            out << "<div class='selecter-container'>"
             out << f.formControl(attrs) {
                 out << select(attrs)
             }
+//            out << "</div>"
         }
 
     }
@@ -335,14 +343,19 @@ class SwitchingTagLib {
                 if (attrs.header == "small") {
                     out << smallHeader { out << message(code: attrs.code) }
                 } else {
-                    out << header { message(code: attrs.code) }
+                    out << header {
+                        out << message(code: attrs.code)
+                    }
                 }
 
             }
 
             out << body()
+
+//            out << "<div style=\"clear:both; height:1px; margin-top:-1px;\" ><!— —></div>"
 //            out << "<div style='clear:both;'></div>"
             out << "</div>"
+//            out << "<br style='font-size: 1px; line-height: 0; height: 0; clear: both' />"
 
 
         }

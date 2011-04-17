@@ -68,6 +68,7 @@
           <root url="jar://$MODULE_DIR$/libsrc/spring-security-core-3.0.4.RELEASE-sources.jar!/" />
           <root url="jar://$MODULE_DIR$/libsrc/spring-security-web-3.0.4.RELEASE-sources.jar!/" />
           <root url="file://$MODULE_DIR$/libsrc/openid4java-read-only/src" />
+          <root url="file://$MODULE_DIR$/../facebook-java-api-read-only/facebook-java-api/src/main/java" />
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>

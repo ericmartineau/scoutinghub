@@ -11,6 +11,9 @@ class BootStrap {
     SpringSecurityService springSecurityService
 
     def init = { servletContext ->
+        SpringSecurityUtils.clientRegisterFilter 'facebookAuthenticationFilter',
+                        SecurityFilterPosition.OPENID_FILTER.order - 10
+
         def defaultRoleNames = ["ROLE_LEADER", "ROLE_ADMIN"]
         def existingRoleNames = Role.list()?.collect {it.authority}
 
@@ -506,8 +509,6 @@ class BootStrap {
         }
 
 
-        SpringSecurityUtils.clientRegisterFilter 'facebookAuthenticationFilter',
-                SecurityFilterPosition.OPENID_FILTER.order - 10
         registerStringMetaclass()
 
     }

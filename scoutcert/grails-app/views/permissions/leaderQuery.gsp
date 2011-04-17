@@ -1,4 +1,4 @@
-<h2>Results</h2>
+<h2>To merge duplicate records, just drag one of the records onto the other.</h2>
 
 <div class="leaderResultContainer">
     <g:if test="${results?.size() < 1}">
@@ -11,19 +11,20 @@
             <div class="ui-widget-header ui-state-active ui-corner-tr ui-corner-tl leaderName">
                 ${leader?.firstName} ${leader?.lastName}
                 <span style="float:right">
-                <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader.id}"><g:message code="leader.viewProfile" /></g:link>
+                    <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader.id}"><g:message code="leader.viewProfile"/></g:link>
                 </span>
             </div>
+            <s:propertyList>
+                <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+                <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
 
-            <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-            <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
-
-            <g:each in="${leader.groups}" var="group">
-                <s:property code="${group?.position}.label">
-                    ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
-                    <g:if test="${group?.admin}">(admin)</g:if>
-                </s:property>
-            </g:each>
+                <g:each in="${leader.groups}" var="group">
+                    <s:property code="${group?.position}.label">
+                        ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
+                        <g:if test="${group?.admin}">(admin)</g:if>
+                    </s:property>
+                </g:each>
+            </s:propertyList>
 
 
             %{--<tr>--}%

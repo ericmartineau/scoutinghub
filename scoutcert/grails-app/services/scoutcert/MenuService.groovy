@@ -28,9 +28,9 @@ class MenuService {
 //            .addMenuItem(new SubMenuItem("leader", "training", "menu.leader.training", "ROLE_LEADER"))
         addMenuItem(leaderMenu)
 
-        def trainingMenu = new MainMenuItem("training", "menu.training.index", "ROLE_LEADER")
+        def trainingMenu = new MainMenuItem("training", "menu.training.index", "ROLE_ADMIN")
 //                .addMenuItem(new SubMenuItem("training", "individual", "menu.training.individual", "ROLE_LEADER"))
-                .addMenuItem(new SubMenuItem("certificationClass", "index", "menu.trainingEvent.index", "ROLE_LEADER"))
+                .addMenuItem(new SubMenuItem("certificationClass", "index", "menu.trainingEvent.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("training", "trainingReport", "menu.training.report", "ROLE_LEADER"))
 //                .addMenuItem(new SubMenuItem("programCertification", "index", "menu.trainingDefinition.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("certification", "index", "menu.trainingDefinition.index", "ROLE_ADMIN"))

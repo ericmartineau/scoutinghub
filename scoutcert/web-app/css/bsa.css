@@ -95,30 +95,31 @@ H1 {
     font-size: 18px;
     padding: 5px;
     margin: 0px;
+    font-weight: bold;
 }
 
 .dialog .prop {
-    float:none;
+    float: none;
 }
 
 .nav {
     margin-bottom: 10px;
-    text-align:right;
+    text-align: right;
 }
 
 .menuButton a {
-    padding:5px;
-    text-decoration:none;
+    padding: 5px;
+    text-decoration: none;
 }
 
 th {
-    padding:5px;
+    padding: 5px;
     font-size: 14px;
-    font-weight:normal;
+    font-weight: normal;
 }
 
 .home {
-    display:none;
+    display: none;
 }
 
 H2 {
@@ -567,21 +568,21 @@ A .ir {
 
 #bsafooter {
     PADDING-BOTTOM: 0px;
-    LINE-HEIGHT: 30px;
-    MARGIN-TOP: 10px;
+    LINE-HEIGHT: 30px; /*MARGIN-TOP: 10px;*/
+    vertical-align: middle;
+    margin: auto;
     PADDING-LEFT: 0px;
     PADDING-RIGHT: 0px;
     BACKGROUND: url(/_layouts/1033/Images/BsaMyScouting/footerbsa.gif) #f1e4c2 no-repeat 1% 50%;
-    HEIGHT: 40px;
     FONT-SIZE: 10px;
-    BORDER-TOP: #8e877f 1px solid;
-    PADDING-TOP: 20px
+    BORDER-TOP: #8e877f 1px solid; /*PADDING-TOP: 8px*/
 }
 
 #bsafooter H3 {
     PADDING-BOTTOM: 0px;
     PADDING-LEFT: 40px;
     PADDING-RIGHT: 0px;
+
     DISPLAY: inline;
     COLOR: #8e877f;
     FONT-SIZE: 10px;
@@ -1393,17 +1394,30 @@ H4.registerTitle {
     width: 300px;
 }
 
-.fldContainerOuter {
+.selecter {
+    width: 254px;
+
+}
+
+.selecter-container {
+    width: 300px;
     text-align: center;
 }
 
+.fldContainerOuter {
+    text-align: center;
+    position: relative;
+}
+
 .progress {
-    min-width:150px;
+    min-width: 150px;
 }
 
 .progressMsg {
-    position:absolute;
-    padding: 5px;
+    position: absolute;
+    padding-left: 5px;
+    margin: auto;
+
 }
 
 .login_message {
@@ -1478,9 +1492,9 @@ H4.registerTitle {
 }
 
 .next {
-    /*position:relative;*/
-    /*left: -48px;*/
-    float:right;
+/*position:relative;*/
+/*left: -48px;*/
+    float: right;
     width: 20px;
 }
 
@@ -1491,11 +1505,24 @@ H4.registerTitle {
 }
 
 .trainingStatus {
-    float: left
+    float: left;
+}
+
+table tr td {
+    padding: 3px;
 }
 
 .trainingReportUnit {
     font-size: 14px;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.trainingReportBar {
+/*line-height:40px;*/
+/*height:40px;*/
+    height:25px;
+
 }
 
 div.currentTraining {
@@ -1527,6 +1554,7 @@ a.buttonLink {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
+    text-align: left;
 }
 
 .propLabel {
@@ -1539,24 +1567,23 @@ a.buttonLink {
 }
 
 .propData a {
-    font-size:14px;
+    font-size: 14px;
 }
 
 .propTable .prop {
-    float: none;
-    /*overflow: hidden;*/
+    float: none; /*overflow: hidden;*/
 }
 
 .propTable .propLabel {
     float: left;
     width: 100px;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .propTable .propData {
-    font-size:16px;
-    white-space:nowrap;
-    font-weight:normal;
+    font-size: 16px;
+    white-space: nowrap;
+    font-weight: normal;
 
 }
 
@@ -1620,8 +1647,8 @@ td.tabular {
 }
 
 .ui-button-style {
-    text-decoration:none;
-    padding:4px;
+    text-decoration: none;
+    padding: 4px;
 }
 
 ui-dialog-title {
@@ -1647,26 +1674,26 @@ ui-dialog-title {
 
 .twoContent {
     width: 700px;
-    display:table;
+    display: table;
 }
 
 .vcenter {
-    height:100%;
-    vertical-align:middle;
-    margin:auto;
+    height: 100%;
+    vertical-align: middle;
+    margin: auto;
 }
 
 .twoRow {
-    display:table-row;
+    display: table-row;
 }
 
 .twoSection {
-    /*float: left;*/
+/*float: left;*/
     width: 335px; /*padding-left:90px;*/
-    /*width: 50%; *//*padding-left:90px;*/
-    /*padding: 10px;*/
+/*width: 50%; *//*padding-left:90px;*/
+/*padding: 10px;*/
 
-    display:table-cell;
+    display: table-cell;
     margin: auto;
     text-align: center;
 }
@@ -1678,8 +1705,8 @@ ui-dialog-title {
 .loginPlusRememberMe {
     text-align: left !important;
     vertical-align: middle;
-    padding-left:15px;
-    padding-right:15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .text .fldInput {
@@ -1687,23 +1714,30 @@ ui-dialog-title {
 }
 
 .section {
+    position:relative;
 
 }
 
-
 h1.ui-widget-header {
     font-size: 16px;
-    padding:6px;
+    padding: 6px;
 }
 
 .floatContent {
     width: 700px;
 }
 
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
 .floatSection {
+/*display:inline-block;*/
     width: 650px;
-    overflow: auto;
-    float: left;
     margin-left: 10px;
     margin-bottom: 10px;
     overflow: hidden;
@@ -1726,10 +1760,11 @@ h1.ui-widget-header {
     text-align: left;
 }
 
-.unitSelector {
+.unit-selector-style {
 /*This should be added back if being used with the selector tree*/
 /*margin-bottom:0px;*/
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 18px;
     width: 300px;
 }
 
@@ -1743,26 +1778,26 @@ h1.ui-widget-header {
 }
 
 .leaderResult {
-    overflow:hidden;
-    padding:0px;
-    background-color:white;
-    margin-bottom:15px;
+    overflow: hidden;
+    padding: 0px;
+    background-color: white;
+    margin-bottom: 15px;
 }
 
 .leaderResultAccept {
     border-color: red;
-    border-width:2px;
+    border-width: 2px;
 }
 
 a.leaderProfileLink {
-    font-size:14px;
+    font-size: 14px;
 }
 
 .leaderName {
     background-color: #E8E8E8;
     font-size: 16px;
-    padding:5px;
-    cursor:move;
+    padding: 5px;
+    cursor: move;
 }
 
 .centered {
@@ -1770,23 +1805,88 @@ a.leaderProfileLink {
 }
 
 .mergePage {
-    text-align:center;
+    text-align: center;
 }
 
 .mergeContainer {
-    text-align:center;
-    display:table;
-    width:100%;
+    text-align: center;
+    display: table;
+    width: 100%;
 }
 
 .mergeRow {
-    display:table-row;
+    display: table-row;
 }
 
 .merge {
-    display:table-cell;
-    text-align:center;
-    width:50%;
+    display: table-cell;
+    text-align: center;
+    width: 50%;
+}
+
+.big-button {
+    font-size: 20px;
+    padding: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.big-button-container {
+    margin: 24px;
+}
+
+span.header-icon {
+    /*background-image:url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png") !important;*/
+
+    /*z-index:5000;*/
+    float:right;
+    /*width:20px;*/
+    /*line-height:20px;*/
+}
+
+div.ctx-menu {
+    /*clear:both;*/
+    float:right;
+    text-align:right;
+    /*position:absolute;*/
+}
+
+ul.ctx-menu {
+    /*float:right;*/
+    display:none;
+    /*width: 120px;*/
+    font-size:14px;
+    white-space:nowrap;
+    padding:5px;
+    position:absolute;
+    right:0px;
+    top:23px;
+    text-align:left;
+    /*z-index:400;*/
+    font-size:12px;
+    /*font-color: #666;*/
+    background-color: #FFF !important;
+    background-image:none; !important;
+
+}
+
+ul.ctx-menu li a {
+    color: #666;
+    font-weight:normal;
+}
+
+
+.no-bottom-border {
+    /*border-bottom:0px;*/
+}
+
+div.header-menu {
+    border:1px solid transparent;
+
+    /*text-align:right;*/
+    float:right;
+    z-index:9999999;
+
 }
 
 

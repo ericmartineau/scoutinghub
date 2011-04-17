@@ -16,17 +16,10 @@ class LeaderGroupController {
         ScoutGroup leaderGroup = ScoutGroup.get(params.id)
         ScoutUnitType unitType = leaderGroup.unitType
         def rtnList = [:]
-        if (unitType == null) {
-            LeaderPositionType.values().each{
-                if(it.scoutUnitTypes.length == 0) {
-                    rtnList[it.name()] = it.name().humanize()
-                }
-            }
-        } else {
-            LeaderPositionType.values().findAll {
-                return it.scoutUnitTypes.find {it == unitType}
-            }?.each {rtnList[it.name()] = it.name().humanize()}
-        }
+        leaderGroup.findApplicablePositionTypes().each {
+            rtnList[it.name()] = it.name().humanize()
+        };
+
         render rtnList as JSON
     }
 
@@ -46,7 +39,7 @@ class LeaderGroupController {
         //Strange bug with searchable requires this goofy logic using merge
         def leaderGroupInstance = new LeaderGroup(params)
 
-        LeaderGroup leaderGroupInstance2 = leaderGroupInstance.merge(flush:true)
+        LeaderGroup leaderGroupInstance2 = leaderGroupInstance.merge(flush: true)
         if (leaderGroupInstance2 && leaderGroupInstance2.save(flush: true)) {
             leaderGroupInstance = leaderGroupInstance2
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'leaderGroup.label', default: 'LeaderGroup'), leaderGroupInstance.id])}"

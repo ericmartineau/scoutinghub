@@ -26,6 +26,8 @@ import org.springframework.security.core.Authentication
 import scoutcert.LeaderPositionType
 import scoutcert.ScoutGroup
 import scoutcert.LeaderGroup
+import scoutcert.CreateAccountService
+import scoutcert.RecordSavingService
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -51,6 +53,10 @@ class LoginController {
     EmailVerifyService emailVerifyService
 
     LeaderService leaderService
+
+    CreateAccountService createAccountService
+
+    RecordSavingService recordSavingService
 
     /**
      * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
@@ -91,21 +97,26 @@ class LoginController {
         response.sendError HttpServletResponse.SC_UNAUTHORIZED
     }
 
+    @Secured(['ROLE_ANONYMOUS'])
+    def openIdCreateAccount = {
+        forward(action: "accountLink")
+    }
+
     /**
      * Show denied page.
      */
-    @Secured(["ROLE_ANONYMOUS"])
     def denied = {
-        if (springSecurityService.isLoggedIn() &&
-                authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
-            // have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
-            redirect action: full, params: params
-        }
+//        if (springSecurityService.isLoggedIn() &&
+//                authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
+//            // have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
+//            redirect action: full, params: params
+//        }
     }
 
     /**
      * Login page for users with a remember-me cookie but accessing a IS_AUTHENTICATED_FULLY page.
      */
+    @Secured(["ROLE_ANONYMOUS", "ROLE_LEADER", "ROLE_ADMIN"])
     def full = {
         def config = SpringSecurityUtils.securityConfig
         render view: 'auth', params: params,
@@ -178,6 +189,10 @@ class LoginController {
 
 
     def accountLinkFlow = {
+
+        /**
+         * Very first action - looks for the existence of a possible social login setup attempt
+         */
         locateSocialLogin {
             action {
                 String socialProvider = session["LAST_AUTH_PROVIDER"]
@@ -196,8 +211,12 @@ class LoginController {
             on("createNewAccount").to "verifyAccountExists"
         }
 
-
-
+        /**
+         * Looks for either a:
+         *
+         * Single record match, OR
+         * A list of possible matches
+         */
         verifyAccountExists {
             action {
 
@@ -261,13 +280,31 @@ class LoginController {
             on("error").to "locateSocialLogin"
         }
 
-
-
+        /**
+         * Is called when a single record is located as a duplicate
+         */
         foundSingleExistingRecord {
             action {
                 Leader leader = flow.leader
+                CreateAccountCommand createAccount = flow.createAccount
+
                 if (leader?.enabled) {
+
                     if (leader?.username) {
+                        //Let's try to authenticate.  If we can authenticate, let's not waste time asking them
+                        //about all that other business.
+                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(createAccount.usernameOrEmail, params.password)
+                        try {
+                            Authentication authenticate = authenticationManager.authenticate(token)
+                            if (authenticate.authenticated) {
+                                createAccountService.mergeCreateAccountWithExistingLeader(createAccount, leader)
+                                return verifiedExistingRecord();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace()
+                        }
+
+                        //If we didn't authenticate, have them verify the u/p
                         return verifyUserPass()
                     } else if (leader?.email) {
                         flash.leader = leader
@@ -288,11 +325,15 @@ class LoginController {
                 }
 
             }
+            on("verifiedExistingRecord").to "verifiedExistingRecord"
             on("verifyUserPass").to "verifyUserPass"
             on("verifyEmail").to "sendVerifyEmail"
             on("proceedNewAccount").to "submitUsernameAndPassword"
         }
 
+        /**
+         * Renders when multiple matches are found from the leader querying service.
+         */
         foundMultipleMatches {
             on("selectLeader").to "selectLeader"
         }
@@ -379,7 +420,8 @@ class LoginController {
                     leader.verifyHash = null
                     leader.save(failOnError: true)
                     flow.leader = leader
-                    return linkSocial()
+
+                    return verifiedExistingRecord()
 
                 } else {
                     flash.verifyError = "flow.verifyEmail.codeMismatch"
@@ -387,7 +429,7 @@ class LoginController {
                 }
 
             }
-            on("linkSocial").to "linkSocial"
+            on("verifiedExistingRecord").to "verifiedExistingRecord"
             on("failVerify").to "verifyEmail"
         }
 
@@ -430,7 +472,7 @@ class LoginController {
                     Authentication authenticate = authenticationManager.authenticate(token)
                     if (authenticate.authenticated) {
                         flow.leader = Leader.findByUsername(params.username)
-                        return successVerify()
+                        return verifiedExistingRecord()
                     } else {
                         return failedVerify();
                     }
@@ -444,39 +486,51 @@ class LoginController {
                 flash.error = "flow.verifyUserPass.failedVerify"
                 flash.error2 = "flow.verifyUserPass.failedVerifyMessage"
             }.to "verifyUserPass"
-            on("successVerify") {
-                redirect(controller: "leader", action: "index")
-            }.to "linkSocial"
+            on("verifiedExistingRecord") {
+                //redirect(controller: "leader", action: "index")
+            }.to "verifiedExistingRecord"
 
         }
+
+        verifiedExistingRecord {
+            action {
+                createAccountService.mergeCreateAccountWithExistingLeader(flow.createAccount, flow.leader)
+                return success()
+            }
+
+            on("success").to "linkSocial"
+        }
+
+
 
         linkSocial {
             action {
                 Leader leader = flow.leader
                 leader.enabled = true
-                leader.save(failOnError: true)
+                recordSavingService.op(leader) {
+                    it.save(failOnError: true)
+                }
                 if (!leader.username || !leader.password) {
                     return selectUsernameAndPassword()
                 }
                 flow.newSetup = leader.createDate == null
                 if (!leader.createDate) {
                     leader.createDate = new Date()
-                    if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {
-                        LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"))
-                    }
+                }
+
+                if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {
+                    LeaderRole.create(leader, Role.findByAuthority("ROLE_LEADER"))
                 }
 
                 //add to unit
                 CreateAccountCommand createAccount = flow.createAccount
-                createAccount.unit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, position:
-                createAccount.unitPosition));
-                searchableService.stopMirroring()
-
-                createAccount.unit?.save(flush: true, failOnError: true)
-                searchableService.startMirroring()
-                createAccount.unit?.reindex()
-
-
+                ScoutGroup targetUnit = createAccount.unit.merge();
+                if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
+                    targetUnit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, position: createAccount.unitPosition));
+                    recordSavingService.op(targetUnit) {
+                        it.save(flush: true)
+                    }
+                }
 
                 boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
                 if (!linkedSocial) {
@@ -486,10 +540,10 @@ class LoginController {
 
                 flow.leader = null
                 if (flow.newSetup && !linkedSocial) {
-                    return login()
+//                    return login()
                     //Social login was removed - this line should be uncommented to add
                     //back in
-                    //return redirectSuggestSocialLogin()
+                    return redirectSuggestSocialLogin()
                 } else {
                     return login()
                 }

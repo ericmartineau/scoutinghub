@@ -35,6 +35,7 @@ beans = {
         socialFacebookHelper = ref("facebookHelper")
         facebookHelper = ref("facebookHelper")
         springSecurityService = ref("springSecurityService")
+        grailsApplication = ref("grailsApplication")
 
     }
 

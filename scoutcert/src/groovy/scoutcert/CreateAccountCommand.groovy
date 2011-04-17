@@ -18,4 +18,8 @@ class CreateAccountCommand implements Serializable {
     String password
     String confirmPassword
 
+    public String getUsernameOrEmail() {
+        return username ?: email
+    }
+
 }

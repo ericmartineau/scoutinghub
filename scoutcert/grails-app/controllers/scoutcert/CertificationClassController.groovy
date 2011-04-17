@@ -13,6 +13,7 @@ class CertificationClassController {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['ROLE_LEADER'])
     def findByCertification = {
 
         Certification cert = Certification.get(Integer.parseInt(params.certificationId))
@@ -35,6 +36,7 @@ class CertificationClassController {
 
     }
 
+    @Secured(['ROLE_LEADER'])
     def register = {
         CertificationClass cert = CertificationClass.get(params.id)
         Leader leader = Leader.get(Integer.parseInt(params.leaderId));
@@ -45,6 +47,7 @@ class CertificationClassController {
         return [registered: registered != null, certificationClass: CertificationClass.get(params.id), leader: Leader.get(Integer.parseInt(params.leaderId))]
     }
 
+    @Secured(['ROLE_LEADER'])
     def processRegister = {
         int id = Integer.parseInt(params.id)
         CertificationClass certificationClass = CertificationClass.get(id)
@@ -56,6 +59,7 @@ class CertificationClassController {
         render("<script>window.location.reload()</script>")
     }
 
+    @Secured(['ROLE_LEADER'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [certificationClassInstanceList: CertificationClass.list(params), certificationClassInstanceTotal: CertificationClass.count()]

@@ -15,7 +15,13 @@ abstract class AbstractSocialAuthenticationProcessor {
 
     Authentication processAuthentication(HttpServletRequest request, HttpServletResponse response, SpringSecurityService springSecurityService) {
         Authentication rtn = null
-        String socialUserId = getSocialUserId(request, response)
+        String socialUserId
+        try {
+            socialUserId = getSocialUserId(request, response, null)
+        } catch (Exception e) {
+            return null;
+        }
+
 
         //This value will be set in the session when the user initiates the social login process AFTER they've already
         //been logged into the software using their regular ScoutCert login
@@ -50,11 +56,14 @@ abstract class AbstractSocialAuthenticationProcessor {
                 //This logic could be handled by an AuthenticationFailedHandler, but it's much harder to use becuase
                 //it's abstract.  I should look into it, though
                 boolean handled = false
+                if (!socialUserId) {
+                    socialUserId = this.getSocialUserId(request, response, une.authentication)
+                }
                 if (userId && socialUserId) {
 
                     if (this.handles(une.authentication)) {
 
-                        if(this.wasSuccessful(une.authentication)) {//Social login was successful
+                        if (this.wasSuccessful(une.authentication)) {//Social login was successful
                             Leader.withTransaction {
                                 Leader leader = Leader.get(userId)
                                 new OpenID(url: socialUserId, leader: leader).save()
@@ -79,12 +88,16 @@ abstract class AbstractSocialAuthenticationProcessor {
         return rtn;
     }
 
-    abstract String getSocialUserId(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+    abstract String getSocialUserId(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
 
     abstract Authentication doAttemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 
-    abstract boolean handles(Authentication authentication);
+    abstract boolean handles(Authentication authentication)
 
-    abstract boolean wasSuccessful(Authentication authentication);
+    ;
+
+    abstract boolean wasSuccessful(Authentication authentication)
+
+    ;
 
 }

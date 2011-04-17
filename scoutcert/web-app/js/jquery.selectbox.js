@@ -213,10 +213,10 @@ if(jQuery) (function($) {
 						})
 						.insertAfter(select);
 
-					width = control.width();
-					control.css('width', width);
-					width = width - (parseInt(control.outerWidth()) - parseInt(control.width()));
-					control.css('width', width);
+//					width = control.width();
+//					control.css('width', width);
+//					width = width - (parseInt(control.outerWidth()) - parseInt(control.width()));
+//					control.css('width', width);
 
 					disableSelection(control);
 

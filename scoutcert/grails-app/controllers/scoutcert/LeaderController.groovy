@@ -45,9 +45,13 @@ class LeaderController {
         } else {
             leader = springSecurityService.currentUser
         }
+        if(!leader) {
+            redirect(controller: "login", action: "denied")
+            return
+        }
         def requiredCertifications
         def certificationInfo = []
-        if (leader.groups?.size() > 0) {
+        if (leader?.groups?.size() > 0) {
 
             def c = ProgramCertification.createCriteria()
 

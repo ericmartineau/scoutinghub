@@ -17,6 +17,7 @@ class TrainingController {
     ImportTrainingService importTrainingService
     SpringSecurityService springSecurityService
     MessageSource messageSource
+    ScoutGroupService scoutGroupService
 
     def index = { }
 
@@ -33,7 +34,9 @@ class TrainingController {
     }
 
     def trainingReport = {
-
+        if(params.filterName != null) {
+            session.filterName = params.filterName
+        }
         Leader currentUser = springSecurityService.currentUser;
         def adminGroups
         ScoutGroup reportGroup
@@ -47,25 +50,58 @@ class TrainingController {
             adminGroups = LeaderGroup.findAllByLeaderAndAdmin(currentUser, true)?.collect {it.scoutGroup}
         }
 
+        def filter
+
+        if(session.filterName) {
+            filter = scoutGroupService.filters.find{it.value.containsKey(session.filterName)}.value[session.filterName]
+        }
         def reports = []
         adminGroups.each {ScoutGroup scoutGroup ->
 
             def results = ScoutGroup.withCriteria {
                 ge('leftNode', scoutGroup.leftNode)
                 le('rightNode', scoutGroup.rightNode)
+                if(filter) {
+                    filter.delegate = delegate
+                    filter.resolveStrategy = Closure.DELEGATE_ONLY
+                    filter()
+                }
                 leaderGroups {
                     leader {
                         projections {
                             avg('pctTrained')
+                            countDistinct('id')
                         }
                     }
                 }
             }
 
-            reports << new CertificationReport(scoutGroup: scoutGroup, pctTrained: results?.first(), reportDate: new Date())
+            CertificationReport report = new CertificationReport(scoutGroup: scoutGroup, reportDate: new Date())
+            def first = results?.first()
+            if(first) {
+                report.pctTrained = first[0] ?: 0
+                report.count = first[1] ?: 0
+            }
+            reports << report
 
         }
         return [reportGroup: reportGroup, reports: reports]
+    }
+
+    def getFilters = {
+        def allFilters = scoutGroupService.filters
+        def rtn = [:]
+        rtn[""] = ["": message(code:"training.report.nofilter")]
+        allFilters.each {
+            def vals = [:]
+            def key = message(code:"${it.key}.label")
+            rtn[key] = vals
+            it.value.each {
+                def itemKey = message(code:"${it.key}.label")
+                vals[it.key] = itemKey
+            }
+        }
+        render rtn as JSON
     }
 
 

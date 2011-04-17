@@ -15,5 +15,10 @@ class Address {
 
 
     static constraints = {
+        locationName(blank:false)
+        address(blank:false)
+        city(blank:false)
+        state(blank:false)
+        zip(blank:false)
     }
 }

@@ -72,6 +72,15 @@ class ScoutGroup implements Serializable {
         return rtn
     }
 
+    List<LeaderPositionType> findApplicablePositionTypes() {
+        LeaderPositionType.values().findAll {LeaderPositionType type->
+            boolean matchesGroup = type.scoutGroupTypes.find {it == groupType} != null
+            boolean matchesUnit = type.scoutUnitTypes.find {it == unitType} != null
+            return matchesGroup || matchesUnit;
+
+        }
+    }
+
     @Override
     String toString() {
         String rootName = groupLabel ?: groupIdentifier

@@ -54,7 +54,7 @@
         </s:section>
 
         <s:section code="flow.locateAccount.unitInfo">
-            <s:bigTextField name="unitNumber" otherAttrs="[idField:'unitNumberId', positionField:'unitPosition']" class="unitSelector" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
+            <s:bigTextField name="unitNumber" otherAttrs="[idField:'unitNumberId', positionField:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
                                 placeholder="${message(code:'label.unitNumber')}">
                         </s:bigTextField>
 

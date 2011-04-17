@@ -95,8 +95,8 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'scoutcert.Lea
 grails.plugins.springsecurity.authority.className = 'scoutcert.Role'
 grails.plugins.springsecurity.requestMap.className = 'scoutcert.RequestMap'
 grails.plugins.springsecurity.roleHierarchy = '''
-   ROLE_ADMIN > ROLE_UNITADMIN
-   ROLE_UNITADMIN > ROLE_LEADER
+   ROLE_ADMIN > ROLE_LEADER
+   ROLE_ADMIN > ROLE_ANONYMOUS
    ROLE_LEADER > ROLE_ANONYMOUS
 '''
 

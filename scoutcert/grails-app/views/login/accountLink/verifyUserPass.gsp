@@ -21,7 +21,7 @@
                         <s:msg type="error" code="${error}" code2="${error2}"/>
                     </g:if>
 
-                    <s:bigTextField name="username" code="${message(code:'label.username')}" placeholder="${message(code:'label.username')}"/>
+                    <s:bigTextField name="username" value="${createAccount?.usernameOrEmail}" code="${message(code:'label.username')}" placeholder="${message(code:'label.username')}"/>
                     <s:bigTextField type="password" name="password" code="${message(code:'label.password')}" placeholder="${message(code:'label.password')}"/>
 
                 </s:section>

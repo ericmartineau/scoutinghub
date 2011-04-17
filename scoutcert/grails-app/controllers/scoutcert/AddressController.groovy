@@ -1,6 +1,11 @@
 package scoutcert
 
+import grails.converters.JSON
+import grails.plugins.springsecurity.SpringSecurityService
+
 class AddressController {
+
+    SpringSecurityService springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -28,6 +33,14 @@ class AddressController {
         else {
             render(view: "create", model: [addressInstance: addressInstance])
         }
+    }
+
+    def listJSON = {
+        def rtn = [:]
+        Address.list().each{
+            rtn[it.id] = it.locationName
+        }
+        render rtn as JSON
     }
 
     def show = {
