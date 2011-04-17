@@ -44,28 +44,79 @@ class BootStrap {
             ScoutUnitType troop = ScoutUnitType.Troop
 
 
-            Certification fastStartTraining = new Certification(externalId: "faststart",
-                    name: "Fast Start Training",
+            Certification packFastStartTraining = new Certification(externalId: "CF3",
+                    name: "Cubmaster Fast Start Training",
                     description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
                     durationInDays: 1780,
                     tourPermitRequired: false);
-            fastStartTraining.save(failOnError: true)
+            packFastStartTraining.save(failOnError: true)
 
-            Certification ypt = new Certification(externalId: "ypt",
+            Certification troopFastStartTraining = new Certification(externalId: "SFS",
+                    name: "Boy Scout Leader Fast Start Training",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    durationInDays: 1780,
+                    tourPermitRequired: false);
+            troopFastStartTraining.save(failOnError: true)
+
+            Certification teamFastStartTraining = new Certification(externalId: "VFS",
+                    name: "Varsity Scout Fast Start Training",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    durationInDays: 1780,
+                    tourPermitRequired: false);
+            teamFastStartTraining.save(failOnError: true)
+
+            Certification crewFastStartTraining = new Certification(externalId: "PFS",
+                    name: "Venturing Fast Start Training",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    durationInDays: 1780,
+                    tourPermitRequired: false);
+            crewFastStartTraining.save(failOnError: true)
+
+
+            Certification ypt = new Certification(externalId: "Y01",
                     name: "Youth Protection Training",
                     description: "YPT ensures boys involved in scouting are kept safe. At least one adult on every Scout outing must be Youth Protection Trained.",
                     durationInDays: 730,
                     tourPermitRequired: true);
             ypt.save(failOnError: true)
 
-            Certification indoor = new Certification(externalId: "indoor",
-                    name: "Leader Specific Training",
+            Certification vYpt = new Certification(externalId: "Y02",
+                    name: "Venturing Youth Protection Training",
+                    description: "Venturing is a coed program  Venturing YPT ensures the youth involved in venturing are kept safe. At least one adult on every Venturing outing must be Venture Youth Protection Trained.",
+                    durationInDays: 730,
+                    tourPermitRequired: true);
+            vYpt.save(failOnError: true)
+
+            Certification packLeaderSpecific = new Certification(externalId: "C40",
+                    name: "Cubmaster Leader Specific Training",
                     description: "Once a volunteer has a solid overview of the scouting program, training for a specific Scouting position continues through Leader Specific training. This training provides the specialized knowledge a new leader needs to assume a leadership role.",
                     durationInDays: 1780,
                     tourPermitRequired: true);
-            indoor.save(failOnError: true)
+            packLeaderSpecific.save(failOnError: true)
 
-            Certification outdoor = new Certification(externalId: "outdoor",
+            Certification troopLeaderSpecific = new Certification(externalId: "S24",
+                    name: "Scoutmaster Specific Training",
+                    description: "Once a volunteer has a solid overview of the scouting program, training for a specific Scouting position continues through Leader Specific training. This training provides the specialized knowledge a new leader needs to assume a leadership role.",
+                    durationInDays: 1780,
+                    tourPermitRequired: true);
+            troopLeaderSpecific.save(failOnError: true)
+
+            Certification teamLeaderSpecific = new Certification(externalId: "V21",
+                    name: "Varsity Coach Leader Specific Training",
+                    description: "Once a volunteer has a solid overview of the scouting program, training for a specific Scouting position continues through Leader Specific training. This training provides the specialized knowledge a new leader needs to assume a leadership role.",
+                    durationInDays: 1780,
+                    tourPermitRequired: true);
+            teamLeaderSpecific.save(failOnError: true)
+
+            Certification crewLeaderSpecific = new Certification(externalId: "P21",
+                    name: "Venturing Leader Specific Training",
+                    description: "Once a volunteer has a solid overview of the scouting program, training for a specific Scouting position continues through Leader Specific training. This training provides the specialized knowledge a new leader needs to assume a leadership role.",
+                    durationInDays: 1780,
+                    tourPermitRequired: true);
+            crewLeaderSpecific.save(failOnError: true)
+
+
+            Certification outdoor = new Certification(externalId: "S11",
                     name: "Outdoor Leader Skills",
                     description: "Outdoor skills are critical to the success of the Scouting program. Training in outdoor skills is required before taking scouts on outings.",
                     durationInDays: 1780,
@@ -121,7 +172,7 @@ class BootStrap {
                     tourPermitRequired: false);
             cpr.save(failOnError: true)
 
-            Certification thisIsScouting = new Certification(externalId: "thisisscouting",
+            Certification thisIsScouting = new Certification(externalId: "WA01",
                     name: "This is Scouting",
                     description: "Not sure what the description is or how long it takes",
                     durationInDays: 730,
@@ -144,28 +195,28 @@ class BootStrap {
             // Fast Start required for all
             ScoutUnitType pack = ScoutUnitType.Pack
             ProgramCertification packFastStart = new ProgramCertification(unitType: pack,
-                    certification: fastStartTraining,
+                    certification: packFastStartTraining,
                     positionType: null, required: true,
                     startDate: startDate,
                     endDate: endDate);
             packFastStart.save(failOnError: true);
 
             ProgramCertification troopFastStart = new ProgramCertification(unitType: troop,
-                    certification: fastStartTraining,
+                    certification: troopFastStartTraining,
                     positionType: null, required: true,
                     startDate: startDate,
                     endDate: endDate);
             troopFastStart.save(failOnError: true);
 
             ProgramCertification teamFastStart = new ProgramCertification(unitType: ScoutUnitType.Team,
-                    certification: fastStartTraining,
+                    certification: teamFastStartTraining,
                     positionType: null, required: true,
                     startDate: startDate,
                     endDate: endDate);
             teamFastStart.save(failOnError: true);
 
             ProgramCertification crewFastStart = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                    certification: fastStartTraining,
+                    certification: crewFastStartTraining,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
@@ -194,41 +245,41 @@ class BootStrap {
             teamYPT.save(failOnError: true);
 
             ProgramCertification crewYPT = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                    certification: ypt,
+                    certification: vYpt,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
             crewYPT.save(failOnError: true);
 
             // Leader Specific required for all
-            ProgramCertification packLeaderSpecific = new ProgramCertification(unitType: pack,
-                    certification: indoor,
+            ProgramCertification packLeaderSpecificP = new ProgramCertification(positionType: LeaderPositionType.Cubmaster,
+                    certification: packLeaderSpecific,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
-            packLeaderSpecific.save(failOnError: true);
+            packLeaderSpecificP.save(failOnError: true);
 
 
-            ProgramCertification troopLeaderSpecific = new ProgramCertification(unitType: troop,
-                    certification: indoor,
+            ProgramCertification troopLeaderSpecificP = new ProgramCertification(positionType: LeaderPositionType.Scoutmaster,
+                    certification: troopLeaderSpecific,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
-            troopLeaderSpecific.save(failOnError: true);
+            troopLeaderSpecificP.save(failOnError: true);
 
-            ProgramCertification teamLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Team,
-                    certification: indoor,
+            ProgramCertification teamLeaderSpecificP = new ProgramCertification(positionType: LeaderPositionType.VarsityCoach,
+                    certification: teamLeaderSpecific,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
-            teamLeaderSpecific.save(failOnError: true);
+            teamLeaderSpecificP.save(failOnError: true);
 
-            ProgramCertification crewLeaderSpecific = new ProgramCertification(unitType: ScoutUnitType.Crew,
-                    certification: indoor,
+            ProgramCertification crewLeaderSpecificP = new ProgramCertification(positionType: LeaderPositionType.CrewAdvisor,
+                    certification: crewLeaderSpecific,
                     required: true,
                     startDate: startDate,
                     endDate: endDate);
-            crewLeaderSpecific.save(failOnError: true);
+            crewLeaderSpecificP.save(failOnError: true);
 
             // Baloo.  Tour permit required for pack, but not required for pack
             ProgramCertification packBaloo = new ProgramCertification(unitType: pack,

@@ -13,6 +13,7 @@ public enum LeaderPositionType {
     CommitteeMember("MC", Troop, Pack, Crew, Team),
     Executive("EX"),
     Volunteer("VO"),
+    MeritBadgeCouncilor("MB"),
     Scoutmaster("SM", Troop),
     AssistantScoutMaster("SA", Troop),
     Cubmaster("CM", Pack),
