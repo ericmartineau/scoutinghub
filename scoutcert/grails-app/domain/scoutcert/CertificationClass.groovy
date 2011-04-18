@@ -7,6 +7,7 @@ class CertificationClass {
     String time
     Address location
 
+    static belongsTo = [Leader]
     static hasMany = [registrants:Leader]
 
     static constraints = {

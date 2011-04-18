@@ -19,7 +19,7 @@ class SwitchingTagLib {
     static namespace = "s"
 
     def propertyList = {attrs, body ->
-        out << "<ul>${body()}</ul>"
+        out << "<ul class='${attrs.class ?: ""}'>${body()}</ul>"
     }
 
     def address = {attrs, body ->
@@ -161,8 +161,12 @@ class SwitchingTagLib {
 
         } else {
             out << "<div class='${attrs.class}'>"
+            out << "<span class='chk-input'>"
             out << checkBox(attrs)
+            out << "</span>"
+            out << "<span class='chk-label'>"
             out << message(code: attrs.code)
+            out << "</span>"
             out << "</div>"
         }
     }
@@ -260,9 +264,9 @@ class SwitchingTagLib {
             }
         } else {
             out << "<div class='big-button-container'>"
-            attrs.class = "${attrs.class?:""} big-button ui-state-active"
+            attrs.class = "${attrs.class ?: ""} big-button ui-state-active"
             out << link(attrs) {
-                if(attrs.value) {
+                if (attrs.value) {
                     out << attrs.value
                 } else {
                     out << body()
@@ -301,14 +305,14 @@ class SwitchingTagLib {
         }
     }
 
-    def permission = {attrs->
+    def permission = {attrs ->
         Leader leader = attrs.leader
         Role role = attrs.role
-        if(session.isMobile) {
+        if (session.isMobile) {
             out << pageItem { out << "Log in with a browser"}
         } else {
-            out << checkBox(onclick:"togglePermission(this, ${leader?.id}, ${role?.id})", checked:leader.hasAuthority(role))
-            out << message(code:"${role.authority}.label")
+            out << checkBox(onclick: "togglePermission(this, ${leader?.id}, ${role?.id})", checked: leader.hasAuthority(role))
+            out << message(code: "${role.authority}.label")
         }
     }
 

@@ -10,6 +10,8 @@ class MyScoutingId implements Serializable{
     Date createDate;
     Date updateDate;
 
+    static belongsTo = [Leader]
+
     static constraints = {
         myScoutingIdentifier(unique:true, blank:false)
         createDate nullable: true

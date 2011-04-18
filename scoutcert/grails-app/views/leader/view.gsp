@@ -58,7 +58,12 @@
                     }
                 })
             });
+        }
 
+        function editPermissions(leaderId) {
+            createDialog("/scoutcert/leaderGroup/permissions/" + leaderId, {}, {
+
+            });
         }
 
         jQuery(document).ready(function() {
@@ -93,50 +98,83 @@
 
 <s:content class="floatContent">
 
-    %{--No equivalent of jsp:attribute in jsp, so there's no way to do it later --}%
+%{--No equivalent of jsp:attribute in jsp, so there's no way to do it later --}%
     <g:set var="menu" scope="request">
         <li><g:link action="foo">Edit My Profile</g:link></li>
     </g:set>
 
     <s:section class="floatSection">
         <g:header>
-            <g:message code="leader.profile.myprofile" />
+            <g:message code="leader.profile.myprofile"/>
             <g:ctxmenu>
-                %{--<li><g:link><g:message code="leader.profile.edit" /></g:link></li>--}%
-                <li><a href="javascript:addScoutingId(${leader.id})"><g:message code="leader.profile.addAnother"/></a></li>
+                <g:ctxmenuItem class="">
+
+                    <g:link style="white-space:nowrap;" action="view" id="${leader.id}" params="[edit:true]">
+                        <g:inlineIcon class="ui-icon-contact"/>
+                        <g:message code="leader.profile.edit"/>
+                    </g:link>
+                </g:ctxmenuItem>
+                <g:ctxmenuItem class="">
+                    <a href="javascript:addScoutingId(${leader.id})">
+                        <g:inlineIcon class="ui-icon-plus"/>
+                        <g:message code="leader.profile.addAnother"/>
+                    </a>
+                </g:ctxmenuItem>
+
             </g:ctxmenu>
         </g:header>
 
     %{--<g:set var="menu" value="" scope="request" />--}%
-        <s:propertyList>
-            <s:property code="leader.firstName.label">${leader?.firstName}</s:property>
-            <s:property code="leader.lastName.label">${leader?.lastName}</s:property>
-            <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-            <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+        <s:propertyList class="edit-profile">
+            <g:if test="${params.edit}">
+                <g:hasErrors bean="${flash.leaderError}">
+                    <g:msgbox type="error">
+                        <g:renderErrors bean="${flash.leaderError}"/>
+                    </g:msgbox>
+                </g:hasErrors>
+                <g:form action="saveProfile">
+                    <g:hiddenField name="id" value="${leader.id}"/>
+                    <s:bigTextField name="firstName" code="leader.firstName.label" value="${leader?.firstName}"/>
+                    <s:bigTextField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
+                    <s:bigTextField name="email" code="leader.email.label" value="${leader?.email}"/>
+                    <s:bigTextField name="phone" code="leader.phone.label" value="${leader?.phone}"/>
+                    <s:property>
+                        <s:submit class="ui-state-active" id="#profileSubmit" name="submit" value="${message(code:'Save')}"/>
+                    </s:property>
+                </g:form>
+            </g:if>
 
-            <s:property code="leader.profile.scoutingids">
-                <g:if test="${leader?.myScoutingIds?.size()}">
-                    <g:each in="${leader.myScoutingIds}" var="myScoutingId">
-                        <div class="myId">${myScoutingId.myScoutingIdentifier}</div>
-                    </g:each>
+            <g:else>
 
-                </g:if>
-                <g:else>
-                    <a href="javascript:addScoutingId(${leader.id})"><g:message code="leader.profile.noneYet"/></a>
-                </g:else>
+                <s:property code="leader.firstName.label">${leader?.firstName}</s:property>
+                <s:property code="leader.lastName.label">${leader?.lastName}</s:property>
+                <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+                <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
 
-            </s:property>
+                <s:property code="leader.profile.scoutingids">
+                    <g:if test="${leader?.myScoutingIds?.size()}">
+                        <g:each in="${leader.myScoutingIds}" var="myScoutingId">
+                            <div class="myId">${myScoutingId.myScoutingIdentifier}</div>
+                        </g:each>
 
-            <s:property code="leader.setupDate.label">
-                <g:if test="${leader?.setupDate}">
-                    <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
-                </g:if>
-                <g:else>
-                    Not Set Up Yet
-                </g:else>
-            </s:property>
+                    </g:if>
+                    <g:else>
+                        <a href="javascript:addScoutingId(${leader.id})"><g:message code="leader.profile.noneYet"/></a>
 
+                    </g:else>
 
+                </s:property>
+
+                <s:property code="leader.setupDate.label">
+                    <g:if test="${leader?.setupDate}">
+                        <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
+                    </g:if>
+                    <g:else>
+                        Not Set Up Yet
+                    </g:else>
+                </s:property>
+
+            </g:else>
 
 
 
@@ -157,9 +195,23 @@
 
     <s:section class="floatSection">
         <g:header>
-            <g:message code="leader.profile.groups" />
+            <g:message code="leader.profile.groups"/>
             <g:ctxmenu>
-                <li><a href="javascript:addToGroup(${leader.id})"><g:message code="leader.profile.addAnotherUnit" args="[leader.firstName]"/></a></li>
+
+                <g:ctxmenuItem>
+                    <a href="javascript:addToGroup(${leader.id})">
+                        <g:inlineIcon class="ui-icon-plus"/>
+                        <g:message code="leader.profile.addAnotherUnit" args="[leader.firstName]"/>
+                    </a>
+                </g:ctxmenuItem>
+
+                <g:ctxmenuItem>
+                    <a href="javascript:editPermissions(${leader.id})">
+                        <g:inlineIcon class="ui-icon-locked"/>
+                        <g:message code="leader.profile.editPermission" args="[leader.firstName]"/>
+                    </a>
+                </g:ctxmenuItem>
+
             </g:ctxmenu>
         </g:header>
         <s:propertyList>
@@ -168,16 +220,16 @@
                     <s:property code="${group?.position}.label">
                         ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
                         <g:if test="${group?.admin}">(admin)</g:if>
-                        <g:else>
-                            <g:ifNotSelf leader="${leader}">
-                                <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
-                                    <g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">
-                                        <div><g:message code="scoutGroup.makeAdmin"
-                                                args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>
-                                    </g:link>
-                                </p:canAdministerGroup>
-                            </g:ifNotSelf>
-                        </g:else>
+                    %{--<g:else>--}%
+                    %{--<g:ifNotSelf leader="${leader}">--}%
+                    %{--<p:canAdministerGroup scoutGroup="${group?.scoutGroup}">--}%
+                    %{--<g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">--}%
+                    %{--<div><g:message code="scoutGroup.makeAdmin"--}%
+                    %{--args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>--}%
+                    %{--</g:link>--}%
+                    %{--</p:canAdministerGroup>--}%
+                    %{--</g:ifNotSelf>--}%
+                    %{--</g:else>--}%
                         <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
                             <div><g:link controller="scoutGroup" action="show" id="${group?.scoutGroup?.id}">
                                 <g:message code="scoutGroup.manage" args="[group?.scoutGroup?.groupType?.name()?.humanize()]"/>

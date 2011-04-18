@@ -44,10 +44,10 @@ class PermissionsController {
 //                groupIds << String.valueOf(it.id)
 //            }
 
-            def results = Leader.search(params.leaderQuery + "*", params
+            def results = Leader.search(params.leaderQuery?.trim() + "*", params
                     , filter: ScoutGroupFilter.createFilter(allGroups)
             );
-            return [results: results.results, roles: Role.list()]
+            return [results: results.results]
         } catch (SearchEngineQueryParseException ex) {
             return [parseException: true]
         }

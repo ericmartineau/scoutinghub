@@ -34,6 +34,31 @@ class LeaderGroupController {
         return [leaderGroupInstance: leaderGroupInstance]
     }
 
+    def permissions = {
+        Leader leader = Leader.get(params.id)
+        return [leader:leader]
+    }
+
+    def savePermissions = {
+        Leader leader = Leader.get(params.id)
+        params.each {
+            if(it.key?.contains("grp")) {
+
+                int groupId = Integer.parseInt(it.key?.substring(it.key.indexOf("grp") + 3));
+                boolean isAdmin = it.value == "on"
+                //Is the leader in the group?
+                LeaderGroup found = leader.groups.find {it.scoutGroup.id == groupId}
+                if(!found && isAdmin) {
+                    found = new LeaderGroup(leader:leader, position: LeaderPositionType.Volunteer, scoutGroup: ScoutGroup.get(groupId));
+                    leader.addToGroups(found)
+                }
+                found?.admin = isAdmin
+            }
+        }
+        leader.save(failOnError:true)
+        redirect(controller:"leader", action:"view", id:leader.id)
+    }
+
     def save = {
 
         //Strange bug with searchable requires this goofy logic using merge

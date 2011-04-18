@@ -19,6 +19,7 @@
 
     <g:javascript library="jquery.ba-throttle-debounce.min"/>
     <g:javascript library="bsa"/>
+    <g:javascript library="dropCurves.min"/>
 
     <g:javascript library="prototype"/>
 
@@ -101,7 +102,7 @@
 
 
 
-                <div id="outer" class="ui-corner-all">
+                <div id="outer" class="shadow ui-corner-all">
 
                     <g:menu/>
 

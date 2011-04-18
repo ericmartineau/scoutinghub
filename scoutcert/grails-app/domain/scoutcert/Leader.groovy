@@ -29,7 +29,6 @@ class Leader implements Serializable {
      */
     Date setupDate
 
-    static belongsTo = [ScoutGroup,CertificationClass]
     static constraints = {
         username(nullable: true, unique: true)
         password(nullable: true)

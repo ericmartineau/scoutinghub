@@ -2,8 +2,17 @@
  * Main function on page load.  The leaderQuery keypress should only run once (as opposed to each time ajax is completed
  */
 var closeTimeout;
+var queryTimeout;
 jQuery(document).ready(function() {
-    jQuery("#leaderQuery").keypress(jQuery.throttle(250, leaderQuery)).focus();
+    jQuery("#leaderQuery").keypress(function() {
+        if (queryTimeout) {
+            clearTimeout(queryTimeout);
+            queryTimeout = null;
+        }
+        queryTimeout = setTimeout(leaderQuery, 150);
+    });
+
+
     jQuery(window).bind('click', function() {
         if (!closeTimeout) {
             closeTimeout = setTimeout(closeAllPopups, 200);
@@ -23,6 +32,7 @@ function closeAllPopups() {
  */
 function leaderQuery() {
     var searchTerm = jQuery("#leaderQuery").val();
+    jQuery("#content").html("<div class='spinner'>Loading...<br /><img src='/scoutcert/images/loading.gif' /></div>");
     jQuery("#content").load("/scoutcert/permissions/leaderQuery", {leaderQuery:searchTerm});
 }
 
@@ -165,7 +175,25 @@ function decorate() {
     });
 
     //Creates jquery buttons
-    jQuery(".ui-button").button().addClass("ui-button-style").removeClass("ui-button");
+    jQuery(".ui-button").each(
+            function() {
+                var $this = jQuery(this);
+                if($this.hasClass("ui-state-active")) {
+                    $this.mouseout(applyStyleClosure("ui-state-active"));
+                    $this.mouseover(removeStyleClosure("ui-state-active"));
+                }
+                var config;
+                if($this.attr("buttonicon")) {
+                    config = {
+                        icons: {
+                            primary: $this.attr("buttonicon")
+                        }
+                    }
+                } else {
+                    config = {};
+                }
+                $this.button(config)
+            }).addClass("ui-button-style").removeClass("ui-button");
 
     //Creates jquery date pickers
     jQuery(".datePicker").datepicker();
@@ -251,7 +279,10 @@ function decorate() {
                 .mouseover(applyStyleClosure("ui-state-hover"))
                 .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
                 .removeClass("header-menu-pe").children("span").click(toggleMenu);
-        jQuery("ul.ctx-menu-pe").menu().addClass("ctx-menu").removeClass("ctx-menu-pe");
+        jQuery("ul.ctx-menu-pe")
+                .menu()
+                .addClass("ctx-menu").removeClass("ctx-menu-pe");
+
     }
 
 

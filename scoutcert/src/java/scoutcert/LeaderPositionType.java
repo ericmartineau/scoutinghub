@@ -15,7 +15,7 @@ public enum LeaderPositionType {
     Executive("EX", false, Council),
     Volunteer("VO", false, Council, District, CharteringOrg, Ward),
     Commissioner("DC", false, District),
-    MeritBadgeCouncilor("MB", true, District),
+    MeritBadgeCounselor("MB", true, District),
     Chairman("DM", false, District),
     Professional("PF", false, Council),
     WardCharterRep("WR", false, Ward),
@@ -39,7 +39,7 @@ public enum LeaderPositionType {
         this.code = code;
         this.directContact = directContact;
         this.scoutUnitTypes = scoutUnitTypes;
-        this.scoutGroupTypes = new ScoutGroupType[] {Unit};
+        this.scoutGroupTypes = new ScoutGroupType[0];
     }
 
     LeaderPositionType(String code, boolean directContact, ScoutGroupType... scoutUnitTypes) {

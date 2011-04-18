@@ -24,13 +24,14 @@
                 <s:checkbox class='rememberMe' code='label.rememberMe' name='${rememberMeParameter}'/>
                 <s:submit name="login" class="ui-button" value="${message(code: 'label.login')}"/>
             </s:div>
+
         </s:section>
 
     </form>
 
     <s:section header="small" code="login.firstTimeHere" class="twoSection">
         <s:bigButton controller="login" action="accountLink" name="createAccount">
-            <g:message code="label.createAccount" />
+            <g:message code="label.createAccount"/>
         </s:bigButton>
     </s:section>
 
@@ -48,7 +49,7 @@
                 <td><a href="/scoutcert/openId/google"><img src="../images/google-logo-square.png"/></a></td>
                 <td><a href="/scoutcert/openId/facebook"><img src="../images/facebook-logo-square.png"/></a></td>
                 %{--<td><fb:login-button class="fbconnect_login" size="large" length="long" background="white"--}%
-                        %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
+                %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
             </tr>
 
         </table>

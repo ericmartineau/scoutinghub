@@ -28,6 +28,23 @@ class LeaderController {
         return [leaderA: leaderA, leaderB: leaderB]
     }
 
+    def saveProfile = {
+        Leader leader = Leader.get(params.id);
+        leader.firstName = params.firstName
+        leader.lastName = params.lastName
+        leader.email = params.email
+        leader.phone = params.phone
+
+        if(!leader.save()) {
+            flash.leaderError = leader
+            flash.error = true
+            redirect(action: "view", id:leader.id, params:[edit:true])
+        } else {
+            redirect(action: "view", id: leader.id)
+        }
+
+    }
+
     def doMerge = {
         Leader leaderA = Leader.get(Integer.parseInt(params.leaderA))
         Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))

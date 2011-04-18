@@ -50,7 +50,6 @@ BODY .mainBody {
     box-shadow: 2px 2px 2px #777;
     -moz-box-shadow: 2px 2px 2px #777;
     -webkit-box-shadow: 2px 2px 2px #777;
-
 }
 
 .error ul {
@@ -125,7 +124,8 @@ th {
 H2 {
     FONT-FAMILY: arial, helvetica, sans-serif;
     COLOR: #252525;
-    FONT-SIZE: 13px
+    FONT-SIZE: 13px;
+    font-weight: bold;
 }
 
 H3 {
@@ -1521,7 +1521,7 @@ table tr td {
 .trainingReportBar {
 /*line-height:40px;*/
 /*height:40px;*/
-    height:25px;
+    height: 25px;
 
 }
 
@@ -1648,7 +1648,8 @@ td.tabular {
 
 .ui-button-style {
     text-decoration: none;
-    padding: 4px;
+    padding: 4px; /*margin:14px;*/
+    display: inline-block;
 }
 
 ui-dialog-title {
@@ -1663,13 +1664,31 @@ ui-dialog-title {
 
 .rememberMe {
     float: right;
-    height: 20px;
-    line-height: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    height: 25px;
+    position: relative; /*line-height: 25px;*/
 }
 
 .content {
     overflow: auto;
     overflow: hidden;
+}
+
+span.chk-label {
+    display: table-cell;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    height: 25px;
+}
+
+span.chk-input {
+    display: table-cell;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding-right: 5px;
+    height: 25px;
 }
 
 .twoContent {
@@ -1714,7 +1733,7 @@ ui-dialog-title {
 }
 
 .section {
-    position:relative;
+    position: relative;
 
 }
 
@@ -1784,6 +1803,11 @@ h1.ui-widget-header {
     margin-bottom: 15px;
 }
 
+#leaderQuery {
+    font-size: 20px;
+    width: 180px;
+}
+
 .leaderResultAccept {
     border-color: red;
     border-width: 2px;
@@ -1791,6 +1815,22 @@ h1.ui-widget-header {
 
 a.leaderProfileLink {
     font-size: 14px;
+}
+
+.edit-profile .fldContainer input {
+    font-size: 20px;
+    width: 240px;
+}
+
+#profileSubmit {
+    float: none;
+}
+
+.edit-profile .fldContainer {
+    float: left;
+    width: 250px;
+    display: inline-block;
+    padding-left: 10px;
 }
 
 .leaderName {
@@ -1836,59 +1876,96 @@ a.leaderProfileLink {
 }
 
 span.header-icon {
-    /*background-image:url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png") !important;*/
+/*background-image:url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png") !important;*/
 
-    /*z-index:5000;*/
-    float:right;
-    /*width:20px;*/
-    /*line-height:20px;*/
+/*z-index:5000;*/
+    float: right; /*width:20px;*/
+/*line-height:20px;*/
 }
 
 div.ctx-menu {
-    /*clear:both;*/
-    float:right;
-    text-align:right;
-    /*position:absolute;*/
+/*clear:both;*/
+    float: right;
+    text-align: right; /*position:absolute;*/
 }
 
 ul.ctx-menu {
-    /*float:right;*/
-    display:none;
-    /*width: 120px;*/
-    font-size:14px;
-    white-space:nowrap;
-    padding:5px;
-    position:absolute;
-    right:0px;
-    top:23px;
-    text-align:left;
-    /*z-index:400;*/
-    font-size:12px;
-    /*font-color: #666;*/
+/*float:right;*/
+    display: none; /*width: 120px;*/
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 5px;
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    text-align: left; /*z-index:400;*/
+    font-size: 12px; /*font-color: #666;*/
     background-color: #FFF !important;
-    background-image:none; !important;
+    background-image: none;
+!important;
 
 }
 
 ul.ctx-menu li a {
     color: #666;
-    font-weight:normal;
+    font-weight: normal;
+    padding: 5px;
 }
 
-
 .no-bottom-border {
-    /*border-bottom:0px;*/
+/*border-bottom:0px;*/
+}
+
+.menu-icon {
+    float: left;
+}
+
+.menu-text {
+/*float:left;*/
+/*padding-left: 35px;*/
+/*padding-right: 35px;*/
+/*margin-left: 75px;*/
+/*margin-right: 10px;*/
+}
+
+.ctx-menu-item {
+/*margin-bottom: 6px;*/
+    display: table-cell;
+    vertical-align: middle; /*clear:left;*/
+}
+
+.ctx-menu-item .ui-icon {
+/*line-height: 20px;*/
+    display: inline-block;
+    vertical-align: middle;
+    height: 18px;
+    background-image: url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_056b93_256x240.png") !important;
+
 }
 
 div.header-menu {
-    border:1px solid transparent;
-
-    /*text-align:right;*/
-    float:right;
-    z-index:9999999;
+    border: 1px solid transparent; /*text-align:right;*/
+    float: right;
+    z-index: 9999999;
 
 }
 
+li.permission {
+    display: table-row;
+}
+
+div.permission-label {
+    display: table-cell;
+}
+
+div.permission-label {
+    display: table-cell;
+    padding-right: 10px;
+}
+
+div.permission-checkbox {
+    display: table-cell;
+}
 
 
 

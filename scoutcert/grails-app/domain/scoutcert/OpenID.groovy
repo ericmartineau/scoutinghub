@@ -10,7 +10,7 @@ class OpenID implements Serializable {
     Date createDate;
     Date updateDate;
 
-	static belongsTo = [leader: Leader]
+	static belongsTo = [Leader]
 
 	static constraints = {
 		url unique: true
