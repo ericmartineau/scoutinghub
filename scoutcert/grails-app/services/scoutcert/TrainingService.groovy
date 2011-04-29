@@ -2,7 +2,7 @@ package scoutcert
 
 class TrainingService {
 
-    static transactional = false
+    static transactional = true
 
     boolean recalculateEnabled = true
 

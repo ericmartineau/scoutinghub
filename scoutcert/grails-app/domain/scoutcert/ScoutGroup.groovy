@@ -38,6 +38,7 @@ class ScoutGroup implements Serializable {
 
     static mapping = {
         cache(true)
+        leaderGroups cascade:'all-delete-orphan'
     }
 
     String toCrumbString() {

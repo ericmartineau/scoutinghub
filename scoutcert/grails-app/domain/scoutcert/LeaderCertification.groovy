@@ -15,7 +15,7 @@ class LeaderCertification implements Serializable{
     Date createDate;
     Date updateDate;
 
-    static belongsTo = [certification:Certification, leader:Leader]
+    static belongsTo = [leader:Leader]
     static constraints = {
         createDate nullable: true
         updateDate nullable: true
@@ -39,13 +39,5 @@ class LeaderCertification implements Serializable{
 
     def beforeUpdate = {
         updateDate = new Date()
-    }
-
-    def afterInsert = {
-        trainingService.recalculatePctTrainedIfEnabled(leader)
-    }
-
-    def afterUpdate = {
-        trainingService.recalculatePctTrainedIfEnabled(leader)
     }
 }
