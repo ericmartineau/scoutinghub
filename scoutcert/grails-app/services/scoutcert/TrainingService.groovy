@@ -4,66 +4,59 @@ class TrainingService {
 
     static transactional = true
 
-    boolean recalculateEnabled = true
-
-    void recalculatePctTrainedIfEnabled(Leader leader) {
-        if (recalculateEnabled) {
-            recalculatePctTrained(leader)
-        }
-    }
-
     void recalculatePctTrained(Leader leader) {
 
-        int numCompletedCertifications = 0
+        int numCompletedCertifications;
 
         def requiredCertifications
 
-        if (leader.groups) {
-
-            def c = ProgramCertification.createCriteria()
-            Date now = new Date()
-
-
-
-            requiredCertifications = c.list {
-                and {
-                    or {
-                        inList('unitType', leader.groups?.collect {it.scoutGroup.unitType}?.findAll {it != null})
-                        inList('positionType', leader.groups?.collect {it.position})
-                    }
-                    eq('required', true)
-                }
-                eq('required', true)
-                lt('startDate', now)
-                gt('endDate', now)
-
-                certification {
-                    sort: 'name'
-                }
-            }
+        for(LeaderGroup group : leader.groups) {
+            numCompletedCertifications = 0
+            requiredCertifications = getRequiredCertifications(group);
 
             requiredCertifications?.each {ProgramCertification progCert ->
                 if (leader.certifications.find {it.certification.id == progCert.certification.id && !it.hasExpired()}) {
                     numCompletedCertifications++
                 }
             }
+
+            if (requiredCertifications?.size() > 0) {
+                group.pctTrained = 100 * numCompletedCertifications / requiredCertifications?.size()
+            } else {
+                group.pctTrained = 100
+            }
         }
 
 
-        if (requiredCertifications?.size() > 0) {
-            leader.pctTrained = 100 * numCompletedCertifications / requiredCertifications?.size()
-        } else {
-            leader.pctTrained = 100
-        }
+
         leader.save(failOnError: true)
-
     }
 
-    public void disableRecalculation() {
-        recalculateEnabled = false;
+    List<ProgramCertification> getRequiredCertifications(LeaderGroup leaderGroup) {
+        List<ProgramCertification> requiredCertifications
+        def c = ProgramCertification.createCriteria()
+        Date now = new Date()
+
+
+
+        requiredCertifications = c.list {
+            and {
+                or {
+                    inList('unitType', leaderGroup.scoutGroup.unitType)
+                    inList('positionType', leaderGroup.position)
+                }
+                eq('required', true)
+            }
+            eq('required', true)
+            lt('startDate', now)
+            gt('endDate', now)
+
+            certification {
+                sort: 'name'
+            }
+        }
+
+        return requiredCertifications;
     }
 
-    public void enableRecalculation() {
-        recalculateEnabled = true;
-    }
 }

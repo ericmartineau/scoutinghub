@@ -52,10 +52,10 @@
             %{--<g:header>Leaders</g:header>--}%
             %{--</td>--}%
             %{--</tr>--}%
-                <g:each in="${reportGroup?.leaderGroups.collect{it.leader}}" var="leader">
+                <g:each in="${reportGroup?.leaderGroups}" var="leaderGroup">
                     <tr>
-                        <td class="trainingReportUnit"><g:link controller="leader" action="view" id="${leader.id}">${leader.firstName} ${leader.lastName}</g:link></td>
-                        <td><div class="progress" value="${(int) leader.pctTrained}"></div></td>
+                        <td class="trainingReportUnit"><g:link controller="leader" action="view" id="${leaderGroup.leader.id}">${leaderGroup.leader.firstName} ${leaderGroup.leader.lastName}</g:link></td>
+                        <td><div class="progress" value="${(int) leaderGroup.pctTrained}"></div></td>
 
                     </tr>
                 </g:each>

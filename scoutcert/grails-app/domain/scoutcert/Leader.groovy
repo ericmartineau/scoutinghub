@@ -19,7 +19,6 @@ class Leader implements Serializable {
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
-    double pctTrained
 
     Date createDate;
     Date updateDate;

@@ -67,11 +67,9 @@ class TrainingController {
                     filter()
                 }
                 leaderGroups {
-                    leader {
-                        projections {
-                            avg('pctTrained')
-                            countDistinct('id')
-                        }
+                    projections {
+                        avg('pctTrained')
+                        countDistinct('id')
                     }
                 }
             }
