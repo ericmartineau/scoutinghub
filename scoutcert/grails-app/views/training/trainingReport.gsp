@@ -17,14 +17,12 @@
 <body>
 <s:content>
     <s:section>
-        <s:msg type="info">
-
+        <s:msg class="smaller-header" type="info">
             <g:form action="trainingReport" name="filterForm">
                 <div class="msg1"><g:message code="training.report.selectFilter"/></div>
                 <g:select from="[]" id="filterName" name="filterName" onChange="document.filterForm.submit()" value="${session.filterName}"/>
                 <g:hiddenField name="id" value="${reportGroup?.id}"/>
             </g:form>
-
         </s:msg>
 
     </s:section>
@@ -46,6 +44,11 @@
 
                 </td>
             </tr>
+            <tr>
+                <th style="text-align:center" align="center" class='ui-state-active trainingHeader'>Leader/Group</th>
+                <th style="text-align:center" align="center" class='ui-state-active trainingHeader'>Percent Trained</th>
+            </tr>
+
             <g:if test="${reportGroup?.leaderGroups?.size() > 0}">
             %{--<tr>--}%
             %{--<td colspan="2">--}%
@@ -82,12 +85,12 @@
                             </g:link>
                         </div>
                         %{--<div style="font-size:small">--}%
-                            %{--<g:if test="${certificationReport.count > 1}">--}%
-                                %{--${certificationReport.count} leaders--}%
-                            %{--</g:if>--}%
-                            %{--<g:else>--}%
-                                %{--${certificationReport.count} leader--}%
-                            %{--</g:else>--}%
+                        %{--<g:if test="${certificationReport.count > 1}">--}%
+                        %{--${certificationReport.count} leaders--}%
+                        %{--</g:if>--}%
+                        %{--<g:else>--}%
+                        %{--${certificationReport.count} leader--}%
+                        %{--</g:else>--}%
                         %{--</div>--}%
 
                     </td>

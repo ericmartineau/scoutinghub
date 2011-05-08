@@ -12,6 +12,19 @@ class TrainingService {
         }
     }
 
+    void processExpiredTrainings() {
+        //find all certifications that have expirations in the past
+        def criteria = LeaderCertification.withCriteria {
+            lt('expirationDate', new Date())
+            leader {
+                or {
+                    isNull('lastCalculationDate')
+
+                }
+            }
+        }
+    }
+
     void recalculatePctTrained(Leader leader) {
 
         int numCompletedCertifications = 0

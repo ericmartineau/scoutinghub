@@ -1,20 +1,25 @@
+html {
+    background-color: #EEEEEE;
+}
+
 BODY {
 /*BACKGROUND-IMAGE: url(../images/bg-pattern1.gif);*/
 
-    BACKGROUND-COLOR: #eee; /*BACKGROUND-COLOR: #005696;*/
-    BACKGROUND-REPEAT: repeat-x
+    background-color: #EEEEEE;
+    /*BACKGROUND-COLOR: #eee; *//*BACKGROUND-COLOR: #005696;*/
+    BACKGROUND-REPEAT: repeat-y;
 }
 
 BODY .mainBody {
-/*BACKGROUND-IMAGE: url(../images/bkg.gif);*/
+
     TEXT-ALIGN: center;
-    PADDING-BOTTOM: 30px; /*BACKGROUND-COLOR: #005696;*/
+    PADDING-BOTTOM: 30px;
     BACKGROUND-COLOR: #eee;
 
     MARGIN: 0px;
     PADDING-LEFT: 0px;
     PADDING-RIGHT: 0px;
-    BACKGROUND-REPEAT: repeat-x;
+    BACKGROUND-REPEAT: repeat-y;
     PADDING-TOP: 0px
 }
 
@@ -42,7 +47,7 @@ BODY .mainBody {
     PADDING-RIGHT: 0px;
     BACKGROUND: #fff;
     PADDING-TOP: 0px; /*-moz-border-radius: 8px;*/
-/*border-radius: 8px;*/
+
 
 }
 
@@ -1516,6 +1521,7 @@ table tr td {
     font-size: 14px;
     text-align: right;
     margin-right: 5px;
+    white-space:nowrap;
 }
 
 .trainingReportBar {
@@ -1965,6 +1971,18 @@ div.permission-label {
 
 div.permission-checkbox {
     display: table-cell;
+}
+
+th.trainingReport {
+    font-weight:bold;
+    font-size:16px;
+    text-align:center; !important
+}
+
+.smaller-header {
+    background-image:none;
+    padding:5px;
+
 }
 
 

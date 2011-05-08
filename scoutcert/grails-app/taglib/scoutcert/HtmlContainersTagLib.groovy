@@ -34,7 +34,7 @@ class HtmlContainersTagLib {
     }
 
     def msgbox = {attrs, body ->
-        out << "<div style=\"text-align:left\" class=\"ui-corner-all ${attrs.type}\">"
+        out << "<div style=\"text-align:left\" class=\"ui-corner-all ${attrs.class ?: ''} ${attrs.type}\">"
 
         if (attrs.code) {
             out << "<div class=\"msg1\">"
