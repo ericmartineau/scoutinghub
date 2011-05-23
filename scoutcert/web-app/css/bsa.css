@@ -3,10 +3,9 @@ html {
 }
 
 BODY {
-/*BACKGROUND-IMAGE: url(../images/bg-pattern1.gif);*/
+    /*BACKGROUND-IMAGE: url(../images/bg-pattern1.gif);*/
 
-    background-color: #EEEEEE;
-    /*BACKGROUND-COLOR: #eee; *//*BACKGROUND-COLOR: #005696;*/
+    background-color: #EEEEEE; /*BACKGROUND-COLOR: #eee; *//*BACKGROUND-COLOR: #005696;*/
     BACKGROUND-REPEAT: repeat-y;
 }
 
@@ -24,16 +23,18 @@ BODY .mainBody {
 }
 
 #logo {
-    PADDING-BOTTOM: 5px;
-    PADDING-TOP: 0px;
+    /*PADDING-BOTTOM: 5px;*/
+    padding: 0px;
+    margin: 0px;
     text-align: center;
     overflow: hidden;
-    width: 700px;
+    width: 950px;
+    height: 129px;
 }
 
 .logoBar {
-    float: left;
-    vertical-align: bottom;
+    /*float: left;*/
+    /*vertical-align: bottom;*/
 
 }
 
@@ -43,11 +44,10 @@ BODY .mainBody {
     PADDING-BOTTOM: 0px;
     MARGIN: 0px auto;
     PADDING-LEFT: 0px;
-    WIDTH: 700px;
+    WIDTH: 950px;
     PADDING-RIGHT: 0px;
     BACKGROUND: #fff;
     PADDING-TOP: 0px; /*-moz-border-radius: 8px;*/
-
 
 }
 
@@ -448,7 +448,9 @@ A .ir {
 
 #navigation LI {
     FLOAT: left;
-    BORDER-RIGHT: #fff 3px solid
+    BORDER-RIGHT: #fff 1px solid;
+    min-width: 97px;
+    text-align: center;
 }
 
 #navigation A {
@@ -1492,25 +1494,43 @@ H4.registerTitle {
 }
 
 .profileCertificationContainer {
-    overflow: hidden;
-    width: 100%
+    /*overflow: hidden;*/
+    /*width: 100%;*/
+
+    /*width: 425px;*/
+    float: left;
 }
 
 .next {
-/*position:relative;*/
-/*left: -48px;*/
+    /*position:relative;*/
+    /*left: -48px;*/
     float: right;
     width: 20px;
 }
 
 .profileCertification {
-    margin: 10px 0px;
-    float: left;
-    width: 300px;
+    padding: 0px 10px 10px 35px;
+    margin-left: 10px;
+    margin-top: 10px;
+    height: 60px;
+    width: 390px;
+    background-repeat: no-repeat;
+    background-position: left top;
+
+}
+
+.training-missing {
+    background-image: url('/scoutcert/images/training-incomplete.png');
+    background-repeat: no-repeat;
 }
 
 .trainingStatus {
     float: left;
+}
+
+.td {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 table tr td {
@@ -1521,12 +1541,12 @@ table tr td {
     font-size: 14px;
     text-align: right;
     margin-right: 5px;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .trainingReportBar {
-/*line-height:40px;*/
-/*height:40px;*/
+    /*line-height:40px;*/
+    /*height:40px;*/
     height: 25px;
 
 }
@@ -1552,24 +1572,51 @@ a.buttonLink {
     margin-left: 25px;
 }
 
+.leader-unit {
+    font-size: 15px;
+    height:55px;
+}
+
+.leader-unit, .prop {
+    width: 432px;
+    float: left;
+    margin-bottom: 10px;
+    text-align: left;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 10px;
+
+}
+
+.leader-unit-position {
+    margin-bottom: 4px;
+}
+
+.leader-unit-position, .propLabel, .training-title {
+    color: #194782;
+}
+
 .prop {
     list-style: none;
     list-style-type: none;
-    width: 300px;
-    float: left;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    text-align: left;
+    font-size:15px;
+    /*margin-left: 10px;*/
+    /*margin-right: 10px;*/
 }
 
 .propLabel {
+    display: table-cell;
+    width: 120px;
+}
 
+.prop-container, .prop-container .prop {
+    float: none;
 }
 
 .propData, .headerText {
-    font-weight: bold;
-    font-size: 18px;
+    /*font-weight: bold;*/
+    /*font-size: 18px;*/
+    display: table-cell;
 }
 
 .propData a {
@@ -1662,10 +1709,16 @@ ui-dialog-title {
     font-size: 16px
 }
 
-.trainingDetails {
+.training-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.training-details {
     margin-left: 15px;
     margin-top: 4px;
     float: left;
+
 }
 
 .rememberMe {
@@ -1713,10 +1766,10 @@ span.chk-input {
 }
 
 .twoSection {
-/*float: left;*/
+    /*float: left;*/
     width: 335px; /*padding-left:90px;*/
-/*width: 50%; *//*padding-left:90px;*/
-/*padding: 10px;*/
+    /*width: 50%; *//*padding-left:90px;*/
+    /*padding: 10px;*/
 
     display: table-cell;
     margin: auto;
@@ -1738,18 +1791,13 @@ span.chk-input {
     width: 290px;
 }
 
-.section {
-    position: relative;
-
-}
-
 h1.ui-widget-header {
     font-size: 16px;
     padding: 6px;
 }
 
 .floatContent {
-    width: 700px;
+    width: 100%;
 }
 
 .clearfix:after {
@@ -1761,8 +1809,8 @@ h1.ui-widget-header {
 }
 
 .floatSection {
-/*display:inline-block;*/
-    width: 650px;
+    /*display:inline-block;*/
+    width: 100%;
     margin-left: 10px;
     margin-bottom: 10px;
     overflow: hidden;
@@ -1786,8 +1834,8 @@ h1.ui-widget-header {
 }
 
 .unit-selector-style {
-/*This should be added back if being used with the selector tree*/
-/*margin-bottom:0px;*/
+    /*This should be added back if being used with the selector tree*/
+    /*margin-bottom:0px;*/
     font-size: 18px;
     line-height: 18px;
     width: 300px;
@@ -1882,28 +1930,74 @@ a.leaderProfileLink {
 }
 
 span.header-icon {
-/*background-image:url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png") !important;*/
+    /*background-image:url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_d8e7f3_256x240.png") !important;*/
 
-/*z-index:5000;*/
+    /*z-index:5000;*/
     float: right; /*width:20px;*/
-/*line-height:20px;*/
+    /*line-height:20px;*/
+}
+
+.section {
+    position: relative;
+}
+
+.section-header {
+    border-bottom: 1px solid #025a99;
+}
+
+.section-header div.h1 {
+    width: 450px;
+}
+
+.section-header {
+    font-size: 20px;
+    border-bottom: 1px solid #025a99;
+    color: #025a99;
+    vertical-align: middle;
+    /*margin-bottom: 5px;*/
+    line-height: 25px;
+
+}
+
+.header-icon {
+    line-height: 32px;
+    padding-left: 38px;
+    background-repeat: no-repeat;
+    text-align: left;
+    z-index: -400;
+}
+
+.profile-icon {
+    background-image: url("/scoutcert/images/profile-icon.png");
+}
+
+.training-icon {
+    background-image: url("/scoutcert/images/training-icon.png");
+}
+
+.units-icon {
+    background-image: url("/scoutcert/images/units-icon.png");
 }
 
 div.ctx-menu {
-/*clear:both;*/
+    /*clear:both;*/
     float: right;
     text-align: right; /*position:absolute;*/
 }
 
 ul.ctx-menu {
-/*float:right;*/
-    display: none; /*width: 120px;*/
+
+    /*float:right;*/
+    /*display: none; *//*width: 120px;*/
     font-size: 14px;
-    white-space: nowrap;
-    padding: 5px;
-    position: absolute;
-    right: 0px;
-    top: 23px;
+    /*white-space: nowrap;*/
+    padding-right: 10px;
+    /*padding: 5px;*/
+    /*float: right;*/
+    display: table-cell;
+    /*position: absolute;*/
+    /*right: 0px;*/
+    /*top: 23px;*/
     text-align: left; /*z-index:400;*/
     font-size: 12px; /*font-color: #666;*/
     background-color: #FFF !important;
@@ -1913,13 +2007,35 @@ ul.ctx-menu {
 }
 
 ul.ctx-menu li a {
-    color: #666;
+    color: #957752;
     font-weight: normal;
-    padding: 5px;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.alternate-color {
+    background-color: #FBF7EA;
+}
+
+ul.ctx-menu li div.td {
+    /*line-height: 25px;*/
+}
+
+.ctx-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.edit-icon {
+    background-image: url('/scoutcert/images/edit-icon.png')
+}
+
+.add-icon {
+    background-image: url('/scoutcert/images/add-icon.png')
 }
 
 .no-bottom-border {
-/*border-bottom:0px;*/
+    /*border-bottom:0px;*/
 }
 
 .menu-icon {
@@ -1927,26 +2043,28 @@ ul.ctx-menu li a {
 }
 
 .menu-text {
-/*float:left;*/
-/*padding-left: 35px;*/
-/*padding-right: 35px;*/
-/*margin-left: 75px;*/
-/*margin-right: 10px;*/
+    /*float:left;*/
+    /*padding-left: 35px;*/
+    /*padding-right: 35px;*/
+    /*margin-left: 75px;*/
+    /*margin-right: 10px;*/
 }
 
 .ctx-menu-item {
-/*margin-bottom: 6px;*/
+    /*margin-bottom: 6px;*/
     display: table-cell;
-    vertical-align: middle; /*clear:left;*/
+    vertical-align: middle;
+    /*clear:left;*/
+    width: 250px;
+    line-height: 14px;
 }
 
 .ctx-menu-item .ui-icon {
-/*line-height: 20px;*/
+    /*line-height: 20px;*/
     display: inline-block;
     vertical-align: middle;
     height: 18px;
     background-image: url("../js/jquery-ui-1.8.11.custom/css/start/images/ui-icons_056b93_256x240.png") !important;
-
 }
 
 div.header-menu {
@@ -1974,14 +2092,15 @@ div.permission-checkbox {
 }
 
 th.trainingReport {
-    font-weight:bold;
-    font-size:16px;
-    text-align:center; !important
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+!important
 }
 
 .smaller-header {
-    background-image:none;
-    padding:5px;
+    background-image: none;
+    padding: 5px;
 
 }
 

@@ -301,7 +301,6 @@ class ImportTrainingService {
 
 
         searchableService.stopMirroring()
-        trainingService.disableRecalculation()
         //This happens in a thread, so manual transaction and session boundaries are required
         Leader.withTransaction {
             try {
@@ -449,7 +448,6 @@ class ImportTrainingService {
                 }
 
             } finally {
-                trainingService.enableRecalculation()
                 scoutGroupService.reindex();
                 searchableService.startMirroring()
                 searchableService.reindexAll()

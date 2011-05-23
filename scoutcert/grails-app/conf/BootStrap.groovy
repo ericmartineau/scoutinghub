@@ -407,7 +407,7 @@ class BootStrap {
             council.addToLeaderGroups([leader: admin, position: LeaderPositionType.Executive, admin: true])
             council.save(failOnError: true)
 
-            ScoutGroup scoutGroup = new ScoutGroup(groupLabel: "Chandler Stake", groupIdentifier: "ChandlerStake", groupType: ScoutGroupType.CharteringOrg, parent: sanTanDistrict).save(failOnError: true)
+            ScoutGroup scoutGroup = new ScoutGroup(groupLabel: "Chandler Stake", groupIdentifier: "ChandlerStake", groupType: ScoutGroupType.Stake, parent: sanTanDistrict).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
 
@@ -419,7 +419,7 @@ class BootStrap {
             addUnit scoutGroup, "McQueen 1st Ward - Unit 888"
             addUnit scoutGroup, "Cooper 2nd Ward - Unit 896"
             addUnit scoutGroup, "McQueen 2nd Ward - Unit 897"
-            scoutGroup = new ScoutGroup(groupLabel: "Chandler East Stake", groupIdentifier: "ChandlerEastStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Chandler East Stake", groupIdentifier: "ChandlerEastStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Greenfield 2nd Ward - Unit 834"
@@ -431,7 +431,7 @@ class BootStrap {
             addUnit scoutGroup, "Ray 5th Ward - Unit 887"
             addUnit scoutGroup, "Lindsay 2nd Ward - Unit 898"
             addUnit scoutGroup, "Lindsay 1st Ward - Unit 899"
-            scoutGroup = new ScoutGroup(groupLabel: "Chandler West Stake", groupIdentifier: "ChandlerWestStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Chandler West Stake", groupIdentifier: "ChandlerWestStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Del Rio 1st Ward - Unit 188"
@@ -442,7 +442,7 @@ class BootStrap {
             addUnit scoutGroup, "Galveston 3rd Ward - Unit 639"
             addUnit scoutGroup, "Pleasant 3rd Ward - Unit 885"
             addUnit scoutGroup, "Pleasant 2nd Ward - Unit 988"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stake", groupIdentifier: "GilbertStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stake", groupIdentifier: "GilbertStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Val Vista Ward - Unit 83"
@@ -456,7 +456,7 @@ class BootStrap {
             addUnit scoutGroup, "Palo Verde Ward - Unit 842"
             addUnit scoutGroup, "Silver Creek Ward - Unit 844"
             addUnit scoutGroup, "Cullumber Ward - Unit 849"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Greenfield Stake", groupIdentifier: "GilbertGreenfieldStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Greenfield Stake", groupIdentifier: "GilbertGreenfieldStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Ray Ward - Unit 189"
@@ -468,7 +468,7 @@ class BootStrap {
             addUnit scoutGroup, "Settler's Meadow Ward - Unit 889"
             addUnit scoutGroup, "Gilbert Ranch Ward - Unit 985"
             addUnit scoutGroup, "Vintage Ranch Ward - Unit 989"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Highland Stake", groupIdentifier: "GilbertHighlandStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Highland Stake", groupIdentifier: "GilbertHighlandStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Lakeview Trails Ward - Unit 44"
@@ -481,7 +481,7 @@ class BootStrap {
             addUnit scoutGroup, "Gilbert 6th Ward - Unit 481"
             addUnit scoutGroup, "Pioneer Ward - Unit 488"
             addUnit scoutGroup, "Page Ward - Unit 498"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Higley Stake", groupIdentifier: "GilbertHigleyStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Higley Stake", groupIdentifier: "GilbertHigleyStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Higley Ward - Unit 307"
@@ -493,7 +493,7 @@ class BootStrap {
             addUnit scoutGroup, "Chaparral Ward - Unit 821"
             addUnit scoutGroup, "Bella Vista Ward - Unit 880"
             addUnit scoutGroup, "Gateway Ward - Unit 893"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stapley Stake", groupIdentifier: "GilbertStapleyStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilbert Stapley Stake", groupIdentifier: "GilbertStapleyStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Islands Ward - Unit 181"
@@ -504,7 +504,7 @@ class BootStrap {
             addUnit scoutGroup, "Madera Ward - Unit 589"
             addUnit scoutGroup, "Encinas Ward - Unit 685"
             addUnit scoutGroup, "El Dorado Ward - Unit 803"
-            scoutGroup = new ScoutGroup(groupLabel: "Gilber Val Vista Stake", groupIdentifier: "GilbertValVistaStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "Gilber Val Vista Stake", groupIdentifier: "GilbertValVistaStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "Gilbert 12th Ward - Unit 80"
@@ -516,7 +516,7 @@ class BootStrap {
             addUnit scoutGroup, "Voyager Ward - Unit 681"
             addUnit scoutGroup, "Crystal Shores Ward - Unit 806"
 
-            scoutGroup = new ScoutGroup(groupLabel: "San Tan Stake", groupIdentifier: "SanTanStake", groupType: ScoutGroupType.CharteringOrg, parent: scoutGroup).save(failOnError: true)
+            scoutGroup = new ScoutGroup(groupLabel: "San Tan Stake", groupIdentifier: "SanTanStake", groupType: ScoutGroupType.Stake, parent: scoutGroup).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
             addUnit scoutGroup, "San Tan 1st Ward - Unit 811"
@@ -629,7 +629,7 @@ class BootStrap {
         String orgName = unitName.substring(0, unitName.indexOf(" -"));
         ScoutGroup wardUnit = new ScoutGroup(
                 groupLabel: orgName, groupIdentifier: orgName.replaceAll("\\w", ""),
-                groupType: ScoutGroupType.Ward, parent: parent).save(failOnError: true)
+                groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
         parent.addToChildGroups(wardUnit)
         parent.save(failOnError: true)
 

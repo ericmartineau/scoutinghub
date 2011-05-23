@@ -8,6 +8,6 @@ class TrainingExpirationJob {
     def timeout = 0001000 //Once per day
 
     def execute() {
-        trainingService.processExpiredTrainings();
+//        trainingService.processExpiredTrainings();
     }
 }

@@ -6,6 +6,7 @@ import grails.plugins.springsecurity.SpringSecurityService
 class LeaderCertificationController {
 
     SpringSecurityService springSecurityService
+    TrainingService trainingService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -50,6 +51,7 @@ class LeaderCertificationController {
                 leaderCertification.dateEntered = new Date()
                 leader.addToCertifications(leaderCertification)
                 leader.save(failOnError: true)
+                trainingService.recalculatePctTrained(leaderCertification);
 
             } catch (Exception e) {
                 flash.error = "leaderCertification.create.error"
@@ -85,6 +87,7 @@ class LeaderCertificationController {
                 leaderCertification.dateEntered = new Date()
                 leader.addToCertifications(leaderCertification)
                 leader.save(failOnError: true)
+                trainingService.recalculatePctTrained(leader);
 
             } catch (Exception e) {
                 flash.error = "leaderCertification.create.error"
@@ -113,6 +116,7 @@ class LeaderCertificationController {
     def save = {
         def leaderCertificationInstance = new LeaderCertification(params)
         if (leaderCertificationInstance.save(flush: true)) {
+
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'leaderCertification.label', default: 'LeaderCertification'), leaderCertificationInstance.id])}"
             redirect(action: "show", id: leaderCertificationInstance.id)
         }
@@ -146,8 +150,10 @@ class LeaderCertificationController {
                     leaderCertification.dateEntered = new Date()
                     leader.addToCertifications(leaderCertification)
                     leader.save(failOnError: true)
+                    trainingService.recalculatePctTrained(leader);
                     rtn.success = true
                 } catch (Exception e) {
+                    log.error "Error saving", e
                     rtn.success = false
                     rtn.message = "Error saving certification: ${e.message}"
 

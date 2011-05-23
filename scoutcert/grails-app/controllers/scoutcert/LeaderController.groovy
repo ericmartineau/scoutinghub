@@ -8,6 +8,10 @@ class LeaderController {
 
     SpringSecurityService springSecurityService
 
+    LeaderService leaderService
+
+    TrainingService trainingService;
+
     def index = {
         //@todo this should be secured
         forward(action: 'profile')
@@ -49,7 +53,8 @@ class LeaderController {
         Leader leaderA = Leader.get(Integer.parseInt(params.leaderA))
         Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
 
-        leaderB.delete()
+        leaderService.mergeLeaders(leaderA,leaderB);
+        trainingService.recalculatePctTrained(leaderA);
         redirect(view:"view", id:leaderA.id)
 
     }

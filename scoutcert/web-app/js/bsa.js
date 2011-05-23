@@ -280,7 +280,7 @@ function decorate() {
                 .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
                 .removeClass("header-menu-pe").children("span").click(toggleMenu);
         jQuery("ul.ctx-menu-pe")
-                .menu()
+//                .menu()
                 .addClass("ctx-menu").removeClass("ctx-menu-pe");
 
     }

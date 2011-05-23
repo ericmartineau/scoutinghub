@@ -4,24 +4,35 @@ class HtmlContainersTagLib {
 
     def header = {attrs, body ->
 //        out << "<h1 class=\"loginTitle\"><span>${body()}</span></h1>"
-        out << "<h1 class=\"ui-corner-all ui-widget-header\">"
+//        out << "<h1 class=\"ui-corner-all ui-widget-header\">"
+
+        String iconCss = attrs.icon ? "header-icon ${attrs.icon}" : "";
+        out << "<div class=\"section-header ${iconCss}\">"
+        if(attrs.code) {
+            out << s.div(class:'h1 td') {
+                out << message(code:attrs.code)
+            }
+        }
+
         out << body()
-        out << "</h1>"
+        out << "</div>"
 
     }
 
     def ctxmenu = {attrs, body ->
-        out << "<div class='ctx-menu'><div class='header-menu header-menu-pe ui-corner-all'><span class='header-icon ui-icon ui-icon-circle-triangle-s'></span>";
-        out << "</div>"
-        out << "<ul class='ctx-menu-pe ui-widget-header ui-corner-all'>"
+//        out << "<div class='ctx-menu'><div class='header-menu header-menu-pe ui-corner-all'><span class='header-icon ui-icon ui-icon-circle-triangle-s'></span>";
+//        out << "</div>"
+//        out << "<ul class='ctx-menu-pe ui-widget-header ui-corner-all'>"
+        out << "<ul class='ctx-menu-pe'>"
         out << body()
-        out << "</ul></div>"
+        out << "</ul>"
+//        out << "</div>"
 
 //        out << "</div>"
     }
 
     def inlineIcon = {attrs->
-        out << "<span style=\"display:inline-block;\" class=\"ui-icon ${attrs.class}\"></span>"
+        out << "<div class=\"td ctx-icon ${attrs.class}\"></div>"
     }
 
     def ctxmenuItem = {attrs, body->
@@ -31,6 +42,10 @@ class HtmlContainersTagLib {
         out << body()
 //        out << "</span>"
         out << "</li>"
+    }
+
+    def ctxmenuLabel = {attrs, body->
+        out << "<div class='td'>${body()}</div>"
     }
 
     def msgbox = {attrs, body ->

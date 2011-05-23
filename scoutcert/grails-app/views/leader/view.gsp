@@ -12,27 +12,27 @@
 
         function togglePermission(checkbox, leaderid, roleid) {
             jQuery.ajax({
-                url:"/scoutcert/permissions/setPermission",
-                data: {checked: checkbox.checked, leaderId:leaderid, roleId: roleid}
-            });
+                        url:"/scoutcert/permissions/setPermission",
+                        data: {checked: checkbox.checked, leaderId:leaderid, roleId: roleid}
+                    });
         }
 
 
         function addScoutingId(leaderId) {
             createDialog("/scoutcert/myScoutingId/create", {'leader.id': leaderId}, {
-                title: "${message(code:'leader.profile.addScoutingId')}",
-                width: 400,
-                modal:true
-            });
+                        title: "${message(code:'leader.profile.addScoutingId')}",
+                        width: 400,
+                        modal:true
+                    });
 
         }
 
         function addToGroup(leaderId) {
             createDialog("/scoutcert/leaderGroup/create", {'leader.id': leaderId}, {
-                title: "${message(code:'leader.profile.addToGroup')}",
-                width: 400,
-                modal:true
-            });
+                        title: "${message(code:'leader.profile.addToGroup')}",
+                        width: 400,
+                        modal:true
+                    });
         }
 
         function markTrainingComplete(leaderId, certificationId) {
@@ -40,30 +40,30 @@
             jQuery("<div id='dialog'></div>").load("/scoutcert/leaderCertification/createForm", {certificationId:certificationId}, function(result) {
 
                 jQuery(this).dialog({
-                    title: "${message(code:'leader.profile.enterTrainingDetails')}",
-                    width: 400,
-                    modal:true,
-                    buttons: {
-                        'Save': function() {
-                            var postData = {leaderId:leaderId, certificationId:certificationId, dateEarned:jQuery("#trainingDate").val()};
-                            jQuery.getJSON("/scoutcert/leaderCertification/saveCertification", postData, function(json) {
-                                if (json.success) {
-                                    window.location = "/scoutcert/leader/view/" + leaderId;
-                                } else {
-                                    alert(json.message)
-                                }
-                            });
+                            title: "${message(code:'leader.profile.enterTrainingDetails')}",
+                            width: 400,
+                            modal:true,
+                            buttons: {
+                                'Save': function() {
+                                    var postData = {leaderId:leaderId, certificationId:certificationId, dateEarned:jQuery("#trainingDate").val()};
+                                    jQuery.getJSON("/scoutcert/leaderCertification/saveCertification", postData, function(json) {
+                                        if (json.success) {
+                                            window.location = "/scoutcert/leader/view/" + leaderId;
+                                        } else {
+                                            alert(json.message)
+                                        }
+                                    });
 
-                        }
-                    }
-                })
+                                }
+                            }
+                        })
             });
         }
 
         function editPermissions(leaderId) {
             createDialog("/scoutcert/leaderGroup/permissions/" + leaderId, {}, {
 
-            });
+                    });
         }
 
         jQuery(document).ready(function() {
@@ -99,57 +99,70 @@
 <s:content class="floatContent">
 
 %{--No equivalent of jsp:attribute in jsp, so there's no way to do it later --}%
-    <g:set var="menu" scope="request">
-        <li><g:link action="foo">Edit My Profile</g:link></li>
-    </g:set>
+<g:set var="menu" scope="request">
+    <li><g:link action="foo">Edit My Profile</g:link></li>
+</g:set>
 
-    <s:section class="floatSection">
-        <g:header>
-            <g:message code="leader.profile.myprofile"/>
-            <g:ctxmenu>
-                <g:ctxmenuItem class="">
-
-                    <g:link style="white-space:nowrap;" action="view" id="${leader.id}" params="[edit:true]">
-                        <g:inlineIcon class="ui-icon-contact"/>
+<s:section class="floatSection">
+    <g:header icon="profile-icon" code="leader.profile.myprofile">
+        <g:ctxmenu>
+            <g:ctxmenuItem class="">
+                <g:link style="white-space:nowrap;" action="view" id="${leader.id}" params="[edit:true]">
+                    <g:inlineIcon class="edit-icon"/>
+                    <g:ctxmenuLabel>
                         <g:message code="leader.profile.edit"/>
-                    </g:link>
-                </g:ctxmenuItem>
-                <g:ctxmenuItem class="">
-                    <a href="javascript:addScoutingId(${leader.id})">
-                        <g:inlineIcon class="ui-icon-plus"/>
+                    </g:ctxmenuLabel>
+                </g:link>
+            </g:ctxmenuItem>
+            <g:ctxmenuItem class="">
+                <a href="javascript:addScoutingId(${leader.id})">
+                    <g:inlineIcon class="add-icon"/>
+                    <g:ctxmenuLabel>
                         <g:message code="leader.profile.addAnother"/>
-                    </a>
-                </g:ctxmenuItem>
+                    </g:ctxmenuLabel>
+                </a>
+            </g:ctxmenuItem>
 
-            </g:ctxmenu>
-        </g:header>
+        </g:ctxmenu>
+    </g:header>
 
-    %{--<g:set var="menu" value="" scope="request" />--}%
-        <s:propertyList class="edit-profile">
-            <g:if test="${params.edit}">
-                <g:hasErrors bean="${flash.leaderError}">
-                    <g:msgbox type="error">
-                        <g:renderErrors bean="${flash.leaderError}"/>
-                    </g:msgbox>
-                </g:hasErrors>
-                <g:form action="saveProfile">
-                    <g:hiddenField name="id" value="${leader.id}"/>
-                    <s:bigTextField name="firstName" code="leader.firstName.label" value="${leader?.firstName}"/>
-                    <s:bigTextField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
-                    <s:bigTextField name="email" code="leader.email.label" value="${leader?.email}"/>
-                    <s:bigTextField name="phone" code="leader.phone.label" value="${leader?.phone}"/>
-                    <s:property>
-                        <s:submit class="ui-state-active" id="#profileSubmit" name="submit" value="${message(code:'Save')}"/>
-                    </s:property>
-                </g:form>
-            </g:if>
+%{--<g:set var="menu" value="" scope="request" />--}%
+    <s:propertyList class="edit-profile">
+        <g:if test="${params.edit}">
+            <g:hasErrors bean="${flash.leaderError}">
+                <g:msgbox type="error">
+                    <g:renderErrors bean="${flash.leaderError}"/>
+                </g:msgbox>
+            </g:hasErrors>
+            <g:form action="saveProfile">
+                <g:hiddenField name="id" value="${leader.id}"/>
+                <s:bigTextField name="firstName" code="leader.firstName.label" value="${leader?.firstName}"/>
+                <s:bigTextField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
+                <s:bigTextField name="email" code="leader.email.label" value="${leader?.email}"/>
+                <s:bigTextField name="phone" code="leader.phone.label" value="${leader?.phone}"/>
+                <s:property>
+                    <s:submit class="ui-state-active" id="#profileSubmit" name="submit"
+                              value="${message(code:'Save')}"/>
+                </s:property>
+            </g:form>
+        </g:if>
 
-            <g:else>
+        <g:else>
 
+            <s:div class="alternate-color prop-container">
                 <s:property code="leader.firstName.label">${leader?.firstName}</s:property>
                 <s:property code="leader.lastName.label">${leader?.lastName}</s:property>
-                <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-                <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+            </s:div>
+
+            <s:div class="prop-container">
+                <s:property
+                        code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+                <s:property
+                        code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+            </s:div>
+
+
+            <s:div class="alternate-color prop-container">
 
                 <s:property code="leader.profile.scoutingids">
                     <g:if test="${leader?.myScoutingIds?.size()}">
@@ -159,7 +172,8 @@
 
                     </g:if>
                     <g:else>
-                        <a href="javascript:addScoutingId(${leader.id})"><g:message code="leader.profile.noneYet"/></a>
+                        <a href="javascript:addScoutingId(${leader.id})"><g:message
+                                code="leader.profile.noneYet"/></a>
 
                     </g:else>
 
@@ -174,85 +188,120 @@
                     </g:else>
                 </s:property>
 
-            </g:else>
+            </s:div>
+        </g:else>
 
 
 
-        %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
-        %{----}%
-        %{--<s:property code="Permissions" class="permissions">--}%
-        %{--<g:each in="${Role.list()}" var="role">--}%
-        %{--<s:permission leader="${leader}" role="${role}"/>--}%
-        %{--</g:each>--}%
-        %{--</s:property>--}%
-        %{----}%
-        %{--</sec:ifAllGranted>--}%
-        </s:propertyList>
-    </s:section>
+    %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
+    %{----}%
+    %{--<s:property code="Permissions" class="permissions">--}%
+    %{--<g:each in="${Role.list()}" var="role">--}%
+    %{--<s:permission leader="${leader}" role="${role}"/>--}%
+    %{--</g:each>--}%
+    %{--</s:property>--}%
+    %{----}%
+    %{--</sec:ifAllGranted>--}%
+    </s:propertyList>
+</s:section>
 
 
 
 
-    <s:section class="floatSection">
-        <g:header>
-            <g:message code="leader.profile.groups"/>
-            <g:ctxmenu>
+<s:section class="floatSection">
+    <g:header icon="units-icon" code="leader.profile.groups">
 
-                <g:ctxmenuItem>
-                    <a href="javascript:addToGroup(${leader.id})">
-                        <g:inlineIcon class="ui-icon-plus"/>
+        <g:ctxmenu>
+            <g:ctxmenuItem>
+                <a href="javascript:addToGroup(${leader.id})">
+                    <g:inlineIcon class="edit-icon"/>
+                    <g:ctxmenuLabel>
                         <g:message code="leader.profile.addAnotherUnit" args="[leader.firstName]"/>
-                    </a>
-                </g:ctxmenuItem>
+                    </g:ctxmenuLabel>
 
-                <g:ctxmenuItem>
-                    <a href="javascript:editPermissions(${leader.id})">
-                        <g:inlineIcon class="ui-icon-locked"/>
+                </a>
+            </g:ctxmenuItem>
+
+            <g:ctxmenuItem>
+                <a href="javascript:editPermissions(${leader.id})">
+                    <g:inlineIcon class="add-icon"/>
+                    <g:ctxmenuLabel>
                         <g:message code="leader.profile.editPermission" args="[leader.firstName]"/>
-                    </a>
-                </g:ctxmenuItem>
+                    </g:ctxmenuLabel>
+                </a>
+            </g:ctxmenuItem>
 
-            </g:ctxmenu>
-        </g:header>
-        <s:propertyList>
-            <g:if test="${leader?.groups?.size()}">
-                <g:each in="${leader.groups}" var="group">
-                    <s:property code="${group?.position}.label">
-                        ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
-                        <g:if test="${group?.admin}">(admin)</g:if>
-                    %{--<g:else>--}%
-                    %{--<g:ifNotSelf leader="${leader}">--}%
-                    %{--<p:canAdministerGroup scoutGroup="${group?.scoutGroup}">--}%
-                    %{--<g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">--}%
-                    %{--<div><g:message code="scoutGroup.makeAdmin"--}%
-                    %{--args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>--}%
-                    %{--</g:link>--}%
-                    %{--</p:canAdministerGroup>--}%
-                    %{--</g:ifNotSelf>--}%
-                    %{--</g:else>--}%
-                        <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
-                            <div><g:link controller="scoutGroup" action="show" id="${group?.scoutGroup?.id}">
-                                <g:message code="scoutGroup.manage" args="[group?.scoutGroup?.groupType?.name()?.humanize()]"/>
-                            </g:link></div>
-                        </p:canAdministerGroup>
-                    </s:property>
-                </g:each>
+        </g:ctxmenu>
+    </g:header>
+    <s:propertyList>
+        <g:if test="${leader?.groups?.size()}">
+            <g:set var="i" value="${0}"/>
+            <g:each in="${leader.groups}" var="group">
+                <g:if test="${i%2==0}">
+                    <g:set var="i" value="${0}"/>
+                    <g:if test="${currClass == 'alternate-color'}">
+                        <g:set var="currClass" value=""/>
+                    </g:if>
+                    <g:else>
+                        <g:set var="currClass" value="alternate-color"/>
+                    </g:else>
+                </g:if>
+                <g:set var="i" value="${i+1}"/>
+                <s:leaderUnit code="${group?.position}.label" class="${currClass}">
+                    ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
+                    <g:if test="${group?.admin}">(admin)</g:if>
+                %{--<g:else>--}%
+                %{--<g:ifNotSelf leader="${leader}">--}%
+                %{--<p:canAdministerGroup scoutGroup="${group?.scoutGroup}">--}%
+                %{--<g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">--}%
+                %{--<div><g:message code="scoutGroup.makeAdmin"--}%
+                %{--args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>--}%
+                %{--</g:link>--}%
+                %{--</p:canAdministerGroup>--}%
+                %{--</g:ifNotSelf>--}%
+                %{--</g:else>--}%
+                    <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
+                        <div><g:link controller="scoutGroup" action="show" id="${group?.scoutGroup?.id}">
+                            <g:message code="scoutGroup.manage"
+                                       args="[group?.scoutGroup?.groupType?.name()?.humanize()]"/>
+                        </g:link></div>
+                    </p:canAdministerGroup>
+                </s:leaderUnit>
+            </g:each>
+            <g:if test="${i==1}">
+                <s:leaderUnit class="${currClass}"/>
+            </g:if>
+        </g:if>
+        <g:else>
+            <s:property><a href="javascript:addToGroup(${leader.id})"><g:message
+                    code="leader.profile.noneYet"/></a></s:property>
+        </g:else>
+    </s:propertyList>
+</s:section>
+
+<s:section class="floatSection">
+    <g:header icon="training-icon"><g:message code="leader.profile.mytraining"/></g:header>
+
+    <g:if test="${!certificationInfo}">
+        <s:msg type="warning" code="leader.profile.notInUnit"/>
+    </g:if>
+    <g:set var="i" value="${0}"/>
+
+    <g:each in="${certificationInfo}" var="certification">
+        <g:if test="${i%2==0}">
+
+            <g:if test="${request.currClass == 'alternate-color'}">
+                <g:set var="currClass" value="" scope="request"/>
             </g:if>
             <g:else>
-                <s:property><a href="javascript:addToGroup(${leader.id})"><g:message code="leader.profile.noneYet"/></a></s:property>
+                <g:set var="currClass" value="alternate-color" scope="request"/>
             </g:else>
-        </s:propertyList>
-    </s:section>
-
-    <s:section class="floatSection" code="leader.profile.mytraining">
-        <g:if test="${!certificationInfo}">
-            <s:msg type="warning" code="leader.profile.notInUnit"/>
         </g:if>
-        <g:each in="${certificationInfo}" var="certification">
-            <s:leaderTraining certificationInfo="${certification}"/>
-        </g:each>
+        <g:set var="i" value="${i+1}"/>
+        <s:leaderTraining certificationInfo="${certification}"/>
+    </g:each>
 
-    </s:section>
+</s:section>
 </s:content>
 
 </body>

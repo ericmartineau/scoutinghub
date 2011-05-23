@@ -64,45 +64,17 @@
 
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td align="center">
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td align="center">
-
-                            <div id="logo">
-                                <span class="logoBar"><g:link controller="leader" action="index"><img src="/scoutcert/images/ScoutHub.png" style="border-width:0px;"></g:link></span>
-                                %{--<span class="logoBar"><img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>--}%
-                                <span style="float:right;vertical-align:bottom;margin-top:75px">
-                                    <sec:ifLoggedIn>
-                                    %{--<div style="text-align:right">--}%
-                                        <table width="100%">
-                                            <tr>
-                                                <td align="right">
-                                                    <table>
-                                                        <tr>
-                                                            <td align="right"><g:textField name="leaderQuery" id="leaderQuery" class="ui-corner-all"/></td>
-                                                            <td><a href="javascript:leaderQuery()" style="font-size:14px" class="ui-button ui-button-style">
-                                                                <g:message code="permission.index.searchButton"/></a></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                    %{--</div>--}%
-                                    </sec:ifLoggedIn>
-                                </span>
-
-                            </div>
-
-                        </td>
-                    </tr>
-
-                </table>
-
-
+            <td align="center" style="padding:0px;margin:0px;">
 
                 <div id="outer" class="shadow ui-corner-all">
+                    <div id="logo">
+                        <span class="logoBar"><g:link controller="leader" action="index">
+                            <img src="/scoutcert/images/full-header.jpg" border="0"/>
+
+                        </g:link></span>
+                        <span class="logoBar"><img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>
+
+                    </div>
 
                     <g:menu/>
 

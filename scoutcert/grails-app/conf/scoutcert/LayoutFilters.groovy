@@ -9,13 +9,15 @@ class LayoutFilters {
     def filters = {
         all(controller:'*', action:'*') {
             before = {
-                if(userAgentIdentService.getPlatform() == "iPhone" || params.isMobile || session.isMobile) {
-                    session.isMobile = true
-                    request.layoutName = "iwebkit"
-                } else {
-                    session.isMobile = false
-                    request.layoutName = "main"
-                }
+                session.isMobile = false
+                request.layoutName = "main"
+//                if(userAgentIdentService.getPlatform() == "iPhone" || params.isMobile || session.isMobile) {
+//                    session.isMobile = true
+//                    request.layoutName = "iwebkit"
+//                } else {
+//                    session.isMobile = false
+//                    request.layoutName = "main"
+//                }
 
             }
             after = {

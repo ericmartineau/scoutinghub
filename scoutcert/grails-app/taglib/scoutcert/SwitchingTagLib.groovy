@@ -44,11 +44,22 @@ class SwitchingTagLib {
         }
     }
 
+    def leaderUnit = {attrs, body->
+        if(session.isMobile) {
+            out << property(attrs, body)
+        } else {
+            out << "<div class='leader-unit ${attrs.class ?: ''}'>"
+            out << "<div class='leader-unit-position'>${message(code:attrs.code)}</div>"
+            out << "<div class='leader-unit-unitname'>${body()}</div>"
+            out << "</div>"
+        }
+    }
+
     def property = {attrs, body ->
         if (session.isMobile) {
             out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
         } else {
-            out << "<li class='prop'>"
+            out << "<li class='prop ${attrs.class ?: ''}'>"
             if (attrs.code) {
                 out << "<div class='propLabel'>"
                 out << message(code: attrs.code)
@@ -251,7 +262,7 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << body()
         } else {
-            out << "<div class='${attrs.class}'>${body()}</div>"
+            out << "<div class='${attrs.class ?: ''}'>${body()}</div>"
         }
 
     }

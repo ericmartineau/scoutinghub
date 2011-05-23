@@ -20,6 +20,7 @@ class LeaderCertification implements Serializable {
     static constraints = {
         createDate nullable: true
         updateDate nullable: true
+        expirationDate nullable:true
     }
 
     boolean hasExpired() {
@@ -47,13 +48,5 @@ class LeaderCertification implements Serializable {
     def beforeUpdate = {
         updateDate = new Date()
         expirationDate = goodUntilDate();
-    }
-
-    def afterInsert = {
-        trainingService.recalculatePctTrainedIfEnabled(leader)
-    }
-
-    def afterUpdate = {
-        trainingService.recalculatePctTrainedIfEnabled(leader)
     }
 }

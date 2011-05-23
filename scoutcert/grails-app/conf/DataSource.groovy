@@ -25,8 +25,8 @@ environments {
     }
     production {
         dataSource {
+            jndiName = "java:comp/env/scoutinghub"
             dbCreate = "update"
-            url = "jdbc:mysql://localhost/scoutcert"
             properties {
                 maxActive = 50
                 maxIdle = 25

@@ -6,12 +6,13 @@ class LeaderGroup implements Serializable {
         scoutGroup component: true
     }
 
-    static belongsTo = [leader:Leader, scoutGroup:ScoutGroup]
+    //static belongsTo = [leader:Leader, scoutGroup:ScoutGroup]
 
     Leader leader
     ScoutGroup scoutGroup
     boolean admin
     LeaderPositionType position
+    double pctTrained
 
     Date createDate;
     Date updateDate;

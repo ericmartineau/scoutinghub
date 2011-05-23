@@ -19,8 +19,6 @@ class Leader implements Serializable {
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
-    double pctTrained
-    Date lastCalculationDate
 
     Date createDate;
     Date updateDate;
@@ -51,6 +49,8 @@ class Leader implements Serializable {
 
     static mapping = {
         password column: '`password`'
+        groups cascade:'all-delete-orphan'
+        //myScoutingIds cascade: 'all-delete-orphan'
     }
 
     Set<Role> getAuthorities() {
@@ -71,6 +71,14 @@ class Leader implements Serializable {
 
     LeaderCertification findCertification(Certification certification) {
         return certifications?.find{it.certification.id == certification?.id}
+    }
+
+    LeaderGroup findScoutGroup(ScoutGroup group) {
+        return groups?.find{it.scoutGroup.id == group?.id}
+    }
+
+    boolean hasScoutGroup(ScoutGroup group) {
+        return findScoutGroup(group) != null
     }
 
 
