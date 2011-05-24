@@ -31,7 +31,6 @@
 
             <g:if test="${registered}">
                 <g:submitToRemote update="dialog" action="processUnRegister" value="Unregister" class="ui-button"/>
-
             </g:if>
             <g:else>
                 <g:submitToRemote update="dialog" action="processRegister" value="Register Now" class="ui-button"/>

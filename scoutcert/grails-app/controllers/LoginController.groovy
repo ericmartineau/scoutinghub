@@ -28,6 +28,7 @@ import scoutcert.ScoutGroup
 import scoutcert.LeaderGroup
 import scoutcert.CreateAccountService
 import scoutcert.RecordSavingService
+import org.apache.commons.validator.EmailValidator
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -180,13 +181,6 @@ class LoginController {
     def createAccount = {
     }
 
-    def emailVerify = {
-        Leader leader = Leader.findByVerifyHash(params.code)
-        if (!leader) {
-
-        }
-    }
-
 
     def accountLinkFlow = {
 
@@ -248,6 +242,12 @@ class LoginController {
                     if (!createCommand.getProperty(it)) errors << "${it}.validation.error"
                 }
 
+                EmailValidator emailValidator = EmailValidator.getInstance();
+                if(createCommand.email && !emailValidator.isValid(createCommand.email)) {
+                    errors << "email.validation.bademail";
+                }
+
+
                 if (errors.size() > 0) {
                     flash.errors = errors
                     return error();
@@ -269,7 +269,6 @@ class LoginController {
                             return proceedNewAccount()
                         }
                     }
-
                 }
 
 
@@ -393,8 +392,13 @@ class LoginController {
                         flow.leader.password = springSecurityService.encodePassword(createAccount.password)
                     } else {
 
-                        Leader leader = leaderService.createLeader(flow.createAccount)
-                        flow.leader = leader;
+                        try {
+                            Leader leader = leaderService.createLeader(flow.createAccount)
+                            flow.leader = leader;
+                        } catch (Exception e) {
+                            return error();
+                        }
+
 
                     }
                     return success()
@@ -507,15 +511,20 @@ class LoginController {
             action {
                 Leader leader = flow.leader
                 leader.enabled = true
+                if(!leader.createDate) {
+                    leader.createDate = new Date()
+                }
+
+                flow.newSetup = leader.setupDate == null
+                if (!leader.setupDate) {
+                    leader.setupDate = new Date()
+                }
+
                 recordSavingService.op(leader) {
                     it.save(failOnError: true)
                 }
                 if (!leader.username || !leader.password) {
                     return selectUsernameAndPassword()
-                }
-                flow.newSetup = leader.createDate == null
-                if (!leader.createDate) {
-                    leader.createDate = new Date()
                 }
 
                 if (!leader.authorities.collect {it.authority}?.contains("ROLE_LEADER")) {

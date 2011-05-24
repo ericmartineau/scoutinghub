@@ -68,7 +68,7 @@
 
         jQuery(document).ready(function() {
             var pct = parseInt(jQuery(this).attr("pct"));
-            jQuery("#trainingCompletion").progressbar({value:pct})
+            jQuery("#trainingCompletion").progressbar({value:pct});
 
             jQuery(".profileCertificationContainer").each(function() {
                 var jthis = jQuery(this);
@@ -82,7 +82,6 @@
                                     jthis.find(".upcomingTrainings").append("<div class='currentTraining ui-corner-all'>" + data + "</div>");
 
                                 }
-
                             });
                 }
             });
@@ -96,16 +95,16 @@
 
 <body>
 
-<s:content class="floatContent">
+<s:content class="floatContent profile">
 
 %{--No equivalent of jsp:attribute in jsp, so there's no way to do it later --}%
 <g:set var="menu" scope="request">
     <li><g:link action="foo">Edit My Profile</g:link></li>
 </g:set>
 
-<s:section class="floatSection">
-    <g:header icon="profile-icon" code="leader.profile.myprofile">
-        <g:ctxmenu>
+<s:section class="floatSection myprofile">
+    <s:sectionHeader icon="profile-icon" code="leader.profile.myprofile">
+        <s:ctxmenu>
             <g:ctxmenuItem class="">
                 <g:link style="white-space:nowrap;" action="view" id="${leader.id}" params="[edit:true]">
                     <g:inlineIcon class="edit-icon"/>
@@ -123,10 +122,11 @@
                 </a>
             </g:ctxmenuItem>
 
-        </g:ctxmenu>
-    </g:header>
+        </s:ctxmenu>
+    </s:sectionHeader>
 
-%{--<g:set var="menu" value="" scope="request" />--}%
+
+<g:set var="menu" value="" scope="request" />
     <s:propertyList class="edit-profile">
         <g:if test="${params.edit}">
             <g:hasErrors bean="${flash.leaderError}">
@@ -155,10 +155,8 @@
             </s:div>
 
             <s:div class="prop-container">
-                <s:property
-                        code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-                <s:property
-                        code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+                <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+                <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
             </s:div>
 
 
@@ -190,18 +188,6 @@
 
             </s:div>
         </g:else>
-
-
-
-    %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
-    %{----}%
-    %{--<s:property code="Permissions" class="permissions">--}%
-    %{--<g:each in="${Role.list()}" var="role">--}%
-    %{--<s:permission leader="${leader}" role="${role}"/>--}%
-    %{--</g:each>--}%
-    %{--</s:property>--}%
-    %{----}%
-    %{--</sec:ifAllGranted>--}%
     </s:propertyList>
 </s:section>
 
@@ -209,9 +195,8 @@
 
 
 <s:section class="floatSection">
-    <g:header icon="units-icon" code="leader.profile.groups">
-
-        <g:ctxmenu>
+    <s:sectionHeader icon="units-icon" code="leader.profile.groups">
+        <s:ctxmenu>
             <g:ctxmenuItem>
                 <a href="javascript:addToGroup(${leader.id})">
                     <g:inlineIcon class="edit-icon"/>
@@ -223,22 +208,22 @@
             </g:ctxmenuItem>
 
             <g:ctxmenuItem>
-                <a href="javascript:editPermissions(${leader.id})">
+                <a href="javascript:editPermissions(${leader?.id})">
                     <g:inlineIcon class="add-icon"/>
                     <g:ctxmenuLabel>
-                        <g:message code="leader.profile.editPermission" args="[leader.firstName]"/>
+                        <g:message code="leader.profile.editPermission" args="[leader?.firstName]"/>
                     </g:ctxmenuLabel>
                 </a>
             </g:ctxmenuItem>
 
-        </g:ctxmenu>
-    </g:header>
+        </s:ctxmenu>
+    </s:sectionHeader>
     <s:propertyList>
         <g:if test="${leader?.groups?.size()}">
-            <g:set var="i" value="${0}"/>
+            <g:set var="i" value="${0}" scope="request"/>
             <g:each in="${leader.groups}" var="group">
-                <g:if test="${i%2==0}">
-                    <g:set var="i" value="${0}"/>
+                <g:if test="${request.i%2==0}">
+                    <g:set var="i" value="${0}" scope="request"/>
                     <g:if test="${currClass == 'alternate-color'}">
                         <g:set var="currClass" value=""/>
                     </g:if>
@@ -246,29 +231,30 @@
                         <g:set var="currClass" value="alternate-color"/>
                     </g:else>
                 </g:if>
-                <g:set var="i" value="${i+1}"/>
+                <g:set var="i" value="${request.i+1}" scope="request"/>
                 <s:leaderUnit code="${group?.position}.label" class="${currClass}">
                     ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
                     <g:if test="${group?.admin}">(admin)</g:if>
-                %{--<g:else>--}%
-                %{--<g:ifNotSelf leader="${leader}">--}%
-                %{--<p:canAdministerGroup scoutGroup="${group?.scoutGroup}">--}%
-                %{--<g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">--}%
-                %{--<div><g:message code="scoutGroup.makeAdmin"--}%
-                %{--args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>--}%
-                %{--</g:link>--}%
-                %{--</p:canAdministerGroup>--}%
-                %{--</g:ifNotSelf>--}%
-                %{--</g:else>--}%
+                <g:else>
+                <g:ifNotSelf leader="${leader}">
+                <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
+                <g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">
+                <div><g:message code="scoutGroup.makeAdmin"
+                args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>
+                </g:link>
+                </p:canAdministerGroup>
+                </g:ifNotSelf>
+                </g:else>
                     <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
-                        <div><g:link controller="scoutGroup" action="show" id="${group?.scoutGroup?.id}">
+                        <div><g:link class="manage-this-unit" controller="scoutGroup" action="show"
+                                     id="${group?.scoutGroup?.id}">
                             <g:message code="scoutGroup.manage"
                                        args="[group?.scoutGroup?.groupType?.name()?.humanize()]"/>
                         </g:link></div>
                     </p:canAdministerGroup>
                 </s:leaderUnit>
             </g:each>
-            <g:if test="${i==1}">
+            <g:if test="${request.i==1}">
                 <s:leaderUnit class="${currClass}"/>
             </g:if>
         </g:if>
@@ -280,15 +266,15 @@
 </s:section>
 
 <s:section class="floatSection">
-    <g:header icon="training-icon"><g:message code="leader.profile.mytraining"/></g:header>
+    <s:sectionHeader code="leader.profile.mytraining"  icon="training-icon" />
 
     <g:if test="${!certificationInfo}">
         <s:msg type="warning" code="leader.profile.notInUnit"/>
     </g:if>
-    <g:set var="i" value="${0}"/>
 
+    <g:set scope="request" var="certIndex" value="${0}" />
     <g:each in="${certificationInfo}" var="certification">
-        <g:if test="${i%2==0}">
+        <g:if test="${request.certIndex%2 == 0}">
 
             <g:if test="${request.currClass == 'alternate-color'}">
                 <g:set var="currClass" value="" scope="request"/>
@@ -297,9 +283,13 @@
                 <g:set var="currClass" value="alternate-color" scope="request"/>
             </g:else>
         </g:if>
-        <g:set var="i" value="${i+1}"/>
+        <g:set var="certIndex" value="${request.certIndex+1}" scope="request"/>
         <s:leaderTraining certificationInfo="${certification}"/>
     </g:each>
+
+    <g:if test="${request.certIndex%2==1}">
+        <s:div class="profileCertificationContainer ${request.currClass}"><s:div class="profileCertification"/></s:div>
+    </g:if>
 
 </s:section>
 </s:content>

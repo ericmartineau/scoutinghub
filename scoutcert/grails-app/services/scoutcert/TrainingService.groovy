@@ -23,7 +23,7 @@ class TrainingService {
 
         def requiredCertifications
 
-        for(LeaderGroup group : leader.groups) {
+        for (LeaderGroup group: leader.groups) {
             numCompletedCertifications = 0
             requiredCertifications = getRequiredCertifications(group);
 
@@ -46,28 +46,31 @@ class TrainingService {
     }
 
     List<ProgramCertification> getRequiredCertifications(LeaderGroup leaderGroup) {
-        List<ProgramCertification> requiredCertifications
+        List<ProgramCertification> requiredCertifications = []
         def c = ProgramCertification.createCriteria()
         Date now = new Date()
 
+        if (leaderGroup.scoutGroup.unitType) {
 
 
-        requiredCertifications = c.list {
-            and {
-                or {
-                    inList('unitType', leaderGroup.scoutGroup.unitType)
-                    inList('positionType', leaderGroup.position)
+            requiredCertifications = c.list {
+                and {
+                    or {
+                        inList('unitType', leaderGroup.scoutGroup.unitType)
+                        inList('positionType', leaderGroup.position)
+                    }
+                    eq('required', true)
                 }
                 eq('required', true)
-            }
-            eq('required', true)
-            lt('startDate', now)
-            gt('endDate', now)
+                lt('startDate', now)
+                gt('endDate', now)
 
-            certification {
-                sort: 'name'
+                certification {
+                    sort: 'name'
+                }
             }
         }
+
 
         return requiredCertifications;
     }

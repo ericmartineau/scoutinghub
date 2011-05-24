@@ -2,7 +2,9 @@ package scoutcert
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
+import grails.plugins.springsecurity.Secured
 
+@Secured(['ROLE_LEADER'])
 class LeaderCertificationController {
 
     SpringSecurityService springSecurityService

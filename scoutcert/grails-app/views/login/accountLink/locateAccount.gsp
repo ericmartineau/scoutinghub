@@ -19,7 +19,8 @@
 
     <g:form action="accountLink">
 
-        <s:section code="flow.locateAccount.createNewAccount">
+        <s:section>
+            <s:sectionHeader icon="profile-icon" code="flow.locateAccount.createNewAccount" />
 
         %{--<g:if test="${hasSocialAuth}">--}%
         %{--<h2><g:message code="flow.locateAccount.newUsers"/></h2>--}%
@@ -53,7 +54,8 @@
 
         </s:section>
 
-        <s:section code="flow.locateAccount.unitInfo">
+        <s:section>
+            <s:sectionHeader code="flow.locateAccount.unitInfo" icon="units-icon" />
             <s:bigTextField name="unitNumber" otherAttrs="[idField:'unitNumberId', positionField:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
                                 placeholder="${message(code:'label.unitNumber')}">
                         </s:bigTextField>
@@ -61,15 +63,16 @@
                         %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
                         <g:hiddenField name="unitNumberId" value="${createAccount?.unit?.id}"/>
 
-            <s:selecter class="selecter" from="${LeaderPositionType.values()}" optionKey="code" optionValue="${{it.name()?.humanize()}}"
-                    id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.code}" code="${message(code:'label.unitPosition')}"
+            <s:selecter class="selecter" from="${LeaderPositionType.values()}" optionValue="${{it.name()?.humanize()}}"
+                    id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
                     noSelection="${['':"Select Position"]}"
                     placeholder="${message(code:'label.unitPosition')}"/>
 
 
         </s:section>
 
-        <s:section code="flow.locateAccount.setPassword">
+        <s:section>
+            <s:sectionHeader code="flow.locateAccount.setPassword" />
             <s:bigTextField type="password" name="password" value="${createAccount?.password}" code="${message(code:'label.password')}"
                     placeholder="${message(code:'label.password')}"/>
 

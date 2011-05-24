@@ -19,7 +19,12 @@ class SwitchingTagLib {
     static namespace = "s"
 
     def propertyList = {attrs, body ->
-        out << "<ul class='${attrs.class ?: ""}'>${body()}</ul>"
+        if(session.isMobile) {
+            out << body()
+        } else {
+            out << "<ul class='property-list ${attrs.class ?: ""}'>${body()}</ul>"
+        }
+
     }
 
     def address = {attrs, body ->
@@ -48,10 +53,10 @@ class SwitchingTagLib {
         if(session.isMobile) {
             out << property(attrs, body)
         } else {
-            out << "<div class='leader-unit ${attrs.class ?: ''}'>"
+            out << "<li class='leader-unit ${attrs.class ?: ''}'>"
             out << "<div class='leader-unit-position'>${message(code:attrs.code)}</div>"
             out << "<div class='leader-unit-unitname'>${body()}</div>"
-            out << "</div>"
+            out << "</li>"
         }
     }
 
@@ -115,7 +120,14 @@ class SwitchingTagLib {
         } else {
             out << "<h2>${body()}</h2>"
         }
+    }
 
+    def sectionHeader = {attrs, body->
+        if(session.isMobile) {
+            g.set(var: "sectionHeader", value: message(code:attrs.code), scope: "request");
+        } else {
+            out << g.header(attrs, body)
+        }
     }
 
     def form = {attrs, body ->
@@ -271,7 +283,7 @@ class SwitchingTagLib {
     def bigButton = {attrs, body ->
         if (session.isMobile) {
             out << linker(attrs) {
-                out << link(attrs) {attrs.value}
+                out << link(attrs) {attrs.value ?: body()}
             }
         } else {
             out << "<div class='big-button-container'>"
@@ -301,7 +313,13 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << "<li class='bigfield'>"
             def type = attrs.type ?: "text"
-            out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
+            if(!attrs.otherAttrs) attrs.otherAttrs = [:]
+            attrs.otherAttrs.placeholder = attrs.placeholder
+            attrs.otherAttrs.value = attrs.value ?: ""
+            attrs.otherAttrs.name = attrs.name
+
+            out << f.txtField(attrs)
+//            out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
             out << "</li>"
         } else {
             out << f.bigTextField(attrs, body)
@@ -320,7 +338,7 @@ class SwitchingTagLib {
         Leader leader = attrs.leader
         Role role = attrs.role
         if (session.isMobile) {
-            out << pageItem { out << "Log in with a browser"}
+//            out << pageItem { out << "Log in with a browser"}
         } else {
             out << checkBox(onclick: "togglePermission(this, ${leader?.id}, ${role?.id})", checked: leader.hasAuthority(role))
             out << message(code: "${role.authority}.label")
@@ -343,15 +361,21 @@ class SwitchingTagLib {
 
     }
 
-
-
     def section = {attrs, body ->
         if (session.isMobile) {
+            def bodyEval = iwebkit.section(attrs, body)
+            def header
 
             if (attrs.code) {
-                out << "<span class='graytitle'>${message(code: attrs.code)}</span>"
+                header = message(code: attrs.code)
+            } else if(request.sectionHeader) {
+                header = request.sectionHeader
             }
-            out << iwebkit.section(attrs, body)
+            if (header) {
+                out << "<span class='graytitle'>${header}</span>"
+            }
+            request.sectionHeader = null
+            out << bodyEval
         } else {
             out << "<div class='section ${attrs.class ?: "singleColumn"}'>"
             if (attrs.code) {
@@ -373,6 +397,14 @@ class SwitchingTagLib {
 //            out << "<br style='font-size: 1px; line-height: 0; height: 0; clear: both' />"
 
 
+        }
+    }
+
+    def ctxmenu = {attrs, body->
+        if(session.isMobile) {
+
+        } else {
+            out << g.ctxmenu(attrs, body)
         }
     }
 

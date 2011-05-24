@@ -60,6 +60,20 @@ class CertificationClassController {
     }
 
     @Secured(['ROLE_LEADER'])
+    def processUnRegister = {
+        int id = Integer.parseInt(params.id)
+        CertificationClass certificationClass = CertificationClass.get(id)
+        Leader leader = Leader.get(Integer.parseInt(params.leaderId))
+        certificationClass.removeFromRegistrants(leader)
+        leader.removeFromCertificationClasses(certificationClass)
+        certificationClass.save(flush: true)
+        leader.save(flush: true)
+        render("<script>window.location.reload()</script>")
+    }
+
+
+
+    @Secured(['ROLE_LEADER'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [certificationClassInstanceList: CertificationClass.list(params), certificationClassInstanceTotal: CertificationClass.count()]

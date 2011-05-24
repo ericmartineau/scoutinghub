@@ -11,17 +11,13 @@ class ScoutTagLib {
     }
 
     def bigTextField = {attrs, body ->
-        def type = attrs.type ?: "text"
         out << "<table cellpadding='0' cellspacing='0' class='fldContainer ${attrs.class}'><tr><td align='left'>"
 //        out << "<span class='fldContainerSpacer'></span>"
 //        out << "<span class='fldContainer'>"
         out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
 
-        out << "<input "
-        attrs.otherAttrs?.each {
-            out << "${it.key}='${it.value}' "
-        }
-        out << " type='${type}' value='${attrs.value ?: ""}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
+        out << txtField(attrs)
+
 //        out << "</td></tr>"
         if(body) {
             out << "<tr><td>"
@@ -33,6 +29,16 @@ class ScoutTagLib {
 //        out << "<span class='fldContainerSpacer'></span>"
 //        out << "</div>"
 
+    }
+
+    def txtField ={attrs->
+        def type = attrs.type ?: "text"
+
+        out << "<input "
+        attrs.otherAttrs?.each {
+            out << "${it.key}='${it.value}' "
+        }
+        out << " type='${type}' value='${attrs.value ?: ""}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
     }
 
     def formControl = {attrs, body->

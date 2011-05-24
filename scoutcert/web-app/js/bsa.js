@@ -150,7 +150,10 @@ function decorate() {
     jQueryBridge();
 
     //Make all the training registration links open jquery dialogs
-    jQuery(".registerForTraining").each(function() {
+    jQuery(".register-for-training").each(function() {
+        var $this = jQuery(this);
+        if(!$this.attr("configured")) {
+
         var oldHref = this.href;
         this.href = "javascript:void(0)";
         jQuery(this).click(
@@ -162,7 +165,8 @@ function decorate() {
 
 
                     });
-                }).removeClass("registerForTraining")
+                }).attr("configured", "yes")
+        }
 
     });
 
@@ -226,47 +230,7 @@ function decorate() {
             .draggable({ start:startDrag, stop:stopDrag, axis: "y", opacity:0.35, cursor:'move', handle: ".leaderName", containment: ".leaderResultContainer", revert:true })
             .droppable({hoverClass: 'leaderResultAccept', accept: ".leaderResult", drop: mergeLeaders});
 
-    //Creates unit selector widget (autocomplete) (that communicates with position drop-down boxes)
-    jQuery(".unitSelector").each(function() {
-        var jthis = jQuery(this);
-
-        //This prevents it from running again
-        jthis.removeClass("unitSelector");
-
-
-        var idField = jQuery("#" + jthis.attr("idField"));
-        var positionField = jQuery("#" + jthis.attr("positionField"));
-
-        //Let's initialize the drop-down right now
-        if (idField.val()) {
-            getApplicablePositions(positionField, idField.val());
-        }
-
-
-        jthis.autocomplete({
-            source:getUnitData,
-//            autoFill: true,
-            mustMatch: true,
-            matchContains: false,
-//            scrollHeight: 220,
-            formatItem: function(data, i, total) {
-                return data[0]
-            },
-            focus: function(event, ui) {
-                $(idField).val(ui.item.key);
-                jthis.val(ui.item.label);
-                return false;
-            },
-            select: function(event, ui) {
-                $(idField).val(ui.item.key);
-                jthis.val(ui.item.label);
-                getApplicablePositions(positionField, ui.item.key);
-                return false;
-            }
-        });
-
-
-    });
+    configureUnitAutocomplete();
 
     function jQueryBridge() {
         jQuery(".big-button").button();
@@ -301,46 +265,8 @@ function decorate() {
     }
 
 
-    /**
-     * Next three functions help out with the autocomplete text control
-     */
-    function findValue(li) {
-        if (li == null)
-            return alert("No match!");
-
-        if (!!li.extra)
-            var sValue = li.extra[0];
-        else
-            var sValue = li.selectValue;
-
-        alert(sValue);
-    }
 
 
-    function selectItem(li) {
-        findValue(li);
-    }
-
-    function formatItem(row) {
-        return row[0]; //value
-    }
-
-    /**
-     * Ajax call to retrieve positions that apply based on the unit type
-     * @param selectFld
-     * @param unitId
-     */
-    function getApplicablePositions(selectFld, unitId) {
-        selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
-        jQuery.getJSON("/scoutcert/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
-            selectFld.html("");
-            for (i in json) {
-                var obj = json[i];
-                selectFld.selectBox('options', json);
-//            append("<option value='" + obj.objectValue + "'>" + obj.objectLabel + "</option>");
-            }
-        });
-    }
 }
 
 function closePopUp() {
@@ -384,17 +310,7 @@ function toggleMenu() {
 //            $this.removeClass("ui-corner-tl ui-corner-tr ui-state-hover");
 
     }
-
-
 }
-
-
-function getUnitData(term, callback) {
-    jQuery.getJSON("/scoutcert/scoutGroup/findUnits", term, function(json) {
-        callback(json)
-    })
-}
-
 
 /**
  * Makes sure that all the progressive enhancement stuff happens on ajax calls
