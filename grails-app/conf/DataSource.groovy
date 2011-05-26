@@ -14,7 +14,7 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost/scoutcert"
+            url = "jdbc:mysql://localhost/scoutinghub"
         }
     }
     test {

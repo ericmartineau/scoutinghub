@@ -48,12 +48,12 @@
 
                             <table>
                                 <tr>
-                                    <td><a href="/scoutcert/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"><img src="/scoutcert/images/facebook.jpg"/></a></td>
-                                    <td><a href="/scoutcert/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"><img src="/scoutcert/images/google.jpg"/></a></td>
+                                    <td><a href="/scoutinghub/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"><img src="/scoutinghub/images/facebook.jpg"/></a></td>
+                                    <td><a href="/scoutinghub/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"><img src="/scoutinghub/images/google.jpg"/></a></td>
 
                                 </tr>
                                 <tr>
-                                    <td><img src="/scoutcert/images/yahoo.jpg"/></td>
+                                    <td><img src="/scoutinghub/images/yahoo.jpg"/></td>
                                     <td></td>
                                 </tr>
 

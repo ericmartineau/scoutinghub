@@ -3,7 +3,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import scoutcert.*
+import scoutinghub.*
 
 class BootStrap {
 

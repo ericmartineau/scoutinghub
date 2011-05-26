@@ -1,6 +1,6 @@
 
 
-<%@ page import="scoutcert.ProgramCertification" %>
+<%@ page import="scoutinghub.ProgramCertification" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -32,7 +32,7 @@
                                     <label for="unitType"><g:message code="programCertification.unitType.label" default="Unit Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: programCertificationInstance, field: 'unitType', 'errors')}">
-                                    <g:select name="unitType" from="${scoutcert.ScoutUnitType?.values()}" value="${programCertificationInstance?.unitType}" noSelection="['': '']" />
+                                    <g:select name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${programCertificationInstance?.unitType}" noSelection="['': '']" />
                                 </td>
                             </tr>
                         
@@ -50,7 +50,7 @@
                                     <label for="certification"><g:message code="programCertification.certification.label" default="Certification" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: programCertificationInstance, field: 'certification', 'errors')}">
-                                    <g:select name="certification.id" from="${scoutcert.Certification.list()}" optionKey="id" value="${programCertificationInstance?.certification?.id}"  />
+                                    <g:select name="certification.id" from="${scoutinghub.Certification.list()}" optionKey="id" value="${programCertificationInstance?.certification?.id}"  />
                                 </td>
                             </tr>
                         
@@ -59,7 +59,7 @@
                                     <label for="positionType"><g:message code="programCertification.positionType.label" default="Position Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: programCertificationInstance, field: 'positionType', 'errors')}">
-                                    <g:select name="positionType" from="${scoutcert.LeaderPositionType?.values()}" value="${programCertificationInstance?.positionType}" noSelection="['': '']" />
+                                    <g:select name="positionType" from="${scoutinghub.LeaderPositionType?.values()}" value="${programCertificationInstance?.positionType}" noSelection="['': '']" />
                                 </td>
                             </tr>
                         

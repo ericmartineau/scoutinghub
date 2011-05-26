@@ -32,8 +32,8 @@ function closeAllPopups() {
  */
 function leaderQuery() {
     var searchTerm = jQuery("#leaderQuery").val();
-    jQuery("#content").html("<div class='spinner'>Loading...<br /><img src='/scoutcert/images/loading.gif' /></div>");
-    jQuery("#content").load("/scoutcert/permissions/leaderQuery", {leaderQuery:searchTerm});
+    jQuery("#content").html("<div class='spinner'>Loading...<br /><img src='/scoutinghub/images/loading.gif' /></div>");
+    jQuery("#content").load("/scoutinghub/permissions/leaderQuery", {leaderQuery:searchTerm});
 }
 
 
@@ -45,7 +45,7 @@ function leaderQuery() {
 function selectUnit(name, unitid) {
     jQuery("#dialog").remove();
     var params = unitid ? {unitId:unitid} : "";
-    jQuery("<div id='dialog'></div>").load("/scoutcert/scoutGroup/selectUnit", params, function() {
+    jQuery("<div id='dialog'></div>").load("/scoutinghub/scoutGroup/selectUnit", params, function() {
         jQuery(this).dialog({
             modal:true,
             title:'Select a Unit',
@@ -65,7 +65,7 @@ function selectUnit(name, unitid) {
 var currSelectId
 function addAddress(selectId) {
     currSelectId = selectId
-    createDialog("/scoutcert/address/create", {}, {
+    createDialog("/scoutinghub/address/create", {}, {
         title: 'New Address',
         width:450
     })
@@ -73,7 +73,7 @@ function addAddress(selectId) {
 
 function refreshAddressList() {
     if (currSelectId) {
-        jQuery.getJSON("/scoutcert/address/listJSON", {}, function(json) {
+        jQuery.getJSON("/scoutinghub/address/listJSON", {}, function(json) {
             var $select = jQuery("#" + currSelectId);
             $select.get(0).options.length = 0
             jQuery.each(json, function(index, item) {
@@ -96,7 +96,7 @@ function jsTreeConfig(url) {
     return {
         "json_data" : {
             ajax : {
-                url : "/scoutcert/scoutGroup/selectUnitTree",
+                url : "/scoutinghub/scoutGroup/selectUnitTree",
                 data : function (n) {
                     return {
                         id : n.attr ? n.attr("id") : "0"
@@ -212,7 +212,7 @@ function decorate() {
         var leaderidA = dragger.attr("leaderid");
         var leaderidB = dropper.attr("leaderid");
 
-        createDialog("/scoutcert/leader/merge", {leaderA:leaderidA, leaderB:leaderidB}, {title:'Merge', modal:true, width: 500});
+        createDialog("/scoutinghub/leader/merge", {leaderA:leaderidA, leaderB:leaderidB}, {title:'Merge', modal:true, width: 500});
 
     }
 

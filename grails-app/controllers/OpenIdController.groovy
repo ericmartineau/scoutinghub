@@ -5,9 +5,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.savedrequest.DefaultSavedRequest
 
-import scoutcert.Leader
-import scoutcert.Role
-import scoutcert.LeaderRole
+import scoutinghub.Leader
+import scoutinghub.Role
+import scoutinghub.LeaderRole
 import org.springframework.security.facebook.FacebookHelper
 
 /**

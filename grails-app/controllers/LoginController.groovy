@@ -11,23 +11,23 @@ import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import scoutcert.Leader
-import scoutcert.SocialLoginService
-import scoutcert.LeaderRole
-import scoutcert.Role
+import scoutinghub.Leader
+import scoutinghub.SocialLoginService
+import scoutinghub.LeaderRole
+import scoutinghub.Role
 import grails.plugin.mail.MailService
-import scoutcert.EmailVerifyService
-import scoutcert.LeaderService
+import scoutinghub.EmailVerifyService
+import scoutinghub.LeaderService
 
-import scoutcert.CreateAccountCommand
+import scoutinghub.CreateAccountCommand
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import scoutcert.LeaderPositionType
-import scoutcert.ScoutGroup
-import scoutcert.LeaderGroup
-import scoutcert.CreateAccountService
-import scoutcert.RecordSavingService
+import scoutinghub.LeaderPositionType
+import scoutinghub.ScoutGroup
+import scoutinghub.LeaderGroup
+import scoutinghub.CreateAccountService
+import scoutinghub.RecordSavingService
 import org.apache.commons.validator.EmailValidator
 
 @Secured(['ROLE_ANONYMOUS'])

@@ -73,7 +73,7 @@ function configureUnitAutocomplete() {
     function getApplicablePositions(selectFld, unitId) {
         var currVal = selectFld.val();
         selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
-        jQuery.getJSON("/scoutcert/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
+        jQuery.getJSON("/scoutinghub/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
             selectFld.html("");
             for (i in json) {
                 var obj = json[i];
@@ -87,7 +87,7 @@ function configureUnitAutocomplete() {
 }
 
 function getUnitData(term, callback) {
-    jQuery.getJSON("/scoutcert/scoutGroup/findUnits", term, function(json) {
+    jQuery.getJSON("/scoutinghub/scoutGroup/findUnits", term, function(json) {
         callback(json)
     })
 }

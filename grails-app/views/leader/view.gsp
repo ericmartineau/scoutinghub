@@ -1,4 +1,4 @@
-<%@ page import="scoutcert.Role" %>
+<%@ page import="scoutinghub.Role" %>
 <html>
 <head>
     <title><g:message code="menu.leader.profile"/></title>
@@ -12,14 +12,14 @@
 
         function togglePermission(checkbox, leaderid, roleid) {
             jQuery.ajax({
-                        url:"/scoutcert/permissions/setPermission",
+                        url:"/scoutinghub/permissions/setPermission",
                         data: {checked: checkbox.checked, leaderId:leaderid, roleId: roleid}
                     });
         }
 
 
         function addScoutingId(leaderId) {
-            createDialog("/scoutcert/myScoutingId/create", {'leader.id': leaderId}, {
+            createDialog("/scoutinghub/myScoutingId/create", {'leader.id': leaderId}, {
                         title: "${message(code:'leader.profile.addScoutingId')}",
                         width: 400,
                         modal:true
@@ -28,7 +28,7 @@
         }
 
         function addToGroup(leaderId) {
-            createDialog("/scoutcert/leaderGroup/create", {'leader.id': leaderId}, {
+            createDialog("/scoutinghub/leaderGroup/create", {'leader.id': leaderId}, {
                         title: "${message(code:'leader.profile.addToGroup')}",
                         width: 400,
                         modal:true
@@ -37,7 +37,7 @@
 
         function markTrainingComplete(leaderId, certificationId) {
             jQuery("#dialog").remove();
-            jQuery("<div id='dialog'></div>").load("/scoutcert/leaderCertification/createForm", {certificationId:certificationId}, function(result) {
+            jQuery("<div id='dialog'></div>").load("/scoutinghub/leaderCertification/createForm", {certificationId:certificationId}, function(result) {
 
                 jQuery(this).dialog({
                             title: "${message(code:'leader.profile.enterTrainingDetails')}",
@@ -46,9 +46,9 @@
                             buttons: {
                                 'Save': function() {
                                     var postData = {leaderId:leaderId, certificationId:certificationId, dateEarned:jQuery("#trainingDate").val()};
-                                    jQuery.getJSON("/scoutcert/leaderCertification/saveCertification", postData, function(json) {
+                                    jQuery.getJSON("/scoutinghub/leaderCertification/saveCertification", postData, function(json) {
                                         if (json.success) {
-                                            window.location = "/scoutcert/leader/view/" + leaderId;
+                                            window.location = "/scoutinghub/leader/view/" + leaderId;
                                         } else {
                                             alert(json.message)
                                         }
@@ -61,7 +61,7 @@
         }
 
         function editPermissions(leaderId) {
-            createDialog("/scoutcert/leaderGroup/permissions/" + leaderId, {}, {
+            createDialog("/scoutinghub/leaderGroup/permissions/" + leaderId, {}, {
 
                     });
         }
@@ -76,7 +76,7 @@
                 var leaderId = parseInt(jthis.attr("leaderId"));
 
                 if (certificationId > 0) {
-                    jQuery.get("/scoutcert/certificationClass/findByCertification", {certificationId:certificationId, leaderId:leaderId},
+                    jQuery.get("/scoutinghub/certificationClass/findByCertification", {certificationId:certificationId, leaderId:leaderId},
                             function(data) {
                                 if (data) {
                                     jthis.find(".upcomingTrainings").append("<div class='currentTraining ui-corner-all'>" + data + "</div>");

@@ -1,6 +1,6 @@
 
 
-<%@ page import="scoutcert.MyScoutingId" %>
+<%@ page import="scoutinghub.MyScoutingId" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -63,7 +63,7 @@
                                   <label for="leader"><g:message code="myScoutingId.leader.label" default="Leader" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: myScoutingIdInstance, field: 'leader', 'errors')}">
-                                    <g:select name="leader.id" from="${scoutcert.Leader.list()}" optionKey="id" value="${myScoutingIdInstance?.leader?.id}"  />
+                                    <g:select name="leader.id" from="${scoutinghub.Leader.list()}" optionKey="id" value="${myScoutingIdInstance?.leader?.id}"  />
                                 </td>
                             </tr>
                         

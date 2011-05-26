@@ -23,42 +23,42 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/jobs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/controllers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/taglib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/grails-app/jobs" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/web-app/plugins" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="grails-1.3.4" level="application" />
-    <orderEntry type="module-library">
-      <library name="Grails User Library">
+    <orderEntry type="library" name="grails-1.3.4 (2)" level="application" />
+    <orderEntry type="module-library" exported="">
+      <library name="Grails User Library (scoutcert)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.activation/activation/jars/activation-1.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/jars/mail-1.4.3.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.7.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/org.springframework.security.web/jars/org.springframework.security.web-3.0.4.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.nekohtml/com.springsource.org.cyberneko.html/jars/com.springsource.org.cyberneko.html-1.9.13.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/org.springframework.security.core/jars/org.springframework.security.core-3.0.4.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xerces/com.springsource.org.apache.xerces/jars/com.springsource.org.apache.xerces-2.9.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.commons/com.springsource.org.apache.commons.httpclient/jars/com.springsource.org.apache.commons.httpclient-3.1.0.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.openid4java/com.springsource.org.openid4java/jars/com.springsource.org.openid4java-0.9.5.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/org.springframework.security.openid/jars/org.springframework.security.openid-3.0.4.RELEASE.jar!/" />
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/org.springframework.security.web/jars/org.springframework.security.web-3.0.4.RELEASE.jar!/" />
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/org.springframework.security.core/jars/org.springframework.security.core-3.0.4.RELEASE.jar!/" />
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/jars/spring-test-3.0.5.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.0.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.0.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/oauth.signpost/signpost-commonshttp4/jars/signpost-commonshttp4-1.2.1.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/oauth.signpost/signpost-core/jars/signpost-core-1.2.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/jars/spring-test-3.0.5.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/jars/mail-1.4.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.icegreen/greenmail/jars/greenmail-1.3.jar!/" />
         </CLASSES>

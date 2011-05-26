@@ -3,13 +3,13 @@ html {
 }
 
 BODY {
-    background-image: url(/scoutcert/images/bkg.gif);
+    background-image: url(/scoutinghub/images/bkg.gif);
     background-color: #005696;
     background-repeat: repeat-x;
 }
 
 BODY .mainBody {
-    BACKGROUND-IMAGE: url(/scoutcert/images/bkg.gif);
+    BACKGROUND-IMAGE: url(/scoutinghub/images/bkg.gif);
     BACKGROUND-COLOR: #005696;
     BACKGROUND-REPEAT: repeat-x;
     min-height: 720px;
@@ -1456,13 +1456,13 @@ H4.registerTitle {
 .info {
     color: #00529B;
     background-color: #BDE5F8;
-    background-image: url('/scoutcert/images/info.png');
+    background-image: url('/scoutinghub/images/info.png');
 }
 
 .star {
     color: #00529B;
     background-color: #BDE5F8;
-    background-image: url('/scoutcert/images/star.png');
+    background-image: url('/scoutinghub/images/star.png');
 }
 
 .success {
@@ -1473,27 +1473,27 @@ H4.registerTitle {
 .warning {
     color: #9F6000;
     background-color: #FEEFB3;
-    background-image: url('/scoutcert/images/warning.png');
+    background-image: url('/scoutinghub/images/warning.png');
 }
 
 .error {
     color: #D8000C;
     background-color: #FFBABA;
-    background-image: url('/scoutcert/images/error.png');
+    background-image: url('/scoutinghub/images/error.png');
 }
 
 .warningIcon {
-    background-image: url('/scoutcert/images/warning.png');
+    background-image: url('/scoutinghub/images/warning.png');
     border-color: #666;
 }
 
 .errorIcon, .error {
-    background-image: url('/scoutcert/images/error.png');
+    background-image: url('/scoutinghub/images/error.png');
     border-color: #666;
 }
 
 .success, .successIcon {
-    background-image: url('/scoutcert/images/success.png');
+    background-image: url('/scoutinghub/images/success.png');
     border-color: #666;
 }
 
@@ -1524,12 +1524,12 @@ H4.registerTitle {
 }
 
 .training-incomplete {
-    background-image: url('/scoutcert/images/training-incomplete.png');
+    background-image: url('/scoutinghub/images/training-incomplete.png');
     background-repeat: no-repeat;
 }
 
 .training-complete {
-    background-image: url('/scoutcert/images/training-complete.png');
+    background-image: url('/scoutinghub/images/training-complete.png');
     background-repeat: no-repeat;
 }
 
@@ -2016,15 +2016,15 @@ span.header-icon {
 }
 
 .profile-icon {
-    background-image: url("/scoutcert/images/profile-icon.png");
+    background-image: url("/scoutinghub/images/profile-icon.png");
 }
 
 .training-icon {
-    background-image: url("/scoutcert/images/training-icon.png");
+    background-image: url("/scoutinghub/images/training-icon.png");
 }
 
 .units-icon {
-    background-image: url("/scoutcert/images/units-icon.png");
+    background-image: url("/scoutinghub/images/units-icon.png");
 }
 
 div.ctx-menu {
@@ -2075,11 +2075,11 @@ ul.ctx-menu li div.td {
 }
 
 .edit-icon {
-    background-image: url('/scoutcert/images/edit-icon.png')
+    background-image: url('/scoutinghub/images/edit-icon.png')
 }
 
 .add-icon {
-    background-image: url('/scoutcert/images/add-icon.png')
+    background-image: url('/scoutinghub/images/add-icon.png')
 }
 
 .no-bottom-border {
