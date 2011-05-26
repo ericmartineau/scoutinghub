@@ -90,21 +90,29 @@ class ImportTrainingService {
 
     def leaderPositionTypeMap = [
             "CharterRep": LeaderPositionType.CharterRep,
+            "CharteredOrganizationRep": LeaderPositionType.CharterRep,
             "CommitteeChair": LeaderPositionType.CommitteeChair,
+            "CommitteeChairman": LeaderPositionType.CommitteeChair,
             "CommitteeMember": LeaderPositionType.CommitteeMember,
             "Scoutmaster": LeaderPositionType.Scoutmaster,
             "AssistantScoutMaster": LeaderPositionType.AssistantScoutMaster,
+            "AssistantScoutmaster": LeaderPositionType.AssistantScoutMaster,
             "Cubmaster": LeaderPositionType.Cubmaster,
             "AssistantCubmaster": LeaderPositionType.AssistantCubmaster,
             "TigerLeader": LeaderPositionType.TigerLeader,
+            "TigerCubDenLeader": LeaderPositionType.TigerLeader,
             "DenLeader": LeaderPositionType.DenLeader,
+            "PackTrainer": LeaderPositionType.PackTrainer,
             "WebelosLeader": LeaderPositionType.WebelosLeader,
             "AssistantDenLeader": LeaderPositionType.AssistantDenLeader,
+            "AsstDenLeader": LeaderPositionType.AssistantDenLeader,
             "AssistantWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
+            "AsstWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
             "VarsityScoutCoach": LeaderPositionType.VarsityCoach,
             "AssistantVarsityCoach": LeaderPositionType.AssistantVarsityCoach,
             "VenturingCrewAdvisor": LeaderPositionType.CrewAdvisor,
             "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor,
+            "VenturingCrewAssocAdvisor": LeaderPositionType.AssistantCrewAdvisor
 
     ]
 
@@ -398,7 +406,7 @@ class ImportTrainingService {
 
                                         if (record.unitNumber) {
                                             if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
-                                                existingUnit.addToLeaderGroups([leader: leader, position: leaderPositionTypeMap[record.position]])
+                                                existingUnit.addToLeaderGroups([leader: leader, position: position])
                                             }
                                         }
 

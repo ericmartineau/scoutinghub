@@ -25,25 +25,9 @@ environments {
     }
     production {
         dataSource {
+            pooled = false
             jndiName = "java:comp/env/scoutinghub"
             dbCreate = "update"
-            properties {
-                maxActive = 50
-                maxIdle = 25
-                minIdle = 1
-                initialSize = 1
-                minEvictableIdleTimeMillis = 60000
-                timeBetweenEvictionRunsMillis = 60000
-                numTestsPerEvictionRun = 3
-                maxWait = 10000
-
-                testOnBorrow = true
-                testWhileIdle = true
-                testOnReturn = false
-
-                validationQuery = "SELECT 1"
-            }
-
         }
     }
 }

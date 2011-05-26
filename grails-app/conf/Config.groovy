@@ -49,14 +49,13 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.cubtrails.com/${appName}"
-        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
+        grails.serverURL = "http://www.scoutinghub.com/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
 
     }
     development {
-        grails.serverURL = "http://s.cubtrails.com:8080/${appName}"
-        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
-
+        grails.serverURL = "http://dev.scoutinghub.com:8080/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
