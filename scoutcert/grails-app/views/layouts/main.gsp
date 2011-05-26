@@ -70,10 +70,10 @@
                 <div id="outer" class="shadow ui-corner-all">
                     <div id="logo">
                         <span class="logoBar"><g:link controller="leader" action="index">
-                            <img src="/scoutcert/images/full-header.jpg" border="0"/>
+                            <img src="/scoutinghub/images/full-header.jpg" border="0"/>
 
                         </g:link></span>
-                        <span class="logoBar"><img src="/scoutcert/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>
+                        <span class="logoBar"><img src="/scoutinghub/images/010-GrandCanyon.jpg" style="border-width:0px;"></span>
 
                     </div>
 
@@ -97,7 +97,7 @@
                     <div id="bsafooter" class="ui-corner-bl ui-corner-br" style="padding-left: 20px">
                         <table width="100%" cellpadding="0" cellspacing="0">
                             <tr>
-                                <td valign="middle"><img src="/scoutcert/images/footerbsa.gif"/></td>
+                                <td valign="middle"><img src="/scoutinghub/images/footerbsa.gif"/></td>
                                 <td valign="middle" align="right">
                                     <g:pageProperty name="page.footer"/>
                                     <sec:ifLoggedIn>
@@ -106,9 +106,9 @@
 
                                                 <tr>
                                                     <td><g:message code="login.saveTimeLoggingIn"/></td>
-                                                    <td><a href="/scoutcert/openId/yahoo?suggest=true"><img src="/scoutcert/images/yahoo-logo-square.png"/></a></td>
-                                                    <td><a href="/scoutcert/openId/google?suggest=true"><img src="/scoutcert/images/google-logo-square.png"/></a></td>
-                                                    <td><a href="/scoutcert/openId/facebook?suggest=true"><img src="/scoutcert/images/facebook-logo-square.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/yahoo?suggest=true"><img src="/scoutinghub/images/yahoo-logo-square.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/google?suggest=true"><img src="/scoutinghub/images/google-logo-square.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/facebook?suggest=true"><img src="/scoutinghub/images/facebook-logo-square.png"/></a></td>
                                                     %{--<td><fb:login-button class="fbconnect_login" size="large" length="long" background="white"--}%
                                                     %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
                                                 </tr>

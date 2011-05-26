@@ -1,10 +1,10 @@
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.security.facebook.FacebookAuthenticationProvider
 import org.springframework.security.facebook.FacebookHelper
-import scoutcert.FacebookAuthenticationFailureHandler
-import scoutcert.FacebookSocialAuthenticationFilter
-import scoutcert.OpenIdSocialAuthenticationFilter
-import scoutcert.ScoutUserDetailsService
+import scoutinghub.FacebookAuthenticationFailureHandler
+import scoutinghub.FacebookSocialAuthenticationFilter
+import scoutinghub.OpenIdSocialAuthenticationFilter
+import scoutinghub.ScoutUserDetailsService
 
 // Place your Spring DSL code here
 beans = {
@@ -53,8 +53,8 @@ beans = {
     }
 
     facebookHelper(FacebookHelper) {
-        apiKey = "d6fc406cd3f5f8d3458eda5bd4e19e75"
-        secret = "ab725467de1c9853e5f45ed389ce48d9"
+        apiKey = "7ff080f0a28d435c77b2506472e4add1"
+        secret = "139698635a23301fa00e43cbdd254222"
     }
 
     openIDAuthenticationFilter(OpenIdSocialAuthenticationFilter) {

@@ -5,9 +5,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.savedrequest.DefaultSavedRequest
 
-import scoutcert.Leader
-import scoutcert.Role
-import scoutcert.LeaderRole
+import scoutinghub.Leader
+import scoutinghub.Role
+import scoutinghub.LeaderRole
 import org.springframework.security.facebook.FacebookHelper
 
 /**
@@ -78,7 +78,7 @@ class OpenIdController {
         // Request an access token by fetching url with given code.
 
         redirect(url: "https://www.facebook.com/login.php" +
-                "?api_key=d6fc406cd3f5f8d3458eda5bd4e19e75" +
+                "?api_key=7ff080f0a28d435c77b2506472e4add1" +
                 "&version=1.0&display=page" +
                 "&next=" + grailsApplication.config.grails.serverURL + "/j_spring_facebook_security_check")
 //        redirect(url: "https://graph.facebook.com/oauth/authorize" +

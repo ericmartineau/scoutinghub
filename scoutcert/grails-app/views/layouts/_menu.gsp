@@ -13,7 +13,7 @@
 
         <sec:ifLoggedIn>
 
-            <li><a href="/scoutcert/logout/"><g:message code="menu.logout"/></a></li>
+            <li><a href="/scoutinghub/logout/"><g:message code="menu.logout"/></a></li>
 
         </sec:ifLoggedIn>
 

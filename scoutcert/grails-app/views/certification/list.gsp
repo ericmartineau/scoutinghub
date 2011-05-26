@@ -1,4 +1,4 @@
-<%@ page import="scoutcert.Certification" %>
+<%@ page import="scoutinghub.Certification" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

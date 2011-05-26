@@ -4,7 +4,7 @@
     <meta name="layout" content="${layoutName}"/>
     <script>
         jQuery(document).ready(function() {
-            jQuery.getJSON("/scoutcert/training/getFilters", {}, function(json) {
+            jQuery.getJSON("/scoutinghub/training/getFilters", {}, function(json) {
                 jQuery("#filterName").selectBox();
                 jQuery("#filterName").selectBox("options", json);
                 jQuery("#filterName").selectBox("value", "${session.filterName}");
