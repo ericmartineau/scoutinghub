@@ -45,9 +45,9 @@
 
             <tr>
                 <td><g:message code="login.alternateproviders"/></td>
-                <td><a href="/scoutinghub/openId/yahoo"><img src="../images/yahoo-logo-square.png"/></a></td>
-                <td><a href="/scoutinghub/openId/google"><img src="../images/google-logo-square.png"/></a></td>
-                <td><a href="/scoutinghub/openId/facebook"><img src="../images/facebook-logo-square.png"/></a></td>
+                <td><a href="/scoutcert/openId/yahoo"><img src="../images/yahoo-logo-square.png"/></a></td>
+                <td><a href="/scoutcert/openId/google"><img src="../images/google-logo-square.png"/></a></td>
+                <td><a href="/scoutcert/openId/facebook"><img src="../images/facebook-logo-square.png"/></a></td>
                 %{--<td><fb:login-button class="fbconnect_login" size="large" length="long" background="white"--}%
                 %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
             </tr>
@@ -63,11 +63,11 @@
         src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"
         type="text/javascript"></script>
 <script type="text/javascript">
-    //    FB.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutinghub/static/xd_receiver.html");
+    //    FB.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
 
     function facebook_onlogin() {
         FB.Connect.ifUserConnected(function () {
-            window.location = '/scoutinghub/openId/facebook';
+            window.location = '/scoutcert/openId/facebook';
         });
     }
     <!--
@@ -75,10 +75,10 @@
         document.forms['loginForm'].elements['j_username'].focus();
         FB_RequireFeatures(["XFBML"], function() {
 
-            FB.Facebook.init("7ff080f0a28d435c77b2506472e4add1", "/scoutinghub/static/xd_receiver.html");
+            FB.Facebook.init("d6fc406cd3f5f8d3458eda5bd4e19e75", "/scoutcert/static/xd_receiver.html");
             FB.Facebook.get_initialized().waitUntilReady(function() {
 //                setTimeout(function() {
-                jQuery(".FB_login_button").find("img").attr("src", "/scoutinghub/images/facebook.jpg")
+                jQuery(".FB_login_button").find("img").attr("src", "/scoutcert/images/facebook.jpg")
 //                }, 150)
             })
 

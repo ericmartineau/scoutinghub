@@ -29,13 +29,13 @@
         <!--<property name="authenticationManager" ref="authenticationManager"/>-->
         <!--<property name="authenticationSuccessHandler">-->
             <!--<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">-->
-                <!--<property name="defaultTargetUrl" value="/scoutinghub/homePage/"/>-->
+                <!--<property name="defaultTargetUrl" value="/scoutcert/homePage/"/>-->
                 <!--<property name="alwaysUseDefaultTargetUrl" value="false"/>-->
             <!--</bean>-->
         <!--</property>-->
         <!--<property name="authenticationFailureHandler">-->
             <!--<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">-->
-                <!--<property name="defaultFailureUrl" value="/scoutinghub/login/auth"/>-->
+                <!--<property name="defaultFailureUrl" value="/scoutcert/login/auth"/>-->
             <!--</bean>-->
         <!--</property>-->
     <!--</bean>-->

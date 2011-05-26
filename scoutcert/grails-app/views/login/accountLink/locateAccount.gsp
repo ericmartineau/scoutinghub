@@ -1,4 +1,4 @@
-<%@ page import="scoutinghub.LeaderPositionType; org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler" %>
+<%@ page import="scoutcert.LeaderPositionType; org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler" %>
 <head>
     <meta name='layout' content='${layoutName}'/>
     <title><g:message code="title.linkaccount"/></title>

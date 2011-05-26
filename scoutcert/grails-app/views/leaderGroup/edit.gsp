@@ -1,6 +1,6 @@
 
 
-<%@ page import="scoutinghub.LeaderGroup" %>
+<%@ page import="scoutcert.LeaderGroup" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -63,7 +63,7 @@
                                   <label for="leader"><g:message code="leaderGroup.leader.label" default="Leader" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: leaderGroupInstance, field: 'leader', 'errors')}">
-                                    <g:select name="leader.id" from="${scoutinghub.Leader.list()}" optionKey="id" value="${leaderGroupInstance?.leader?.id}"  />
+                                    <g:select name="leader.id" from="${scoutcert.Leader.list()}" optionKey="id" value="${leaderGroupInstance?.leader?.id}"  />
                                 </td>
                             </tr>
                         
@@ -72,7 +72,7 @@
                                   <label for="position"><g:message code="leaderGroup.position.label" default="Position" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: leaderGroupInstance, field: 'position', 'errors')}">
-                                    <g:select name="position" from="${scoutinghub.LeaderPositionType?.values()}" value="${leaderGroupInstance?.position}"  />
+                                    <g:select name="position" from="${scoutcert.LeaderPositionType?.values()}" value="${leaderGroupInstance?.position}"  />
                                 </td>
                             </tr>
                         
@@ -81,7 +81,7 @@
                                   <label for="scoutGroup"><g:message code="leaderGroup.scoutGroup.label" default="Scout Group" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: leaderGroupInstance, field: 'scoutGroup', 'errors')}">
-                                    <g:select name="scoutGroup.id" from="${scoutinghub.ScoutGroup.list()}" optionKey="id" value="${leaderGroupInstance?.scoutGroup?.id}"  />
+                                    <g:select name="scoutGroup.id" from="${scoutcert.ScoutGroup.list()}" optionKey="id" value="${leaderGroupInstance?.scoutGroup?.id}"  />
                                 </td>
                             </tr>
                         

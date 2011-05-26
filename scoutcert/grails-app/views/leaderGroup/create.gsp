@@ -1,4 +1,4 @@
-<%@ page import="scoutinghub.LeaderPositionType" %>
+<%@ page import="scoutcert.LeaderPositionType" %>
 <div class="body">
     <g:if test="${flash.message}">
         <div class="message">${flash.message}</div>

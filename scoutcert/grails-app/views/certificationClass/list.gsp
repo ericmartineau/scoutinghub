@@ -1,5 +1,5 @@
 
-<%@ page import="scoutinghub.CertificationClass" %>
+<%@ page import="scoutcert.CertificationClass" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

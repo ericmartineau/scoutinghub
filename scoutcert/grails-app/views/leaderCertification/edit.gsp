@@ -1,6 +1,6 @@
 
 
-<%@ page import="scoutinghub.LeaderCertification" %>
+<%@ page import="scoutcert.LeaderCertification" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -35,7 +35,7 @@
                                   <label for="certification"><g:message code="leaderCertification.certification.label" default="Certification" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: leaderCertificationInstance, field: 'certification', 'errors')}">
-                                    <g:select name="certification.id" from="${scoutinghub.Certification.list()}" optionKey="id" value="${leaderCertificationInstance?.certification?.id}"  />
+                                    <g:select name="certification.id" from="${scoutcert.Certification.list()}" optionKey="id" value="${leaderCertificationInstance?.certification?.id}"  />
                                 </td>
                             </tr>
                         
@@ -53,7 +53,7 @@
                                   <label for="leader"><g:message code="leaderCertification.leader.label" default="Leader" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: leaderCertificationInstance, field: 'leader', 'errors')}">
-                                    <g:select name="leader.id" from="${scoutinghub.Leader.list()}" optionKey="id" value="${leaderCertificationInstance?.leader?.id}"  />
+                                    <g:select name="leader.id" from="${scoutcert.Leader.list()}" optionKey="id" value="${leaderCertificationInstance?.leader?.id}"  />
                                 </td>
                             </tr>
                         

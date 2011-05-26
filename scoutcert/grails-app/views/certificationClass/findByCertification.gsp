@@ -24,7 +24,7 @@
 
 <g:if test="${registeredFor}">
 
-%{--<img src="/scoutinghub/images/next.png" width="32" style="float:left"/>--}%
+%{--<img src="/scoutcert/images/next.png" width="32" style="float:left"/>--}%
 
 %{--<div class="profileData msg1 registerHeader">--}%
 %{--<g:message code="certificationClass.findByCertification.registered"/>--}%

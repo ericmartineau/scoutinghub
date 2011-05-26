@@ -3,7 +3,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import scoutinghub.*
+import scoutcert.*
 
 class BootStrap {
 
@@ -48,29 +48,29 @@ class BootStrap {
 
 
             Certification packFastStartTraining = new Certification(externalId: "CF3",
-                    name: "Cub Scout Leader Fast Start Training",
-                    description: "The first step for any new adult volunteer in a Pack, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    name: "Cubmaster Fast Start Training",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
                     durationInDays: 1780,
                     tourPermitRequired: false);
             packFastStartTraining.save(failOnError: true)
 
             Certification troopFastStartTraining = new Certification(externalId: "SFS",
                     name: "Boy Scout Leader Fast Start Training",
-                    description: "The first step for any new adult volunteer in a Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
                     durationInDays: 1780,
                     tourPermitRequired: false);
             troopFastStartTraining.save(failOnError: true)
 
             Certification teamFastStartTraining = new Certification(externalId: "VFS",
                     name: "Varsity Scout Fast Start Training",
-                    description: "The first step for any new adult volunteer in a Team, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
                     durationInDays: 1780,
                     tourPermitRequired: false);
             teamFastStartTraining.save(failOnError: true)
 
             Certification crewFastStartTraining = new Certification(externalId: "PFS",
                     name: "Venturing Fast Start Training",
-                    description: "The first step for any new adult volunteer in a Crew, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
+                    description: "The first step for any new adult volunteer in a Pack or Troop, no matter what the position may be. The Fast Start training is short and should be taken as soon as possible after you have accepted a leadership position.",
                     durationInDays: 1780,
                     tourPermitRequired: false);
             crewFastStartTraining.save(failOnError: true)
@@ -181,6 +181,16 @@ class BootStrap {
                     durationInDays: 730,
                     tourPermitRequired: false);
             thisIsScouting.save(failOnError: true)
+
+            CertificationClass certClass = new CertificationClass()
+            certClass.location = new Address(locationName: "Galveston Ward Building", address: "123 W. East", city: "Gilbert",
+                    state: "AZ", zip: "14324").save(failOnError: true)
+            certClass.classDate = new Date() + 1
+            certClass.time = "8AM-10PM"
+//            certClass.coordinator = admin
+            certClass.certification = outdoor
+            certClass.save(failOnError: true)
+
 
             Date startDate = new Date().parse('yyyy/MM/dd', '1973/01/01')
             Date endDate = new Date().parse('yyyy/MM/dd', '2030/01/01')

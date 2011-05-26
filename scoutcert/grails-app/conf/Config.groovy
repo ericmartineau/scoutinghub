@@ -49,13 +49,14 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.scoutinghub.com/${appName}"
-        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
+        grails.serverURL = "http://www.cubtrails.com/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
 
     }
     development {
-        grails.serverURL = "http://dev.scoutinghub.com:8080/${appName}"
-        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
+        grails.serverURL = "http://s.cubtrails.com:8080/${appName}"
+        google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xQ9bO2ou8BDjqzowYDLqZxBuPDjjRQa3PVNnivHupvbGLaCyHX7Yju2lw"
+
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -89,10 +90,10 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'scoutinghub.Leader'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'scoutinghub.LeaderRole'
-grails.plugins.springsecurity.authority.className = 'scoutinghub.Role'
-grails.plugins.springsecurity.requestMap.className = 'scoutinghub.RequestMap'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'scoutcert.Leader'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'scoutcert.LeaderRole'
+grails.plugins.springsecurity.authority.className = 'scoutcert.Role'
+grails.plugins.springsecurity.requestMap.className = 'scoutcert.RequestMap'
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_LEADER
    ROLE_ADMIN > ROLE_ANONYMOUS
@@ -101,5 +102,5 @@ grails.plugins.springsecurity.roleHierarchy = '''
 
 grails.plugins.springsecurity.providerNames = ['openIDAuthProvider', 'facebookAuthenticationProvider','daoAuthenticationProvider', 'anonymousAuthenticationProvider', 'rememberMeAuthenticationProvider']
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.Annotation
-grails.plugins.springsecurity.openid.domainClass = 'scoutinghub.OpenID'
+grails.plugins.springsecurity.openid.domainClass = 'scoutcert.OpenID'
 grails.plugins.springsecurity.openid.registration.autocreate=true

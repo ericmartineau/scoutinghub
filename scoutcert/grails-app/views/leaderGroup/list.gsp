@@ -1,5 +1,5 @@
 
-<%@ page import="scoutinghub.LeaderGroup" %>
+<%@ page import="scoutcert.LeaderGroup" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

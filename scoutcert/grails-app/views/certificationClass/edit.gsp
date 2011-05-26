@@ -1,6 +1,6 @@
 
 
-<%@ page import="scoutinghub.CertificationClass" %>
+<%@ page import="scoutcert.CertificationClass" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -36,7 +36,7 @@
                                   <label for="certification"><g:message code="certificationClass.certification.label" default="Certification" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationClassInstance, field: 'certification', 'errors')}">
-                                    <g:select name="certification.id" from="${scoutinghub.Certification.list()}" optionKey="id" value="${certificationClassInstance?.certification?.id}"  />
+                                    <g:select name="certification.id" from="${scoutcert.Certification.list()}" optionKey="id" value="${certificationClassInstance?.certification?.id}"  />
                                 </td>
                             </tr>
                         
@@ -54,7 +54,7 @@
                                   %{--<label for="coordinator"><g:message code="certificationClass.coordinator.label" default="Coordinator" /></label>--}%
                                 %{--</td>--}%
                                 %{--<td valign="top" class="value ${hasErrors(bean: certificationClassInstance, field: 'coordinator', 'errors')}">--}%
-                                    %{--<g:select name="coordinator.id" from="${scoutinghub.Leader.list()}" optionKey="id" value="${certificationClassInstance?.coordinator?.id}"  />--}%
+                                    %{--<g:select name="coordinator.id" from="${scoutcert.Leader.list()}" optionKey="id" value="${certificationClassInstance?.coordinator?.id}"  />--}%
                                 %{--</td>--}%
                             %{--</tr>--}%
                         %{----}%
@@ -63,7 +63,7 @@
                                   <label for="location"><g:message code="certificationClass.location.label" default="Location" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationClassInstance, field: 'location', 'errors')}">
-                                    <g:select name="location.id" from="${scoutinghub.Address.list()}" optionKey="id" value="${certificationClassInstance?.location?.id}"  />
+                                    <g:select name="location.id" from="${scoutcert.Address.list()}" optionKey="id" value="${certificationClassInstance?.location?.id}"  />
                                 </td>
                             </tr>
                         
@@ -72,7 +72,7 @@
                                   <label for="registrants"><g:message code="certificationClass.registrants.label" default="Registrants" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationClassInstance, field: 'registrants', 'errors')}">
-                                    <g:select name="registrants" from="${scoutinghub.Leader.list()}" multiple="yes" optionKey="id" size="5" value="${certificationClassInstance?.registrants*.id}" />
+                                    <g:select name="registrants" from="${scoutcert.Leader.list()}" multiple="yes" optionKey="id" size="5" value="${certificationClassInstance?.registrants*.id}" />
                                 </td>
                             </tr>
                         

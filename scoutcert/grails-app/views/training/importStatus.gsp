@@ -7,7 +7,7 @@
         jQuery(document).ready(refreshStatus);
 
         function refreshStatus() {
-            jQuery.getJSON("/scoutinghub/training/importStatusPoll", "", function(json) {
+            jQuery.getJSON("/scoutcert/training/importStatusPoll", "", function(json) {
                 for (i = 0; i < json.sheets.length; i++) {
                     var sheet = json.sheets[i];
                     var statusDiv = jQuery("#status" + sheet.index);
@@ -40,7 +40,7 @@
 
         function showErrors(sheetIndex) {
             jQuery("#errDialog").remove();
-            jQuery("<div id='errDialog'></div>").load("/scoutinghub/training/getImportErrors", {sheetIndex:sheetIndex}, function() {
+            jQuery("<div id='errDialog'></div>").load("/scoutcert/training/getImportErrors", {sheetIndex:sheetIndex}, function() {
                 jQuery(this).dialog({title:"Errors While Importing", height:300,width:500});
             });
         }

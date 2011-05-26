@@ -1,5 +1,5 @@
 
-<%@ page import="scoutinghub.MyScoutingId" %>
+<%@ page import="scoutcert.MyScoutingId" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

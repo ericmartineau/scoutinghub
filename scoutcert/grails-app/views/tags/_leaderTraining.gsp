@@ -1,4 +1,4 @@
-<%@ page import="scoutinghub.CertificationStatus" %>
+<%@ page import="scoutcert.CertificationStatus" %>
 <div class="profileCertificationContainer ${request.currClass}"  leaderId="${certificationInfo?.leader?.id}" certificationId="${certificationInfo?.certificationStatus == CertificationStatus.Current ? "0" : certificationInfo?.certification?.id ?: '0'}">
 
     <g:if test="${certificationInfo.certificationStatus == CertificationStatus.Expired}">
