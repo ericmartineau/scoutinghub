@@ -55,6 +55,9 @@ class OpenIdController {
     }
 
     def yahoo = {
+        if(params.suggest == "true") {
+            session['social_suggest'] = true
+        }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
             session["open_link_userid"] = springSecurityService.currentUser?.id
         }
@@ -63,6 +66,9 @@ class OpenIdController {
     }
 
     def google = {
+        if(params.suggest == "true") {
+            session['social_suggest'] = true
+        }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
             session["open_link_userid"] = springSecurityService.currentUser?.id
         }
@@ -70,7 +76,14 @@ class OpenIdController {
         redirect uri: "/j_spring_openid_security_check?openid_identifier=https://www.google.com/accounts/o8/id"
     }
 
+    def linked = {
+        return [provider: params.t]
+    }
+
     def facebook = {
+        if(params.suggest == "true") {
+            session['social_suggest'] = true
+        }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
             session["open_link_userid"] = springSecurityService.currentUser?.id
         }
@@ -81,13 +94,6 @@ class OpenIdController {
                 "?api_key=7ff080f0a28d435c77b2506472e4add1" +
                 "&version=1.0&display=page" +
                 "&next=" + grailsApplication.config.grails.serverURL + "/j_spring_facebook_security_check")
-//        redirect(url: "https://graph.facebook.com/oauth/authorize" +
-
-//                "?client_id=" + facebookHelper.apiKey +
-//                "&display=page" +
-//                "&client_secred=" + facebookHelper.secret +
-//                "&redirect_uri=" + grailsApplication.config.grails.serverURL + "/j_spring_facebook_security_check")
-
     }
 
     /**

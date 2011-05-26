@@ -73,7 +73,7 @@ abstract class AbstractSocialAuthenticationProcessor {
 
                             }
                             //This redirect should go to the default spring security page (after login)
-                            response.sendRedirect("/scoutinghub/leader/index");
+                            response.sendRedirect("/scoutinghub/openId/linked?t=" + request.session["LAST_AUTH_PROVIDER"]);
                             return null
                         }
                     }

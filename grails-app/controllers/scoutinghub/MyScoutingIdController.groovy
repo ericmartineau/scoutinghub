@@ -4,6 +4,10 @@ class MyScoutingIdController {
 
     def searchableService
 
+    LeaderService leaderService
+    TrainingService trainingService
+
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 //    def list = {
@@ -21,11 +25,22 @@ class MyScoutingIdController {
         def myScoutingIdInstance = new MyScoutingId(params)
 
         if(params.myScoutingIdentifier) {
-            if(MyScoutingId.findByMyScoutingIdentifier(params.myScoutingIdentifier)) {
+            MyScoutingId identifier = MyScoutingId.findByMyScoutingIdentifier(params.myScoutingIdentifier)
+            if(identifier && identifier?.leader?.setupDate != null) {
                 flash.info = 'myScoutingId.myScoutingIdentifier.unique'
                 flash.info2 = 'myScoutingId.myScoutingIdentifier.uniqueExtra'
                 render(view: "create", model: [myScoutingIdInstance: myScoutingIdInstance])
                 return
+            } else if(identifier && identifier?.leader?.id != myScoutingIdInstance?.leader?.id) {
+                if(identifier?.leader && myScoutingIdInstance?.leader) {
+
+                    leaderService.mergeLeaders(myScoutingIdInstance.leader, identifier.leader);
+                    trainingService.recalculatePctTrained(myScoutingIdInstance.leader);
+                    redirect(action: "show", id: myScoutingIdInstance.id)
+
+
+                }
+
             }
         }
 
@@ -49,14 +64,6 @@ class MyScoutingIdController {
     }
 
     def show = {
-        def myScoutingIdInstance = MyScoutingId.get(params.id)
-        if (!myScoutingIdInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            [myScoutingIdInstance: myScoutingIdInstance]
-        }
     }
 
     def edit = {

@@ -234,18 +234,8 @@
                 <g:set var="i" value="${request.i+1}" scope="request"/>
                 <s:leaderUnit code="${group?.position}.label" class="${currClass}">
                     ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
-                    <g:if test="${group?.admin}">(admin)</g:if>
-                <g:else>
-                <g:ifNotSelf leader="${leader}">
-                <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
-                <g:link controller="scoutGroup" action="makeAdmin" id="${group?.id}">
-                <div><g:message code="scoutGroup.makeAdmin"
-                args="[leaderName(leader:leader, selfName:'yourself'), group?.scoutGroup?.groupType?.name()?.humanize()]"/></div>
-                </g:link>
-                </p:canAdministerGroup>
-                </g:ifNotSelf>
-                </g:else>
-                    <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">
+
+                <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">(admin)
                         <div><g:link class="manage-this-unit" controller="scoutGroup" action="show"
                                      id="${group?.scoutGroup?.id}">
                             <g:message code="scoutGroup.manage"

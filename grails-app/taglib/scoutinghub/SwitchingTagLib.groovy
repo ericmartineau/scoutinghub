@@ -274,7 +274,7 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << body()
         } else {
-            out << "<div class='${attrs.class ?: ''}'>${body()}</div>"
+            out << "<div style='${attrs.style ?: ''}' class='${attrs.class ?: ''}'>${body()}</div>"
         }
 
     }

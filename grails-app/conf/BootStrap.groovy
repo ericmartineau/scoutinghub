@@ -528,32 +528,43 @@ class BootStrap {
             addUnit scoutGroup, "Power Ranch Ward - Unit 883"
             addUnit scoutGroup, "Coronado 2nd Ward - Unit 912"
 
-            addCommunityUnit("Chandler Lions Club - Unit 58", sanTanDistrict, [troop: "58"])
-            addCommunityUnit("Gilbert United Methodist Church - Unit 88", sanTanDistrict,
+            ScoutGroup communityUnits = new ScoutGroup()
+            communityUnits.groupType = ScoutGroupType.CommunityUnits
+            communityUnits.groupIdentifier = "communityUnits"
+            communityUnits.groupLabel = "Community Units"
+            communityUnits.parent = sanTanDistrict;
+            communityUnits.save(failOnError:true)
+            
+            sanTanDistrict.addToChildGroups(communityUnits)
+            sanTanDistrict.save(failOnError:true)
+
+
+            addCommunityUnit("Chandler Lions Club - Unit 58", communityUnits, [troop: "58"])
+            addCommunityUnit("Gilbert United Methodist Church - Unit 88", communityUnits,
                     [pack: "88",
                     troop: "88",
                     crew: "2088"])
 
-            addCommunityUnit("Deseret Gateway Baptist Church - Unit 104", sanTanDistrict, [troop: "104"])
-            addCommunityUnit("Sant Tan Scouts - Unit 125", sanTanDistrict, [troop: "125", pack: "125"])
-            addCommunityUnit("Knights of Columbus - Unit 132", sanTanDistrict, [troop: "132", pack: "132"])
-            addCommunityUnit("St Matthews Episcopal Church  - Unit 233", sanTanDistrict, [troop: "233"])
-            addCommunityUnit("Epiphany Lutheran Church - Unit 280", sanTanDistrict, [troop: "280"])
-            addCommunityUnit("Christs Greenfield Lutheran Church - Unit 282", sanTanDistrict, [troop: "282", pack: "282"])
-            addCommunityUnit("Chandler united Methodist - Unit 283", sanTanDistrict, [troop: "283"])
-            addCommunityUnit("Chandler Christian Church - Unit 285", sanTanDistrict, [troop: "285", pack: "285"])
-            addCommunityUnit("Gilbert Presbyterian - Unit 286", sanTanDistrict, [troop: "286"])
-            addCommunityUnit("St Anne's Church - Unit 312", sanTanDistrict, [troop: "312", crew: "2312"])
-            addCommunityUnit("New Hope Community Church - Unit 322", sanTanDistrict, [troop: "322", pack: "322"])
-            addCommunityUnit("Rancho Solano School - Unit 330", sanTanDistrict, [pack: "330"])
-            addCommunityUnit("Gilbert Boys and Girls Club - 382", sanTanDistrict, [pack: "382"])
-            addCommunityUnit("St Mary's Church - Unit 522", sanTanDistrict, [pack: "522", troop: "522"])
-            addCommunityUnit("San Tan Pack - Unit 524", sanTanDistrict, [pack: "524"])
-            addCommunityUnit("Hope Covenant Church - Unit 584", sanTanDistrict, [pack: "584"])
-            addCommunityUnit("Sanborn Elem PTO - Unit 587", sanTanDistrict, [pack: "587"])
-            addCommunityUnit("East Valley Bible Church - Unit 923", sanTanDistrict, [troop: "923"])
-            addCommunityUnit("Chandler Elks  - Unit 984", sanTanDistrict, [pack: "984"])
-            addCommunityUnit("Phoenix Scuba - Unit 2228", sanTanDistrict, [crew: "2228"])
+            addCommunityUnit("Deseret Gateway Baptist Church - Unit 104", communityUnits, [troop: "104"])
+            addCommunityUnit("Sant Tan Scouts - Unit 125", communityUnits, [troop: "125", pack: "125"])
+            addCommunityUnit("Knights of Columbus - Unit 132", communityUnits, [troop: "132", pack: "132"])
+            addCommunityUnit("St Matthews Episcopal Church  - Unit 233", communityUnits, [troop: "233"])
+            addCommunityUnit("Epiphany Lutheran Church - Unit 280", communityUnits, [troop: "280"])
+            addCommunityUnit("Christs Greenfield Lutheran Church - Unit 282", communityUnits, [troop: "282", pack: "282"])
+            addCommunityUnit("Chandler United Methodist - Unit 283", communityUnits, [troop: "283"])
+            addCommunityUnit("Chandler Christian Church - Unit 285", communityUnits, [troop: "285", pack: "285"])
+            addCommunityUnit("Gilbert Presbyterian - Unit 286", communityUnits, [troop: "286"])
+            addCommunityUnit("St Anne's Church - Unit 312", communityUnits, [troop: "312", crew: "2312"])
+            addCommunityUnit("New Hope Community Church - Unit 322", communityUnits, [troop: "322", pack: "322"])
+            addCommunityUnit("Rancho Solano School - Unit 330", communityUnits, [pack: "330"])
+            addCommunityUnit("Gilbert Boys and Girls Club - 382", communityUnits, [pack: "382"])
+            addCommunityUnit("St Mary's Church - Unit 522", communityUnits, [pack: "522", troop: "522"])
+            addCommunityUnit("San Tan Pack - Unit 524", communityUnits, [pack: "524"])
+            addCommunityUnit("Hope Covenant Church - Unit 584", communityUnits, [pack: "584"])
+            addCommunityUnit("Sanborn Elem PTO - Unit 587", communityUnits, [pack: "587"])
+            addCommunityUnit("East Valley Bible Church - Unit 923", communityUnits, [troop: "923"])
+            addCommunityUnit("Chandler Elks  - Unit 984", communityUnits, [pack: "984"])
+            addCommunityUnit("Phoenix Scuba - Unit 2228", communityUnits, [crew: "2228"])
 
             council.save(flush:true)
             scoutGroupService.reindex()
