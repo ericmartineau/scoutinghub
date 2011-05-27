@@ -20,7 +20,7 @@
 
                 <g:each in="${leader.groups}" var="group">
                     <s:property code="${group?.position}.label">
-                        ${group?.scoutGroup?.groupLabel ?: group?.scoutGroup?.groupIdentifier}
+                        ${group?.scoutGroup}
                         <g:if test="${group?.admin}">(admin)</g:if>
                     </s:property>
                 </g:each>

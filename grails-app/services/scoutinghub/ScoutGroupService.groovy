@@ -24,10 +24,43 @@ class ScoutGroupService {
         group.save()
     }
 
+    def getLeaderFilters() {
+        def rtn = [:]
+        rtn.unitType = [:]
+        ScoutUnitType.values().each {ScoutUnitType type ->
+            rtn.unitType[type.name()] = {
+                scoutGroup {
+                    eq('unitType', type)
+                }
+
+            }
+
+        }
+
+        rtn.positionType = [:]
+        LeaderPositionType.values().each {LeaderPositionType type ->
+            rtn.positionType[type.name()] = {
+                eq('position', type)
+            }
+        }
+
+        rtn.directContact = [:]
+        rtn.directContact.yes = {
+            inList('position', LeaderPositionType.values().findAll {it.directContact == true})
+        }
+        rtn.directContact.no = {
+            inList('position', LeaderPositionType.values().findAll {it.directContact == false})
+        }
+
+        return rtn
+    }
+
+
+
     def getFilters() {
         def rtn = [:]
         rtn.unitType = [:]
-        ScoutUnitType.values().each {ScoutUnitType type->
+        ScoutUnitType.values().each {ScoutUnitType type ->
             rtn.unitType[type.name()] = {
                 eq('unitType', type)
             }
@@ -35,7 +68,7 @@ class ScoutGroupService {
         }
 
         rtn.positionType = [:]
-        LeaderPositionType.values().each {LeaderPositionType type->
+        LeaderPositionType.values().each {LeaderPositionType type ->
             rtn.positionType[type.name()] = {
                 leaderGroups {
                     eq('position', type)
@@ -44,8 +77,16 @@ class ScoutGroupService {
         }
 
         rtn.directContact = [:]
-        rtn.directContact.yes = {}
-        rtn.directContact.no = {}
+        rtn.directContact.yes = {
+            leaderGroups {
+                inList('position', LeaderPositionType.values().findAll {it.directContact == true})
+            }
+        }
+        rtn.directContact.no = {
+            leaderGroups {
+                inList('position', LeaderPositionType.values().findAll {it.directContact == false})
+            }
+        }
 
 
         return rtn

@@ -23,7 +23,11 @@ class UrlMappings {
 		}
 
 
-		"500"(view:'/error')
+		"500"{
+            controller = "errorRendering"
+            action = "fiveHundred"
+        }
+
         "/"
         {
             controller = "homePage"

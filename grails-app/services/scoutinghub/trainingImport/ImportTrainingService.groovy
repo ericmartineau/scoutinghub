@@ -20,6 +20,7 @@ import scoutinghub.LeaderCertificationEnteredType
 import scoutinghub.LeaderPositionType
 import scoutinghub.ScoutGroupService
 import scoutinghub.TrainingService
+import scoutinghub.InactiveLeaderGroup
 
 class ImportTrainingService {
 
@@ -356,15 +357,6 @@ class ImportTrainingService {
                                     ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifierAndUnitType(record.unitNumber, unitType)
                                     if (!existingUnit) {
                                         throw new Exception("Unknown unit")
-
-                                        //Add the unit.  These should all be pre-created, though
-//                                    existingUnit = new ScoutGroup()
-//                                    existingUnit.groupIdentifier = record.unitNumber
-//                                    existingUnit.groupLabel = record.unitNumber
-//                                    existingUnit.groupType = ScoutGroupType.Unit
-//
-//                                    existingUnit.unitType = unitType
-//                                    existingUnit.save(failOnError: true)
                                     }
 
                                     LeaderPositionType position = leaderPositionTypeMap[record.position?.replaceAll("\\s", "")]
@@ -406,7 +398,9 @@ class ImportTrainingService {
 
                                         if (record.unitNumber) {
                                             if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
-                                                existingUnit.addToLeaderGroups([leader: leader, position: position])
+                                                if(!InactiveLeaderGroup.findByLeaderAndScoutGroup(leader, existingUnit)) {
+                                                    existingUnit.addToLeaderGroups([leader: leader, position: position])
+                                                }
                                             }
                                         }
 

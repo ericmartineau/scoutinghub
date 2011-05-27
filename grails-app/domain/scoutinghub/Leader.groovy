@@ -8,6 +8,8 @@ class Leader implements Serializable {
             groups component: true
     }
 
+
+
     String firstName
     String lastName
     String username
@@ -80,8 +82,6 @@ class Leader implements Serializable {
     boolean hasScoutGroup(ScoutGroup group) {
         return findScoutGroup(group) != null
     }
-
-
 
     boolean hasScoutingId(String scoutId) {
         boolean hasScoutingId = false

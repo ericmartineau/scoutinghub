@@ -1,6 +1,7 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.JSON
 
 @Secured(['ROLE_ADMIN'])
 class CertificationClassController {
@@ -54,9 +55,17 @@ class CertificationClassController {
         Leader leader = Leader.get(Integer.parseInt(params.leaderId))
         certificationClass.addToRegistrants(leader)
         leader.addToCertificationClasses(certificationClass)
-        certificationClass.save(flush: true)
-        leader.save(flush: true)
-        render("<script>window.location.reload()</script>")
+        def rtn = [success:true]
+        try {
+            certificationClass.save(flush: true)
+            leader.save(flush: true)
+        } catch (Exception e) {
+            flash.error = e.message
+            rtn.success = false
+
+        }
+        render rtn as JSON
+
     }
 
     @Secured(['ROLE_LEADER'])
@@ -66,9 +75,16 @@ class CertificationClassController {
         Leader leader = Leader.get(Integer.parseInt(params.leaderId))
         certificationClass.removeFromRegistrants(leader)
         leader.removeFromCertificationClasses(certificationClass)
-        certificationClass.save(flush: true)
-        leader.save(flush: true)
-        render("<script>window.location.reload()</script>")
+        def rtn = [success:true]
+        try {
+            certificationClass.save(flush: true)
+            leader.save(flush: true)
+        } catch (Exception e) {
+            flash.error = e.getMessage();
+            rtn.success = false
+        }
+        render rtn as JSON
+
     }
 
 

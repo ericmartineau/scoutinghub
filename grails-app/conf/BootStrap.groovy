@@ -529,7 +529,7 @@ class BootStrap {
             addUnit scoutGroup, "Coronado 2nd Ward - Unit 912"
 
             ScoutGroup communityUnits = new ScoutGroup()
-            communityUnits.groupType = ScoutGroupType.CommunityUnits
+            communityUnits.groupType = ScoutGroupType.Group
             communityUnits.groupIdentifier = "communityUnits"
             communityUnits.groupLabel = "Community Units"
             communityUnits.parent = sanTanDistrict;

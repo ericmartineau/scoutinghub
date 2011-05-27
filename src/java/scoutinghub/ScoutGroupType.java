@@ -6,5 +6,5 @@ package scoutinghub;
  * Time: 9:54 PM
  */
 public enum ScoutGroupType {
-    Council,District,Stake,CommunityUnits,CharteringOrg,Unit
+    Council,District,Stake, Group,CharteringOrg,Unit
 }

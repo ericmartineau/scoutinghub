@@ -20,7 +20,8 @@
         <s:msg class="smaller-header" type="info">
             <g:form action="trainingReport" name="filterForm">
                 <div class="msg1"><g:message code="training.report.selectFilter"/></div>
-                <g:select from="[]" id="filterName" name="filterName" onChange="document.filterForm.submit()" value="${session.filterName}"/>
+                <g:select from="[]" id="filterName" name="filterName" onChange="document.filterForm.submit()"
+                          value="${session.filterName}"/>
                 <g:hiddenField name="id" value="${reportGroup?.id}"/>
             </g:form>
         </s:msg>
@@ -33,10 +34,12 @@
 
                     <div style="overflow:hidden;">
                         <h1 style="margin-top:8px; margin-bottom:8px; vertical-align:middle;float:left">${reportGroup}</h1>
+
                         <div style="float:right; margin-top:8px; margin-bottom:8px;">
                             <g:if test="${reportGroup.parent}">
                                 <p:canAdministerGroup scoutGroup="${reportGroup.parent}">
-                                    <g:link class="ui-button" action="trainingReport" id="${reportGroup.parent?.id}">Go Back</g:link>
+                                    <g:link class="ui-button" action="trainingReport"
+                                            id="${reportGroup.parent?.id}">Go Back</g:link>
                                 </p:canAdministerGroup>
                             </g:if>
                         </div>
@@ -49,15 +52,11 @@
                 <th style="text-align:center" align="center" class='ui-state-active trainingHeader'>Percent Trained</th>
             </tr>
 
-            <g:if test="${reportGroup?.leaderGroups?.size() > 0}">
-            %{--<tr>--}%
-            %{--<td colspan="2">--}%
-            %{--<g:header>Leaders</g:header>--}%
-            %{--</td>--}%
-            %{--</tr>--}%
-                <g:each in="${reportGroup?.leaderGroups}" var="leaderGroup">
+            <g:if test="${filteredLeaderList?.size() > 0}">
+                <g:each in="${filteredLeaderList}" var="leaderGroup">
                     <tr>
-                        <td class="trainingReportUnit"><g:link controller="leader" action="view" id="${leaderGroup.leader.id}">${leaderGroup.leader.firstName} ${leaderGroup.leader.lastName}</g:link></td>
+                        <td class="trainingReportUnit"><g:link controller="leader" action="view"
+                                                               id="${leaderGroup.leader.id}">${leaderGroup.leader} (<g:message code="${leaderGroup.position}.label" />)</g:link></td>
                         <td><div class="progress" value="${(int) leaderGroup.pctTrained}"></div></td>
 
                     </tr>

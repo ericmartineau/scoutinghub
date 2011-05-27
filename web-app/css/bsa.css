@@ -2,6 +2,10 @@ html {
     background-color: #005696;
 }
 
+strong {
+    font-weight: bold;
+}
+
 BODY {
     background-image: url(/scoutinghub/images/bkg.gif);
     background-color: #005696;
@@ -106,8 +110,30 @@ H1 {
     font-weight: bold;
 }
 
-.dialog .prop {
+.noshow {
+    display: none;
+}
+
+#dialog .prop  {
     float: none;
+    vertical-align: middle;
+    line-height:20px;
+    margin-left: 10px;
+}
+
+.prop .propLabel {
+    padding-left: 5px;
+}
+
+.prop div {
+    float:none !important;
+    line-height: 20px;
+}
+
+#dialog .buttons {
+    margin-top:10px;
+    padding-top: 10px;
+    border-top: 1px solid #CCC;
 }
 
 .nav {
@@ -1590,6 +1616,14 @@ a.buttonLink {
     height:45px;
 }
 
+.remove-button {
+    font-size:12px;
+    padding-left:16px;
+    margin: 0px;
+    text-decoration: none;
+    /*background-image: url('../images/knobs/PNG/Knob Remove Red.png')*/
+}
+
 .leader-unit {
     display: inline-block !important;
     list-style: none;
@@ -1618,6 +1652,7 @@ a.manage-this-unit {
 
 .leader-unit-position {
     margin-bottom: 4px;
+    line-height:16px;
 }
 
 .leader-unit-position, .propLabel, .training-title {
@@ -1628,6 +1663,7 @@ a.manage-this-unit {
     list-style: none;
     list-style-type: none;
     font-size:15px;
+    display: table-row;
     /*margin-left: 10px;*/
     /*margin-right: 10px;*/
 }
@@ -1635,6 +1671,9 @@ a.manage-this-unit {
 .propLabel {
     display: table-cell;
     width: 120px;
+    white-space: nowrap;
+    margin-right: 10px;
+    padding-right: 10px;
 }
 
 .prop-container, .prop-container .prop {
@@ -1837,6 +1876,17 @@ h1.ui-widget-header {
 
 .floatContent {
     width: 100%;
+}
+
+ul.list {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+ul.list li {
+    list-style: disc;
+    list-style-type: disc;
 }
 
 .clearfix:after {

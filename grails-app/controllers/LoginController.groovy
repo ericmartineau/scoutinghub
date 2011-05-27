@@ -169,6 +169,7 @@ class LoginController {
 
     @Secured(["ROLE_LEADER"])
     def suggestSocialLogin = {
+        springSecurityService.currentUser?.reindex()
     }
 
     /**
@@ -520,9 +521,10 @@ class LoginController {
                     leader.setupDate = new Date()
                 }
 
-                recordSavingService.op(leader) {
-                    it.save(failOnError: true)
-                }
+
+                leader.save(failOnError: true)
+
+
                 if (!leader.username || !leader.password) {
                     return selectUsernameAndPassword()
                 }
@@ -536,16 +538,13 @@ class LoginController {
                 ScoutGroup targetUnit = createAccount.unit.merge();
                 if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
                     targetUnit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, position: createAccount.unitPosition));
-                    recordSavingService.op(targetUnit) {
-                        it.save(flush: true)
-                    }
+                    targetUnit.save(flush: true)
                 }
 
                 boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
                 if (!linkedSocial) {
                     springSecurityService.reauthenticate(leader.username, leader.password)
                 }
-
 
                 flow.leader = null
                 if (flow.newSetup && !linkedSocial) {
@@ -569,7 +568,7 @@ class LoginController {
 
 
         login {
-            redirect(controller: "leader", action: "index")
+            redirect(controller: "leader", action: "accountCreated")
         }
     }
 

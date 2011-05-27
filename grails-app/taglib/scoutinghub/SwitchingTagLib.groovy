@@ -19,7 +19,7 @@ class SwitchingTagLib {
     static namespace = "s"
 
     def propertyList = {attrs, body ->
-        if(session.isMobile) {
+        if (session.isMobile) {
             out << body()
         } else {
             out << "<ul class='property-list ${attrs.class ?: ""}'>${body()}</ul>"
@@ -49,12 +49,32 @@ class SwitchingTagLib {
         }
     }
 
-    def leaderUnit = {attrs, body->
-        if(session.isMobile) {
+    def leaderUnit = {attrs, body ->
+        LeaderGroup leaderGroup = attrs.leaderGroup;
+        if (session.isMobile) {
             out << property(attrs, body)
         } else {
             out << "<li class='leader-unit ${attrs.class ?: ''}'>"
-            out << "<div class='leader-unit-position'>${message(code:attrs.code)}</div>"
+            out << "<div class='leader-unit-position'>${message(code: attrs.code)} "
+            if (leaderGroup) {
+                out << "<div style='float:right'>"
+                out << link(controller: 'leaderGroup',
+                        action: 'confirmRemove',
+                        id: leaderGroup.id,
+                        title: message(code: 'trainingReport.removeFromUnit'),
+                        'class': 'noshow lightbox remove-button',
+                        lbwidth: '550') {
+
+                    out << "<div class='td'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
+                    out << "<div class='td'>&nbsp;"
+                    out << message(code: 'trainingReport.removeFromUnit')
+                    out << "</div>"
+
+
+                }
+                out << "</div>"
+            }
+            out << "</div>"
             out << "<div class='leader-unit-unitname'>${body()}</div>"
             out << "</li>"
         }
@@ -122,9 +142,9 @@ class SwitchingTagLib {
         }
     }
 
-    def sectionHeader = {attrs, body->
-        if(session.isMobile) {
-            g.set(var: "sectionHeader", value: message(code:attrs.code), scope: "request");
+    def sectionHeader = {attrs, body ->
+        if (session.isMobile) {
+            g.set(var: "sectionHeader", value: message(code: attrs.code), scope: "request");
         } else {
             out << g.header(attrs, body)
         }
@@ -180,7 +200,7 @@ class SwitchingTagLib {
                     <input type='checkbox' name='${attrs.name}' value='yes' />
                     </li>"""
 //                out << iwebkit.checkbox(attrs, body)
-//            }
+            //            }
 
         } else {
             out << "<div class='${attrs.class}'>"
@@ -206,7 +226,7 @@ class SwitchingTagLib {
             }
         } else {
 //            attrs.code2 = attrs.code
-//            attrs.code = null
+            //            attrs.code = null
             out << msgbox(attrs, body)
         }
     }
@@ -255,7 +275,7 @@ class SwitchingTagLib {
 
     def linker = {attrs, body ->
         if (session.isMobile) {
-            out << "<li class='menu'>"
+            out << "<li class='menu linker'>"
             out << "<span class='name'>${body()}</span>"
             if (attrs.comment) {
                 out << "<span class='comment'>${attrs.comment}</span>"
@@ -313,7 +333,7 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << "<li class='bigfield'>"
             def type = attrs.type ?: "text"
-            if(!attrs.otherAttrs) attrs.otherAttrs = [:]
+            if (!attrs.otherAttrs) attrs.otherAttrs = [:]
             attrs.otherAttrs.placeholder = attrs.placeholder
             attrs.otherAttrs.value = attrs.value ?: ""
             attrs.otherAttrs.name = attrs.name
@@ -368,7 +388,7 @@ class SwitchingTagLib {
 
             if (attrs.code) {
                 header = message(code: attrs.code)
-            } else if(request.sectionHeader) {
+            } else if (request.sectionHeader) {
                 header = request.sectionHeader
             }
             if (header) {
@@ -392,7 +412,7 @@ class SwitchingTagLib {
             out << body()
 
 //            out << "<div style=\"clear:both; height:1px; margin-top:-1px;\" ><!— —></div>"
-//            out << "<div style='clear:both;'></div>"
+            //            out << "<div style='clear:both;'></div>"
             out << "</div>"
 //            out << "<br style='font-size: 1px; line-height: 0; height: 0; clear: both' />"
 
@@ -400,8 +420,8 @@ class SwitchingTagLib {
         }
     }
 
-    def ctxmenu = {attrs, body->
-        if(session.isMobile) {
+    def ctxmenu = {attrs, body ->
+        if (session.isMobile) {
 
         } else {
             out << g.ctxmenu(attrs, body)

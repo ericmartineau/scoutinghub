@@ -23,6 +23,39 @@ class LeaderGroupController {
         render rtnList as JSON
     }
 
+    def performRemove =  {
+        //Check permission to remove from group
+        LeaderGroup leaderGroup = LeaderGroup.get(params.id)
+        def rtn = [:]
+        try {
+            InactiveLeaderGroup inactiveLeaderGroup = new InactiveLeaderGroup()
+            inactiveLeaderGroup.scoutGroup = leaderGroup.scoutGroup
+            inactiveLeaderGroup.leader = leaderGroup.leader
+            inactiveLeaderGroup.createDate = new Date();
+            inactiveLeaderGroup.save(failOnError:true)
+
+            Leader leader = leaderGroup.leader
+            leader.removeFromGroups(leaderGroup)
+
+            leaderGroup.delete(failOnError:true)
+            leader.reindex();
+
+
+            rtn.success = true;
+        } catch (Exception e) {
+            log.error e
+            rtn.success = false;
+            flash.error = "Unable to remove from group"
+            flash.error2 = e.message
+        }
+        render rtn as JSON
+    }
+
+    def confirmRemove = {
+        LeaderGroup leaderGroup = LeaderGroup.get(params.id)
+        return [leaderGroup:leaderGroup]
+    }
+
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [leaderGroupInstanceList: LeaderGroup.list(params), leaderGroupInstanceTotal: LeaderGroup.count()]
@@ -63,16 +96,20 @@ class LeaderGroupController {
 
         //Strange bug with searchable requires this goofy logic using merge
         def leaderGroupInstance = new LeaderGroup(params)
+        def rtn = [:]
 
         LeaderGroup leaderGroupInstance2 = leaderGroupInstance.merge(flush: true)
         if (leaderGroupInstance2 && leaderGroupInstance2.save(flush: true)) {
-            leaderGroupInstance = leaderGroupInstance2
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'leaderGroup.label', default: 'LeaderGroup'), leaderGroupInstance.id])}"
-            redirect(action: "show", id: leaderGroupInstance.id)
+            leaderGroupInstance2.leader.addToGroups(leaderGroupInstance2)
+            leaderGroupInstance2.leader.save(failOnError:true)
+            leaderGroupInstance2.leader.reindex()
+            rtn.success = true
+        } else {
+            rtn.success = false;
+            flash.errorObj = leaderGroupInstance
         }
-        else {
-            render(view: "create", model: [leaderGroupInstance: leaderGroupInstance])
-        }
+
+        render rtn as JSON
 
     }
 

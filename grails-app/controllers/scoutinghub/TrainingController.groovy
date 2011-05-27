@@ -34,26 +34,37 @@ class TrainingController {
     }
 
     def trainingReport = {
-        if(params.filterName != null) {
+        if (params.filterName != null) {
             session.filterName = params.filterName
         }
         Leader currentUser = springSecurityService.currentUser;
         def adminGroups
         ScoutGroup reportGroup
-        if(Integer.parseInt(params.id ?: "0") > 0) {
+        if (Integer.parseInt(params.id ?: "0") > 0) {
             reportGroup = ScoutGroup.get(params.id)
-            if(!reportGroup?.canBeAdministeredBy(currentUser)) {
-                render(view:"/accessDenied")
+            if (!reportGroup?.canBeAdministeredBy(currentUser)) {
+                render(view: "/accessDenied")
             }
             adminGroups = ScoutGroup.findAllByParent(reportGroup)
         } else {
             adminGroups = LeaderGroup.findAllByLeaderAndAdmin(currentUser, true)?.collect {it.scoutGroup}
         }
 
-        def filter
+        def scoutGroupFilter
+        def leaderFilter
 
-        if(session.filterName) {
-            filter = scoutGroupService.filters.find{it.value.containsKey(session.filterName)}.value[session.filterName]
+        if (session.filterName) {
+            scoutGroupFilter = scoutGroupService.filters.find {it.value.containsKey(session.filterName)}.value[session.filterName]
+            leaderFilter = scoutGroupService.leaderFilters.find {it.value.containsKey(session.filterName)}.value[session.filterName]
+        }
+
+        def filteredLeaderList = LeaderGroup.withCriteria {
+            eq('scoutGroup', reportGroup)
+            if (leaderFilter) {
+                leaderFilter.delegate = delegate
+                leaderFilter.resolveStrategy = Closure.DELEGATE_ONLY
+                leaderFilter();
+            }
         }
         def reports = []
         adminGroups.each {ScoutGroup scoutGroup ->
@@ -61,10 +72,10 @@ class TrainingController {
             def results = ScoutGroup.withCriteria {
                 ge('leftNode', scoutGroup.leftNode)
                 le('rightNode', scoutGroup.rightNode)
-                if(filter) {
-                    filter.delegate = delegate
-                    filter.resolveStrategy = Closure.DELEGATE_ONLY
-                    filter()
+                if (scoutGroupFilter) {
+                    scoutGroupFilter.delegate = delegate
+                    scoutGroupFilter.resolveStrategy = Closure.DELEGATE_ONLY
+                    scoutGroupFilter()
                 }
                 leaderGroups {
                     projections {
@@ -76,26 +87,26 @@ class TrainingController {
 
             CertificationReport report = new CertificationReport(scoutGroup: scoutGroup, reportDate: new Date())
             def first = results?.first()
-            if(first) {
+            if (first) {
                 report.pctTrained = first[0] ?: 0
                 report.count = first[1] ?: 0
             }
             reports << report
 
         }
-        return [reportGroup: reportGroup, reports: reports]
+        return [reportGroup: reportGroup, reports: reports, filteredLeaderList: filteredLeaderList]
     }
 
     def getFilters = {
         def allFilters = scoutGroupService.filters
         def rtn = [:]
-        rtn[""] = ["": message(code:"training.report.nofilter")]
+        rtn[""] = ["": message(code: "training.report.nofilter")]
         allFilters.each {
             def vals = [:]
-            def key = message(code:"${it.key}.label")
+            def key = message(code: "${it.key}.label")
             rtn[key] = vals
             it.value.each {
-                def itemKey = message(code:"${it.key}.label")
+                def itemKey = message(code: "${it.key}.label")
                 vals[it.key] = itemKey
             }
         }
@@ -166,6 +177,96 @@ class TrainingController {
 
             }
         }
+    }
+
+    def processBigFile = {
+        File importFile = new File("/Users/eric/Documents/scouts/bigdaddy.xls")
+        File outputFile = new File("/Users/eric/Documents/scouts/bigdaddy-converted.csv");
+        PrintWriter writer = new PrintWriter(new FileWriter(outputFile))
+
+
+        def reverseMap = [:]
+        [importTrainingService.certDefinitionMap,
+                importTrainingService.cubmasterSpecificMap,
+                importTrainingService.scoutmasterSpecificMap, importTrainingService.varsityCoachSpecificMap,
+                importTrainingService.crewAdviserSpecificMap].each {
+            it.each {entry ->
+                reverseMap[entry.value] = entry.key
+            }
+        }
+
+        Set uniqueTrainingValues = new HashSet()
+        uniqueTrainingValues.addAll(reverseMap.values())
+
+
+        Workbook workbook = WorkbookFactory.create(new FileInputStream(importFile));
+        Sheet sheet = workbook.getSheetAt(0);
+        writer.print("Unit Type, Unit #, Position Code, First Name, Last Name, Phone, PID #, ");
+        uniqueTrainingValues.each {trainingKey ->
+
+            def label = importTrainingService.headerMap.find {it.value == trainingKey}.key
+            writer.print("${label},");
+        }
+        writer.println();
+        for (Row row: sheet) {
+            String firstCellValue = row?.getCell(0)?.getStringCellValue();
+            if (
+                firstCellValue?.startsWith("Pack") ||
+                        firstCellValue?.startsWith("Team") ||
+                        firstCellValue?.startsWith("Crew") ||
+                        firstCellValue?.startsWith("Troop")
+            ) {
+                String[] typeAndNumber = firstCellValue.split(" ")
+                String groupId = typeAndNumber[1].replaceAll("^0*", "");
+                ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifierAndUnitType(groupId,
+                        ScoutUnitType.valueOf(typeAndNumber[0]))
+                if (!existingUnit) {
+                    continue;
+                }
+
+                String positionAndCerts = row.getCell(3)?.getStringCellValue();
+                String[] parts = positionAndCerts.split("\n")
+
+                String position = parts[0]?.trim()?.replaceAll("\\.", "")
+                if (!importTrainingService.leaderPositionTypeMap.containsKey(position?.replaceAll(" ", ""))) {
+                    System.out.println("Unknown Position: " + position);
+                    continue;
+                }
+
+                writer.print("${typeAndNumber[0]},");
+                writer.print("${typeAndNumber[1]},");
+
+
+                writer.print("${position},");
+                String[] name = row.getCell(11)?.getStringCellValue().split(" ");
+                writer.print("${name[0]},");
+                writer.print("${name[name.length - 1]},");
+                String phone = row.getCell(19)?.getStringCellValue();
+                writer.print("${phone},");
+                String personId = row.getCell(21)?.getStringCellValue();
+                writer.print("${personId},");
+                String[] completedCerts = parts[1]?.replaceAll("Completed: ", "")?.split(", ")
+                Set completed = new HashSet()
+                completedCerts.each {
+                    if (reverseMap.containsKey(it?.trim())) {
+                        completed.add(reverseMap.get(it?.trim()))
+                    }
+                }
+                uniqueTrainingValues.each {
+                    def output = ""
+
+                    if (completed.contains(it)) {
+                        output = "01/01/2010"
+                    }
+                    writer.print("${output},");
+
+                }
+                writer.println();
+            }
+        }
+
+        writer.flush()
+        writer.close()
     }
 
     def processImportTraining = {

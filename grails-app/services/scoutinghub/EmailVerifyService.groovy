@@ -21,10 +21,7 @@ class EmailVerifyService {
         def hash = generateHash(toHash).substring(0, 7)
         leader.verifyHash = hash
 
-        recordSavingService.op(leader) {merged->
-            merged.save(failOnError: true)
-        }
-
+        leader.save(failOnError: true)
 
         mailService.sendMail {
             to leader.email

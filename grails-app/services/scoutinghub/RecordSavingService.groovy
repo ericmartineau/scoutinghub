@@ -8,10 +8,10 @@ class RecordSavingService {
 
     public void op(def obj, Closure cl) {
 
+        def id = obj?.id
         def rtn
         searchableService.stopMirroring()
         try {
-
             rtn = obj.merge();
             rtn = cl(rtn);
         } finally {
@@ -19,6 +19,9 @@ class RecordSavingService {
         }
 
         if(rtn) {
+            if(id == null || id==0)
+            rtn.index();
+        } else {
             rtn.reindex();
         }
     }

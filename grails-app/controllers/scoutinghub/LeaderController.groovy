@@ -59,6 +59,12 @@ class LeaderController {
 
     }
 
+    def accountCreated = {
+        Leader leader = leader = springSecurityService.currentUser
+        leader.reindex()
+        forward(action:'view')
+    }
+
     def view = {
         Date now = new Date()
         Leader leader
@@ -67,6 +73,7 @@ class LeaderController {
         } else {
             leader = springSecurityService.currentUser
         }
+
         if(!leader) {
             redirect(controller: "login", action: "denied")
             return

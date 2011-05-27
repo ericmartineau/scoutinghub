@@ -112,7 +112,10 @@ class LeaderCertificationController {
     def createForm = {
         int certificationId = Integer.parseInt(params.certificationId)
         Certification certification = Certification.get(certificationId)
-        return [certificationName: certification?.name]
+
+        int leaderId = Integer.parseInt(params.leaderId)
+        Leader leader = Leader.get(leaderId)
+        return [certification: certification, leader: leader]
     }
 
     def save = {

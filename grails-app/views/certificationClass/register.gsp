@@ -1,4 +1,4 @@
-<form action="">
+<g:form class="dialog-form" controller="certificationClass" action="${registered ? 'processUnRegister' : 'processRegister'}">
     <s:content>
         <s:section class="propTable">
             <g:if test="${registered}">
@@ -29,16 +29,15 @@
                 <s:mapLink address="${certificationClass.location}"/>
             </s:property>
 
+            <div class="buttons">
             <g:if test="${registered}">
-                <g:submitToRemote update="dialog" action="processUnRegister" value="Unregister" class="ui-button"/>
+                <g:submitButton name="unregister" value="Unregister" />
             </g:if>
             <g:else>
-                <g:submitToRemote update="dialog" action="processRegister" value="Register Now" class="ui-button"/>
+                <g:submitButton name="register" value="Register Now" />
             </g:else>
+            </div>
 
         </s:section>
     </s:content>
-    <table>
-        <tr></tr>
-    </table>
-</form>
+</g:form>

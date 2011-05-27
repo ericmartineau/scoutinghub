@@ -1,5 +1,7 @@
 package scoutinghub
 
+import grails.converters.JSON
+
 class MyScoutingIdController {
 
     def searchableService
@@ -22,6 +24,8 @@ class MyScoutingIdController {
     }
 
     def save = {
+        def rtn = [:]
+
         def myScoutingIdInstance = new MyScoutingId(params)
 
         if(params.myScoutingIdentifier) {
@@ -29,16 +33,16 @@ class MyScoutingIdController {
             if(identifier && identifier?.leader?.setupDate != null) {
                 flash.info = 'myScoutingId.myScoutingIdentifier.unique'
                 flash.info2 = 'myScoutingId.myScoutingIdentifier.uniqueExtra'
-                render(view: "create", model: [myScoutingIdInstance: myScoutingIdInstance])
+                rtn.success = false
+                render rtn as JSON
                 return
             } else if(identifier && identifier?.leader?.id != myScoutingIdInstance?.leader?.id) {
                 if(identifier?.leader && myScoutingIdInstance?.leader) {
-
                     leaderService.mergeLeaders(myScoutingIdInstance.leader, identifier.leader);
                     trainingService.recalculatePctTrained(myScoutingIdInstance.leader);
-                    redirect(action: "show", id: myScoutingIdInstance.id)
-
-
+                    rtn.success = true;
+                    render rtn as JSON
+                    return
                 }
 
             }
@@ -48,12 +52,12 @@ class MyScoutingIdController {
         searchableService.stopMirroring()
         try {
             if (myScoutingIdInstance.save(flush: true)) {
-
                 flash.message = "${message(code: 'default.created.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), myScoutingIdInstance.id])}"
-                redirect(action: "show", id: myScoutingIdInstance.id)
+                rtn.success = true;
             }
             else {
-                render(view: "create", model: [myScoutingIdInstance: myScoutingIdInstance])
+                rtn.success = false;
+                flash.errorObj = myScoutingIdInstance
             }
         } finally {
             searchableService.startMirroring()
@@ -61,6 +65,7 @@ class MyScoutingIdController {
                 myScoutingIdInstance.reindex()
             }
         }
+        render rtn as JSON
     }
 
     def show = {

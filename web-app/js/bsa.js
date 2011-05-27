@@ -47,18 +47,18 @@ function selectUnit(name, unitid) {
     var params = unitid ? {unitId:unitid} : "";
     jQuery("<div id='dialog'></div>").load("/scoutinghub/scoutGroup/selectUnit", params, function() {
         jQuery(this).dialog({
-            modal:true,
-            title:'Select a Unit',
-            buttons: {
-                "OK": function() {
-                    jQuery(this).dialog("close");
-                },
-                "Cancel": function() {
-                    jQuery(this).dialog("close");
-                }
-            }
+                    modal:true,
+                    title:'Select a Unit',
+                    buttons: {
+                        "OK": function() {
+                            jQuery(this).dialog("close");
+                        },
+                        "Cancel": function() {
+                            jQuery(this).dialog("close");
+                        }
+                    }
 
-        })
+                })
     });
 }
 
@@ -66,9 +66,9 @@ var currSelectId
 function addAddress(selectId) {
     currSelectId = selectId
     createDialog("/scoutinghub/address/create", {}, {
-        title: 'New Address',
-        width:450
-    })
+                title: 'New Address',
+                width:450
+            })
 }
 
 function refreshAddressList() {
@@ -137,6 +137,12 @@ function createDialog(url, data, config) {
     });
 }
 
+function createDialogClosure(url, data, config) {
+    return function() {
+        createDialog(url, data, config)
+    }
+}
+
 function closeDialog() {
     jQuery("#dialog").remove();
 }
@@ -149,26 +155,52 @@ function decorate() {
     //Bridges local styles with jquery styles
     jQueryBridge();
 
-    //Make all the training registration links open jquery dialogs
-    jQuery(".register-for-training").each(function() {
-        var $this = jQuery(this);
-        if(!$this.attr("configured")) {
+    jQuery("a.lightbox").each(
+            function() {
+                var oldHref = this.href;
+                this.href = "javascript:void(0)";
+                var config = {};
+                var $this = jQuery(this);
+                if ($this.attr("title")) {
+                    config.title = $this.attr("title");
+                }
+                if ($this.attr("lbheight")) {
+                    config.height = parseInt($this.attr("lbheight"));
+                }
+                if ($this.attr("lbwidth")) {
+                    config.width = parseInt($this.attr("lbwidth"));
+                }
 
-        var oldHref = this.href;
-        this.href = "javascript:void(0)";
-        jQuery(this).click(
-                function() {
-                    createDialog(oldHref, {}, {
-                        title: "Training Class",
-                        width: 500,
-                        modal:true
+                $this.click(createDialogClosure(oldHref, {}, config));
+            }).removeClass("lightbox");
 
-
-                    });
-                }).attr("configured", "yes")
-        }
-
-    });
+    //Dialog forms operate in a lightbox - we want to submit the form via ajax, and read the json response.
+    jQuery("form.dialog-form").each(
+            function() {
+                var $this = jQuery(this);
+                $this.submit(function(event) {
+                    event.preventDefault();
+                    // Send the request
+                    jQuery.post($this.attr("action"), $this.serialize(), function(json) {
+                        if(json.success) {
+                            closeDialog();
+                            if($this.attr("reload") != "false") {
+                                window.location.reload();
+                            }
+                        } else {
+                            jQuery("div.errors", "#dialog").remove();
+                            var errDiv = jQuery("<div class='errors'></div>");
+                            errDiv
+                                    .hide()
+                                    .prependTo($this)
+                                    .load("/scoutinghub/errorRendering/show", {}, function() {
+                                        errDiv.show("blind", { direction: "vertical" }, 200);
+                                    });
+                        }
+                    }, 'json');
+                    return false;
+                });
+            }).removeClass("dialog-form");
 
     //Converts progress bar divs to progress bars
     jQuery(".progress").each(function() {
@@ -182,12 +214,12 @@ function decorate() {
     jQuery(".ui-button").each(
             function() {
                 var $this = jQuery(this);
-                if($this.hasClass("ui-state-active")) {
+                if ($this.hasClass("ui-state-active")) {
                     $this.mouseout(applyStyleClosure("ui-state-active"));
                     $this.mouseover(removeStyleClosure("ui-state-active"));
                 }
                 var config;
-                if($this.attr("buttonicon")) {
+                if ($this.attr("buttonicon")) {
                     config = {
                         icons: {
                             primary: $this.attr("buttonicon")
@@ -263,8 +295,6 @@ function decorate() {
             }
         }
     }
-
-
 
 
 }
@@ -350,7 +380,7 @@ function showMap(address) {
 
                 }
             }
-            );
+    );
     jQuery("#mapper").dialog({open:true, title: address, width: 800, height:600, modal:true});
 }
 
