@@ -75,7 +75,7 @@
                 </g:link>
             </g:ctxmenuItem>
             <g:ctxmenuItem>
-                <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="400" class="lightbox"
+                <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500" class="lightbox"
                         controller="myScoutingId" action="create" params="['leader.id':leader.id]">
                     <g:inlineIcon class="add-icon"/>
                     <g:ctxmenuLabel><g:message code="leader.profile.addAnother"/></g:ctxmenuLabel>
@@ -129,7 +129,7 @@
 
                     </g:if>
                     <g:else>
-                        <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="400" class="lightbox"
+                        <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500" class="lightbox"
                                 controller="myScoutingId" action="create" params="['leader.id':leader.id]">
                              <g:message code="leader.profile.noneYet"/>
                         </g:link>

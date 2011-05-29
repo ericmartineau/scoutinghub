@@ -33,8 +33,6 @@ class CertificationClassController {
                 render("")
             }
         }
-
-
     }
 
     @Secured(['ROLE_LEADER'])
@@ -65,7 +63,6 @@ class CertificationClassController {
 
         }
         render rtn as JSON
-
     }
 
     @Secured(['ROLE_LEADER'])
@@ -87,10 +84,25 @@ class CertificationClassController {
 
     }
 
+    @Secured(['ROLE_LEADER'])
+    def confirmUnregister = {
+        int id = Integer.parseInt(params.id)
+        CertificationClass certificationClass = CertificationClass.get(id)
+        Leader leader = Leader.get(Integer.parseInt(params.leaderId))
+        return [leader:leader, certificationClass: certificationClass]
+    }
 
+    def confirmDelete = {
+        CertificationClass certificationClass = CertificationClass.get(params.id)
+        return [certificationClass: certificationClass]
+    }
 
     @Secured(['ROLE_LEADER'])
     def list = {
+        if(!params.sort) {
+            params.sort = "id"
+            params.order = "desc"
+        }
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [certificationClassInstanceList: CertificationClass.list(params), certificationClassInstanceTotal: CertificationClass.count()]
     }

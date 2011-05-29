@@ -12,15 +12,20 @@ class ScoutTagLib {
 
     def completeTrainingLink = {attrs, body ->
         LeaderCertificationInfo certificationInfo = attrs.certificationInfo;
-
-        out << g.link(controller: "leaderCertification",
+        out << s.linker(controller: "leaderCertification",
                 action: "createForm",
+                img: "/scoutinghub/images/training-${certificationInfo.certificationStatus?.name()?.toLowerCase()}.png",
                 'class': 'lightbox',
                 params: [certificationId: certificationInfo.certification.id, leaderId: certificationInfo.leader.id],
                 lbwidth: 600,
                 title: message(code: 'leader.profile.enterTrainingDetails')) {
             out << body();
         }
+    }
+
+
+    def textField = {attrs, body ->
+
     }
 
     def bigTextField = {attrs, body ->

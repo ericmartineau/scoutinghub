@@ -60,7 +60,7 @@ class LeaderController {
     }
 
     def accountCreated = {
-        Leader leader = leader = springSecurityService.currentUser
+        Leader leader = springSecurityService.currentUser
         leader.reindex()
         forward(action:'view')
     }

@@ -30,14 +30,14 @@
                     <table>
                         <tbody>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="externalId"><g:message code="certification.externalId.label" default="External Id" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'externalId', 'errors')}">
-                                    <g:textField name="externalId" value="${certificationInstance?.externalId}" />
-                                </td>
-                            </tr>
+                            %{--<tr class="prop">--}%
+                                %{--<td valign="top" class="name">--}%
+                                  %{--<label for="externalId"><g:message code="certification.externalId.label" default="External Id" /></label>--}%
+                                %{--</td>--}%
+                                %{--<td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'externalId', 'errors')}">--}%
+                                    %{--<g:textField name="externalId" value="${certificationInstance?.externalId}" />--}%
+                                %{--</td>--}%
+                            %{--</tr>--}%
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

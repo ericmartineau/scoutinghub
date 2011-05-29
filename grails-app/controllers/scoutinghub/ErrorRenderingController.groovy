@@ -7,7 +7,7 @@ class ErrorRenderingController {
     MailService mailService
 
     def show = {
-        println flash.errorObj
+
     }
 
     def showStackTraces = {

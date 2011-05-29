@@ -21,6 +21,7 @@ class LeaderCertification implements Serializable {
         createDate nullable: true
         updateDate nullable: true
         expirationDate nullable:true
+        certification(unique: 'leader')
     }
 
     boolean hasExpired() {

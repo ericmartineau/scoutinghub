@@ -12,6 +12,8 @@ class ProgramCertification {
     Date createDate;
     Date updateDate;
 
+    static belongsTo = [Certification]
+
     static constraints = {
         unitType nullable:true
         required blank:false

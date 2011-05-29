@@ -185,18 +185,27 @@ class TrainingController {
         PrintWriter writer = new PrintWriter(new FileWriter(outputFile))
 
 
-        def reverseMap = [:]
-        [importTrainingService.certDefinitionMap,
-                importTrainingService.cubmasterSpecificMap,
-                importTrainingService.scoutmasterSpecificMap, importTrainingService.varsityCoachSpecificMap,
-                importTrainingService.crewAdviserSpecificMap].each {
-            it.each {entry ->
-                reverseMap[entry.value] = entry.key
+        def fieldToTypeMap = [:]
+
+        ["yptDate": CertificationType.YouthProtection,
+                "thisIsScoutingDate": CertificationType.ThisIsScouting,
+                "leaderSpecificDate": CertificationType.LeaderSpecific,
+                "fastStartDate": CertificationType.FastStart
+        ].each {fieldToTypeMap[it.value] = it.key}
+
+
+        def codeToCertType = [:]
+        CertificationCode.list().each {
+            CertificationCode code ->
+            if (code.certification.certificationType) {
+                codeToCertType[code.code] = fieldToTypeMap[code.certification.certificationType]
             }
         }
+        codeToCertType["S11"] = "outdoorSkillsDate"
 
         Set uniqueTrainingValues = new HashSet()
-        uniqueTrainingValues.addAll(reverseMap.values())
+        uniqueTrainingValues.addAll(fieldToTypeMap.values())
+        uniqueTrainingValues.add("outdoorSkillsDate")
 
 
         Workbook workbook = WorkbookFactory.create(new FileInputStream(importFile));
@@ -245,11 +254,15 @@ class TrainingController {
                 writer.print("${phone},");
                 String personId = row.getCell(21)?.getStringCellValue();
                 writer.print("${personId},");
-                String[] completedCerts = parts[1]?.replaceAll("Completed: ", "")?.split(", ")
+                String[] completedCerts = parts[1]?.replaceAll("Completed:", "")?.split(", ")
                 Set completed = new HashSet()
                 completedCerts.each {
-                    if (reverseMap.containsKey(it?.trim())) {
-                        completed.add(reverseMap.get(it?.trim()))
+                    if (it?.trim()?.size() > 0) {
+                        if (codeToCertType.containsKey(it?.trim())) {
+                            completed.add(codeToCertType.get(it?.trim()))
+                        } else {
+                            println "No mapping for ${it}: ${parts[1]}"
+                        }
                     }
                 }
                 uniqueTrainingValues.each {

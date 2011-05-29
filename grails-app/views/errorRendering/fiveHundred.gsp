@@ -1,3 +1,11 @@
+<html>
+<head>
+    <title><g:message code="error.header"/></title>
+    <meta name="layout" content="${layoutName}"/>
+
+</head>
+
+<body>
 <s:content>
     <s:section>
         <s:msg code="error.header" type="error" code2="${exception.message}"/>
@@ -35,3 +43,5 @@
     </g:if>
 
 </s:content>
+</body>
+</html>

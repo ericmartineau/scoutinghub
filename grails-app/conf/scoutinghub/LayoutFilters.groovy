@@ -22,9 +22,11 @@ class LayoutFilters {
                 if (userAgentIdentService.getPlatform() == "iPhone" || params.isMobile || session.isMobile) {
                     session.isMobile = true
                     request.layoutName = "iwebkit"
+                    request.dialogLayoutName="iwebkit"
                 } else {
                     session.isMobile = false
                     request.layoutName = "main"
+                    request.dialogLayoutName = "dialog"
                 }
 
             }

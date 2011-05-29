@@ -24,6 +24,7 @@ class ScoutGroupService {
         group.save()
     }
 
+
     def getLeaderFilters() {
         def rtn = [:]
         rtn.unitType = [:]
@@ -37,19 +38,24 @@ class ScoutGroupService {
 
         }
 
-        rtn.positionType = [:]
-        LeaderPositionType.values().each {LeaderPositionType type ->
-            rtn.positionType[type.name()] = {
-                eq('position', type)
-            }
-        }
-
         rtn.directContact = [:]
         rtn.directContact.yes = {
             inList('position', LeaderPositionType.values().findAll {it.directContact == true})
         }
         rtn.directContact.no = {
             inList('position', LeaderPositionType.values().findAll {it.directContact == false})
+        }
+
+        rtn.keyLeaders = [:]
+        rtn.keyLeaders.isAKeyLeader = {
+            inList('position', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
+        }
+
+        rtn.positionType = [:]
+        LeaderPositionType.values().each {LeaderPositionType type ->
+            rtn.positionType[type.name()] = {
+                eq('position', type)
+            }
         }
 
         return rtn
@@ -63,16 +69,6 @@ class ScoutGroupService {
         ScoutUnitType.values().each {ScoutUnitType type ->
             rtn.unitType[type.name()] = {
                 eq('unitType', type)
-            }
-
-        }
-
-        rtn.positionType = [:]
-        LeaderPositionType.values().each {LeaderPositionType type ->
-            rtn.positionType[type.name()] = {
-                leaderGroups {
-                    eq('position', type)
-                }
             }
         }
 
@@ -88,7 +84,21 @@ class ScoutGroupService {
             }
         }
 
+        rtn.keyLeaders = [:]
+        rtn.keyLeaders.isAKeyLeader = {
+            leaderGroups {
+                inList('position', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
+            }
+        }
 
+        rtn.positionType = [:]
+        LeaderPositionType.values().each {LeaderPositionType type ->
+            rtn.positionType[type.name()] = {
+                leaderGroups {
+                    eq('position', type)
+                }
+            }
+        }
         return rtn
     }
 

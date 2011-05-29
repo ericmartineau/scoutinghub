@@ -80,14 +80,27 @@ class SwitchingTagLib {
         }
     }
 
+//    def lightboxLink = {attrs, body->
+    //        if(session.isMobile) {
+    //
+    //        } else {
+    //            String controller = attrs.controller
+    //            String action = attrs.action
+    //            String id = attrs.id
+    //            String params = attrs.params
+    //            attrs.class = "${lightboxattrs.class
+    //            g.link()
+    //        }
+    //    }
+
     def property = {attrs, body ->
         if (session.isMobile) {
-            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
+            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code, args: attrs.args)}</span><span class='value'>${body()}</span></li>"
         } else {
             out << "<li class='prop ${attrs.class ?: ''}'>"
             if (attrs.code) {
                 out << "<div class='propLabel'>"
-                out << message(code: attrs.code)
+                out << message(code: attrs.code, args: attrs.args)
                 out << "</div>"
             }
 
@@ -157,22 +170,23 @@ class SwitchingTagLib {
     def leaderTraining = {attrs ->
         if (session.isMobile) {
             LeaderCertificationInfo certificationInfo = attrs.certificationInfo
-            def editLink
-            if (certificationInfo?.leaderCertification) {
-                editLink = link(id: certificationInfo?.leaderCertification?.id, controller: 'leaderCertification', action: 'quickEdit') {
-                    certificationInfo?.certification?.name
-                }
-            } else {
-                def params = [
-                        'leader.id': certificationInfo.leader.id,
-                        'certification.id': certificationInfo.certification.id
-                ]
-                editLink = link(params: params, controller: 'leaderCertification', action: 'quickCreate') {
-                    certificationInfo?.certification?.name
-                }
+//
+//            def linkAttrs
+//            if (certificationInfo?.leaderCertification) {
+//                linkAttrs = [id: certificationInfo?.leaderCertification?.id, controller: 'leaderCertification', action: 'quickEdit']
+//            } else {
+//                def params = [
+//                        'leader.id': certificationInfo.leader.id,
+//                        'certification.id': certificationInfo.certification.id
+//                ]
+//                linkAttrs = [params: params, controller: 'leaderCertification', action: 'quickCreate']
+//            }
+
+
+            out << f.completeTrainingLink(certificationInfo: certificationInfo) {
+                out << certificationInfo?.certification?.name
             }
 
-            out << linker(comment: certificationInfo.certificationStatus) { editLink }
         } else {
             out << f.leaderTraining(certificationInfo: attrs.certificationInfo)
         }
@@ -276,17 +290,26 @@ class SwitchingTagLib {
     def linker = {attrs, body ->
         if (session.isMobile) {
             out << "<li class='menu linker'>"
-            out << "<span class='name'>${body()}</span>"
-            if (attrs.comment) {
-                out << "<span class='comment'>${attrs.comment}</span>"
+            def bodyClosure = {
+                if (attrs.img) {
+                    out << "<img src='${attrs.img}' />"
+                }
+                out << "<span class='name'>${body()}</span>"
+                if (attrs.comment) {
+                    out << "<span class='comment'>${attrs.comment}</span>"
+                }
+                out << "<span class='arrow'></span>"
             }
-            out << "<span class='arrow'></span>"
+
+            if (attrs.controller || attrs.action) {
+                out << link(attrs, bodyClosure)
+            } else {
+                out << bodyClosure()
+            }
+
             out << "</li>"
-
         } else {
-
             out << link(attrs, body)
-
         }
     }
 
@@ -303,7 +326,7 @@ class SwitchingTagLib {
     def bigButton = {attrs, body ->
         if (session.isMobile) {
             out << linker(attrs) {
-                out << link(attrs) {attrs.value ?: body()}
+                out << body()
             }
         } else {
             out << "<div class='big-button-container'>"
@@ -325,6 +348,17 @@ class SwitchingTagLib {
             out << radio(attrs)
         } else {
             out << radio(attrs)
+        }
+
+    }
+
+    def textField = {attrs, body->
+        if(session.isMobile) {
+            out << bigTextField(attrs, body)
+        } else {
+            out << property(attrs) {
+                out << g.textField(attrs)
+            }
         }
 
     }

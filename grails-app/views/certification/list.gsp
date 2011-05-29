@@ -22,7 +22,7 @@
 
                 <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="id" title="${message(code: 'certification.id.label', default: 'Id')}"/>
 
-                <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="externalId" title="${message(code: 'certification.externalId.label', default: 'External Id')}"/>
+                %{--<g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="externalId" title="${message(code: 'certification.externalId.label', default: 'External Id')}"/>--}%
 
                 <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="name" title="${message(code: 'certification.name.label', default: 'Name')}"/>
 
@@ -40,7 +40,7 @@
 
                     <td class="tabular"><g:link action="show" id="${certificationInstance.id}">${fieldValue(bean: certificationInstance, field: "id")}</g:link></td>
 
-                    <td class="tabular">${fieldValue(bean: certificationInstance, field: "externalId")}</td>
+                    %{--<td class="tabular">${fieldValue(bean: certificationInstance, field: "externalId")}</td>--}%
 
                     <td class="tabular">${fieldValue(bean: certificationInstance, field: "name")}</td>
 

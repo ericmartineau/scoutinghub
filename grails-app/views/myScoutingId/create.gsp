@@ -1,9 +1,15 @@
-<g:form class="dialog-form" name="myScoutingIdCreate" action="save">
-    <div class="dialog">
-        <s:bigTextField code="${message(code:'myScoutingId.myScoutingIdentifier.label')}" name="myScoutingIdentifier" placeholder="${message(code:'myScoutingId.myScoutingIdentifier.label')}"/>
-        <g:hiddenField name="leader.id" value="${myScoutingIdInstance?.leader?.id}"/>
-    </div>
-    <div class="buttons">
-        <g:submitButton name="save" value="Save" />
-    </div>
-</g:form>
+<s:content>
+
+    <g:form class="dialog-form" name="myScoutingIdCreate" action="save">
+        <s:section>
+
+            <g:hiddenField name="leader.id" value="${myScoutingIdInstance?.leader?.id}"/>
+            <s:textField code="${message(code:'myScoutingId.myScoutingIdentifier.label')}" name="myScoutingIdentifier"
+                         placeholder="${message(code:'myScoutingId.myScoutingIdentifier.label')}"/>
+            <s:div class="buttons">
+                <s:submit name="save" value="Save"/>
+            </s:div>
+        </s:section>
+    </g:form>
+</s:content>
+

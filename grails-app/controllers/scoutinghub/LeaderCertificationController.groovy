@@ -3,6 +3,7 @@ package scoutinghub
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
+import java.text.ParseException
 
 @Secured(['ROLE_LEADER'])
 class LeaderCertificationController {
@@ -28,7 +29,7 @@ class LeaderCertificationController {
 
     def quickEdit = {
         LeaderCertification leaderCertification = LeaderCertification.get(params.id)
-        render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+        render(view: "quickCreate", model: [leaderCertification: leaderCertification, postAction: "processQuickEdit"])
     }
 
     def processQuickEdit = {
@@ -40,7 +41,7 @@ class LeaderCertificationController {
         } catch (Exception e) {
             e.printStackTrace()
             flash.error = "leaderCertification.create.invalidDate"
-            render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+            render(view: "quickCreate", model: [leaderCertification: leaderCertification, postAction: "processQuickEdit"])
             return
 
         }
@@ -57,7 +58,7 @@ class LeaderCertificationController {
 
             } catch (Exception e) {
                 flash.error = "leaderCertification.create.error"
-                render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickEdit"])
+                render(view: "quickCreate", model: [leaderCertification: leaderCertification, postAction: "processQuickEdit"])
                 return
             }
         }
@@ -77,7 +78,7 @@ class LeaderCertificationController {
         } catch (Exception e) {
             e.printStackTrace()
             flash.error = "leaderCertification.create.invalidDate"
-            render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickCreate"])
+            render(view: "quickCreate", model: [leaderCertification: leaderCertification, postAction: "processQuickCreate"])
             return
 
         }
@@ -93,7 +94,7 @@ class LeaderCertificationController {
 
             } catch (Exception e) {
                 flash.error = "leaderCertification.create.error"
-                render(view:"quickCreate", model: [leaderCertification:leaderCertification, postAction: "processQuickCreate"])
+                render(view: "quickCreate", model: [leaderCertification: leaderCertification, postAction: "processQuickCreate"])
                 return
             }
         }
@@ -138,39 +139,52 @@ class LeaderCertificationController {
             Certification certification = Certification.get(Integer.parseInt(params.certificationId));
             Date dateEarned
             try {
-                dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
+                try {
+                    dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
+                } catch(ParseException e) {
+                    dateEarned = Date.parse("MM-dd-yyyy", params.dateEarned)
+                }
+                if (leader && certification && dateEarned) {
+                    try {
+                        //Let's delete any prior certification record.
+                        LeaderCertification.findAllByCertificationAndLeader(certification, leader)*.delete(flush:true)
+                        LeaderCertification leaderCertification = new LeaderCertification()
+                        leaderCertification.leader = leader
+                        leaderCertification.certification = certification
+                        leaderCertification.dateEarned = dateEarned
+                        leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+                        leaderCertification.enteredBy = springSecurityService.currentUser
+                        leaderCertification.dateEntered = new Date()
+                        leader.addToCertifications(leaderCertification)
+                        leader.save()
+                        if(leader.hasErrors()) {
+                            flash.errorObj = leader
+                            rtn.success = false
+                        } else {
+                            trainingService.recalculatePctTrained(leader);
+                            rtn.success = true
+                        }
+
+                    } catch (Exception e) {
+                        log.error "Error saving", e
+                        rtn.success = false
+                        flash.error = "Error saving certification: ${e.message}"
+
+                    }
+                } else {
+                    flash.error = "Unknown error"
+                    rtn.success = false
+                }
+            } catch(ParseException e) {
+                rtn.success = false
+                flash.error = "Invalid date.  Please enter in the format dd/mm/yyyy"
             } catch (Exception e) {
                 rtn.success = false
-                rtn.message = "Invalid date.  Please enter in the format dd/mm/yyyy"
-                return rtn
-            }
-            if (leader && certification && dateEarned) {
-                try {
-                    LeaderCertification leaderCertification = new LeaderCertification()
-                    leaderCertification.leader = leader
-                    leaderCertification.certification = certification
-                    leaderCertification.dateEarned = dateEarned
-                    leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
-                    leaderCertification.enteredBy = springSecurityService.currentUser
-                    leaderCertification.dateEntered = new Date()
-                    leader.addToCertifications(leaderCertification)
-                    leader.save(failOnError: true)
-                    trainingService.recalculatePctTrained(leader);
-                    rtn.success = true
-                } catch (Exception e) {
-                    log.error "Error saving", e
-                    rtn.success = false
-                    rtn.message = "Error saving certification: ${e.message}"
-
-                }
-
-
-            } else {
-                rtn.success = false
+                flash.error = "Unknown error: ${e.message}"
             }
         } else {
             rtn.success = false
-            rtn.message = "You must submit a value for date"
+            flash.error = "You must submit a value for date"
         }
 
         render rtn as JSON

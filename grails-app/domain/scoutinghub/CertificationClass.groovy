@@ -10,6 +10,12 @@ class CertificationClass {
     static belongsTo = [Leader]
     static hasMany = [registrants:Leader]
 
+    @Override
+    String toString() {
+        return "${certification.name} ${classDate.format("MM-dd-yyyy")}"
+    }
+
+
     static constraints = {
     }
 

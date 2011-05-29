@@ -34,15 +34,13 @@ class MyScoutingIdController {
                 flash.info = 'myScoutingId.myScoutingIdentifier.unique'
                 flash.info2 = 'myScoutingId.myScoutingIdentifier.uniqueExtra'
                 rtn.success = false
-                render rtn as JSON
-                return
+                return rtn
             } else if(identifier && identifier?.leader?.id != myScoutingIdInstance?.leader?.id) {
                 if(identifier?.leader && myScoutingIdInstance?.leader) {
                     leaderService.mergeLeaders(myScoutingIdInstance.leader, identifier.leader);
                     trainingService.recalculatePctTrained(myScoutingIdInstance.leader);
                     rtn.success = true;
-                    render rtn as JSON
-                    return
+                    return rtn
                 }
 
             }

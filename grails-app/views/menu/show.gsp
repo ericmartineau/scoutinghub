@@ -4,7 +4,8 @@
 </head>
 <body>
 <s:content>
-    <s:section code="Logout">
+    <s:section>
+        <s:linker><g:link controller="leader" action="profile">Home</g:link></s:linker>
         <s:linker><g:link controller="logout">Logout Now</g:link></s:linker>
     </s:section>
     <s:menu/>

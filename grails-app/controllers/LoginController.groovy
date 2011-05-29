@@ -288,8 +288,11 @@ class LoginController {
                 Leader leader = flow.leader
                 CreateAccountCommand createAccount = flow.createAccount
 
-                if (leader?.enabled) {
+                leader.firstName = createAccount.firstName
+                leader.lastName = createAccount.lastName
+                leader.email = createAccount.email
 
+                if (leader?.enabled) {
                     if (leader?.username) {
                         //Let's try to authenticate.  If we can authenticate, let's not waste time asking them
                         //about all that other business.

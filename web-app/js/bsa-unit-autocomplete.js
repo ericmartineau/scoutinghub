@@ -1,3 +1,52 @@
+function commonDecorate() {
+    jQuery("a.lightbox").each(
+            function() {
+                var oldHref = this.href;
+                this.href = "javascript:void(0)";
+                var config = {};
+                var $this = jQuery(this);
+                if ($this.attr("title")) {
+                    config.title = $this.attr("title");
+                }
+                if ($this.attr("lbheight")) {
+                    config.height = parseInt($this.attr("lbheight"));
+                }
+                if ($this.attr("lbwidth")) {
+                    config.width = parseInt($this.attr("lbwidth"));
+                }
+
+                $this.click(createDialogClosure(oldHref, {}, config));
+            }).removeClass("lightbox");
+
+    //Dialog forms operate in a lightbox - we want to submit the form via ajax, and read the json response.
+    jQuery("form.dialog-form").each(
+            function() {
+                var $this = jQuery(this);
+                $this.submit(function(event) {
+                    event.preventDefault();
+                    // Send the request
+                    jQuery.post($this.attr("action"), $this.serialize(), function(json) {
+                        if (json.success) {
+                            closeDialog();
+                            if ($this.attr("reload") != "false") {
+                                window.location.reload();
+                            }
+                        } else {
+                            jQuery("div.errors", "#dialog").remove();
+                            var errDiv = jQuery("<div class='errors'></div>");
+                            errDiv
+                                    .hide()
+                                    .prependTo($this)
+                                    .load("/scoutinghub/errorRendering/show", {}, function() {
+                                        errDiv.show("blind", { direction: "vertical" }, 200);
+                                    });
+                        }
+                    }, 'json');
+                    return false;
+                });
+            }).removeClass("dialog-form");
+}
+
 function configureUnitAutocomplete() {
 
 //Creates unit selector widget (autocomplete) (that communicates with position drop-down boxes)

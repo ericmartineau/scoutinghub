@@ -1,85 +1,108 @@
-
 <%@ page import="scoutinghub.CertificationClass" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'certificationClass.label', default: 'CertificationClass')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="layout" content="${layoutName}"/>
+    <g:set var="entityName" value="${message(code: 'certificationClass.label', default: 'CertificationClass')}"/>
+    <title><g:message code="default.show.label" args="[entityName]"/></title>
+</head>
+
+<body>
+<s:content class="floatContainer">
+    <s:section class="floatSection profile">
+        <g:if test="${flash.message}">
+            <s:msg code="${flash.message}" type="info"/>
+        </g:if>
+
+        <s:sectionHeader icon="training-icon" code="certificationClass.show">
+            <g:ctxmenu>
+                <g:ctxmenuItem>
+                    <g:link controller="certificationClass" action="edit" id="${certificationClassInstance.id}">
+                        <g:inlineIcon class="edit-icon"/>
+                        <g:ctxmenuLabel>
+                            <g:message code="certificationClass.editThis"/>
+                        </g:ctxmenuLabel>
+                    </g:link>
+                </g:ctxmenuItem>
+
+                <g:ctxmenuItem>
+                    <g:link class="lightbox" title="${message(code:'certificationClass.delete')}" controller="certificationClass" action="confirmDelete" id="${certificationClassInstance.id}">
+                        <g:inlineIcon class="delete-icon"/>
+                        <g:ctxmenuLabel>
+                            <g:message code="certificationClass.deleteThis"/>
+                        </g:ctxmenuLabel>
+                    </g:link>
+                </g:ctxmenuItem>
+
+            </g:ctxmenu>
+        </s:sectionHeader>
+
+        <s:propertyList>
+            <s:div class="alternate-color prop-container">
+                <s:property code="certificationClass.certification.label">${certificationClassInstance?.certification?.encodeAsHTML()}</s:property>
+                <s:property code="certificationClass.location.label">${certificationClassInstance?.location?.encodeAsHTML()}</s:property>
+
+            </s:div>
+
+            <s:div class="prop-container">
+                <s:property code="certificationClass.classDate.label"><g:formatDate date="${certificationClassInstance?.classDate}" format="MM-dd-yyyy"/></s:property>
+                <s:property code="certificationClass.time.label">${certificationClassInstance?.time}</s:property>
+            </s:div>
+
+        </s:propertyList>
+
+    </s:section>
+
+    <s:section class="floatSection">
+        <s:sectionHeader icon="profile-icon" code="certificationClass.registrants"/>
+
+        <div class="list">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th>Leader</th>
+                    <th>Unit</th>
+                    <th>Position</th>
+                    <th>BSA ID</th>
+                    <th>View Profile</th>
+                    <th>Unregister</th>
+                </tr>
+                </thead>
+                <g:each in="${certificationClassInstance?.registrants}" var="leader">
+                    <tr>
+                        <td>${leader}</td>
+                        <td>
+                            <g:if test="${leader?.groups?.size() > 0}">
+                                ${leader?.groups?.iterator()?.next()?.scoutGroup}
+                            </g:if>
+                        </td>
+                        <td>
+                            <g:if test="${leader?.groups?.size() > 0}">
+                                <g:message code="${leader?.groups?.iterator()?.next()?.position}.label" />
+                            </g:if>
+                        </td>
+
+                        <td>
+                            <g:if test="${leader?.myScoutingIds?.size() > 0}">
+                                ${leader?.myScoutingIds?.iterator()?.next()?.myScoutingIdentifier}
+                            </g:if>
+
+                        </td>
+
+                        <td align="center"><g:link controller="leader" action="view" id="${leader.id}"><g:message code="leader.viewProfile"/></g:link></td>
+                        <td align="center">
+                            <g:link controller="certificationClass" action="confirmUnregister" id="${certificationClassInstance.id}"
+                                    params="[leaderId:leader.id]" class="lightbox" title="${message(code:'certificationClass.unregisterFromClass')}">
+                                <g:message code="certificationClass.unregister"/>
+                            </g:link></td>
+                    </tr>
+
+                </g:each>
+            </table>
         </div>
-        <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="certificationClass.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: certificationClassInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="certificationClass.certification.label" default="Certification" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="certification" action="show" id="${certificationClassInstance?.certification?.id}">${certificationClassInstance?.certification?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="certificationClass.classDate.label" default="Class Date" /></td>
-                            
-                            <td valign="top" class="value"><g:formatDate date="${certificationClassInstance?.classDate}" /></td>
-                            
-                        </tr>
-                    
-                        %{--<tr class="prop">--}%
-                            %{--<td valign="top" class="name"><g:message code="certificationClass.coordinator.label" default="Coordinator" /></td>--}%
-                            %{----}%
-                            %{--<td valign="top" class="value"><g:link controller="leader" action="show" id="${certificationClassInstance?.coordinator?.id}">${certificationClassInstance?.coordinator?.encodeAsHTML()}</g:link></td>--}%
-                            %{----}%
-                        %{--</tr>--}%
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="certificationClass.location.label" default="Location" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="address" action="show" id="${certificationClassInstance?.location?.id}">${certificationClassInstance?.location?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="certificationClass.registrants.label" default="Registrants" /></td>
-                            
-                            <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="${certificationClassInstance.registrants}" var="r">
-                                    <li><g:link controller="leader" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-                        </tr>
-                    
-                    </tbody>
-                </table>
-            </div>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${certificationClassInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
-            </div>
-        </div>
-    </body>
+
+    </s:section>
+
+</s:content>
+</body>
 </html>
