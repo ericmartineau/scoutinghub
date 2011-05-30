@@ -52,7 +52,7 @@
 
             <p style="margin-top:20px">
                 Thanks,<br/>
-                ScoutCert
+                ScoutingHub
             </p>
         </div>
 

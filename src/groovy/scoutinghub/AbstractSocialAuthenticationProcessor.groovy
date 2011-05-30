@@ -24,7 +24,7 @@ abstract class AbstractSocialAuthenticationProcessor {
 
 
         //This value will be set in the session when the user initiates the social login process AFTER they've already
-        //been logged into the software using their regular ScoutCert login
+        //been logged into the software using their regular ScoutingHub login
         Integer userId = request.session["open_link_userid"]
 
         if (socialUserId && userId) {
