@@ -82,7 +82,7 @@ class LeaderGroupController {
                 //Is the leader in the group?
                 LeaderGroup found = leader.groups.find {it.scoutGroup.id == groupId}
                 if(!found && isAdmin) {
-                    found = new LeaderGroup(leader:leader, position: LeaderPositionType.Administrator, scoutGroup: ScoutGroup.get(groupId));
+                    found = new LeaderGroup(leader:leader, leaderPosition: LeaderPositionType.Administrator, scoutGroup: ScoutGroup.get(groupId));
                     leader.addToGroups(found)
                 }
                 found?.admin = isAdmin

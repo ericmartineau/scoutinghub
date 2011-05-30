@@ -14,8 +14,6 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 
-        inherit false
-
         mavenRepo "http://cubtrails.com/nexus/content/repositories/scoutinghub/"
         grailsPlugins()
         grailsHome()

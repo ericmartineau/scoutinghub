@@ -56,7 +56,7 @@
                 <g:each in="${filteredLeaderList}" var="leaderGroup">
                     <tr>
                         <td class="trainingReportUnit"><g:link controller="leader" action="view"
-                                                               id="${leaderGroup.leader.id}">${leaderGroup.leader} (<g:message code="${leaderGroup.position}.label" />)</g:link></td>
+                                                               id="${leaderGroup.leader.id}">${leaderGroup.leader} (<g:message code="${leaderGroup.leaderPosition}.label" />)</g:link></td>
                         <td><div class="progress" value="${(int) leaderGroup.pctTrained}"></div></td>
 
                     </tr>

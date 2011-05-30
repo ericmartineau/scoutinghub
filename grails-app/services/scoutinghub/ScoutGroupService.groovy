@@ -40,21 +40,21 @@ class ScoutGroupService {
 
         rtn.directContact = [:]
         rtn.directContact.yes = {
-            inList('position', LeaderPositionType.values().findAll {it.directContact == true})
+            inList('leaderPosition', LeaderPositionType.values().findAll {it.directContact == true})
         }
         rtn.directContact.no = {
-            inList('position', LeaderPositionType.values().findAll {it.directContact == false})
+            inList('leaderPosition', LeaderPositionType.values().findAll {it.directContact == false})
         }
 
         rtn.keyLeaders = [:]
         rtn.keyLeaders.isAKeyLeader = {
-            inList('position', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
+            inList('leaderPosition', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
         }
 
         rtn.positionType = [:]
         LeaderPositionType.values().each {LeaderPositionType type ->
             rtn.positionType[type.name()] = {
-                eq('position', type)
+                eq('leaderPosition', type)
             }
         }
 
@@ -75,19 +75,19 @@ class ScoutGroupService {
         rtn.directContact = [:]
         rtn.directContact.yes = {
             leaderGroups {
-                inList('position', LeaderPositionType.values().findAll {it.directContact == true})
+                inList('leaderPosition', LeaderPositionType.values().findAll {it.directContact == true})
             }
         }
         rtn.directContact.no = {
             leaderGroups {
-                inList('position', LeaderPositionType.values().findAll {it.directContact == false})
+                inList('leaderPosition', LeaderPositionType.values().findAll {it.directContact == false})
             }
         }
 
         rtn.keyLeaders = [:]
         rtn.keyLeaders.isAKeyLeader = {
             leaderGroups {
-                inList('position', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
+                inList('leaderPosition', LeaderPositionType.values().findAll {it.keyLeaderPosition == true})
             }
         }
 
@@ -95,7 +95,7 @@ class ScoutGroupService {
         LeaderPositionType.values().each {LeaderPositionType type ->
             rtn.positionType[type.name()] = {
                 leaderGroups {
-                    eq('position', type)
+                    eq('leaderPosition', type)
                 }
             }
         }

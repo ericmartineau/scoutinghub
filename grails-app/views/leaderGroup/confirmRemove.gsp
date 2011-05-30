@@ -5,7 +5,7 @@
     <ul class="list">
         <li>${leaderGroup.leader} will be removed from ${leaderGroup.scoutGroup}</li>
         <li>${leaderGroup.leader} will retain all training certifications for the <g:message
-                code="${leaderGroup.position.name()}.label"/> position</li>
+                code="${leaderGroup.leaderPosition.name()}.label"/> position</li>
         <li>${leaderGroup.leader} will not be removed from any other units</li>
         <li>${leaderGroup.leader} can be added to other units in the future</li>
     </ul>

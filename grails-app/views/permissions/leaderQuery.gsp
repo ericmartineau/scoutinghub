@@ -43,7 +43,7 @@
             %{--</g:else>--}%
             %{--</td>--}%
             %{--<td class="tabular">--}%
-            %{--${leader?.groups?.iterator()?.next()?.position?.name()?.humanize() ?: "None"}--}%
+            %{--${leader?.groups?.iterator()?.next()?.leaderPosition?.name()?.humanize() ?: "None"}--}%
 
             %{--</td>--}%
             %{--<g:each in="${roles}" var="role">--}%

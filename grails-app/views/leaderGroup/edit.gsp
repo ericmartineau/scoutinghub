@@ -71,8 +71,8 @@
                                 <td valign="top" class="name">
                                   <label for="position"><g:message code="leaderGroup.position.label" default="Position" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: leaderGroupInstance, field: 'position', 'errors')}">
-                                    <g:select name="position" from="${scoutinghub.LeaderPositionType?.values()}" value="${leaderGroupInstance?.position}"  />
+                                <td valign="top" class="value ${hasErrors(bean: leaderGroupInstance, field: 'leaderPosition', 'errors')}">
+                                    <g:select name="position" from="${scoutinghub.LeaderPositionType?.values()}" value="${leaderGroupInstance?.leaderPosition}"  />
                                 </td>
                             </tr>
                         

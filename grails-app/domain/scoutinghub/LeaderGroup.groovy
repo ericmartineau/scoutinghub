@@ -9,7 +9,7 @@ class LeaderGroup implements Serializable {
     Leader leader
     ScoutGroup scoutGroup
     boolean admin
-    LeaderPositionType position
+    LeaderPositionType leaderPosition
     double pctTrained
 
     Date createDate;

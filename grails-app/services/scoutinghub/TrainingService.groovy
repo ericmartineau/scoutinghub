@@ -57,7 +57,7 @@ class TrainingService {
                 and {
                     or {
                         inList('unitType', leaderGroup.scoutGroup.unitType)
-                        inList('positionType', leaderGroup.position)
+                        inList('positionType', leaderGroup.leaderPosition)
                     }
                     eq('required', true)
                 }

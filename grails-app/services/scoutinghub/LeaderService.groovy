@@ -118,7 +118,7 @@ class LeaderService {
 
             if (primary.hasScoutGroup(it.scoutGroup)) {
                 primaryScoutGroup = primary.findScoutGroup(it.scoutGroup);
-                if (primaryScoutGroup.position == it.position) {
+                if (primaryScoutGroup.leaderPosition == it.leaderPosition) {
                     if (it.admin != primaryScoutGroup.admin &&
                             !primaryScoutGroup.admin) {
                         primaryScoutGroup.admin = it.admin || secondaryScoutGroup.admin;
@@ -138,7 +138,7 @@ class LeaderService {
             ScoutGroup existingUnit = it.scoutGroup;
             existingUnit.removeFromLeaderGroups(it);
             secondary.removeFromGroups(it);
-            existingUnit.addToLeaderGroups([leader: primary, position: it.position]);
+            existingUnit.addToLeaderGroups([leader: primary, leaderPosition: it.leaderPosition]);
             existingUnit.save(flush: true, failOnError: true);
         }
 

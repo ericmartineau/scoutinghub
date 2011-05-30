@@ -540,7 +540,7 @@ class LoginController {
                 CreateAccountCommand createAccount = flow.createAccount
                 ScoutGroup targetUnit = createAccount.unit.merge();
                 if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
-                    targetUnit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, position: createAccount.unitPosition));
+                    targetUnit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, leaderPosition: createAccount.unitPosition));
                     targetUnit.save(flush: true)
                 }
 

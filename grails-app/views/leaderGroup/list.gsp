@@ -32,7 +32,7 @@
                         
                             <th><g:message code="leaderGroup.leader.label" default="Leader" /></th>
                         
-                            <g:sortableColumn property="position" title="${message(code: 'leaderGroup.position.label', default: 'Position')}" />
+                            <g:sortableColumn property="position" title="${message(code: 'leaderGroup.leaderPosition.label', default: 'Position')}" />
                         
                         </tr>
                     </thead>
@@ -50,7 +50,7 @@
                         
                             <td>${fieldValue(bean: leaderGroupInstance, field: "leader")}</td>
                         
-                            <td>${fieldValue(bean: leaderGroupInstance, field: "position")}</td>
+                            <td>${fieldValue(bean: leaderGroupInstance, field: "leaderPosition")}</td>
                         
                         </tr>
                     </g:each>

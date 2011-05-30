@@ -190,7 +190,7 @@
                     </g:else>
                 </g:if>
                 <g:set var="i" value="${request.i+1}" scope="request"/>
-                <s:leaderUnit leaderGroup="${group}" code="${group?.position}.label" class="${currClass}">
+                <s:leaderUnit leaderGroup="${group}" code="${group?.leaderPosition}.label" class="${currClass}">
                     ${group?.scoutGroup}
 
                     <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">(admin)

@@ -47,8 +47,8 @@ class ImportTrainingService {
             "Email": "email",
             "Unit#": "unitNumber",
             "UnitType": "unitType",
-            "PositionCode": "position",
-            "Position": "position",
+            "PositionCode": "leaderPosition",
+            "Position": "leaderPosition",
             "YPT": "yptDate",
             "ThisIsScouting": "thisIsScoutingDate",
             "FastStart": "fastStartDate",
@@ -359,9 +359,9 @@ class ImportTrainingService {
                                         throw new Exception("Unknown unit")
                                     }
 
-                                    LeaderPositionType position = leaderPositionTypeMap[record.position?.replaceAll("\\s", "")]
+                                    LeaderPositionType position = leaderPositionTypeMap[record.leaderPosition?.replaceAll("\\s", "")]
                                     if (position == null) {
-                                        throw new Exception("No position code")
+                                        throw new Exception("No leaderPosition code")
                                     }
 
                                     Leader leader = leaderService.findExactLeaderMatch(record.scoutingId, record.email, record.firstName,
@@ -375,7 +375,7 @@ class ImportTrainingService {
                                         leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                         leader.save(flush: true, failOnError: true)
 
-                                        existingUnit.addToLeaderGroups([leader: leader, position: position])
+                                        existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position])
 
                                         processCertification(record, position, certificationForType, certificationMap, leader, importJob);
 
@@ -392,7 +392,7 @@ class ImportTrainingService {
                                         if (record.unitNumber) {
                                             if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
                                                 if (!InactiveLeaderGroup.findByLeaderAndScoutGroup(leader, existingUnit)) {
-                                                    existingUnit.addToLeaderGroups([leader: leader, position: position])
+                                                    existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position])
                                                 }
                                             }
                                         }
@@ -489,7 +489,7 @@ class ImportTrainingService {
             if (trainingDate) {
 
                 CertificationType type = entry.value
-                //Look up based on position
+                //Look up based on leaderPosition
                 Certification certification = positionTypeMap.get(type)?.get(positionType)
                 if (!certification) {
                     throw new IllegalStateException("Certification ${type}: ${positionType} not found")

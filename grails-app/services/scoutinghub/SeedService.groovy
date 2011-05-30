@@ -32,7 +32,7 @@ class SeedService {
             }
         }
 
-        //Add the fast starts for each position
+        //Add the fast starts for each leaderPosition
         addCertification("Cubmaster Fast Start", ["C72", "CF3"], CertificationType.FastStart, [LeaderPositionType.Cubmaster, LeaderPositionType.AssistantCubmaster], 1780)
         addCertification("Tiger Cub Leader Fast Start", ["C73", "CF6"], CertificationType.FastStart, [LeaderPositionType.TigerLeader], 1780)
         addCertification("Webelos Den Leader Fast Start", ["C71", "CF2"], CertificationType.FastStart, [LeaderPositionType.WebelosLeader, LeaderPositionType.AssistantWebelosLeader], 1780)

@@ -50,7 +50,7 @@ class BootStrap {
             ScoutGroup sanTanDistrict = new ScoutGroup(parent: council, groupLabel: "San Tan District", groupType: ScoutGroupType.District,
                     groupIdentifier: "SanTanDistrict")
 
-            council.addToLeaderGroups([leader: admin, position: LeaderPositionType.Executive, admin: true])
+            council.addToLeaderGroups([leader: admin, leaderPosition: LeaderPositionType.Executive, admin: true])
             council.save(failOnError: true)
 
             ScoutGroup scoutGroup = new ScoutGroup(groupLabel: "Chandler Stake", groupIdentifier: "ChandlerStake", groupType: ScoutGroupType.Stake, parent: sanTanDistrict).save(failOnError: true)

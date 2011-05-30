@@ -78,7 +78,7 @@
                         </td>
                         <td>
                             <g:if test="${leader?.groups?.size() > 0}">
-                                <g:message code="${leader?.groups?.iterator()?.next()?.position}.label" />
+                                <g:message code="${leader?.groups?.iterator()?.next()?.leaderPosition}.label" />
                             </g:if>
                         </td>
 

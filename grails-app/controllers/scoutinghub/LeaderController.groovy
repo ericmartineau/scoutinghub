@@ -88,7 +88,7 @@ class LeaderController {
                 and {
                     or {
                         inList('unitType', leader.groups?.collect {it.scoutGroup.unitType})
-                        inList('positionType', leader.groups?.collect {it.position})
+                        inList('positionType', leader.groups?.collect {it.leaderPosition})
                     }
                     eq('required', true)
                 }
