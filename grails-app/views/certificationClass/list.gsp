@@ -9,7 +9,7 @@
 
 <body>
 <s:content>
-    <s:section class="floatSection">
+    <s:section>
         <g:if test="${flash.message}">
             <s:msg type="info" code="${flash.message}"/>
         </g:if>

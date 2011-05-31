@@ -1329,83 +1329,7 @@ H4.registerTitle {
     BORDER-RIGHT: #ccc 1px solid
 }
 
-.ms-alternating {
-    BACKGROUND-COLOR: #cedfef
-}
 
-#leftChangeUserName {
-    PADDING-LEFT: 5px;
-    WIDTH: 500px;
-    FLOAT: left;
-    MARGIN-RIGHT: 10px;
-    PADDING-TOP: 5px
-}
-
-#rightChangeUserName {
-    MARGIN: 0px;
-    WIDTH: 175px;
-    FLOAT: left;
-    HEIGHT: 1%;
-    PADDING-TOP: 5px
-}
-
-#digitalmagazine TABLE {
-    WIDTH: 215px
-}
-
-#digitalmagazine TABLE TR {
-
-}
-
-#digitalmagazine .ms-WPBody P {
-    WIDTH: 195px
-}
-
-#digitalmagazine .ms-WPTitle {
-    PADDING-BOTTOM: 5px;
-    TEXT-TRANSFORM: lowercase;
-    FONT-VARIANT: small-caps;
-    PADDING-LEFT: 12px;
-    PADDING-RIGHT: 12px;
-    FONT-FAMILY: arial, helvetica, sans-serif;
-    COLOR: #1f4361;
-    FONT-SIZE: 14px;
-    FONT-WEIGHT: 700;
-    PADDING-TOP: 5px
-}
-
-#digitalmagazine .ms-WPHeader TD:first-child {
-    BACKGROUND-IMAGE: url(/_layouts/1033/Images/BsaMyScouting/right-top.gif);
-    BORDER-BOTTOM: #4e7cb7 0px solid;
-    WIDTH: 215px;
-    BORDER-COLLAPSE: collapse;
-    BACKGROUND-REPEAT: no-repeat
-}
-
-#digitalmagazine .ms-WPBorder {
-    BORDER-BOTTOM: 0px;
-    BORDER-LEFT: 0px;
-    WIDTH: 195px;
-    BORDER-TOP: 0px;
-    BORDER-RIGHT: 0px
-}
-
-#languageContentPages {
-    MARGIN-TOP: 5px;
-    DISPLAY: none;
-    FLOAT: left;
-    COLOR: #8d867f;
-    FONT-SIZE: 12px
-}
-
-#languageApplicationPages {
-    MARGIN-TOP: 10px;
-    DISPLAY: block;
-    FLOAT: left;
-    HEIGHT: 25px;
-    COLOR: #8d867f;
-    FONT-SIZE: 12px
-}
 
 .biglabel {
     font-size: 14px;
@@ -1470,6 +1394,9 @@ H4.registerTitle {
     color: red;
 }
 
+.padded {
+    padding: 10px;
+}
 .info, .success, .warning, .error, .star, .validation {
     border: 1px solid;
     margin: 10px 0px;
@@ -1628,6 +1555,11 @@ a.buttonLink {
     display: inline-block !important;
     list-style: none;
     list-style-type: none;
+}
+
+ul.property-list {
+    margin: 0px;
+
 }
 
 .property-list .prop, div.profile .prop, div.profile .leader-unit {
@@ -1871,6 +1803,15 @@ span.chk-input {
     width: 290px;
 }
 
+.text {
+    font-size: 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /*margin-left: 15px;*/
+    /*margin-right: 15px;*/
+}
+
 h1.ui-widget-header {
     font-size: 16px;
     padding: 6px;
@@ -1903,7 +1844,6 @@ ul.list li {
     /*display:inline-block;*/
     width: 100%;
     margin-left: 10px;
-    margin-bottom: 40px;
     overflow: hidden;
 }
 
@@ -2039,6 +1979,11 @@ span.header-icon {
 
 .section {
     position: relative;
+    margin-bottom: 40px;
+}
+
+#dialog .section {
+    margin-bottom: 10px;
 }
 
 .section-header {

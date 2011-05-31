@@ -142,7 +142,7 @@ class SwitchingTagLib {
             out << body()
             out << "</li>"
         } else {
-            out << body()
+            out << "<div class='text'>${body()}</div>"
 
         }
     }
@@ -156,6 +156,7 @@ class SwitchingTagLib {
     }
 
     def sectionHeader = {attrs, body ->
+        def icon = attrs.icon
         if (session.isMobile) {
             g.set(var: "sectionHeader", value: message(code: attrs.code), scope: "request");
         } else {
@@ -193,6 +194,8 @@ class SwitchingTagLib {
     }
 
     def submit = {attrs, body ->
+        def name = attrs.name
+        def value = attrs.value
         if (session.isMobile) {
             out << "<li class='button'>"
             out << submitButton(attrs)
@@ -209,7 +212,7 @@ class SwitchingTagLib {
 
 //            out << property(attrs) {
 
-            out << """<li class='checkbox'>
+            out << """<li class='checkbox ${attrs.class ?: ''}'>
                     <span class='name'>${message(code: attrs.code)}</span>
                     <input type='checkbox' name='${attrs.name}' value='yes' />
                     </li>"""
@@ -229,6 +232,9 @@ class SwitchingTagLib {
     }
 
     def msg = {attrs, body ->
+        def code = attrs.code
+        def code2 = attrs.code2
+
         if (session.isMobile) {
             out << item {
                 out << "<div class='${attrs.type}'>"
@@ -292,7 +298,11 @@ class SwitchingTagLib {
             out << "<li class='menu linker'>"
             def bodyClosure = {
                 if (attrs.img) {
-                    out << "<img src='${attrs.img}' />"
+                    String img = attrs.img
+                    if(!img?.contains("images")) {
+                        img = "/scoutinghub/images/${img}.png"
+                    }
+                    out << "<img src='${img}' />"
                 }
                 out << "<span class='name'>${body()}</span>"
                 if (attrs.comment) {
@@ -364,11 +374,13 @@ class SwitchingTagLib {
     }
 
     def bigTextField = {attrs, body ->
+        def cssClass = attrs.class
+        def code = attrs.code
         if (session.isMobile) {
             out << "<li class='bigfield'>"
             def type = attrs.type ?: "text"
             if (!attrs.otherAttrs) attrs.otherAttrs = [:]
-            attrs.otherAttrs.placeholder = attrs.placeholder
+            attrs.otherAttrs.placeholder = attrs.placeholder ?: message(code: attrs.code) ?: ""
             attrs.otherAttrs.value = attrs.value ?: ""
             attrs.otherAttrs.name = attrs.name
 
@@ -431,7 +443,7 @@ class SwitchingTagLib {
             request.sectionHeader = null
             out << bodyEval
         } else {
-            out << "<div class='section ${attrs.class ?: "singleColumn"}'>"
+            out << "<div class='section ${attrs.class ?: ""}'>"
             if (attrs.code) {
                 if (attrs.header == "small") {
                     out << smallHeader { out << message(code: attrs.code) }

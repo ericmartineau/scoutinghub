@@ -42,6 +42,6 @@
     </ul>
 
 </div>
-<div class="clear"></div>
+%{--<div class="clear"></div>--}%
 <g:subMenu controller="${params.controller}" action="${params.action}"/>
-<div class="clear"></div>
+%{--<div class="clear"></div>--}%
