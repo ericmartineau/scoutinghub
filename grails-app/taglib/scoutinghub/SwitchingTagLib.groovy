@@ -319,7 +319,9 @@ class SwitchingTagLib {
 
             out << "</li>"
         } else {
+            out << "<div class='link'>"
             out << link(attrs, body)
+            out << "</div>"
         }
     }
 

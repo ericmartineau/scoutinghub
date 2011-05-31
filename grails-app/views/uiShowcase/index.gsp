@@ -7,11 +7,16 @@
 <body>
 
 <s:content>
+    <s:section>
+        <s:linker class="ui-button" action="browser">Browser Version</s:linker>
+        <s:linker class="ui-button" action="mobile">iPhone Version (best in Safari or Chrome)</s:linker>
+    </s:section>
 %{--If you have a simple header, you can simply add a code to the section tag--}%
     <s:section code="uiShowcase.header1">
         <s:text>
             If you have a simple header, you can simply add a message code to the section tag
         </s:text>
+
     </s:section>
 
     <s:section>

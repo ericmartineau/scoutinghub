@@ -1533,6 +1533,10 @@ table tr td {
 
 }
 
+div.link {
+    padding-left:10px;
+    padding-top: 10px;
+}
 a.buttonLink {
 
     margin-left: 25px;
