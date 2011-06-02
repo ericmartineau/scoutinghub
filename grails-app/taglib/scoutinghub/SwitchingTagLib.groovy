@@ -41,7 +41,7 @@ class SwitchingTagLib {
 
     def mapLink = {attrs, body ->
         if (session.isMobile) {
-
+            //todo: Implement this!
         } else {
             Address addr = attrs.address
             String addrString = "${addr.address} ${addr.city}, ${addr.state} ${addr.zip}"
@@ -65,8 +65,8 @@ class SwitchingTagLib {
                         'class': 'noshow lightbox remove-button',
                         lbwidth: '550') {
 
-                    out << "<div class='td'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
-                    out << "<div class='td'>&nbsp;"
+                    out << "<div class='td top'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
+                    out << "<div class='td top'>&nbsp;"
                     out << message(code: 'trainingReport.removeFromUnit')
                     out << "</div>"
 
@@ -79,19 +79,6 @@ class SwitchingTagLib {
             out << "</li>"
         }
     }
-
-//    def lightboxLink = {attrs, body->
-    //        if(session.isMobile) {
-    //
-    //        } else {
-    //            String controller = attrs.controller
-    //            String action = attrs.action
-    //            String id = attrs.id
-    //            String params = attrs.params
-    //            attrs.class = "${lightboxattrs.class
-    //            g.link()
-    //        }
-    //    }
 
     def property = {attrs, body ->
         if (session.isMobile) {
@@ -171,18 +158,6 @@ class SwitchingTagLib {
     def leaderTraining = {attrs ->
         if (session.isMobile) {
             LeaderCertificationInfo certificationInfo = attrs.certificationInfo
-//
-//            def linkAttrs
-//            if (certificationInfo?.leaderCertification) {
-//                linkAttrs = [id: certificationInfo?.leaderCertification?.id, controller: 'leaderCertification', action: 'quickEdit']
-//            } else {
-//                def params = [
-//                        'leader.id': certificationInfo.leader.id,
-//                        'certification.id': certificationInfo.certification.id
-//                ]
-//                linkAttrs = [params: params, controller: 'leaderCertification', action: 'quickCreate']
-//            }
-
 
             out << f.completeTrainingLink(certificationInfo: certificationInfo) {
                 out << certificationInfo?.certification?.name
@@ -210,14 +185,10 @@ class SwitchingTagLib {
     def checkbox = {attrs, body ->
         if (session.isMobile) {
 
-//            out << property(attrs) {
-
             out << """<li class='checkbox ${attrs.class ?: ''}'>
                     <span class='name'>${message(code: attrs.code)}</span>
                     <input type='checkbox' name='${attrs.name}' value='yes' />
                     </li>"""
-//                out << iwebkit.checkbox(attrs, body)
-            //            }
 
         } else {
             out << "<div class='${attrs.class}'>"
@@ -319,9 +290,7 @@ class SwitchingTagLib {
 
             out << "</li>"
         } else {
-            out << "<div class='link'>"
             out << link(attrs, body)
-            out << "</div>"
         }
     }
 
@@ -420,11 +389,9 @@ class SwitchingTagLib {
             out << "<span class='arrow'></span>"
             out << "</li>"
         } else {
-//            out << "<div class='selecter-container'>"
             out << f.formControl(attrs) {
                 out << select(attrs)
             }
-//            out << "</div>"
         }
 
     }
@@ -459,11 +426,7 @@ class SwitchingTagLib {
 
             out << body()
 
-//            out << "<div style=\"clear:both; height:1px; margin-top:-1px;\" ><!— —></div>"
-            //            out << "<div style='clear:both;'></div>"
             out << "</div>"
-//            out << "<br style='font-size: 1px; line-height: 0; height: 0; clear: both' />"
-
 
         }
     }

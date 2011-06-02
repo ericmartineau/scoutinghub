@@ -25,7 +25,7 @@ class EmailVerifyService {
 
         mailService.sendMail {
             to leader.email
-            from "noreply@scoutinghub"
+            from "noreply@scoutinghub.com"
             subject messageSubject
             body(view: "/emails/confirmationEmail",
                     model: [email: leader.email, hash: hash])

@@ -2,6 +2,9 @@ package scoutinghub
 
 import org.apache.commons.lang.builder.HashCodeBuilder
 
+/**
+ * Assignment of a leader to a role (for permissions)
+ */
 class LeaderRole implements Serializable {
 
 	Leader leader

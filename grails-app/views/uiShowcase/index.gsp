@@ -122,9 +122,11 @@
         </s:text>
         <s:propertyList>
         %{--The title attribute of the link will get copied to the lightbox title--}%
-            <s:linker img="training-current" controller="uiShowcase" action="dialog" class="ui-button lightbox" title="${message(code:'uiShowcase.dialogTitle')}">
-                <g:message code="uiShowcase.linkTitle"/>
-            </s:linker>
+            <s:div class="link">
+                <s:linker img="training-current" controller="uiShowcase" action="dialog" class="ui-button lightbox" title="${message(code:'uiShowcase.dialogTitle')}">
+                    <g:message code="uiShowcase.linkTitle"/>
+                </s:linker>
+            </s:div>
         </s:propertyList>
 
     </s:section>

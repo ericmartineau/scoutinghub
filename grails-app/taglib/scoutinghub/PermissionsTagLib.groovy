@@ -34,22 +34,27 @@ class PermissionsTagLib {
     }
 
     def singleGroupPermissions = {attrs ->
-
         ScoutGroup group = attrs.group;
         if (group.canBeAdministeredBy(springSecurityService.currentUser)) {
+            request.hadPermissions = true
             Leader leader = attrs.leader
             boolean checked = leader.groups?.find {it.scoutGroup?.id == group?.id}?.admin
-            out << "<li class='permission'>"
-            out << "<div class='permission-label permission-level-${attrs.level}'>"
-            out << group
-            out << "</div>"
-            out << "<div class='permission-checkbox permission-level-${attrs.level}'>"
-            out << checkBox(name: "grp" + group.id, checked: checked, value: true)
-            out << "</div>"
-            out << "</li>"
+            out << singlePermission(checked: checked, label: group?.toString(), id: group?.id)
         }
+    }
 
-
+    def singlePermission = {attrs ->
+        def label = attrs.label
+        def id = attrs.id
+        def checked = attrs.checked
+        out << "<li class='permission ${attrs.class ?: ''}'>"
+        out << "<div class='permission-label'>"
+        out << label
+        out << "</div>"
+        out << "<div class='permission-checkbox'>"
+        out << checkBox(name: "grp" + id, checked: checked, value: true)
+        out << "</div>"
+        out << "</li>"
     }
 }
 

@@ -21,7 +21,7 @@
             var pct = parseInt(jQuery(this).attr("pct"));
             jQuery("#trainingCompletion").progressbar({value:pct});
 
-            jQuery(".leader-unit-position").mouseover(
+            jQuery(".leader-unit").mouseover(
                     function() {
                         jQuery(".remove-button", this).show();
                     }
@@ -170,7 +170,7 @@
                 </g:ctxmenuItem>
 
                 <g:ctxmenuItem>
-                    <g:link controller="leaderGroup" action="permissions" id="${leader.id}" class="lightbox">
+                    <g:link title="${message(code: 'leaderGroup.permissions', args:[leader])}" controller="leaderGroup" action="permissions" id="${leader.id}" class="lightbox">
                         <g:inlineIcon class="add-icon"/>
                         <g:ctxmenuLabel>
                             <g:message code="leader.profile.editPermission" args="[leader?.firstName]"/>

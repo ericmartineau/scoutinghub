@@ -1,10 +1,27 @@
 package scoutinghub
 
+/**
+ * A required training course for an adult scouting leader.  This entity represents only the definition of the certification.
+ */
 class Certification {
     String name;
     String description;
+
+    /**
+     * How long (in days) before a certification expires
+     */
     int durationInDays;
+
+    /**
+     * Whether or not a tour permit requires a leader with this certification.
+     */
     boolean tourPermitRequired;
+
+    /**
+     * An optional field representing a classification of certification.  Many scouting positions have their own version of a
+     * certification (leader-specific, fast start), and this field helps locate the correct certification given a position type
+     * and a certificationType.
+     */
     CertificationType certificationType;
 
     Date createDate;

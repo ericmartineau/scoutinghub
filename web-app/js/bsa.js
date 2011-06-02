@@ -36,32 +36,6 @@ function leaderQuery() {
     jQuery("#content").load("/scoutinghub/permissions/leaderQuery", {leaderQuery:searchTerm});
 }
 
-
-/**
- * Used for a pop-up selector for a unit - don't think it's actually being used
- * @param name
- * @param unitid
- */
-function selectUnit(name, unitid) {
-    jQuery("#dialog").remove();
-    var params = unitid ? {unitId:unitid} : "";
-    jQuery("<div id='dialog'></div>").load("/scoutinghub/scoutGroup/selectUnit", params, function() {
-        jQuery(this).dialog({
-                    modal:true,
-                    title:'Select a Unit',
-                    buttons: {
-                        "OK": function() {
-                            jQuery(this).dialog("close");
-                        },
-                        "Cancel": function() {
-                            jQuery(this).dialog("close");
-                        }
-                    }
-
-                })
-    });
-}
-
 var currSelectId
 function addAddress(selectId) {
     currSelectId = selectId
@@ -84,41 +58,6 @@ function refreshAddressList() {
     }
 }
 
-
-/**
- * The following three functions are for the jstree implementation for the scouting group tree browser.
- */
-function nodeOpened(event, data) {
-    jQuery(this).find("a").attr("href", "javascript:void(0)");
-}
-
-function jsTreeConfig(url) {
-    return {
-        "json_data" : {
-            ajax : {
-                url : "/scoutinghub/scoutGroup/selectUnitTree",
-                data : function (n) {
-                    return {
-                        id : n.attr ? n.attr("id") : "0"
-                    };
-                }
-            }},
-
-        plugins : [ "themes", "json_data", "ui" ,"search"],
-        themes : {
-            theme : "default",
-            dots : false,
-            icons : false
-        }
-    }
-}
-
-
-function delegateClicks(e) {
-    jQuery("#achievementTree").jstree("toggle_node", this);
-}
-
-
 /**
  * Helper function to create jquery dialog boxes
  */
@@ -129,9 +68,6 @@ function createDialog(url, data, config) {
         config.width = 400;
     }
 
-//    if(!config.height || config.height < 1) {
-//        config.width = 300;
-//    }
     jQuery("<div id='dialog'></div>").load(url, data, function(result) {
         jQuery(this).dialog(config)
     });

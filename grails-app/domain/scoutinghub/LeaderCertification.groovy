@@ -1,10 +1,13 @@
 package scoutinghub
 
+/**
+ * Record that a Leader has completed a given certification.
+ */
 class LeaderCertification implements Serializable {
 
     transient TrainingService trainingService
-
     static transients = ["trainingService"]
+
     Date dateEarned
     Date expirationDate
     Certification certification

@@ -1,18 +1,19 @@
 package scoutinghub
 
-import grails.converters.JSON
-import org.compass.core.engine.SearchEngineQueryParseException
 import grails.plugins.springsecurity.Secured
 
+@Secured(["ROLE_ADMIN"])
 class ScoutGroupController {
+
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     ScoutGroupService scoutGroupService
 
-    def show = {
+    @Secured(["ROLE_LEADER"])
+    def report = {
         redirect(controller:"training", action:"trainingReport", id:params.id)
     }
 
-    @Secured(['ROLE_ADMIN'])
     def makeAdmin = {
         LeaderGroup leaderGroup = LeaderGroup.get(params.id)
         leaderGroup.admin = true
@@ -27,76 +28,99 @@ class ScoutGroupController {
 
     }
 
-    def findUnits = {
-
-        if (!params.term?.trim()) {
-            rtn = []
-            render rtn as JSON
-            return
-        }
-        try {
-            def results = ScoutGroup.search(params.term.trim() + "*", params)
-            render results.results.collect {ScoutGroup grp ->
-                return [key: "${grp?.id}", label: "${grp?.groupLabel} (${grp?.unitType ?: grp.groupType})"]
-
-            } as JSON
-        } catch (SearchEngineQueryParseException ex) {
-            return [parseException: true]
-        }
-
+    def index = {
+        redirect(action: "list", params: params)
     }
 
-    def selectUnit = {
-        if (!params.unitId) {
-            return [parents: ScoutGroup.findAllByParentIsNull()]
-        } else {
-            ScoutGroup parent = ScoutGroup.get(Integer.parseInt(params.unitId))
-            return [parents: ScoutGroup.findAllByParent(parent)]
+    def list = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [scoutGroupInstanceList: ScoutGroup.list(params), scoutGroupInstanceTotal: ScoutGroup.count()]
+    }
 
+    def create = {
+        def scoutGroupInstance = new ScoutGroup()
+        scoutGroupInstance.properties = params
+        return [scoutGroupInstance: scoutGroupInstance]
+    }
+
+    def save = {
+        def scoutGroupInstance = new ScoutGroup(params)
+        scoutGroupInstance = scoutGroupInstance.merge()
+        if (scoutGroupInstance.save()) {
+            ScoutGroup.reindex()
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
+            redirect(action: "list")
+        }
+        else {
+            render(view: "create", model: [scoutGroupInstance: scoutGroupInstance])
         }
     }
 
-    def selectUnitTree = {
-        def rtn = []
-        if (Integer.parseInt(params?.id ?: "0") == 0) {
-            def parentest = ScoutGroup.findAllByParentIsNull()
-            parentest.each { ScoutGroup group ->
-                def childData = [:]
-                childData << [data: "${group.groupLabel} - ${group.unitType ?: group?.groupType}"]
-                childData << [attr: [id: "${group.id}"]]
-                if(group?.childGroups) {
-                    childData.children = []
-                    childData.state = "open"
-
-                    group?.childGroups?.each {ScoutGroup child->
-                        def subData = [:]
-                        subData << [data: "${child.groupLabel} - ${child.unitType ?: child?.groupType}"]
-                        subData << [attr: [id: "${child.id}"]]
-
-                        if(group?.childGroups) {
-                            subData << [state:"closed"]
-                        }
-                        childData.children << subData
-                    }
-                }
-                rtn << childData
-            }
-
-        } else {
-            ScoutGroup parent = ScoutGroup.get(Integer.parseInt(params.id))
-
-            ScoutGroup.findAllByParent(parent)?.each { ScoutGroup group ->
-                def childData = [:]
-                childData << [data: "${group.groupLabel} - ${group.unitType ?: group?.groupType}"]
-                childData << [attr: [id: "${group.id}"]]
-                if(group?.childGroups) {
-                    childData << [state: "closed"]
-                }
-                rtn << childData
-            }
-
+    def show = {
+        def scoutGroupInstance = ScoutGroup.get(params.id)
+        if (!scoutGroupInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+            redirect(action: "list")
         }
-        render rtn as JSON
+        else {
+            [scoutGroupInstance: scoutGroupInstance]
+        }
+    }
 
+    def edit = {
+        def scoutGroupInstance = ScoutGroup.get(params.id)
+        if (!scoutGroupInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+            redirect(action: "list")
+        }
+        else {
+            return [scoutGroupInstance: scoutGroupInstance]
+        }
+    }
+
+    def update = {
+        def scoutGroupInstance = ScoutGroup.get(params.id)
+        if (scoutGroupInstance) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (scoutGroupInstance.version > version) {
+                    
+                    scoutGroupInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'scoutGroup.label', default: 'ScoutGroup')] as Object[], "Another user has updated this ScoutGroup while you were editing")
+                    render(view: "edit", model: [scoutGroupInstance: scoutGroupInstance])
+                    return
+                }
+            }
+            scoutGroupInstance.properties = params
+            if (!scoutGroupInstance.hasErrors() && scoutGroupInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
+                redirect(action: "show", id: scoutGroupInstance.id)
+            }
+            else {
+                render(view: "edit", model: [scoutGroupInstance: scoutGroupInstance])
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+            redirect(action: "list")
+        }
+    }
+
+    def delete = {
+        def scoutGroupInstance = ScoutGroup.get(params.id)
+        if (scoutGroupInstance) {
+            try {
+                scoutGroupInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+                redirect(action: "show", id: params.id)
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
+            redirect(action: "list")
+        }
     }
 }

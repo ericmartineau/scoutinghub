@@ -1,5 +1,8 @@
 package scoutinghub
 
+/**
+ * Record that links a BSA Id to a Leader record.
+ */
 class MyScoutingId implements Serializable{
 
     static searchable = true

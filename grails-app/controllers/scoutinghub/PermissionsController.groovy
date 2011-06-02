@@ -29,20 +29,6 @@ class PermissionsController {
         try {
             Leader leader = springSecurityService.currentUser
             List<ScoutGroup> allGroups = leader?.groups?.findAll{it.admin}?.collect{String.valueOf(it.scoutGroup.id)}
-//            List groupIds = []
-//            ScoutGroup.withCriteria {
-//                or {
-//                    allGroups?.each {ScoutGroup grp->
-//                        and {
-//                            ge('leftNode', grp.leftNode)
-//                            le('rightNode', grp.rightNode)
-//                        }
-//                    }
-//                }
-//
-//            }?.each {
-//                groupIds << String.valueOf(it.id)
-//            }
 
             def results = Leader.search(params.leaderQuery?.trim() + "*", params
                     , filter: ScoutGroupFilter.createFilter(allGroups)
@@ -54,6 +40,7 @@ class PermissionsController {
     }
 
     def setPermission = {
+        //Verify permission
         boolean checked = Boolean.parseBoolean(params.checked)
         Leader leader = Leader.get(params.leaderId)
         Role role = Role.get(params.roleId)

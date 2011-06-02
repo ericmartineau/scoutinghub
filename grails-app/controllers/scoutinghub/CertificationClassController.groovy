@@ -97,7 +97,6 @@ class CertificationClassController {
         return [certificationClass: certificationClass]
     }
 
-    @Secured(['ROLE_LEADER'])
     def list = {
         if(!params.sort) {
             params.sort = "id"

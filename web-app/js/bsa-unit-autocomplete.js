@@ -136,7 +136,7 @@ function configureUnitAutocomplete() {
 }
 
 function getUnitData(term, callback) {
-    jQuery.getJSON("/scoutinghub/scoutGroup/findUnits", term, function(json) {
+    jQuery.getJSON("/scoutinghub/findScoutGroup/findUnits", term, function(json) {
         callback(json)
     })
 }

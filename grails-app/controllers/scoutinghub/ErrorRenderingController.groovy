@@ -7,7 +7,6 @@ class ErrorRenderingController {
     MailService mailService
 
     def show = {
-
     }
 
     def showStackTraces = {

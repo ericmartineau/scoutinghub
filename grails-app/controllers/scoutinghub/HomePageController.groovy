@@ -7,6 +7,5 @@ class HomePageController {
 
     def index = {
         forward(controller:'leader', action: 'index')
-
     }
 }

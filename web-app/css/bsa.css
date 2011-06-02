@@ -136,6 +136,11 @@ H1 {
     border-top: 1px solid #CCC;
 }
 
+.admin-permission {
+    font-weight: bold;
+}
+
+
 .nav {
     margin-bottom: 10px;
     text-align: right;
