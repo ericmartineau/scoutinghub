@@ -36,6 +36,7 @@ class LeaderGroupController {
 
             Leader leader = leaderGroup.leader
             leader.removeFromGroups(leaderGroup)
+            leader.save(failOnError:true)
 
             leaderGroup.delete(failOnError:true)
             leader.reindex();

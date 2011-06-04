@@ -19,7 +19,9 @@ class TrainingController {
     MessageSource messageSource
     ScoutGroupService scoutGroupService
 
-    def index = { }
+    def index = {
+        forward(action:'trainingReport')
+    }
 
     def importTraining = {
         if (session.importJob) {

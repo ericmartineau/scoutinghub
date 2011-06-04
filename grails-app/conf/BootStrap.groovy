@@ -57,7 +57,7 @@ class BootStrap {
             sanTanDistrict.addToChildGroups(scoutGroup)
             sanTanDistrict.save(failOnError: true)
 
-            addUnit scoutGroup, "Ray 3nd Ward - Unit 81"
+            addUnit scoutGroup, "Ray 3rd Ward - Unit 81"
             addUnit scoutGroup, "Ray 2nd Ward - Unit 185"
             addUnit scoutGroup, "Ray 1st Ward - Unit 281"
             addUnit scoutGroup, "Cooper Ward  - Unit 489"
@@ -264,7 +264,8 @@ class BootStrap {
 
     void addCommunityUnit(String name, ScoutGroup parent, def childUnits) {
         String orgName = name.substring(0, name.indexOf(" -"));
-        ScoutGroup community = new ScoutGroup(groupLabel: orgName, groupIdentifier: orgName.replaceAll("\\w", ""),
+        String groupIdentifier = orgName.replaceAll("\\s", "").replaceAll("'", "")
+        ScoutGroup community = new ScoutGroup(groupLabel: orgName, groupIdentifier: groupIdentifier,
                 groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
         parent.addToChildGroups(community)
         parent.save(failOnError: true)
@@ -284,8 +285,9 @@ class BootStrap {
 
     void addUnit(ScoutGroup parent, String unitName) {
         String orgName = unitName.substring(0, unitName.indexOf(" -"));
+        String groupIdentifier = orgName.replaceAll("\\s", "").replaceAll("'", "")
         ScoutGroup wardUnit = new ScoutGroup(
-                groupLabel: orgName, groupIdentifier: orgName.replaceAll("\\w", ""),
+                groupLabel: orgName, groupIdentifier: groupIdentifier,
                 groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
         parent.addToChildGroups(wardUnit)
         parent.save(failOnError: true)

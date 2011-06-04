@@ -45,7 +45,7 @@ class ScoutGroupController {
 
     def save = {
         def scoutGroupInstance = new ScoutGroup(params)
-        scoutGroupInstance = scoutGroupInstance.merge()
+        scoutGroupInstance = scoutGroupInstance.merge() ?: scoutGroupInstance
         if (scoutGroupInstance.save()) {
             ScoutGroup.reindex()
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"

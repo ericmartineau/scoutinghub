@@ -52,14 +52,19 @@ class ScoutGroup implements Serializable {
     static hasMany = [childGroups: ScoutGroup, leaderGroups: LeaderGroup]
 
     static constraints = {
-
-        groupLabel(nullable: true)
+        groupIdentifier(blank:false)
+        groupLabel(blank: false)
         parent(nullable: true)
         leftNode(nullable: true)
         rightNode(nullable: true)
         unitType(nullable: true, validator: {val, ScoutGroup grp ->
             if (grp.groupType == ScoutGroupType.Unit && !grp.unitType) {
                 return ['scoutGroup.unitType.required']
+            }
+        })
+        groupType(nullable: true, validator: {val, ScoutGroup grp ->
+            if (grp.groupType != ScoutGroupType.Unit && grp.unitType) {
+                return ['scoutGroup.groupType.mustBeUnit']
             }
         })
         createDate nullable: true

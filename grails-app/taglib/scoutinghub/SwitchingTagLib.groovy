@@ -86,7 +86,7 @@ class SwitchingTagLib {
         } else {
             out << "<li class='prop ${attrs.class ?: ''}'>"
             if (attrs.code) {
-                out << "<div class='propLabel'>"
+                out << "<div class='propLabel ${attrs.labelClass ?: ''}'>"
                 out << message(code: attrs.code, args: attrs.args)
                 out << "</div>"
             }
@@ -389,7 +389,7 @@ class SwitchingTagLib {
             out << "<span class='arrow'></span>"
             out << "</li>"
         } else {
-            out << f.formControl(attrs) {
+            out << property(attrs) {
                 out << select(attrs)
             }
         }

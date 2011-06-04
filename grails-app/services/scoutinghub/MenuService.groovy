@@ -39,13 +39,9 @@ class MenuService {
 
         addMenuItem(trainingMenu)
 
-//        def unitAdminMenu = new MainMenuItem("unitAdmin", "menu.unitAdmin.index", "ROLE_UNITADMIN")
-//            .addMenuItem(new SubMenuItem("unitAdmin", "leaders", "menu.unitAdmin.leaders", "ROLE_UNITADMIN"))
-//        addMenuItem(unitAdminMenu)
-//
-//        def adminMenu = new MainMenuItem("admin", "menu.admin.setup", "ROLE_ADMIN")
-//            .addMenuItem(new SubMenuItem("permissions", "index", "menu.permissions.index", "ROLE_ADMIN"))
-//        addMenuItem(adminMenu)
+        def unitsMenu = new MainMenuItem("scoutGroup", "menu.scoutGroup.index", "ROLE_ADMIN")
+        addMenuItem(unitsMenu)
+
 
     }
 

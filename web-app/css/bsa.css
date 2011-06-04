@@ -1702,6 +1702,16 @@ a.register-for-training {
     margin: 0px;
 }
 
+ul.vertical-form li.prop {
+    display: table-row !important;
+}
+
+ul.vertical-form li.prop div{
+    padding: 5px;
+}
+
+
+
 .register-header {
     /*padding-left: 18px;*/
     padding-top: 3px;

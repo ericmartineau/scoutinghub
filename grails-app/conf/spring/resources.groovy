@@ -1,4 +1,5 @@
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.codehaus.groovy.grails.plugins.springsecurity.ReflectionUtils
 import org.springframework.security.facebook.FacebookAuthenticationProvider
 import org.springframework.security.facebook.FacebookHelper
 import scoutinghub.FacebookAuthenticationFailureHandler
