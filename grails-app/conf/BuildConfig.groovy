@@ -6,7 +6,7 @@ grails.plugin.repos.distribution.scoutinghub="http://cubtrails.com/nexus/content
 grails.plugin.repos.discovery.scoutinghub="http://cubtrails.com/nexus/content/repositories/scoutinghub/"
 
 grails.project.dependency.distribution = {
-     remoteRepository(id:"scoutinghub", url:"cubtrails.com/nexus/content/repositories/scoutinghub/")
+     remoteRepository(id:"scoutinghub", url:"http://cubtrails.com/nexus/content/repositories/scoutinghub/")
 }
 
 grails.project.dependency.resolution = {
