@@ -5,10 +5,6 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.plugin.repos.distribution.scoutinghub="http://cubtrails.com/nexus/content/repositories/scoutinghub/"
 grails.plugin.repos.discovery.scoutinghub="http://cubtrails.com/nexus/content/repositories/scoutinghub/"
 
-grails.project.dependency.distribution = {
-     remoteRepository(id:"scoutinghub", url:"cubtrails.com/nexus/content/repositories/scoutinghub/")
-}
-
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -33,6 +29,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
+
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
