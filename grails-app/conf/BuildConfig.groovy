@@ -34,6 +34,28 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         compile 'org.apache.poi:poi:3.7'
+        compile 'mysql:mysql-connector-java:5.1.10'
+        compile 'javax.activation:activation:1.1'
+        compile 'commons-lang:commons-lang:2.2'
+        compile 'javax.xml.bind:jaxb-api:2.1'
+        compile 'commons-logging:commons-logging:1.1.1'
+        compile 'com.sun.xml.bind:jaxb-impl:2.1.9'
+        compile 'org.json:json:20080701'
+        compile 'javax.xml.stream:stax-api:1.0-2'
+        compile 'org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0'
+        compile 'com.google.code.facebookapi:facebook-java-api:3.0.2'
+        compile 'com.google.code.facebookapi:facebook-java-api-schema:3.0.2'
+        compile 'com.google.code.facebookapi:facebook-java-api-annotation-processor:3.0.2'
+        compile 'org.jvnet.jaxb2_commons:runtime:0.4.1'
+        compile ('org.springframework.security:spring-security-facebook:1.0.1') {
+            transitive = false
+        }
+
+
+
+
+
+
 
         // runtime 'mysql:mysql-connector-java:5.1.5'
     }

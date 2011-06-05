@@ -6,6 +6,7 @@ import scoutinghub.FacebookAuthenticationFailureHandler
 import scoutinghub.FacebookSocialAuthenticationFilter
 import scoutinghub.OpenIdSocialAuthenticationFilter
 import scoutinghub.ScoutUserDetailsService
+import org.springframework.security.facebook.MappedFacebookAuthenticationProvider
 
 // Place your Spring DSL code here
 beans = {
@@ -49,7 +50,7 @@ beans = {
     }
 
 
-    facebookAuthenticationProvider(FacebookAuthenticationProvider) {
+    facebookAuthenticationProvider(MappedFacebookAuthenticationProvider) {
         userDetailsService = ref("userDetailsService")
     }
 
