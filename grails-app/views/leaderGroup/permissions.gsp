@@ -1,7 +1,7 @@
 <%@ page import="scoutinghub.Role" %><g:form action="savePermissions" id="${leader.id}">
 
     <sec:ifAllGranted roles="ROLE_ADMIN">
-        <p:singlePermission class="admin-permission" label="Global Administrator" id="admin"
+        <p:singlePermission class="admin-permission" label="Global Administrator" id="0"
                             checked="${leader.hasRole('ROLE_ADMIN')}"/>
         %{--<p:singlePermission class="admin-permission" label="Global Administrator" id="admin" checked="${true}"/>--}%
     </sec:ifAllGranted>

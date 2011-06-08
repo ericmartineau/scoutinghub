@@ -2,17 +2,6 @@ import scoutinghub.CustomMyISAMDialect
 
 dataSource {
     pooled = true
-
-    dialect = scoutinghub.CustomMyISAMDialect
-
-
-    //If you want to use mysql for your development environment (so your database doesn't get
-    // blown away every time), uncomment these lines.  You'll also need to change the url below
-    // in the development block of code:
-//    driverClassName = "com.mysql.jdbc.Driver"
-//    username = "scout"
-//    password = "sc0ut3r"
-
     driverClassName = "org.hsqldb.jdbcDriver"
     username = "sa"
     password = ""
@@ -27,17 +16,16 @@ hibernate {
 environments {
     development {
         dataSource {
-            dialect = scoutinghub.CustomMyISAMDialect
-
-//            url = "jdbc:hsqldb:mem:devDb"
+            url = "jdbc:hsqldb:mem:devDb"
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-    driverClassName = "com.mysql.jdbc.Driver"
-    username = "eric"
-    password = "eric5425"
 
-
-//              If you want to use mysql, use the following configuration
-            url = "jdbc:mysql://localhost/scoutinghub"
+        //If you want to use mysql for your development environment (so your database doesn't get
+            // blown away every time), uncomment these lines.  You'll also need to change the url below
+            // in the development block of code - don't check in!:
+//            driverClassName = "com.mysql.jdbc.Driver"
+//            username = "eric"
+//            password = "eric5425"
+//            url = "jdbc:mysql://localhost/scoutinghub"
 //            dbCreate = "update" // one of 'create', 'create-drop','update'
 
         }

@@ -1,17 +1,23 @@
 package scoutinghub
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.SpringSecurityService
+import grails.plugins.springsecurity.Secured
 
+@Secured(["ROLE_LEADER"])
 class LeaderGroupController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def searchableService
 
+    SpringSecurityService springSecurityService
+
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(["IS_AUTHENTICATED_ANONYMOUSLY"])
     def getApplicablePositions = {
         ScoutGroup leaderGroup = ScoutGroup.get(params.id)
         ScoutUnitType unitType = leaderGroup.unitType
@@ -23,7 +29,7 @@ class LeaderGroupController {
         render rtnList as JSON
     }
 
-    def performRemove =  {
+    def performRemove = {
         //Check permission to remove from group
         LeaderGroup leaderGroup = LeaderGroup.get(params.id)
         def rtn = [:]
@@ -32,13 +38,13 @@ class LeaderGroupController {
             inactiveLeaderGroup.scoutGroup = leaderGroup.scoutGroup
             inactiveLeaderGroup.leader = leaderGroup.leader
             inactiveLeaderGroup.createDate = new Date();
-            inactiveLeaderGroup.save(failOnError:true)
+            inactiveLeaderGroup.save(failOnError: true)
 
             Leader leader = leaderGroup.leader
             leader.removeFromGroups(leaderGroup)
-            leader.save(failOnError:true)
+            leader.save(failOnError: true)
 
-            leaderGroup.delete(failOnError:true)
+            leaderGroup.delete(failOnError: true)
             leader.reindex();
 
 
@@ -54,7 +60,7 @@ class LeaderGroupController {
 
     def confirmRemove = {
         LeaderGroup leaderGroup = LeaderGroup.get(params.id)
-        return [leaderGroup:leaderGroup]
+        return [leaderGroup: leaderGroup]
     }
 
     def list = {
@@ -70,27 +76,55 @@ class LeaderGroupController {
 
     def permissions = {
         Leader leader = Leader.get(params.id)
-        return [leader:leader]
+        return [leader: leader]
     }
 
     def savePermissions = {
         Leader leader = Leader.get(params.id)
+        Leader currentUser = springSecurityService.currentUser
         params.each {
-            if(it.key?.contains("grp")) {
+
+            if (it.key?.contains("_grp")) {
 
                 int groupId = Integer.parseInt(it.key?.substring(it.key.indexOf("grp") + 3));
-                boolean isAdmin = it.value == "on"
-                //Is the leader in the group?
-                LeaderGroup found = leader.groups.find {it.scoutGroup.id == groupId}
-                if(!found && isAdmin) {
-                    found = new LeaderGroup(leader:leader, leaderPosition: LeaderPositionType.Administrator, scoutGroup: ScoutGroup.get(groupId));
-                    leader.addToGroups(found)
+                boolean isAdmin = params["grp${groupId}"] == "on"
+                if (groupId > 0) {
+
+                    //Is the leader in the group?
+                    final ScoutGroup scoutGroup = ScoutGroup.get(groupId)
+                    if (scoutGroup.canBeAdministeredBy(currentUser)) {
+
+
+                        LeaderGroup found = leader.groups.find {it.scoutGroup.id == groupId}
+
+
+                        if (!found && isAdmin) {
+
+                            found = new LeaderGroup(leader: leader, admin: isAdmin, leaderPosition: LeaderPositionType.Administrator, scoutGroup: scoutGroup);
+                            leader.addToGroups(found)
+                        } else if (found) {
+                            found?.admin = isAdmin
+                            found?.save(flush:true, failOnError:true)
+
+                        }
+                    }
+
+                } else {
+                    if (currentUser.hasRole("ROLE_ADMIN")) {
+                        //Add role
+                        if (!leader.hasRole("ROLE_ADMIN") && isAdmin) {
+                            LeaderRole.create(leader, Role.findByAuthority("ROLE_ADMIN"), true)
+                        } else if(!isAdmin) {
+                            LeaderRole.remove(leader, Role.findByAuthority("ROLE_ADMIN"), true)
+                        }
+
+                    }
+
                 }
-                found?.admin = isAdmin
             }
         }
-        leader.save(failOnError:true)
-        redirect(controller:"leader", action:"view", id:leader.id)
+        leader.save(failOnError: true)
+        redirect(controller: "leader", action: "view", id: leader.id)
     }
 
     def save = {
@@ -102,7 +136,7 @@ class LeaderGroupController {
         LeaderGroup leaderGroupInstance2 = leaderGroupInstance.merge(flush: true)
         if (leaderGroupInstance2 && leaderGroupInstance2.save(flush: true)) {
             leaderGroupInstance2.leader.addToGroups(leaderGroupInstance2)
-            leaderGroupInstance2.leader.save(failOnError:true)
+            leaderGroupInstance2.leader.save(failOnError: true)
             leaderGroupInstance2.leader.reindex()
             rtn.success = true
         } else {
