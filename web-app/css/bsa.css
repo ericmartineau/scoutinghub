@@ -10,6 +10,7 @@ BODY {
     background-image: url(/scoutinghub/images/bkg.gif);
     background-color: #005696;
     background-repeat: repeat-x;
+    background-repeat: repeat-x;
 }
 
 BODY .mainBody {
@@ -615,7 +616,7 @@ A .ir {
     margin: auto;
     PADDING-LEFT: 0px;
     PADDING-RIGHT: 0px;
-    BACKGROUND: url(/_layouts/1033/Images/BsaMyScouting/footerbsa.gif) #f1e4c2 no-repeat 1% 50%;
+    background-color: #f1e4c2;
     FONT-SIZE: 10px;
     BORDER-TOP: #8e877f 1px solid; /*PADDING-TOP: 8px*/
 }
@@ -1305,9 +1306,18 @@ H4.registerTitle {
     FONT-SIZE: 12px
 }
 
+input.alternate-color {
+    background-color: white;
+}
+
+input {
+    font-size: 16px;
+    line-height: 24px;
+}
+
 .fieldLabel {
     COLOR: #000000;
-    FONT-WEIGHT: bold
+    FONT-WEIGHT: bold;
 }
 
 .errorMessage {
@@ -1421,6 +1431,10 @@ H4.registerTitle {
     color: #00529B;
     background-color: #BDE5F8;
     background-image: url('/scoutinghub/images/star.png');
+}
+
+.search-for-unit {
+    padding: 10px;
 }
 
 .success {
@@ -1576,10 +1590,12 @@ ul.property-list {
     padding: 10px;
 }
 
-.leaderResult .prop {
+.leaderResult .prop, .unitResult .prop {
     display:block !important;
     padding: 5px !important;
 }
+
+
 
 a.manage-this-unit {
     font-size: 13px;
@@ -1895,8 +1911,8 @@ ul.property-list {
 .unit-selector-style {
     /*This should be added back if being used with the selector tree*/
     /*margin-bottom:0px;*/
-    font-size: 18px;
-    line-height: 18px;
+    /*font-size: 18px;*/
+    /*line-height: 18px;*/
     width: 300px;
 }
 
@@ -1909,7 +1925,7 @@ ul.property-list {
     margin-bottom: 15px; /*width:300px;*/
 }
 
-.leaderResult {
+.leaderResult, .unitResult {
     overflow: hidden;
     padding: 0px;
     background-color: white;
@@ -1951,6 +1967,13 @@ a.leaderProfileLink {
     font-size: 16px;
     padding: 5px;
     cursor: move;
+}
+
+.unitName {
+    background-color: #E8E8E8;
+    font-size: 16px;
+    padding: 5px;
+
 }
 
 .centered {
@@ -2003,6 +2026,11 @@ span.header-icon {
 
 #dialog .section {
     margin-bottom: 10px;
+}
+
+
+#dialog .prop div {
+    padding: 5px;
 }
 
 .section-header {

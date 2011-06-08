@@ -160,7 +160,7 @@
         <s:sectionHeader icon="units-icon" code="leader.profile.groups">
             <s:ctxmenu>
                 <g:ctxmenuItem>
-                    <g:link class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="400"
+                    <g:link class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="500"
                             controller="leaderGroup" action="create" params="['leader.id': leader.id]">
                         <g:inlineIcon class="edit-icon"/>
                         <g:ctxmenuLabel>
@@ -210,7 +210,7 @@
             </g:if>
             <g:else>
                 <s:property>
-                    <g:link class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="400"
+                    <g:link class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="600"
                             controller="leaderGroup" action="create" params="['leader.id': leader.id]">
                         <g:message code="leader.profile.noneYet" args="[leader.firstName]"/>
                     </g:link>

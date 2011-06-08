@@ -2,16 +2,10 @@
  * Main function on page load.  The leaderQuery keypress should only run once (as opposed to each time ajax is completed
  */
 var closeTimeout;
-var queryTimeout;
+var queryTimeouts = {};
 jQuery(document).ready(function() {
-    jQuery("#leaderQuery").keypress(function() {
-        if (queryTimeout) {
-            clearTimeout(queryTimeout);
-            queryTimeout = null;
-        }
-        queryTimeout = setTimeout(leaderQuery, 150);
-    });
 
+    keypressDelay('leaderQuery', jQuery("#leaderQuery"), leaderQuery, 150);
 
     jQuery(window).bind('click', function() {
         if (!closeTimeout) {
@@ -20,6 +14,16 @@ jQuery(document).ready(function() {
     });
     decorate();
 });
+
+function keypressDelay(key, $jq, closure, delay) {
+    $jq.keypress(function() {
+        if (queryTimeouts[key]) {
+            clearTimeout(queryTimeouts[key]);
+            delete queryTimeouts[key];
+        }
+        queryTimeouts[key] = setTimeout(closure, delay);
+    });
+}
 
 function closeAllPopups() {
     jQuery("div.ctx-menu").each(closePopUp);

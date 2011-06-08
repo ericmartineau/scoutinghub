@@ -16,7 +16,9 @@ class ScoutGroup implements Serializable {
 
     static searchable = {
         id name: 'scoutGroupId'
-        parent component: [maxDepth: 6]
+        //groupType (propertyConverter:'enumConverter')
+        except = ["parent"]
+        //parent(name: 'parentGroup', component: [maxDepth: 1])
     }
 
     /**
@@ -54,7 +56,11 @@ class ScoutGroup implements Serializable {
     static constraints = {
         groupIdentifier(blank:false)
         groupLabel(blank: false)
-        parent(nullable: true)
+        parent(validator: {val, ScoutGroup grp->
+            if(grp.groupType != ScoutGroupType.Council && grp.parent == null) {
+                return ['scoutGroup.parent.required']
+            }
+        })
         leftNode(nullable: true)
         rightNode(nullable: true)
         unitType(nullable: true, validator: {val, ScoutGroup grp ->

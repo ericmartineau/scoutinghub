@@ -63,7 +63,7 @@
                         %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
                         <g:hiddenField name="unitNumberId" value="${createAccount?.unit?.id}"/>
 
-            <s:selecter class="selecter" from="${LeaderPositionType.values()}" optionValue="${{it.name()?.humanize()}}"
+            <s:bigSelecter class="selecter" from="${LeaderPositionType.values()}" optionValue="${{it.name()?.humanize()}}"
                     id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
                     noSelection="${['':"Select Position"]}"
                     placeholder="${message(code:'label.unitPosition')}"/>

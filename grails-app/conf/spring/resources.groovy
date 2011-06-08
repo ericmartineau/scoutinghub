@@ -7,6 +7,7 @@ import scoutinghub.FacebookSocialAuthenticationFilter
 import scoutinghub.OpenIdSocialAuthenticationFilter
 import scoutinghub.ScoutUserDetailsService
 import org.springframework.security.facebook.MappedFacebookAuthenticationProvider
+import org.compass.core.converter.basic.EnumConverter
 
 // Place your Spring DSL code here
 beans = {
@@ -71,5 +72,7 @@ beans = {
         springSecurityService = ref("springSecurityService")
         filterProcessesUrl = '/j_spring_openid_security_check' // not configurable
     }
+
+    enumConverter(org.compass.core.converter.basic.EnumConverter)
 
 }

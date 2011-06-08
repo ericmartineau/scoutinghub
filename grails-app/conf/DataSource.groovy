@@ -1,5 +1,10 @@
+import scoutinghub.CustomMyISAMDialect
+
 dataSource {
     pooled = true
+
+    dialect = scoutinghub.CustomMyISAMDialect
+
 
     //If you want to use mysql for your development environment (so your database doesn't get
     // blown away every time), uncomment these lines.  You'll also need to change the url below
@@ -22,11 +27,17 @@ hibernate {
 environments {
     development {
         dataSource {
-            url = "jdbc:hsqldb:mem:devDb"
+            dialect = scoutinghub.CustomMyISAMDialect
+
+//            url = "jdbc:hsqldb:mem:devDb"
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+    driverClassName = "com.mysql.jdbc.Driver"
+    username = "eric"
+    password = "eric5425"
+
 
 //              If you want to use mysql, use the following configuration
-//            url = "jdbc:mysql://localhost/scoutinghub"
+            url = "jdbc:mysql://localhost/scoutinghub"
 //            dbCreate = "update" // one of 'create', 'create-drop','update'
 
         }
@@ -39,6 +50,7 @@ environments {
     }
     production {
         dataSource {
+            dialect = scoutinghub.CustomMyISAMDialect
             pooled = false
             jndiName = "java:comp/env/scoutinghub"
             dbCreate = "update"

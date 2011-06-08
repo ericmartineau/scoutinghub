@@ -48,6 +48,7 @@ grails.project.dependency.resolution = {
         compile 'com.google.code.facebookapi:facebook-java-api-annotation-processor:3.0.2'
         compile 'org.jvnet.jaxb2_commons:runtime:0.4.1'
         compile ('org.springframework.security:spring-security-facebook:1.0.1') {
+            //The spring-security-facebook was pulling in imcompatible spring-security dependencies
             transitive = false
         }
 

@@ -25,7 +25,7 @@
     <g:javascript library="jquery.ba-throttle-debounce.min"/>
     <g:javascript library="bsa"/>
     <g:javascript library="bsa-unit-autocomplete"/>
-    <g:javascript library="dropCurves.min"/>
+    %{--<g:javascript library="dropCurves.min"/>--}%
 
     <g:javascript library="prototype"/>
 

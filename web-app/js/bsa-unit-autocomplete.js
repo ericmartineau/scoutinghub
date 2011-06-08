@@ -56,8 +56,12 @@ function configureUnitAutocomplete() {
         //This prevents it from running again
         jthis.removeClass("unitSelector");
 
+        var idName = jthis.attr("idField");
+        if(idName) {
+            idName = idName.replace(".", "\\.");
+        }
 
-        var idField = jQuery("#" + jthis.attr("idField"));
+        var idField = jQuery("#" + idName);
         var positionField = jQuery("#" + jthis.attr("positionField"));
 
         //Let's initialize the drop-down right now
@@ -76,12 +80,12 @@ function configureUnitAutocomplete() {
                         return data[0]
                     },
                     focus: function(event, ui) {
-                        $(idField).val(ui.item.key);
+                        idField.val(ui.item.key);
                         jthis.val(ui.item.label);
                         return false;
                     },
                     select: function(event, ui) {
-                        $(idField).val(ui.item.key);
+                        idField.val(ui.item.key);
                         jthis.val(ui.item.label);
                         getApplicablePositions(positionField, ui.item.key);
                         return false;

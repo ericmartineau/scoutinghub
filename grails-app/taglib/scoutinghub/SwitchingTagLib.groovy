@@ -335,17 +335,19 @@ class SwitchingTagLib {
 
     def textField = {attrs, body->
         if(session.isMobile) {
-            out << bigTextField(attrs, body)
+            out << pageItem(type: 'text', name: attrs.code) {
+                f.txtField(attrs, body)
+            }
         } else {
             out << property(attrs) {
-                out << g.textField(attrs)
+                out << f.txtField(attrs)
             }
         }
 
     }
 
     def bigTextField = {attrs, body ->
-        def cssClass = attrs.class
+        def cssClass = "loginForm ${attrs.class ?: ''}"
         def code = attrs.code
         if (session.isMobile) {
             out << "<li class='bigfield'>"
@@ -389,11 +391,21 @@ class SwitchingTagLib {
             out << "<span class='arrow'></span>"
             out << "</li>"
         } else {
+            attrs.class = "selecter ${attrs.class ?: ''}"
             out << property(attrs) {
                 out << select(attrs)
             }
         }
+    }
 
+    def bigSelecter = {attrs->
+        if(session.isMobile) {
+            out << selecter(attrs)
+        } else {
+            out << f.formControl(attrs) {
+                out << select(attrs)
+            }
+        }
     }
 
     def section = {attrs, body ->

@@ -1,6 +1,7 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.Secured
+import org.compass.core.engine.SearchEngineQueryParseException
 
 @Secured(["ROLE_ADMIN"])
 class ScoutGroupController {
@@ -11,15 +12,40 @@ class ScoutGroupController {
 
     @Secured(["ROLE_LEADER"])
     def report = {
-        redirect(controller:"training", action:"trainingReport", id:params.id)
+        redirect(controller: "training", action: "trainingReport", id: params.id)
     }
 
     def makeAdmin = {
+        //todo: Fix permissions here
         LeaderGroup leaderGroup = LeaderGroup.get(params.id)
         leaderGroup.admin = true
-        leaderGroup.save(failOfError:true)
+        leaderGroup.save(failOfError: true)
 
-        redirect(controller:"leader", view:"view", id:leaderGroup.leader.id)
+        redirect(controller: "leader", view: "view", id: leaderGroup.leader.id)
+    }
+
+    @Secured(["ROLE_ADMIN"])
+    def unitQuery = {
+        def searchParam = params.param?.trim()
+        def orgTypeParam = params.orgType?.trim()
+        if (!searchParam && !orgTypeParam) {
+            return [:]
+        }
+        try {
+
+//            def results = ScoutGroup.search(searchQuery, params)
+            def results = ScoutGroup.search {
+                if(orgTypeParam) {
+                    must(term('groupType', orgTypeParam?.toLowerCase()))
+                }
+                if(searchParam) {
+                    queryString("${searchParam}*")
+                }
+            }
+            return [results: results.results]
+        } catch (Exception ex) {
+            return [parseException: true]
+        }
     }
 
     def reindex = {
@@ -46,7 +72,7 @@ class ScoutGroupController {
     def save = {
         def scoutGroupInstance = new ScoutGroup(params)
         scoutGroupInstance = scoutGroupInstance.merge() ?: scoutGroupInstance
-        if (scoutGroupInstance.save()) {
+        if (scoutGroupInstance.save(flush: true)) {
             ScoutGroup.reindex()
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
             redirect(action: "list")
@@ -84,19 +110,20 @@ class ScoutGroupController {
             if (params.version) {
                 def version = params.version.toLong()
                 if (scoutGroupInstance.version > version) {
-                    
+
                     scoutGroupInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'scoutGroup.label', default: 'ScoutGroup')] as Object[], "Another user has updated this ScoutGroup while you were editing")
-                    render(view: "edit", model: [scoutGroupInstance: scoutGroupInstance])
+                    render(view: "show", model: [scoutGroupInstance: scoutGroupInstance])
                     return
                 }
             }
             scoutGroupInstance.properties = params
             if (!scoutGroupInstance.hasErrors() && scoutGroupInstance.save(flush: true)) {
+                ScoutGroup.reindex()
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
                 redirect(action: "show", id: scoutGroupInstance.id)
             }
             else {
-                render(view: "edit", model: [scoutGroupInstance: scoutGroupInstance])
+                render(view: "show", model: [scoutGroupInstance: scoutGroupInstance])
             }
         }
         else {

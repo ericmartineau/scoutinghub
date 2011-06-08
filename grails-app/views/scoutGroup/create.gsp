@@ -27,8 +27,15 @@
 
             <s:propertyList class="vertical-form">
                 <s:textField class="alternate-color" size="40" name="groupLabel" value="${scoutGroupInstance?.groupLabel}" code="scoutGroup.groupLabel.label"/>
-                <s:selecter code="scoutGroup.parent.label" name="parent.id" from="${scoutinghub.ScoutGroup.list()}" optionKey="id" value="${scoutGroupInstance?.parent?.id}"
-                            noSelection="['null': '']"/>
+                <s:textField name="parentNumber" otherAttrs="[idField:'parent.id']" class="unitSelector unit-selector-style" value="${scoutGroupInstance?.parent}"
+                             code="${message(code:'scoutGroup.parent.label')}"/>
+
+
+            %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
+                <g:hiddenField name="parent.id" value="${scoutGroupInstance?.parent?.id}"/>
+
+                %{--<s:selecter code="scoutGroup.parent.label" name="parent.id" from="${scoutinghub.ScoutGroup.list()}" optionKey="id" value="${scoutGroupInstance?.parent?.id}"--}%
+                            %{--noSelection="['null': '']"/>--}%
                 <s:selecter class="alternate-color" code="scoutGroup.groupType.label" name="groupType" from="${scoutinghub.ScoutGroupType?.values()}" value="${scoutGroupInstance?.groupType}"/>
                 <s:selecter code="scoutGroup.unitType.label" name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${scoutGroupInstance?.unitType}" noSelection="['': '']"/>
                 <s:textField class="alternate-color" code="scoutGroup.groupIdentifier.label" name="groupIdentifier" value="${scoutGroupInstance?.groupIdentifier}"/>

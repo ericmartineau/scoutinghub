@@ -56,7 +56,7 @@ class ScoutTagLib {
         attrs.otherAttrs?.each {
             out << "${it.key}='${it.value}' "
         }
-        out << " type='${type}' value='${attrs.value ?: ""}' class='fldInput loginForm ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
+        out << " type='${type}' size='${attrs.size ?: 25}' value='${attrs.value ?: ""}' class='fldInput ui-corner-all ${attrs.class ?: ""}' name='${attrs.name}' id='${attrs.name}'/>"
     }
 
     def formControl = {attrs, body ->

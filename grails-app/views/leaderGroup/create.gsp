@@ -1,10 +1,10 @@
 <%@ page import="scoutinghub.LeaderPositionType" %>
 <g:form class="dialog-form" action="save">
     <div class="dialog">
-        <s:bigTextField name="scoutGroupName" otherAttrs="[idField:'scoutGroupId', positionField: 'leaderPosition']" class="unitSelector" value="${leaderGroupInstance?.scoutGroup}"
+        <s:textField size="38" name="scoutGroupName" otherAttrs="[idField:'scoutGroupId', positionField: 'leaderPosition']" class="unitSelector" value="${leaderGroupInstance?.scoutGroup}"
                         code="${message(code:'label.unitNumber')}"
-                        placeholder="${message(code:'label.unitNumber')}">
-        </s:bigTextField>
+                        placeholder="${message(code:'label.unitNumber')}" />
+
 
         <g:hiddenField name="leader.id" value="${leaderGroupInstance?.leader?.id}"/>
         %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${leaderGroupInstance?.scoutGroup?.groupLabel}" code="${message(code:'label.unitNumber')}"/>--}%
