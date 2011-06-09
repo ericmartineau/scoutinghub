@@ -12,32 +12,61 @@
 <g:form>
     <s:content>
         <s:section>
-            <s:sectionHeader icon="units-icon"><g:message code="default.edit.label" args="[message(code:entityName)]"/></s:sectionHeader>
             <g:if test="${flash.message}">
                 <s:msg code="${flash.message}" type="info"/>
             </g:if>
+
+            <s:sectionHeader icon="units-icon" code="${scoutGroupInstance.toString()}">
+                <s:ctxmenu>
+                    <g:ctxmenuItem controller="scoutGroup" action="edit" id="${scoutGroupInstance?.id}" iconType="edit" code="Edit"/>
+                </s:ctxmenu>
+            </s:sectionHeader>
             <s:propertyList class="vertical-form">
-                <s:textField class="alternate-color" size="40" name="groupLabel" value="${scoutGroupInstance?.groupLabel}" code="scoutGroup.groupLabel.label"/>
-                <s:textField name="parentNumber" otherAttrs="[idField:'parent.id']" class="unitSelector unit-selector-style" value="${scoutGroupInstance?.parent}"
-                             code="${message(code:'scoutGroup.parent.label')}"/>
+                <s:property class="alternate-color" code="${message(code:'scoutGroup.parent.label')}">
+                    <g:link controller="scoutGroup" action="show" id="${scoutGroupInstance?.parent?.id}">${scoutGroupInstance?.parent}</g:link>
+                </s:property>
 
-
-            %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
-                <g:hiddenField name="parent.id" value="${scoutGroupInstance?.parent?.id}"/>
-                <s:selecter class="alternate-color" code="scoutGroup.groupType.label" name="groupType" from="${scoutinghub.ScoutGroupType?.values()}" value="${scoutGroupInstance?.groupType}"/>
-                <s:selecter code="scoutGroup.unitType.label" name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${scoutGroupInstance?.unitType}" noSelection="['': '']"/>
-                <s:textField class="alternate-color" code="scoutGroup.groupIdentifier.label" name="groupIdentifier" value="${scoutGroupInstance?.groupIdentifier}"/>
+                <s:property code="scoutGroup.groupType.label"><g:message code="${scoutGroupInstance?.groupType}.label"/></s:property>
+                <s:property class="alternate-color" code="scoutGroup.unitType.label"><g:message code="${scoutGroupInstance?.unitType}.label"/></s:property>
+                <s:property code="scoutGroup.groupIdentifier.label">${scoutGroupInstance?.groupIdentifier}</s:property>
+                <s:property class="alternate-color" code="scoutGroup.trainingReport.label">
+                    <g:link controller="training" action="trainingReport" id="${scoutGroupInstance?.id}"><g:message code="scoutGroup.trainingReport.view"/></g:link>
+                </s:property>
             </s:propertyList>
 
-            <div class="buttons">
-
-                <g:hiddenField name="id" value="${scoutGroupInstance?.id}"/>
-                <span class="button"><g:actionSubmit class="update" action="update" value="Save"/></span>
-                <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                                                     onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
-
-            </div>
         </s:section>
+
+        <g:if test="${scoutGroupInstance.childGroups?.size() > 0}">
+            <s:section>
+                <s:sectionHeader code="scoutGroup.childUnits" icon="units-icon"/>
+                <s:propertyList class="vertical-form">
+                    <g:each in="${scoutGroupInstance.childGroups}" var="childGroup" status="i">
+                        <s:property class="${i % 2 ==0 ? 'alternate-color' : ''}" code="${childGroup.unitType ?: childGroup.groupType}.label">
+                            <g:link class="leaderProfileLink" controller="scoutGroup" action="show" id="${childGroup?.id}">${childGroup}</g:link>
+                        </s:property>
+                    </g:each>
+                </s:propertyList>
+
+            </s:section>
+
+        </g:if>
+
+        <g:if test="${scoutGroupInstance.leaderGroups?.size() > 0}">
+            <s:section>
+                <s:sectionHeader code="scoutGroup.leaders" icon="units-icon"/>
+                <s:propertyList class="vertical-form">
+                    <g:each in="${scoutGroupInstance.leaderGroups}" var="leader" status="leaderStatus">
+
+                        <s:property class="${leaderStatus %2 == 0 ? 'alternate-color':''}" code="${leader.leaderPosition}.label">
+                            <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader?.leader?.id}">${leader.leader}</g:link>
+                        </s:property>
+
+                    </g:each>
+                </s:propertyList>
+
+            </s:section>
+        </g:if>
+
     </s:content>
 
 </g:form>

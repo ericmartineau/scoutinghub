@@ -18,30 +18,6 @@ import java.util.List;
  */
 public class ScoutGroupFilter {
 
-
-//    private List<Integer> ids;
-//
-//    public ScoutGroupFilter(Integer... ids) {
-//        this.ids = Arrays.asList(ids);
-//    }
-//
-//    public BitSet bits(IndexReader reader) throws IOException {
-//        BitSet bits = new BitSet(reader.maxDoc());
-//
-//        int[] docs = new int[1];
-//        int[] freqs = new int[1];
-//        for (Integer id : ids) {
-//            if (id != null) {
-//                TermDocs termDocs = reader.termDocs(new Term("scoutGroupId", String.valueOf(id)));
-//                int count = termDocs.read(docs, freqs);
-//                if (count == 1) {
-//                    bits.set(docs[0]);
-//                }
-//            }
-//        }
-//        return bits;
-//    }
-
     private static Query createQuery(Collection<String> visibleItems) {
         int maxTerms = BooleanQuery.getMaxClauseCount() - 1;
         int i = 0;
@@ -50,12 +26,21 @@ public class ScoutGroupFilter {
         BooleanQuery query = new BooleanQuery();
 
         BooleanQuery subQuery = new BooleanQuery();
+        subQuery.setMinimumNumberShouldMatch(1);
         for (String string : visibleItems) {
-            subQuery.add(new TermQuery(new Term("scoutGroupId", string)), BooleanClause.Occur.SHOULD);
-            if (i % maxTerms == 0) {
-                subQueryIsQuery = false;
-                query.add(new BooleanClause(subQuery, BooleanClause.Occur.SHOULD));
-                subQuery = new BooleanQuery();
+            StringBuilder prefix = new StringBuilder();
+            for (int x = 0; x < 6; x++) {
+                if (x > 0) {
+                    prefix.append("parent_");
+                }
+
+                subQuery.add(new TermQuery(new Term(prefix.toString() + "scoutGroupId", string)), BooleanClause.Occur.SHOULD);
+                if (i % maxTerms == 0) {
+                    subQueryIsQuery = false;
+                    query.add(new BooleanClause(subQuery, BooleanClause.Occur.SHOULD));
+                    subQuery = new BooleanQuery();
+                }
+
             }
             i++;
         }

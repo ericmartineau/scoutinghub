@@ -28,11 +28,14 @@ class PermissionsController {
         }
         try {
             Leader leader = springSecurityService.currentUser
-            List<ScoutGroup> allGroups = leader?.groups?.findAll{it.admin}?.collect{String.valueOf(it.scoutGroup.id)}
+            def results;
+            if (leader.hasRole("ROLE_ADMIN")) {
+                results = Leader.search(params.leaderQuery?.trim() + "*", params)
+            } else {
+                List<String> allGroups = leader?.groups?.findAll {it.admin}?.collect {String.valueOf(it.scoutGroup.id)}
+                results = Leader.search(params.leaderQuery?.trim() + "*", params, filter: ScoutGroupFilter.createFilter(allGroups));
+            }
 
-            def results = Leader.search(params.leaderQuery?.trim() + "*", params
-                    , filter: ScoutGroupFilter.createFilter(allGroups)
-            );
             return [results: results.results]
         } catch (SearchEngineQueryParseException ex) {
             return [parseException: true]
@@ -51,7 +54,7 @@ class PermissionsController {
             LeaderRole.findByLeaderAndRole(leader, role)?.delete()
         }
 
-        def rtn = [success:true]
+        def rtn = [success: true]
         render rtn as JSON
 
     }

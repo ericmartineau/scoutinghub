@@ -39,7 +39,16 @@ class HtmlContainersTagLib {
         out << "<li class='ctx-menu-item ${attrs.class ?: ""}'>"
 //        out << "<span class='ui-icon menu-icon ${attrs.class ?: ""}'></span>"
 //        out << "<span class='menu-text'>"
-        out << body()
+        if(attrs.controller) {
+            out << link(controller:attrs.controller, style:"white-space:nowrap;", action:attrs.action, id:attrs.id, params:attrs.params) {
+                out << inlineIcon(class:"${attrs.iconType}-icon")
+                out << ctxmenuLabel {
+                    out << message(code:attrs.code)
+                }
+            }
+        } else{
+            out << body()
+        }
 //        out << "</span>"
         out << "</li>"
     }

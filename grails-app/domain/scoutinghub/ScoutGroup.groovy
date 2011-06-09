@@ -17,8 +17,8 @@ class ScoutGroup implements Serializable {
     static searchable = {
         id name: 'scoutGroupId'
         //groupType (propertyConverter:'enumConverter')
-        except = ["parent"]
-        //parent(name: 'parentGroup', component: [maxDepth: 1])
+        //        except = ["parent"]
+        parent(component: [maxDepth: 6, prefix: "parent_"])
     }
 
     /**
@@ -54,10 +54,10 @@ class ScoutGroup implements Serializable {
     static hasMany = [childGroups: ScoutGroup, leaderGroups: LeaderGroup]
 
     static constraints = {
-        groupIdentifier(blank:false)
+        groupIdentifier(blank: false)
         groupLabel(blank: false)
-        parent(validator: {val, ScoutGroup grp->
-            if(grp.groupType != ScoutGroupType.Council && grp.parent == null) {
+        parent(validator: {val, ScoutGroup grp ->
+            if (grp.groupType != ScoutGroupType.Council && grp.parent == null) {
                 return ['scoutGroup.parent.required']
             }
         })
@@ -103,14 +103,19 @@ class ScoutGroup implements Serializable {
     }
 
     boolean canBeAdministeredBy(Leader leader) {
-        LeaderGroup found = leader.groups?.find {LeaderGroup lg ->
-            return lg.scoutGroup.id == this.id && lg.admin
-        }
         boolean rtn
-        if (found) {
+        if (leader.hasRole("ROLE_ADMIN")) {
             rtn = true
         } else {
-            rtn = parent?.canBeAdministeredBy(leader)
+            LeaderGroup found = leader.groups?.find {LeaderGroup lg ->
+                return lg.scoutGroup.id == this.id && lg.admin
+            }
+
+            if (found) {
+                rtn = true
+            } else {
+                rtn = parent?.canBeAdministeredBy(leader)
+            }
         }
         return rtn
     }

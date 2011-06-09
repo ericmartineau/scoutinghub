@@ -73,7 +73,7 @@ class ScoutGroupController {
         def scoutGroupInstance = new ScoutGroup(params)
         scoutGroupInstance = scoutGroupInstance.merge() ?: scoutGroupInstance
         if (scoutGroupInstance.save(flush: true)) {
-            ScoutGroup.reindex()
+            scoutGroupService.reindex()
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
             redirect(action: "list")
         }
@@ -104,6 +104,7 @@ class ScoutGroupController {
         }
     }
 
+
     def update = {
         def scoutGroupInstance = ScoutGroup.get(params.id)
         if (scoutGroupInstance) {
@@ -118,7 +119,8 @@ class ScoutGroupController {
             }
             scoutGroupInstance.properties = params
             if (!scoutGroupInstance.hasErrors() && scoutGroupInstance.save(flush: true)) {
-                ScoutGroup.reindex()
+                scoutGroupService.reindex()
+
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), scoutGroupInstance.id])}"
                 redirect(action: "show", id: scoutGroupInstance.id)
             }

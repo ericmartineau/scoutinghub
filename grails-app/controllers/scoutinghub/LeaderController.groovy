@@ -71,7 +71,7 @@ class LeaderController {
         if (params.id) {
             leader = Leader.get(params.id)
             Leader loggedIn = springSecurityService.currentUser
-            if (!leader.canBeAdministeredBy(loggedIn)) {
+            if (!leader.canBeAdministeredBy(loggedIn) && !loggedIn.hasRole("ROLE_ADMIN")) {
                 redirect(controller: "login", action: "denied")
                 return
             }

@@ -19,7 +19,7 @@
                 <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
 
                 <g:each in="${leader.groups}" var="group">
-                    <s:property code="${group?.position}.label">
+                    <s:property code="${group?.leaderPosition}.label">
                         ${group?.scoutGroup}
                         <g:if test="${group?.admin}">(admin)</g:if>
                     </s:property>

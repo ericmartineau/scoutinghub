@@ -127,6 +127,7 @@ class LeaderGroupController {
         redirect(controller: "leader", action: "view", id: leader.id)
     }
 
+
     def save = {
 
         //Strange bug with searchable requires this goofy logic using merge

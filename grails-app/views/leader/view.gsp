@@ -198,7 +198,7 @@
                         ${group?.scoutGroup}
 
                         <p:canAdministerGroup scoutGroup="${group?.scoutGroup}">(admin)
-                            <div><g:link class="manage-this-unit" controller="scoutGroup" action="report" id="${group?.scoutGroup?.id}">
+                            <div><g:link class="manage-this-unit" controller="scoutGroup" action="show" id="${group?.scoutGroup?.id}">
                                 <g:message code="scoutGroup.manage" args="[group?.scoutGroup?.groupType?.name()?.humanize()]"/>
                             </g:link></div>
                         </p:canAdministerGroup>

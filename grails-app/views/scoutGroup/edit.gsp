@@ -1,157 +1,45 @@
-
-
 <%@ page import="scoutinghub.ScoutGroup" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'scoutGroup.label', default: 'ScoutGroup')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="layout" content="${layoutName}"/>
+    <g:set var="entityName" value="${message(code: 'scoutGroup.label', default: 'ScoutGroup')}"/>
+    <title><g:message code="default.show.label" args="[entityName]"/></title>
+</head>
+
+<body>
+
+<g:form>
+    <s:content>
+        <s:section>
+            <s:sectionHeader icon="units-icon"><g:message code="default.edit.label" args="[message(code:entityName)]"/></s:sectionHeader>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+                <s:msg code="${flash.message}" type="info"/>
             </g:if>
-            <g:hasErrors bean="${scoutGroupInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${scoutGroupInstance}" as="list" />
+            <s:propertyList class="vertical-form">
+                <s:textField class="alternate-color" size="40" name="groupLabel" value="${scoutGroupInstance?.groupLabel}" code="scoutGroup.groupLabel.label"/>
+                <s:textField name="parentNumber" otherAttrs="[idField:'parent.id']" class="unitSelector unit-selector-style" value="${scoutGroupInstance?.parent}"
+                             code="${message(code:'scoutGroup.parent.label')}"/>
+
+
+            %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
+                <g:hiddenField name="parent.id" value="${scoutGroupInstance?.parent?.id}"/>
+                <s:selecter class="alternate-color" code="scoutGroup.groupType.label" name="groupType" from="${scoutinghub.ScoutGroupType?.values()}" value="${scoutGroupInstance?.groupType}"/>
+                <s:selecter code="scoutGroup.unitType.label" name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${scoutGroupInstance?.unitType}" noSelection="['': '']"/>
+                <s:textField class="alternate-color" code="scoutGroup.groupIdentifier.label" name="groupIdentifier" value="${scoutGroupInstance?.groupIdentifier}"/>
+            </s:propertyList>
+
+            <div class="buttons">
+
+                <g:hiddenField name="id" value="${scoutGroupInstance?.id}"/>
+                <span class="button"><g:actionSubmit class="update" action="update" value="Save"/></span>
+                <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+                                                     onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
+
             </div>
-            </g:hasErrors>
-            <g:form method="post" >
-                <g:hiddenField name="id" value="${scoutGroupInstance?.id}" />
-                <g:hiddenField name="version" value="${scoutGroupInstance?.version}" />
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="groupLabel"><g:message code="scoutGroup.groupLabel.label" default="Group Label" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'groupLabel', 'errors')}">
-                                    <g:textField name="groupLabel" value="${scoutGroupInstance?.groupLabel}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="parent"><g:message code="scoutGroup.parent.label" default="Parent" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'parent', 'errors')}">
-                                    <g:select name="parent.id" from="${scoutinghub.ScoutGroup.list()}" optionKey="id" value="${scoutGroupInstance?.parent?.id}" noSelection="['null': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="leftNode"><g:message code="scoutGroup.leftNode.label" default="Left Node" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'leftNode', 'errors')}">
-                                    <g:textField name="leftNode" value="${fieldValue(bean: scoutGroupInstance, field: 'leftNode')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="rightNode"><g:message code="scoutGroup.rightNode.label" default="Right Node" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'rightNode', 'errors')}">
-                                    <g:textField name="rightNode" value="${fieldValue(bean: scoutGroupInstance, field: 'rightNode')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="unitType"><g:message code="scoutGroup.unitType.label" default="Unit Type" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'unitType', 'errors')}">
-                                    <g:select name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${scoutGroupInstance?.unitType}" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="createDate"><g:message code="scoutGroup.createDate.label" default="Create Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'createDate', 'errors')}">
-                                    <g:datePicker name="createDate" precision="day" value="${scoutGroupInstance?.createDate}" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="updateDate"><g:message code="scoutGroup.updateDate.label" default="Update Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'updateDate', 'errors')}">
-                                    <g:datePicker name="updateDate" precision="day" value="${scoutGroupInstance?.updateDate}" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="childGroups"><g:message code="scoutGroup.childGroups.label" default="Child Groups" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'childGroups', 'errors')}">
-                                    
-<ul>
-<g:each in="${scoutGroupInstance?.childGroups?}" var="c">
-    <li><g:link controller="scoutGroup" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="scoutGroup" action="create" params="['scoutGroup.id': scoutGroupInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup')])}</g:link>
+        </s:section>
+    </s:content>
 
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="groupIdentifier"><g:message code="scoutGroup.groupIdentifier.label" default="Group Identifier" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'groupIdentifier', 'errors')}">
-                                    <g:textField name="groupIdentifier" value="${scoutGroupInstance?.groupIdentifier}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="groupType"><g:message code="scoutGroup.groupType.label" default="Group Type" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'groupType', 'errors')}">
-                                    <g:select name="groupType" from="${scoutinghub.ScoutGroupType?.values()}" value="${scoutGroupInstance?.groupType}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="leaderGroups"><g:message code="scoutGroup.leaderGroups.label" default="Leader Groups" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: scoutGroupInstance, field: 'leaderGroups', 'errors')}">
-                                    
-<ul>
-<g:each in="${scoutGroupInstance?.leaderGroups?}" var="l">
-    <li><g:link controller="leaderGroup" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="leaderGroup" action="create" params="['scoutGroup.id': scoutGroupInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'leaderGroup.label', default: 'LeaderGroup')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
-            </g:form>
-        </div>
-    </body>
+</g:form>
+</body>
 </html>

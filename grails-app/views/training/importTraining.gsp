@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name='layout' content='main'/>
-    <title><g:message code="title.importTraining.title"/></title>
+    <title><g:message code="training.importTraining.title"/></title>
 </head>
 
 <body>

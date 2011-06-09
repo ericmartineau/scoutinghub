@@ -1,15 +1,26 @@
 package scoutinghub
 
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Callable
+
 class ScoutGroupService {
+
+    ExecutorService executorService
 
     static transactional = false
 
+
     void reindex() {
-        IndexState state = new IndexState()
-        def topNodes = ScoutGroup.findAllByParentIsNull();
-        topNodes.each {ScoutGroup group ->
-            handleGroup(group, state)
-        }
+        executorService.submit({
+            IndexState state = new IndexState()
+            def topNodes = ScoutGroup.findAllByParentIsNull();
+            topNodes.each {ScoutGroup group ->
+                handleGroup(group, state)
+            }
+            log.info("Finished indexing depth-first index")
+            ScoutGroup.reindex();
+            log.info("Finished indexing compass ScoutGroup indexes")
+        } as Callable)
 
     }
 

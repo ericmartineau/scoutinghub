@@ -621,6 +621,11 @@ A .ir {
     BORDER-TOP: #8e877f 1px solid; /*PADDING-TOP: 8px*/
 }
 
+.footer-version {
+    color: #777;
+    font-size: 10px;
+}
+
 #bsafooter H3 {
     PADDING-BOTTOM: 0px;
     PADDING-LEFT: 40px;
@@ -1716,6 +1721,11 @@ a.register-for-training {
     font-size: 11px;
     padding: 0px;
     margin: 0px;
+}
+
+ul.vertical-form {
+    display:table;
+    width:100%;
 }
 
 ul.vertical-form li.prop {
