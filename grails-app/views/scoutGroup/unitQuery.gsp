@@ -29,8 +29,6 @@
                     </s:property>
                 </g:each>
             </s:propertyList>
-
-
         </div>
     </g:each>
 </div>

@@ -39,6 +39,11 @@ class SwitchingTagLib {
         }
     }
 
+    def mobile = {attrs, body->
+        if(session.isMobile) {
+            out << body()
+        }
+    }
     def mapLink = {attrs, body ->
         if (session.isMobile) {
             //todo: Implement this!
@@ -246,11 +251,10 @@ class SwitchingTagLib {
 
                     out << section(code: menuItem.labelCode) {
                         toRender?.each {SubMenuItem subItem ->
-
+                            attrs.controller = subItem.controller
+                            attrs.action = subItem.action
                             out << linker(attrs) {
-                                out << link(controller: subItem.controller, action: subItem.action) {
-                                    out << message(code: subItem.labelCode)
-                                }
+                                out << message(code: subItem.labelCode)
                             }
                         }
                     }
@@ -270,7 +274,7 @@ class SwitchingTagLib {
             def bodyClosure = {
                 if (attrs.img) {
                     String img = attrs.img
-                    if(!img?.contains("images")) {
+                    if (!img?.contains("images")) {
                         img = "/scoutinghub/images/${img}.png"
                     }
                     out << "<img src='${img}' />"
@@ -333,8 +337,8 @@ class SwitchingTagLib {
 
     }
 
-    def textField = {attrs, body->
-        if(session.isMobile) {
+    def textField = {attrs, body ->
+        if (session.isMobile) {
             out << pageItem(type: 'text', name: attrs.code) {
                 f.txtField(attrs, body)
             }
@@ -398,8 +402,8 @@ class SwitchingTagLib {
         }
     }
 
-    def bigSelecter = {attrs->
-        if(session.isMobile) {
+    def bigSelecter = {attrs ->
+        if (session.isMobile) {
             out << selecter(attrs)
         } else {
             out << f.formControl(attrs) {

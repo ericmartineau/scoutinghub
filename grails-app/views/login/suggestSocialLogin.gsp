@@ -28,12 +28,11 @@
         </div>
 
         <s:div style="margin-top:30px">
-                        <s:linker><g:link controller="leader" action="index"><g:message code="flow.suggestSocialLogin.goToProfile"/></g:link></s:linker>
+            <s:linker controller="leader" action="index"><g:message code="flow.suggestSocialLogin.goToProfile"/></s:linker>
         </s:div>
 
     </s:section>
 </s:content>
-
 
 </body>
 </html>

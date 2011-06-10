@@ -35,6 +35,13 @@
         </s:bigButton>
     </s:section>
 
+    <s:mobile>
+        <s:section code="login.alternateproviders">
+            <s:linker controller="openId" action="yahoo" img="yahoo-logo-square">Yahoo!</s:linker>
+            <s:linker controller="openId" action="google" img="google-logo-square">Google</s:linker>
+            <s:linker controller="openId" action="facebook" img="facebook-logo-square">Facebook</s:linker>
+        </s:section>
+    </s:mobile>
 </s:content>
 
 

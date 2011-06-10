@@ -304,7 +304,7 @@ class LoginController {
                                 return verifiedExistingRecord();
                             }
                         } catch (Exception e) {
-                            e.printStackTrace()
+                            log.error "Couldn't authenticate: ${e}"
                         }
 
                         //If we didn't authenticate, have them verify the u/p

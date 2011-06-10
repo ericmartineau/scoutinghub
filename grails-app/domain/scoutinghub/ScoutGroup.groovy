@@ -17,7 +17,7 @@ class ScoutGroup implements Serializable {
     static searchable = {
         id name: 'scoutGroupId'
         //groupType (propertyConverter:'enumConverter')
-        //        except = ["parent"]
+        except = ["parent", "leftNode", "rightNode", "childGroups", "leaderGroups"]
         parent(component: [maxDepth: 6, prefix: "parent_"])
     }
 

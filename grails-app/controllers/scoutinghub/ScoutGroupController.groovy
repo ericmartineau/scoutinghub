@@ -42,8 +42,12 @@ class ScoutGroupController {
                     queryString("${searchParam}*")
                 }
             }
+
+            results.results?.each{it.refresh()}
+
             return [results: results.results]
         } catch (Exception ex) {
+            log.error "Error retrieveing results", ex
             return [parseException: true]
         }
     }

@@ -5,8 +5,8 @@
 <body>
 <s:content>
     <s:section>
-        <s:linker><g:link controller="leader" action="profile">Home</g:link></s:linker>
-        <s:linker><g:link controller="logout">Logout Now</g:link></s:linker>
+        <s:linker controller="leader" action="profile">Home</s:linker>
+        <s:linker controller="logout">Logout Now</s:linker>
     </s:section>
     <s:menu/>
 </s:content>

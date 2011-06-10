@@ -9,9 +9,9 @@
 <s:content>
     <s:section>
         <s:msg code="error.header" type="error" code2="${exception.message}"/>
-        <s:property>
+        <s:text>
             <g:message code="error.message"/>
-        </s:property>
+        </s:text>
     </s:section>
 
     <g:if test="${session.showStackTraces}">

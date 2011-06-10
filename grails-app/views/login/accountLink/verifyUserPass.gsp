@@ -16,7 +16,7 @@
         <g:form action="accountLink">
             <s:div class="twoSection">
                 <s:section class="no" header="small" code="flow.verifyUserPass.title">
-                    <s:msg type="warning" code2="flow.verifyUserPass.message"/>
+                    <s:msg type="warning" code="flow.verifyUserPass.message"/>
                     <g:if test="${error}">
                         <s:msg type="error" code="${error}" code2="${error2}"/>
                     </g:if>
@@ -51,7 +51,8 @@
         <s:section class="twoSection vcenter" header="small">
         %{--<s:section header="small" code="flow.verifyUserPass.verifyEmailInstead">--}%
 
-            <s:bigButton controller="login" action="accountLink" event="verifyByEmail" value="${message(code:'flow.verifyUserPass.verifyEmailInstead')}"/>
+            <s:bigButton controller="login" action="accountLink" event="verifyByEmail"><g:message code="flow.verifyUserPass.verifyEmailInstead" /></s:bigButton>
+
 
 
         %{--name="verifyByEmail" value="${message(code: '')}" />--}%

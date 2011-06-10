@@ -1,14 +1,16 @@
 <%@ page import="org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler" %>
 <html>
 <head>
-    <meta name='layout' content='main'/>
+    <meta name='layout' content='${layoutName}'/>
     <title><g:message code="flow.errorVerifyEmail.title"/></title>
 </head>
 
 <body>
 
-<div class='body'>
-    <g:msgbox type="error" code="${errorMessage}" code2="${exceptionMessage}"/>
-</div>
+<s:content>
+    <s:section>
+        <s:msg type="error" code="${errorMessage}" code2="${exceptionMessage}"/>
+    </s:section>
+</s:content>
 </body>
 </html>

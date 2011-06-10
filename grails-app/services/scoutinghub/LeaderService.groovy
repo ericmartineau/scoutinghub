@@ -114,22 +114,23 @@ class LeaderService {
         LeaderGroup primaryScoutGroup;
         Set<LeaderGroup> groupsToAdd = new HashSet<LeaderGroup>();
 
-        secondary.groups.each() {
+        secondary.groups.each() {LeaderGroup leaderGroup ->
 
-            if (primary.hasScoutGroup(it.scoutGroup)) {
-                primaryScoutGroup = primary.findScoutGroup(it.scoutGroup);
-                if (primaryScoutGroup.leaderPosition == it.leaderPosition) {
-                    if (it.admin != primaryScoutGroup.admin &&
+            if (primary.hasScoutGroup(leaderGroup.scoutGroup)) {
+                primaryScoutGroup = primary.findScoutGroup(leaderGroup.scoutGroup);
+                if (primaryScoutGroup.leaderPosition == leaderGroup.leaderPosition) {
+                    if (leaderGroup.admin != primaryScoutGroup.admin &&
                             !primaryScoutGroup.admin) {
-                        primaryScoutGroup.admin = it.admin || secondaryScoutGroup.admin;
+                        primaryScoutGroup.admin = leaderGroup.admin || secondaryScoutGroup.admin;
                         primaryScoutGroup.save(flush: true, failOnError: true);
                     }
-                    it.delete(flush: true, failOnError: true);
+                    secondary.removeFromGroups(leaderGroup)
+                    leaderGroup.delete(flush: true, failOnError: true);
                 } else {
-                    groupsToAdd.add(it);
+                    groupsToAdd.add(leaderGroup);
                 }
             } else {
-                groupsToAdd.add(it);
+                groupsToAdd.add(leaderGroup);
             }
 
         }
@@ -143,6 +144,7 @@ class LeaderService {
         }
 
         primary.save(failOnError: true);
+        secondary.save(failOnError: true);
     }
 
 
