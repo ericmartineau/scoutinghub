@@ -1,10 +1,15 @@
 <head>
-<meta name='layout' content='main' />
-<title>Denied</title>
+    <meta name='layout' content='${layoutName}'/>
+    <title>Denied</title>
 </head>
 
 <body>
-<div class='body'>
-	<div class='errors'>Sorry, you're not authorized to view this page.</div>
-</div>
+<s:content>
+    <s:section code="Access Denied">
+        <s:text class="error">
+            Sorry, you're not authorized to view this page.
+        </s:text>
+
+    </s:section>
+</s:content>
 </body>

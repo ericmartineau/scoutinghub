@@ -36,6 +36,7 @@ class TrainingController {
     }
 
     def trainingReport = {
+
         if (params.filterName != null) {
             session.filterName = params.filterName
         }
@@ -56,8 +57,12 @@ class TrainingController {
         def leaderFilter
 
         if (session.filterName) {
-            scoutGroupFilter = scoutGroupService.filters.find {it.value.containsKey(session.filterName)}.value[session.filterName]
-            leaderFilter = scoutGroupService.leaderFilters.find {it.value.containsKey(session.filterName)}.value[session.filterName]
+            scoutGroupFilter = scoutGroupService.filters.find {
+                it.value.containsKey(session.filterName)
+            }?.value?.get(session.filterName)
+            leaderFilter = scoutGroupService.leaderFilters.find {
+                it.value.containsKey(session.filterName)
+            }?.value?.get(session.filterName)
         }
 
         def filteredLeaderList = LeaderGroup.withCriteria {
@@ -96,22 +101,25 @@ class TrainingController {
             reports << report
 
         }
-        return [reportGroup: reportGroup, reports: reports, filteredLeaderList: filteredLeaderList]
-    }
 
-    def getFilters = {
-        def allFilters = scoutGroupService.filters
-        def rtn = [:]
-        rtn[""] = ["": message(code: "training.report.nofilter")]
-        allFilters.each {
+        def allFilters = [:]
+        allFilters["nofilter"] = ["nofilter": message(code: "training.report.nofilter")]
+        scoutGroupService.filters.each {
             def vals = [:]
             def key = message(code: "${it.key}.label")
-            rtn[key] = vals
+            allFilters[key] = vals
             it.value.each {
                 def itemKey = message(code: "${it.key}.label")
                 vals[it.key] = itemKey
             }
         }
+
+
+        return [reportGroup: reportGroup, reports: reports, filteredLeaderList: filteredLeaderList, allFilters:allFilters]
+    }
+
+    def getFilters = {
+
         render rtn as JSON
     }
 

@@ -45,6 +45,8 @@ function commonDecorate() {
                     return false;
                 });
             }).removeClass("dialog-form");
+
+    configureUnitAutocomplete();
 }
 
 function configureUnitAutocomplete() {

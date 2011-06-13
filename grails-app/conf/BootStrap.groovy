@@ -222,6 +222,10 @@ class BootStrap {
     }
 
     void registerStringMetaclass() {
+        String.metaClass.trimTo = {int i->
+            String val = delegate.toString()
+            return val.substring(0, Math.min(i, val.length()))
+        }
         String.metaClass.humanize = {
             String word = delegate.toString()
             Pattern pattern = Pattern.compile("([A-Z]|[a-z])[a-z]*");

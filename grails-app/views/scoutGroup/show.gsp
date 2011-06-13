@@ -23,7 +23,12 @@
             </s:sectionHeader>
             <s:propertyList class="vertical-form">
                 <s:property class="alternate-color" code="${message(code:'scoutGroup.parent.label')}">
-                    <g:link controller="scoutGroup" action="show" id="${scoutGroupInstance?.parent?.id}">${scoutGroupInstance?.parent}</g:link>
+                    <g:if test="${scoutGroupInstance?.parent}">
+                        <g:link controller="scoutGroup" action="show" id="${scoutGroupInstance?.parent?.id}">${scoutGroupInstance?.parent}</g:link>
+                    </g:if>
+                    <g:else>
+                        <g:message code="None" />
+                    </g:else>
                 </s:property>
 
                 <s:property code="scoutGroup.groupType.label"><g:message code="${scoutGroupInstance?.groupType}.label"/></s:property>

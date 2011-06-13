@@ -72,8 +72,6 @@ class ScoutGroupService {
         return rtn
     }
 
-
-
     def getFilters() {
         def rtn = [:]
         rtn.unitType = [:]

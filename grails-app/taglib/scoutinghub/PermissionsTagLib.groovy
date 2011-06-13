@@ -10,7 +10,8 @@ class PermissionsTagLib {
 
     def canAdministerGroup = {attrs, body ->
         ScoutGroup scoutGroup = attrs.scoutGroup
-        if (scoutGroup.canBeAdministeredBy(springSecurityService.currentUser)) {
+        Leader leader = attrs.leader ?: springSecurityService.currentUser
+        if (scoutGroup.canBeAdministeredBy(leader)) {
             out << body()
         }
     }
@@ -18,6 +19,7 @@ class PermissionsTagLib {
     def allGroupPermissions = {attrs ->
         Leader leader = attrs.leader
         def units = new LinkedHashMap()
+
         leader.groups.each {LeaderGroup it ->
             def currGrp = it.scoutGroup
             while (currGrp) {
@@ -26,7 +28,6 @@ class PermissionsTagLib {
                 }
                 currGrp = currGrp.parent
             }
-
         }
         units.values().each {ScoutGroup group ->
             out << singleGroupPermissions(group: group, leader: leader)
@@ -47,14 +48,15 @@ class PermissionsTagLib {
         def label = attrs.label
         def id = attrs.id
         def checked = attrs.checked
-        out << "<li class='permission ${attrs.class ?: ''}'>"
-        out << "<div class='permission-label'>"
-        out << label
-        out << "</div>"
-        out << "<div class='permission-checkbox'>"
-        out << checkBox(name: "grp" + id, checked: checked, value: true)
-        out << "</div>"
-        out << "</li>"
+        out << s.checkbox(name: "grp" + id, checked: checked, value: true, code:label)
+//        out << "<li class='permission ${attrs.class ?: ''}'>"
+//        out << "<div class='permission-label'>"
+//        out << label
+//        out << "</div>"
+//        out << "<div class='permission-checkbox'>"
+//        out << checkBox()
+//        out << "</div>"
+//        out << "</li>"
     }
 }
 

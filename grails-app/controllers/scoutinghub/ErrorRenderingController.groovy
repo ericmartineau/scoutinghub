@@ -26,7 +26,7 @@ class ErrorRenderingController {
 
             }
         } catch (Exception e) {
-            log.error("Error logging error!!", e)
+            log.error("Error logging error: ${e}")
         }
 
         [exception:request.exception]

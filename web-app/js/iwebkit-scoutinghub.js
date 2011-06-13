@@ -1,4 +1,4 @@
-jQuery(document).bind("ajaxComplete", commonDecorate).ready(commonDecorate);
+jQuery(document).ready(commonDecorate).bind("ajaxComplete", commonDecorate);
 
 function closeDialog() {
     jQuery("#body").show();

@@ -13,7 +13,7 @@
                 </ul>
             </s:text>
 
-            <s:textField code="leaderCertification.dateEarned.label" placeholder="${message(code:'leaderCertification.dateEarned.label')} (MM-dd-yyyy)" name="dateEarned" size="10" class="ui-corner-all datePicker"/>
+            <s:textField type="text" code="leaderCertification.dateEarned.label" placeholder="MM-dd-yyyy" name="dateEarned" size="10" class="ui-corner-all datePicker"/>
 
             <s:div class="buttons">
                 <s:submit name="save" value="Save"/>

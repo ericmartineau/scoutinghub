@@ -1,11 +1,9 @@
 package scoutinghub
 
-import webkit.IphoneTagLib
-import scoutinghub.menu.MenuItem
 import scoutinghub.menu.MainMenuItem
 import scoutinghub.menu.SubMenuItem
 import grails.plugins.springsecurity.SpringSecurityService
-import org.springframework.security.core.GrantedAuthority
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 /**
@@ -14,7 +12,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class SwitchingTagLib {
     MenuService menuService
 
-    SpringSecurityService securityService
+    SpringSecurityService springSecurityService
 
     static namespace = "s"
 
@@ -39,11 +37,18 @@ class SwitchingTagLib {
         }
     }
 
-    def mobile = {attrs, body->
-        if(session.isMobile) {
+    def mobile = {attrs, body ->
+        if (session.isMobile) {
             out << body()
         }
     }
+
+    def browser = {attrs, body ->
+        if (!session.isMobile) {
+            out << body()
+        }
+    }
+
     def mapLink = {attrs, body ->
         if (session.isMobile) {
             //todo: Implement this!
@@ -57,7 +62,15 @@ class SwitchingTagLib {
     def leaderUnit = {attrs, body ->
         LeaderGroup leaderGroup = attrs.leaderGroup;
         if (session.isMobile) {
-            out << property(attrs, body)
+            if (leaderGroup) {
+                final Leader currentUser = springSecurityService?.currentUser
+                if (leaderGroup.scoutGroup?.canBeAdministeredBy(currentUser)) {
+                    out << linker(controller: "scoutGroup", action: "show", id: leaderGroup.scoutGroup.id, body)
+                } else {
+                    out << property(attrs, body)
+                }
+
+            }
         } else {
             out << "<li class='leader-unit ${attrs.class ?: ''}'>"
             out << "<div class='leader-unit-position'>${message(code: attrs.code)} "
@@ -150,7 +163,9 @@ class SwitchingTagLib {
     def sectionHeader = {attrs, body ->
         def icon = attrs.icon
         if (session.isMobile) {
-            g.set(var: "sectionHeader", value: message(code: attrs.code), scope: "request");
+            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code), scope: "request");
+            //evaluate the body, but don't render it
+            out << body()
         } else {
             out << g.header(attrs, body)
         }
@@ -173,6 +188,48 @@ class SwitchingTagLib {
         }
     }
 
+    def trainingRollup = {attrs ->
+        String msg = attrs.message
+        int pct = attrs.pct
+        String controller = attrs.controller
+        String action = attrs.action
+        String typeCode = attrs.typeCode
+        def id = attrs.id
+
+        if (session.isMobile) {
+            out << linker(controller: controller, action: action, id: id, code: 'training.completion',
+                    args: [pct]) {
+                out << "${msg?.trimTo(24)}"
+            }
+        } else {
+
+            out << "<div class='training-report-item'>"
+            out << "<div class=\"training-report-name\">"
+            out << link(controller: controller, action: action, id: id) {
+                out << "${msg}"
+            }
+            out << "</div>"
+            out << "<div class='training-report-data'>"
+            out << message(code: typeCode)
+            out << "</div>"
+            out << "<div class='training-report-data'><div class=\"progress\" value=\"${pct}\"></div></div>"
+            out << "</div>"
+        }
+    }
+    def leaderTrainingRollup = {attrs ->
+        LeaderGroup leaderGroup = attrs.leaderGroup
+        if (session.isMobile) {
+            out << linker(controller: "leader", action: "view", id: leaderGroup?.leader?.id, code: 'training.completion',
+                    args: [(int) leaderGroup?.pctTrained]) {
+                out << "${leaderGroup.leader.toString()?.trimTo(24)}"
+            }
+        } else {
+            def message = "${leaderGroup.leader} (${message(code: "${leaderGroup.leaderPosition}.label")})"
+            out << trainingRollup(message: message, pct: (int) leaderGroup?.pctTrained, controller: "leader",
+                    action: "view", id: leaderGroup.leader.id, typeCode: "${leaderGroup.leaderPosition}.label")
+        }
+    }
+
     def submit = {attrs, body ->
         def name = attrs.name
         def value = attrs.value
@@ -191,17 +248,17 @@ class SwitchingTagLib {
         if (session.isMobile) {
 
             out << """<li class='checkbox ${attrs.class ?: ''}'>
-                    <span class='name'>${message(code: attrs.code)}</span>
-                    <input type='checkbox' name='${attrs.name}' value='yes' />
-                    </li>"""
+                    <span class='name'>${message(code: attrs.code)}</span>"""
+            out << checkBox(attrs)
+            out << "</li>"
 
         } else {
-            out << "<div class='${attrs.class}'>"
+            out << "<div class='${attrs?.class}'>"
             out << "<span class='chk-input'>"
-            out << checkBox(attrs)
+            out << g.checkBox(attrs)
             out << "</span>"
             out << "<span class='chk-label'>"
-            out << message(code: attrs.code)
+            out << message(code: attrs?.code)
             out << "</span>"
             out << "</div>"
         }
@@ -282,6 +339,8 @@ class SwitchingTagLib {
                 out << "<span class='name'>${body()}</span>"
                 if (attrs.comment) {
                     out << "<span class='comment'>${attrs.comment}</span>"
+                } else if (attrs.code) {
+                    out << "<span class='comment'>${message(code: attrs.code, args: attrs.args)}</span>"
                 }
                 out << "<span class='arrow'></span>"
             }
@@ -339,9 +398,15 @@ class SwitchingTagLib {
 
     def textField = {attrs, body ->
         if (session.isMobile) {
-            out << pageItem(type: 'text', name: attrs.code) {
-                f.txtField(attrs, body)
-            }
+            out << """<li class="smallfield">
+    <span class="narrow">
+        <span class="name"><label for="${attrs.name ?: ''}">${message(code: attrs.code)}</label></span>
+"""
+            out << f.txtField(attrs)
+            out << """</span>
+</li>
+"""
+
         } else {
             out << property(attrs) {
                 out << f.txtField(attrs)
@@ -388,16 +453,26 @@ class SwitchingTagLib {
         }
     }
 
-    def selecter = {attrs ->
+    def selecter = {attrs, body ->
+        attrs.class = "selecter ${attrs.class ?: ''}"
         if (session.isMobile) {
             out << "<li class='select'>"
-            out << select(attrs)
+            if (attrs.from) {
+               out << select(attrs)
+            } else {
+                out << selectWithBody(attrs, body)
+            }
+
             out << "<span class='arrow'></span>"
             out << "</li>"
         } else {
-            attrs.class = "selecter ${attrs.class ?: ''}"
+
             out << property(attrs) {
-                out << select(attrs)
+                if(attrs.from) {
+                    out << select(attrs)
+                } else {
+                    out << selectWithBody(attrs, body)
+                }
             }
         }
     }
@@ -418,7 +493,7 @@ class SwitchingTagLib {
             def header
 
             if (attrs.code) {
-                header = message(code: attrs.code)
+                header = message(code: attrs.code, 'default': attrs.code)
             } else if (request.sectionHeader) {
                 header = request.sectionHeader
             }
@@ -434,7 +509,7 @@ class SwitchingTagLib {
                     out << smallHeader { out << message(code: attrs.code) }
                 } else {
                     out << header {
-                        out << message(code: attrs.code)
+                        out << message(code: attrs.code, 'default': attrs.code)
                     }
                 }
 
@@ -449,10 +524,14 @@ class SwitchingTagLib {
 
     def ctxmenu = {attrs, body ->
         if (session.isMobile) {
-
+            out << body()
         } else {
             out << g.ctxmenu(attrs, body)
         }
+    }
+
+    def ctxmenuItem = {attrs, body ->
+        out << g.ctxmenuItem(attrs, body)
     }
 
 

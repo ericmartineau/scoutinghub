@@ -115,10 +115,10 @@ H1 {
     display: none;
 }
 
-#dialog .prop  {
+#dialog .prop {
     float: none;
     vertical-align: middle;
-    line-height:20px;
+    line-height: 20px;
     margin-left: 10px;
 }
 
@@ -127,12 +127,12 @@ H1 {
 }
 
 .prop div {
-    float:none !important;
+    float: none !important;
     line-height: 20px;
 }
 
 .buttons {
-    margin-top:10px;
+    margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid #CCC;
 }
@@ -140,7 +140,6 @@ H1 {
 .admin-permission {
     font-weight: bold;
 }
-
 
 .nav {
     margin-bottom: 10px;
@@ -1349,8 +1348,6 @@ input {
     BORDER-RIGHT: #ccc 1px solid
 }
 
-
-
 .biglabel {
     font-size: 14px;
 }
@@ -1417,6 +1414,7 @@ input {
 .padded {
     padding: 10px;
 }
+
 .info, .success, .warning, .error, .star, .validation {
     border: 1px solid;
     margin: 10px 0px;
@@ -1500,6 +1498,42 @@ input {
 
 }
 
+.training-filter {
+    width:100%;
+}
+.training-header {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.training-report-item {
+    display: table-row;
+}
+
+.training-result-table {
+    display: table;
+    width: 100%;
+}
+
+.training-report-name {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 3px;
+    width:250px;
+    white-space: nowrap;
+}
+
+.training-report-data {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+.trainingReportUnit {
+
+}
+
 .training-incomplete {
     background-image: url('/scoutinghub/images/training-incomplete.png');
     background-repeat: no-repeat;
@@ -1514,6 +1548,10 @@ input {
     float: left;
 }
 
+.tr {
+    display:table-row;
+}
+
 .td {
     display: table-cell;
     vertical-align: middle;
@@ -1521,13 +1559,6 @@ input {
 
 table tr td {
     padding: 3px;
-}
-
-.trainingReportUnit {
-    font-size: 14px;
-    text-align: right;
-    margin-right: 5px;
-    white-space: nowrap;
 }
 
 .trainingReportBar {
@@ -1538,9 +1569,9 @@ table tr td {
 }
 
 /*div.currentTraining {*/
-    /*padding-left: 10px;*/
+/*padding-left: 10px;*/
 /**/
-    /*height: 100%;*/
+/*height: 100%;*/
 /*}*/
 
 .learn-more-button {
@@ -1558,9 +1589,10 @@ table tr td {
 }
 
 div.link {
-    padding-left:10px;
+    padding-left: 10px;
     padding-top: 10px;
 }
+
 a.buttonLink {
 
     margin-left: 25px;
@@ -1568,12 +1600,12 @@ a.buttonLink {
 
 .leader-unit {
     font-size: 15px;
-    height:45px;
+    height: 45px;
 }
 
 .remove-button {
-    font-size:12px;
-    padding-left:16px;
+    font-size: 12px;
+    padding-left: 16px;
     margin: 0px;
     text-decoration: none;
     /*background-image: url('../images/knobs/PNG/Knob Remove Red.png')*/
@@ -1596,11 +1628,9 @@ ul.property-list {
 }
 
 .leaderResult .prop, .unitResult .prop {
-    display:block !important;
+    display: block !important;
     padding: 5px !important;
 }
-
-
 
 a.manage-this-unit {
     font-size: 13px;
@@ -1616,7 +1646,7 @@ a.manage-this-unit {
 
 .leader-unit-position {
     margin-bottom: 4px;
-    line-height:16px;
+    line-height: 16px;
 }
 
 .leader-unit-position, .propLabel, .training-title {
@@ -1626,7 +1656,7 @@ a.manage-this-unit {
 .prop {
     list-style: none;
     list-style-type: none;
-    font-size:15px;
+    font-size: 15px;
     display: table-row;
     /*margin-left: 10px;*/
     /*margin-right: 10px;*/
@@ -1724,19 +1754,17 @@ a.register-for-training {
 }
 
 ul.vertical-form {
-    display:table;
-    width:100%;
+    display: table;
+    width: 100%;
 }
 
 ul.vertical-form li.prop {
     display: table-row !important;
 }
 
-ul.vertical-form li.prop div{
+ul.vertical-form li.prop div {
     padding: 5px;
 }
-
-
 
 .register-header {
     /*padding-left: 18px;*/
@@ -2037,7 +2065,6 @@ span.header-icon {
 #dialog .section {
     margin-bottom: 10px;
 }
-
 
 #dialog .prop div {
     padding: 5px;

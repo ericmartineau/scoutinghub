@@ -4,11 +4,12 @@
     <meta name="layout" content="${layoutName}"/>
     <script>
         jQuery(document).ready(function() {
-            jQuery.getJSON("/scoutinghub/training/getFilters", {}, function(json) {
-                jQuery("#filterName").selectBox();
-                jQuery("#filterName").selectBox("options", json);
-                jQuery("#filterName").selectBox("value", "${session.filterName}");
-            });
+//            jQuery("#filterName").selectBox();
+
+//            jQuery.getJSON("/scoutinghub/training/getFilters", {}, function(json) {
+//                jQuery("#filterName").selectBox("options", json);
+            %{--jQuery("#filterName").selectBox("value", "${session.filterName}");--}%
+//            });
 
         });
     </script>
@@ -16,91 +17,85 @@
 
 <body>
 <s:content>
-    <s:section>
-        <s:msg class="smaller-header" type="info">
-            <g:form action="trainingReport" name="filterForm">
-                <div class="msg1"><g:message code="training.report.selectFilter"/></div>
-                <g:select from="[]" id="filterName" name="filterName" onChange="document.filterForm.submit()"
-                          value="${session.filterName}"/>
-                <g:hiddenField name="id" value="${reportGroup?.id}"/>
-            </g:form>
-        </s:msg>
 
-    </s:section>
-    <table width="500" id="trainingTable">
+    <g:form action="trainingReport" name="filterForm">
+        <s:section>
+            <s:sectionHeader code="training.report.title" icon="training-icon"/>
+            <s:propertyList class="training-filter alternate-color">
+                <s:selecter code="training.report.selectFilter" id="filterName" name="filterName" onChange="document.filterForm.submit()"
+                            value="${session.filterName}">
+                    <g:each in="${allFilters}" var="categoryEntry">
+                        <optgroup label="${message(code: categoryEntry.key + ".label")}">
+                            <g:each in="${categoryEntry.value}" var="optionEntry">
+                                <g:selectOption value="${optionEntry.key}"><g:message code="${optionEntry.key}.label"/></g:selectOption>
+                            </g:each>
+                        </optgroup>
+                    </g:each>
+                </s:selecter>
+            </s:propertyList>
+        </s:section>
+        <g:hiddenField name="id" value="${reportGroup?.id}"/>
+    </g:form>
+
+
+    <s:section class="training-filters">
         <g:if test="${reportGroup}">
-            <tr>
-                <td colspan="2">
+            <g:set var="headerCode" value="${reportGroup?.toString()}" />
+        </g:if>
+        <g:else>
+            <g:set var="headerCode" value="trainingReport.defaultHeader" />
+        </g:else>
+        <s:sectionHeader code="${headerCode}" icon="units-icon">
+            <g:if test="${reportGroup?.parent}">
+                <p:canAdministerGroup scoutGroup="${reportGroup.parent}">
+                    <s:ctxmenu>
+                        <s:ctxmenuItem code="${reportGroup?.parent?.toString()}" controller="training" action="trainingReport"
+                                       id="${reportGroup.parent?.id}"/>
+                    </s:ctxmenu>
 
-                    <div style="overflow:hidden;">
-                        <h1 style="margin-top:8px; margin-bottom:8px; vertical-align:middle;float:left">${reportGroup}</h1>
+                </p:canAdministerGroup>
+            </g:if>
+        </s:sectionHeader>
 
-                        <div style="float:right; margin-top:8px; margin-bottom:8px;">
-                            <g:if test="${reportGroup.parent}">
-                                <p:canAdministerGroup scoutGroup="${reportGroup.parent}">
-                                    <g:link class="ui-button" action="trainingReport"
-                                            id="${reportGroup.parent?.id}">Go Back</g:link>
-                                </p:canAdministerGroup>
-                            </g:if>
-                        </div>
-                    </div>
+        <s:div class="training-result-table">
+            <s:browser>
 
-                </td>
-            </tr>
-            <tr>
-                <th style="text-align:center" align="center" class='ui-state-active trainingHeader'>Leader/Group</th>
-                <th style="text-align:center" align="center" class='ui-state-active trainingHeader'>Percent Trained</th>
-            </tr>
+                <s:div class="tr">
+                    <div class='td ui-state-active training-header'>Leader/Group</div>
+
+                    <div class='td ui-state-active training-header'>Type</div>
+
+                    <div class='td ui-state-active training-header'>Percent Trained</div>
+                </s:div>
+
+            </s:browser>
+
 
             <g:if test="${filteredLeaderList?.size() > 0}">
                 <g:each in="${filteredLeaderList}" var="leaderGroup">
-                    <tr>
-                        <td class="trainingReportUnit"><g:link controller="leader" action="view"
-                                                               id="${leaderGroup.leader.id}">${leaderGroup.leader} (<g:message code="${leaderGroup.leaderPosition}.label" />)</g:link></td>
-                        <td><div class="progress" value="${(int) leaderGroup.pctTrained}"></div></td>
-
-                    </tr>
+                    <s:leaderTrainingRollup leaderGroup="${leaderGroup}"/>
                 </g:each>
-                <g:if test="${reports.size() > 0}">
-                    <tr>
-                        <td colspan="2">
-                            <hr/>
-                        </td>
-                    </tr>
+            %{--<g:if test="${reports.size() > 0}">--}%
+            %{--<tr>--}%
+            %{--<td colspan="2">--}%
+            %{--<hr/>--}%
+            %{--</td>--}%
+            %{--</tr>--}%
+            %{--</g:if>--}%
+            </g:if>
+
+            <g:each in="${reports}" var="certificationReport">
+                <g:if test="${certificationReport.count > 0}">
+                    <s:trainingRollup controller="training" action="trainingReport" id="${certificationReport.scoutGroup.id}"
+                                      message="${certificationReport.scoutGroup}" pct="${certificationReport.pctTrained}"
+                                      typeCode="${certificationReport.scoutGroup.unitType ?: certificationReport.scoutGroup.groupType}.label"/>
                 </g:if>
-            </g:if>
 
-        </g:if>
+            </g:each>
+        </s:div>
 
+    </s:section>
 
-
-        <g:each in="${reports}" var="certificationReport">
-            <g:if test="${certificationReport.count > 0}">
-                <tr>
-                    <td class="trainingReportUnit">
-                        <div class="msg1">
-                            <g:link action="trainingReport" id="${certificationReport.scoutGroup.id}">
-                                ${certificationReport.scoutGroup}
-                            </g:link>
-                        </div>
-                        %{--<div style="font-size:small">--}%
-                        %{--<g:if test="${certificationReport.count > 1}">--}%
-                        %{--${certificationReport.count} leaders--}%
-                        %{--</g:if>--}%
-                        %{--<g:else>--}%
-                        %{--${certificationReport.count} leader--}%
-                        %{--</g:else>--}%
-                        %{--</div>--}%
-
-                    </td>
-                    %{--<td>${(int)certificationReport.pctTrained}%</td>--}%
-                    <td><div class="progress trainingReportBar" value="${certificationReport.pctTrained}"></div></td>
-
-                </tr>
-            </g:if>
-
-        </g:each>
-    </table>
 </s:content>
 </body>
 </html>
