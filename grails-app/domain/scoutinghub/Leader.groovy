@@ -100,6 +100,8 @@ class Leader implements Serializable {
         boolean hasPermission = false
         if (leader.hasRole("ROLE_ADMIN")) {
             hasPermission = true
+        } else if(this.id == leader?.id) {
+            hasPermission = true
         } else {
             this.groups?.collect {LeaderGroup leaderGroup -> leaderGroup.scoutGroup}?.each {ScoutGroup scoutGroup ->
                 if (scoutGroup.canBeAdministeredBy(leader)) {

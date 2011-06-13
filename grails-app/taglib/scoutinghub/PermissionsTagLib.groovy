@@ -40,7 +40,7 @@ class PermissionsTagLib {
             request.hadPermissions = true
             Leader leader = attrs.leader
             boolean checked = leader.groups?.find {it.scoutGroup?.id == group?.id}?.admin
-            out << singlePermission(checked: checked, label: group?.toString(), id: group?.id)
+            out << singlePermission(checked: checked, label: group?.toString()?.trimTo(24), id: group?.id)
         }
     }
 

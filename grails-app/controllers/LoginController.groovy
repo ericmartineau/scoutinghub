@@ -453,6 +453,7 @@ class LoginController {
                 } else {
                     try {
                         String subject = message(code: "verifyEmail.message.subject")
+
                         emailVerifyService.generateTokenForEmailValidation(flow.leader, subject)
                         return success()
                     } catch (Exception e) {

@@ -131,10 +131,11 @@ class ScoutGroup implements Serializable {
 
     @Override
     String toString() {
-        String rootName = groupLabel ?: groupIdentifier
+        String rootName = ""
         if (unitType) {
-            rootName += " (${unitType})"
+            rootName += "${unitType} - "
         }
+        rootName += groupLabel ?: groupIdentifier
         return rootName
     }
 
