@@ -50,24 +50,23 @@ class TrainingService {
         def c = ProgramCertification.createCriteria()
         Date now = new Date()
 
-        if (leaderGroup.scoutGroup.unitType) {
+        requiredCertifications = c.list {
+            and {
+                or {
 
-
-            requiredCertifications = c.list {
-                and {
-                    or {
+                    if (leaderGroup.scoutGroup.unitType) {
                         inList('unitType', leaderGroup.scoutGroup.unitType)
-                        inList('positionType', leaderGroup.leaderPosition)
                     }
-                    eq('required', true)
+                    inList('positionType', leaderGroup.leaderPosition)
                 }
                 eq('required', true)
-                lt('startDate', now)
-                gt('endDate', now)
+            }
+            eq('required', true)
+            lt('startDate', now)
+            gt('endDate', now)
 
-                certification {
-                    sort: 'name'
-                }
+            certification {
+                sort: 'name'
             }
         }
 

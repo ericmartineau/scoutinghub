@@ -2,6 +2,8 @@ package scoutinghub
 
 import grails.plugins.springsecurity.Secured
 import org.compass.core.engine.SearchEngineQueryParseException
+import grails.plugins.springsecurity.SpringSecurityService
+import org.springframework.security.access.AccessDeniedException
 
 @Secured(["ROLE_ADMIN"])
 class ScoutGroupController {
@@ -9,6 +11,7 @@ class ScoutGroupController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     ScoutGroupService scoutGroupService
+    SpringSecurityService springSecurityService
 
     @Secured(["ROLE_LEADER"])
     def report = {
@@ -35,15 +38,15 @@ class ScoutGroupController {
 
 //            def results = ScoutGroup.search(searchQuery, params)
             def results = ScoutGroup.search {
-                if(orgTypeParam) {
+                if (orgTypeParam) {
                     must(term('groupType', orgTypeParam?.toLowerCase()))
                 }
-                if(searchParam) {
+                if (searchParam) {
                     queryString("${searchParam}*")
                 }
             }
 
-            results.results?.each{it.refresh()}
+            results.results?.each {it.refresh()}
 
             return [results: results.results]
         } catch (Exception ex) {
@@ -86,17 +89,25 @@ class ScoutGroupController {
         }
     }
 
+    @Secured(["ROLE_LEADER"])
     def show = {
         def scoutGroupInstance = ScoutGroup.get(params.id)
+
         if (!scoutGroupInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'scoutGroup.label', default: 'ScoutGroup'), params.id])}"
             redirect(action: "list")
         }
         else {
+            Leader leader = springSecurityService.currentUser
+            if (!scoutGroupInstance.canBeAdministeredBy(leader)) {
+                throw new AccessDeniedException("Unable to see this unit")
+            }
+
             [scoutGroupInstance: scoutGroupInstance]
         }
     }
 
+    @Secured(["ROLE_LEADER"])
     def edit = {
         def scoutGroupInstance = ScoutGroup.get(params.id)
         if (!scoutGroupInstance) {
@@ -104,13 +115,23 @@ class ScoutGroupController {
             redirect(action: "list")
         }
         else {
+            Leader leader = springSecurityService.currentUser
+            if (!scoutGroupInstance.canBeAdministeredBy(leader)) {
+                throw new AccessDeniedException("Unable to see this unit")
+            }
             return [scoutGroupInstance: scoutGroupInstance]
         }
     }
 
 
+    @Secured(["ROLE_LEADER"])
     def update = {
         def scoutGroupInstance = ScoutGroup.get(params.id)
+
+        Leader leader = springSecurityService.currentUser
+        if (!scoutGroupInstance.canBeAdministeredBy(leader)) {
+            throw new AccessDeniedException("Unable to see this unit")
+        }
         if (scoutGroupInstance) {
             if (params.version) {
                 def version = params.version.toLong()

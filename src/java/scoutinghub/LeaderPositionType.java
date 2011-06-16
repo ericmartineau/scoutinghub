@@ -1,5 +1,7 @@
 package scoutinghub;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
+
 import static scoutinghub.ScoutGroupType.*;
 import static scoutinghub.ScoutUnitType.*;
 
@@ -28,12 +30,31 @@ public enum LeaderPositionType {
     CommitteeMember("MC", false, false, Troop, Pack, Crew, Team),
     ScoutParentsUnitCoordinator("PC", false, false, Troop, Pack, Crew, Team),
     Executive("EX", false, Council),
+    Professional("PF", false, Council),
+    Chairman("DistrictChairman", false, District),
+    Commissioner("DistrictCommissioner", false, District),
+    DistrictExecutive("DistrictExecutive", false, District),
+    DistrictRelations("DistrictRelations", false, District),
+    DistrictCubScoutProgram("DistrictCubScoutProgram", false, District),
+    District11YrOldScoutProgram("District11YrOldScoutProgram", false, District),
+    DistrictBoyScoutProgram("DistrictBoyScoutProgram", false, District),
+    DistrictVarsityScoutProgram("DistrictVarsityScoutProgram", false, District),
+    DistrictVenturingProgram("DistrictVenturingProgram", false, District),
+    DistrictFinanceCommittee("DistrictFinanceCommittee", false, District),
+    DistrictRoundtableCommittee("DistrictRoundtableCommittee", false, District),
+    DistrictMembershipCommittee("DistrictMembershipCommittee", false, District),
+    DistrictNominationCommittee("DistrictNominationCommittee", false, District),
+    DistrictCommunicationsCommittee("DistrictCommunicationsCommittee", false, District),
+    DistrictAdvancementCommittee("DistrictAdvancementCommittee", false, District),
+    DistrictActivitiesCivicServiceCommittee("DistrictActivitiesCivicServiceCommittee", false, District),
+    DistrictCampingOutdoorCommittee("CampingOutdoorCommittee", false, District),
+    DistrictTrainingCommittee("DistrictTrainingCommittee", false, District),
+    AssistantDistrictCommissioner("ADC", false, Stake),
+    UnitCommissioner("UC", false, Stake),
+    RelationsCommittee("RC", false, Stake),
+
     Volunteer("VO", false, Council, District, CharteringOrg, Stake, Group),
-    Administrator("AD", false, Council, District, CharteringOrg, Stake, Group),
-    Commissioner("DC", false, District),
-    MeritBadgeCounselor("MB", true, District),
-    Chairman("DM", false, District),
-    Professional("PF", false, Council);
+    Administrator("AD", false, Council, District, CharteringOrg, Stake, Group);
 
 
     LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutUnitType... scoutUnitTypes) {

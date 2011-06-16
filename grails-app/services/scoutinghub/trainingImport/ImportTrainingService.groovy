@@ -102,7 +102,7 @@ class ImportTrainingService {
     /**
      * @todo: eric: I think the Y02CrewsOnly has a different name in other spreadsheets, more research is necessary
      */
-    def optionalFields = ["Email", "Y02CrewsOnly", "EffectiveDate"]
+    def optionalFields = ["Email", "Y02CrewsOnly", "EffectiveDate", "PID#"]
 
     /**
      * The POI libraries don't provide an easy way to retrieve the value of a cell as the underlying object it represents (like
@@ -195,7 +195,7 @@ class ImportTrainingService {
             }
 
             //Figure out how many importable rows there are
-            int scoutingIdIndex = headerIndex["PID#"]
+            int scoutingIdIndex = headerIndex["FirstName"]
             int rowCount = 0;
             for (Row row: currentSheet) {
                 if (containsDataToImport(row, scoutingIdIndex)) {
@@ -290,10 +290,16 @@ class ImportTrainingService {
      */
     void processImportJob(ImportJob importJob) {
 
+        def positionCodeMap = [:]
+        leaderPositionTypeMap.each {positionCodeMap[it.key] = it.value}
+        LeaderPositionType.values().each {
+            positionCodeMap[it.name()] = it
+        }
 
         searchableService.stopMirroring()
         //This happens in a thread, so manual transaction and session boundaries are required
         Leader.withTransaction {
+
             try {
                 Leader.withSession {Session session ->
                     def certificationMap = [:]
@@ -351,17 +357,23 @@ class ImportTrainingService {
 
                                     //@todo Very expensive stuff - make it work, then optimize
 
-                                    ScoutUnitType unitType = ScoutUnitType.valueOf(record.unitType)
+                                    ScoutGroup existingUnit
+                                    if (record.unitType) {
+                                        ScoutUnitType unitType = ScoutUnitType.valueOf(record.unitType)
+                                        //Make sure unit exists
+                                        existingUnit = ScoutGroup.findByGroupIdentifierAndUnitType(record.unitNumber, unitType)
+                                    } else {
+                                        existingUnit = ScoutGroup.findByGroupIdentifierAndUnitTypeIsNull(record.unitNumber)
+                                    }
 
-                                    //Make sure unit exists
-                                    ScoutGroup existingUnit = ScoutGroup.findByGroupIdentifierAndUnitType(record.unitNumber, unitType)
                                     if (!existingUnit) {
                                         throw new Exception("Unknown unit")
                                     }
 
-                                    LeaderPositionType position = leaderPositionTypeMap[record.leaderPosition?.replaceAll("\\s", "")]
+                                    final String positionCode = record.leaderPosition?.replaceAll("\\s", "")
+                                    LeaderPositionType position = positionCodeMap[positionCode]
                                     if (position == null) {
-                                        throw new Exception("No leaderPosition code")
+                                        throw new Exception("No leaderPosition code for ${record.leaderPosition}")
                                     }
 
                                     Leader leader = leaderService.findExactLeaderMatch(record.scoutingId, record.email, record.firstName,
@@ -372,7 +384,9 @@ class ImportTrainingService {
                                         leader.lastName = record.lastName
                                         leader.email = record.email
 
-                                        leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
+                                        if (record.scoutingId) {
+                                            leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
+                                        }
                                         leader.save(flush: true, failOnError: true)
 
                                         existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position])
@@ -383,7 +397,7 @@ class ImportTrainingService {
                                         leader.firstName = record.firstName ?: leader.firstName
                                         leader.lastName = record.lastName ?: leader.lastName
                                         leader.email = record.email ?: leader.email
-                                        if (!leader.hasScoutingId(record.scoutingId)) {
+                                        if (record.scoutingId && !leader.hasScoutingId(record.scoutingId)) {
                                             leader.addToMyScoutingIds(myScoutingIdentifier: record.scoutingId)
                                         }
                                         leader.save(flush: true, failOnError: true)
@@ -431,16 +445,16 @@ class ImportTrainingService {
                         }
                         currentSheet.totalComplete = currentSheet.totalToImport
                         currentSheet.importStatus = ImportStatus.Complete
-
-
                     }
+
+
                 }
             } catch (Exception e) {
                 e.printStackTrace()
             } finally {
-                scoutGroupService.reindex();
                 searchableService.startMirroring()
-                searchableService.reindexAll()
+                scoutGroupService.reindex();
+                searchableService.reindex()
 
             }
         }

@@ -37,7 +37,7 @@ class SeedService {
         addCertification("Tiger Cub Leader Fast Start", ["C73", "CF6"], CertificationType.FastStart, [LeaderPositionType.TigerLeader], 1780)
         addCertification("Webelos Den Leader Fast Start", ["C71", "CF2"], CertificationType.FastStart, [LeaderPositionType.WebelosLeader, LeaderPositionType.AssistantWebelosLeader], 1780)
         addCertification("Den Leader Fast Start", ["C70", "CF1"], CertificationType.FastStart, [LeaderPositionType.DenLeader, LeaderPositionType.AssistantDenLeader], 1780)
-        addCertification("Pack Committee Fast Start", ["WCF4", "CF4"], CertificationType.FastStart, [LeaderPositionType.CommitteeMember], 1780)
+        addCertification("Pack Committee Fast Start", ["WCF4", "CF4"], CertificationType.FastStart, [LeaderPositionType.CommitteeMember, LeaderPositionType.CommitteeChair], 1780)
         addCertification("Boy Scouting or Varsity Scout Leader Fast Start", ["SFS", "WSFS"], CertificationType.FastStart,
                 [LeaderPositionType.Scoutmaster, LeaderPositionType.AssistantScoutMaster, LeaderPositionType.VarsityCoach, LeaderPositionType.AssistantVarsityCoach], 1780)
         addCertification("Venturing Crew Leader Fast Start", ["PFS", "WPFS"], CertificationType.FastStart, [LeaderPositionType.CrewAdvisor, LeaderPositionType.AssistantCrewAdvisor], 1780)

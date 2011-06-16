@@ -1,5 +1,7 @@
 package scoutinghub.menu;
 
+import groovy.lang.Closure;
+
 import java.util.ArrayList;
 
 /**
@@ -11,6 +13,10 @@ public class MainMenuItem extends MenuItem {
 
     public MainMenuItem(String controller, String labelCode, String... requiredRoles) {
         super(controller, labelCode, requiredRoles);
+    }
+
+    public MainMenuItem(String controller, String labelCode, Closure permissionClosure) {
+        super(controller, labelCode, permissionClosure);
     }
 
     ArrayList<SubMenuItem> subItems = new ArrayList<SubMenuItem>();

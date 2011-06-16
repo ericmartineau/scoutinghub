@@ -16,6 +16,17 @@ class MenuTagLib {
         out << render(template: "/layouts/menu", model: [menuItems: menuService.menu])
     }
 
+    def mainMenuItem = {attrs, body ->
+        MenuItem menuItem = attrs.menuItem
+        boolean permissionCheckClosureResult = true;
+        if (menuItem.permissionCheckClosure) {
+            permissionCheckClosureResult = menuItem?.permissionCheckClosure(springSecurityService.currentUser)
+        }
+        if (permissionCheckClosureResult && SpringSecurityUtils.ifAllGranted(menuItem?.requiredRoles?.join())) {
+            out << body();
+        }
+    }
+
     def menuItem = {attrs ->
 
         String currController = attrs.controller;
@@ -35,7 +46,11 @@ class MenuTagLib {
                 out << '<div id="top-nav"><ul>'
                 mainMenuItem.subItems?.each {
                     SubMenuItem subItem ->
-                    if(SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
+                    boolean permissionCheckClosureResult = true;
+                    if (subItem.permissionCheckClosure && springSecurityService.currentUser) {
+                        permissionCheckClosureResult = subItem.permissionCheckClosure(springSecurityService.currentUser)
+                    }
+                    if (permissionCheckClosureResult && SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
                         out << menuItem(controller: attrs.controller, action: attrs.controller, menuItem: subItem)
                     }
                 }

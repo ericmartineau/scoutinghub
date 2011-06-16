@@ -224,7 +224,7 @@ class SwitchingTagLib {
                 out << "${leaderGroup.leader.toString()?.trimTo(24)}"
             }
         } else {
-            def message = "${leaderGroup.leader} (${message(code: "${leaderGroup.leaderPosition}.label")})"
+            def message = "${leaderGroup.leader}"
             out << trainingRollup(message: message, pct: (int) leaderGroup?.pctTrained, controller: "leader",
                     action: "view", id: leaderGroup.leader.id, typeCode: "${leaderGroup.leaderPosition}.label")
         }

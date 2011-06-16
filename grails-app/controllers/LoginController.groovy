@@ -457,6 +457,7 @@ class LoginController {
                         emailVerifyService.generateTokenForEmailValidation(flow.leader, subject)
                         return success()
                     } catch (Exception e) {
+                        log.error("Error sending verification email", e)
                         flash.exceptionMessage = e.message
                         flash.errorMessage = "flow.verifyEmail.cantsend"
                         return error();

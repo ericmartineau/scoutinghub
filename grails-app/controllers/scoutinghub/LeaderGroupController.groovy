@@ -11,6 +11,7 @@ class LeaderGroupController {
 
     def searchableService
 
+    TrainingService trainingService
     SpringSecurityService springSecurityService
 
     def index = {
@@ -77,6 +78,13 @@ class LeaderGroupController {
     def permissions = {
         Leader leader = Leader.get(params.id)
         return [leader: leader]
+    }
+
+    def rebuildTraining = {
+        Leader.list().each{Leader leader->
+            trainingService.recalculatePctTrained(leader)
+        }
+        render("Done")
     }
 
     def savePermissions = {
