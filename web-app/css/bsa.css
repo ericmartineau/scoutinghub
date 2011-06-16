@@ -1524,10 +1524,19 @@ input {
     white-space: nowrap;
 }
 
+.training-report-type {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 3px;
+    white-space: nowrap;
+}
+
 .training-report-data {
     display: table-cell;
     vertical-align: middle;
     padding: 5px;
+    width:300px;
 }
 
 .trainingReportUnit {

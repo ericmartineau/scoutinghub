@@ -27,6 +27,12 @@ class LeaderGroup implements Serializable {
                 }) {
                     return ['leaderGroup.scoutGroup.unique']
                 }
+            } else {
+                if(obj.leader.groups?.find{LeaderGroup grp->
+                    grp.scoutGroup.id == obj.scoutGroup.id && grp.id != obj.id && grp.leaderPosition == obj.leaderPosition
+                }) {
+                    return ['leaderGroup.scoutGroup.unique']
+                }
             }
         })
     }

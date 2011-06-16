@@ -2,6 +2,7 @@ package scoutinghub
 
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
+import org.springframework.security.access.AccessDeniedException
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -33,7 +34,12 @@ class LeaderController {
     }
 
     def saveProfile = {
+
         Leader leader = Leader.get(params.id);
+        if (!leader.canBeAdministeredBy(springSecurityService.currentUser)) {
+            throw new AccessDeniedException("Can't edit this user");
+
+        }
         leader.firstName = params.firstName
         leader.lastName = params.lastName
         leader.email = params.email
@@ -44,6 +50,7 @@ class LeaderController {
             flash.error = true
             redirect(action: "view", id:leader.id, params:[edit:true])
         } else {
+            leader.reindex()
             redirect(action: "view", id: leader.id)
         }
 

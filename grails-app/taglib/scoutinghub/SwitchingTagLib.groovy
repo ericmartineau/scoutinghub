@@ -162,8 +162,9 @@ class SwitchingTagLib {
 
     def sectionHeader = {attrs, body ->
         def icon = attrs.icon
+        def args = attrs.args
         if (session.isMobile) {
-            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code), scope: "request");
+            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args:args), scope: "request");
             //evaluate the body, but don't render it
             out << body()
         } else {
@@ -209,7 +210,7 @@ class SwitchingTagLib {
                 out << "${msg}"
             }
             out << "</div>"
-            out << "<div class='training-report-data'>"
+            out << "<div class='training-report-type'>"
             out << message(code: typeCode)
             out << "</div>"
             out << "<div class='training-report-data'><div class=\"progress\" value=\"${pct}\"></div></div>"

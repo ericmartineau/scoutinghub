@@ -147,7 +147,13 @@ class LeaderCertificationController {
                 if (leader && certification && dateEarned) {
                     try {
                         //Let's delete any prior certification record.
-                        LeaderCertification.findAllByCertificationAndLeader(certification, leader)*.delete(flush:true)
+                        leader.certifications?.findAll {
+                            LeaderCertification leaderCert->
+                            leaderCert.certification.id == certification.id
+                        }?.each {
+                            leader.removeFromCertifications(it)
+                            it.delete(flush:true)
+                        }
                         LeaderCertification leaderCertification = new LeaderCertification()
                         leaderCertification.leader = leader
                         leaderCertification.certification = certification
@@ -164,6 +170,7 @@ class LeaderCertificationController {
                             trainingService.recalculatePctTrained(leader);
                             rtn.success = true
                         }
+
 
                     } catch (Exception e) {
                         log.error "Error saving", e

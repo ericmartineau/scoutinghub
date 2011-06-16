@@ -206,7 +206,7 @@
                     </s:leaderUnit>
                     <g:set var="grpI" value="${i}" scope="request"/>
                 </g:each>
-                <g:if test="${request.grpI==0}">
+                <g:if test="${request.grpI%2==0}">
                     <s:leaderUnit class="${currClass}"/>
                 </g:if>
             </g:if>

@@ -10,7 +10,7 @@ class HtmlContainersTagLib {
         out << "<div class=\"section-header ${iconCss}\">"
         if (attrs.code) {
             out << s.div(class: 'h1 td') {
-                out << message(code: attrs.code, default:attrs.code)
+                out << message(code: attrs.code, default:attrs.code, args:attrs.args)
             }
         }
 
@@ -74,7 +74,7 @@ class HtmlContainersTagLib {
                     out << inlineIcon(class: "${attrs.iconType}-icon")
                 }
                 out << ctxmenuLabel {
-                    out << message(code: attrs.code)
+                    out << message(code: attrs.code, args:attrs.args)
                 }
             }
         } else {

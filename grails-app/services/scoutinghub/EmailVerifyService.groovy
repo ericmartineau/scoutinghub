@@ -21,7 +21,16 @@ class EmailVerifyService {
         def hash = generateHash(toHash).substring(0, 7)
         leader.verifyHash = hash
 
-        leader.merge(flush:true).save(failOnError: true)
+        Leader.withTransaction {
+            Leader.withSession {
+                //Session gymnastics to get around goofy issues
+                Leader newSessionLeader = Leader.get(leader.id)
+                newSessionLeader.verifyHash = hash
+                newSessionLeader.save(failOnError: true)
+            }
+
+        }
+
 
         mailService.sendMail {
             to leader.email

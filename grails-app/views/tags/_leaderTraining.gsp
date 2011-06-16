@@ -9,7 +9,7 @@
 
                 <div class="training-details missing-training">
                     <g:message code="leader.profile.trainingExpiredOn"/>:&nbsp;<g:formatDate
-                            date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/>
+                            date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/>&nbsp;
                     <f:completeTrainingLink certificationInfo="${certificationInfo}">
                         <g:message code="leader.profile.alreadyComplete"/>
                     </f:completeTrainingLink>
@@ -45,10 +45,14 @@
             <div class="training-title">${certificationInfo.certification.name}</div>
 
             <div class="training-details">Good until <g:formatDate
-                    date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/><br/>
+                    date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/>&nbsp;
+                    <f:completeTrainingLink certificationInfo="${certificationInfo}">
+                        <g:message code="leader.profile.alreadyComplete"/>
+                    </f:completeTrainingLink><br/>
                 <g:message
                         code="${certificationInfo.leaderCertification.enteredType}.label"/> ${certificationInfo.leaderCertification.enteredBy} <g:formatDate
                         date="${certificationInfo.leaderCertification.dateEntered}" format="MMM yyyy"/>
+
             </div>
 
         </div>
