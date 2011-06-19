@@ -83,6 +83,10 @@ function createDialogClosure(url, data, config) {
     }
 }
 
+function configurePositionField(jPosition, fn) {
+    jPosition.selectBox().change(fn);
+}
+
 function closeDialog() {
     jQuery("#dialog").remove();
 }

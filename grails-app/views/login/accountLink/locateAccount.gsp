@@ -20,7 +20,7 @@
     <g:form action="accountLink">
 
         <s:section>
-            <s:sectionHeader icon="profile-icon" code="flow.locateAccount.createNewAccount" />
+            <s:sectionHeader icon="profile-icon" code="flow.locateAccount.createNewAccount"/>
 
         %{--<g:if test="${hasSocialAuth}">--}%
         %{--<h2><g:message code="flow.locateAccount.newUsers"/></h2>--}%
@@ -34,6 +34,7 @@
                     <div class="msg1">
                         <g:message code="label.error"/>
                     </div>
+
                     <div class="msg2">
                         <g:each in="${errors}" var="error">
                             <g:message code="${error}"/><br/>
@@ -44,39 +45,42 @@
             </g:if>
 
             <s:bigTextField name="firstName" value="${createAccount?.firstName}" code="${message(code:'leader.firstName.label')}"
-                    placeholder="${message(code:'leader.firstName.label')}"/>
+                            placeholder="${message(code:'leader.firstName.label')}"/>
             <s:bigTextField name="lastName" value="${createAccount?.lastName}" code="${message(code:'leader.lastName.label')}"
-                    placeholder="${message(code:'leader.lastName.label')}"/>
+                            placeholder="${message(code:'leader.lastName.label')}"/>
             <s:bigTextField name="email" value="${createAccount?.email}" code="${message(code:'leader.email.label')}"
-                    placeholder="${message(code:'leader.email.label')}"/>
+                            placeholder="${message(code:'leader.email.label')}"/>
             <s:bigTextField name="scoutid" value="${createAccount?.scoutid}" code="${message(code:'label.scoutid')}"
-                    placeholder="${message(code:'label.scoutid')}"/>
+                            placeholder="${message(code:'label.scoutid')}"/>
 
         </s:section>
 
         <s:section>
-            <s:sectionHeader code="flow.locateAccount.unitInfo" icon="units-icon" />
-            <s:bigTextField name="unitNumber" otherAttrs="[idField:'unitNumberId', positionField:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}" code="${message(code:'label.unitNumber')}"
-                                placeholder="${message(code:'label.unitNumber')}">
-                        </s:bigTextField>
+            <s:sectionHeader code="flow.locateAccount.unitInfo" icon="units-icon"/>
+            <s:bigSelecter class="selecter"
+                           id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
+                           placeholder="${message(code:'label.unitPosition')}">
+                <s:unitSelectorOptions/>
+            </s:bigSelecter>
 
-                        %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
-                        <g:hiddenField name="unitNumberId" value="${createAccount?.unit?.id}"/>
 
-            <s:bigSelecter class="selecter" from="${['Please enter a unit above']}"
-                    id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
-                    placeholder="${message(code:'label.unitPosition')}"/>
+            <s:bigTextField name="unitNumber" otherAttrs="[idfield:'unitNumberId', positionfield:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}"
+                            code="${message(code:'label.unitNumber')}"
+                            placeholder="${message(code:'label.unitNumber')}">
+            </s:bigTextField>
 
+        %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%
+            <g:hiddenField name="unitNumberId" value="${createAccount?.unit?.id}"/>
 
         </s:section>
 
         <s:section>
-            <s:sectionHeader code="flow.locateAccount.setPassword" />
+            <s:sectionHeader code="flow.locateAccount.setPassword"/>
             <s:bigTextField type="password" name="password" value="${createAccount?.password}" code="${message(code:'label.password')}"
-                    placeholder="${message(code:'label.password')}"/>
+                            placeholder="${message(code:'label.password')}"/>
 
             <s:bigTextField type="password" name="confirmPassword" value="${createAccount?.confirmPassword}" code="${message(code:'label.confirmPassword')}"
-                    placeholder="${message(code:'label.confirmPassword')}"/>
+                            placeholder="${message(code:'label.confirmPassword')}"/>
 
         </s:section>
 

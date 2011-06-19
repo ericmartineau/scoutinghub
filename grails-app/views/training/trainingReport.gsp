@@ -31,7 +31,7 @@
                 <s:selecter code="training.report.selectFilter" id="filterName" name="filterName" onChange="document.filterForm.submit()"
                             value="${session.filterName}">
                     <g:each in="${allFilters}" var="categoryEntry">
-                        <optgroup label="${message(code: categoryEntry.key + ".label")}">
+                        <optgroup label="${categoryEntry.key}">
                             <g:each in="${categoryEntry.value}" var="optionEntry">
                                 <g:selectOption value="${optionEntry.key}"><g:message code="${optionEntry.key}.label"/></g:selectOption>
                             </g:each>

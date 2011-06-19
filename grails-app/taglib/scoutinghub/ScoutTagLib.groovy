@@ -29,7 +29,7 @@ class ScoutTagLib {
     }
 
     def bigTextField = {attrs, body ->
-        out << "<table cellpadding='0' cellspacing='0' class='fldContainer ${attrs.class}'><tr><td align='left'>"
+        out << "<table cellpadding='0' cellspacing='0' class='fldContainer'><tr><td align='left'>"
 //        out << "<span class='fldContainerSpacer'></span>"
         //        out << "<span class='fldContainer'>"
         out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
@@ -61,13 +61,12 @@ class ScoutTagLib {
 
     def formControl = {attrs, body ->
         def type = attrs.type ?: "text"
-        out << "<table cellpadding='0' cellspacing='0' class='fldContainer ${attrs.class}'><tr><td align='left'>"
+        out << "<table cellpadding='0' cellspacing='0' class='fldContainer'><tr><td align='left'>"
         out << "<span class='fldContainerSpacer'></span>"
         out << "<span class='fldContainer'>"
         out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
         out << body()
         out << "</td></tr></table>"
-//
     }
 
     def dynamicUnitSelector = {attrs ->

@@ -164,7 +164,7 @@ class SwitchingTagLib {
         def icon = attrs.icon
         def args = attrs.args
         if (session.isMobile) {
-            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args:args), scope: "request");
+            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args: args), scope: "request");
             //evaluate the body, but don't render it
             out << body()
         } else {
@@ -443,6 +443,37 @@ class SwitchingTagLib {
         }
     }
 
+    def optGroup = {attrs, body ->
+        out << "<optgroup label='${attrs.label}'>"
+        out << body();
+        out << "</optgroup>"
+    }
+
+    def unitSelectorOptions = {attrs ->
+        out << "<option value=''>${message(code: 'unitSelector.default')}</option>"
+        ScoutUnitType.values().each {ScoutUnitType scoutUnitType ->
+            out << optGroup(label: message(code: scoutUnitType.name() + ".altlabel")) {
+                LeaderPositionType.values().findAll {it.scoutUnitTypes.contains(scoutUnitType)}?.each {
+                    LeaderPositionType leaderPositionType ->
+                    out << g.selectOption(value: leaderPositionType.name()) {
+                        out << message(code: leaderPositionType.name() + ".label")
+                    }
+                }
+            }
+        }
+
+        final Closure groupTypeFilter = {it != ScoutGroupType.Unit && it != ScoutGroupType.CharteringOrg && it != ScoutGroupType.Group}
+        ScoutGroupType.values().findAll(groupTypeFilter)?.each {ScoutGroupType scoutGroupType ->
+            out << "<optgroup label='${message(code: scoutGroupType.name() + ".label")}'>"
+            LeaderPositionType.values().findAll {it.scoutGroupTypes.contains(scoutGroupType)}?.each {
+                LeaderPositionType leaderPositionType ->
+                out << "<option value='${leaderPositionType.name()}'>${message(code: leaderPositionType.name() + ".label")}</option>"
+            }
+            out << "</optgroup>"
+
+        }
+    }
+
     def permission = {attrs ->
         Leader leader = attrs.leader
         Role role = attrs.role
@@ -459,7 +490,7 @@ class SwitchingTagLib {
         if (session.isMobile) {
             out << "<li class='select'>"
             if (attrs.from) {
-               out << select(attrs)
+                out << select(attrs)
             } else {
                 out << selectWithBody(attrs, body)
             }
@@ -469,7 +500,7 @@ class SwitchingTagLib {
         } else {
 
             out << property(attrs) {
-                if(attrs.from) {
+                if (attrs.from) {
                     out << select(attrs)
                 } else {
                     out << selectWithBody(attrs, body)
@@ -478,12 +509,14 @@ class SwitchingTagLib {
         }
     }
 
-    def bigSelecter = {attrs ->
+    def bigSelecter = {attrs, body ->
         if (session.isMobile) {
-            out << selecter(attrs)
+            out << selecter(attrs, body)
         } else {
+            String id = attrs.remove("id")
             out << f.formControl(attrs) {
-                out << select(attrs)
+                attrs.id = id
+                out << selectWithBody(attrs, body)
             }
         }
     }

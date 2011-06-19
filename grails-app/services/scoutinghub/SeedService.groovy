@@ -57,7 +57,7 @@ class SeedService {
         addCertification("Varsity Leader Specific Training", ["V21"], CertificationType.LeaderSpecific, [LeaderPositionType.VarsityCoach, LeaderPositionType.AssistantVarsityCoach], 1780, true)
 
         //This is Scouting
-        addCertification("This is Scouting", ["A01", "WA01"], CertificationType.ThisIsScouting, LeaderPositionType.values().findAll {it.scoutUnitTypes?.length > 0})
+        addCertification("This is Scouting", ["A01", "WA01"], CertificationType.ThisIsScouting, LeaderPositionType.values().findAll {it.scoutUnitTypes?.size() > 0})
         addCertification("Youth Protection Training", ["Y01"], CertificationType.YouthProtection, LeaderPositionType.values().findAll {return it != LeaderPositionType.CrewAdvisor && it != LeaderPositionType.AssistantCrewAdvisor}, 730, true)
         addCertification("Venturing Youth Protection Training", ["Y02"], CertificationType.YouthProtection, [LeaderPositionType.CrewAdvisor, LeaderPositionType.AssistantCrewAdvisor], 730, true)
 

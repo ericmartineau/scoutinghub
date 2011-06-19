@@ -163,7 +163,7 @@
         <s:sectionHeader icon="units-icon" code="leader.profile.groups">
             <s:ctxmenu>
                 <g:ctxmenuItem>
-                    <s:linker img="edit-icon" class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="500"
+                    <s:linker img="edit-icon" class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="475"
                               controller="leaderGroup" action="create" params="['leader.id': leader.id]">
                         <g:inlineIcon class="edit-icon"/>
                         <g:ctxmenuLabel>

@@ -55,7 +55,7 @@ class BootStrap {
 
             ScoutGroup scoutGroup = new ScoutGroup(groupLabel: "Chandler Stake", groupIdentifier: "ChandlerStake", groupType: ScoutGroupType.Stake, parent: sanTanDistrict).save(failOnError: true)
             sanTanDistrict.addToChildGroups(scoutGroup)
-            sanTanDistrict.save(failOnError: true)
+            assert sanTanDistrict.save(failOnError: true)
 
             addUnit scoutGroup, "Ray 3rd Ward - Unit 81"
             addUnit scoutGroup, "Ray 2nd Ward - Unit 185"
@@ -271,16 +271,18 @@ class BootStrap {
         String groupIdentifier = orgName.replaceAll("\\s", "").replaceAll("'", "")
         ScoutGroup community = new ScoutGroup(groupLabel: orgName, groupIdentifier: groupIdentifier,
                 groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
+        assert community
         parent.addToChildGroups(community)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
         childUnits.each{
             String key = it.key
             key = key.charAt(0).toString().toUpperCase() + key.substring(1)
             ScoutGroup unit = new ScoutGroup(groupLabel: name, groupIdentifier: it.value, groupType: ScoutGroupType.Unit,
                 unitType: ScoutUnitType.valueOf(key), parent:community).save(failOnError:true)
+            assert unit
             community.addToChildGroups(unit)
-            community.save(failOnError:true)
+            assert community.save(failOnError:true)
         }
 
     }
@@ -294,7 +296,7 @@ class BootStrap {
                 groupLabel: orgName, groupIdentifier: groupIdentifier,
                 groupType: ScoutGroupType.CharteringOrg, parent: parent).save(failOnError: true)
         parent.addToChildGroups(wardUnit)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
         def indexOf = unitName.indexOf("Unit ")
         String unitNumber = unitName.substring(indexOf + 4)?.trim()
@@ -303,19 +305,19 @@ class BootStrap {
         ScoutGroup scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: unitNumber, unitType: ScoutUnitType.Troop,
                 groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
         parent.addToChildGroups(scoutGroup)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
         ScoutGroup pack = new ScoutGroup(groupLabel: unitName, groupIdentifier: unitNumber, unitType: ScoutUnitType.Pack, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
         parent.addToChildGroups(pack)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
         scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: "6" + unitNumber, unitType: ScoutUnitType.Team, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
         parent.addToChildGroups(scoutGroup)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
         scoutGroup = new ScoutGroup(groupLabel: unitName, groupIdentifier: "9" + unitNumber, unitType: ScoutUnitType.Crew, groupType: ScoutGroupType.Unit, parent: parent).save(failOnError: true)
         parent.addToChildGroups(scoutGroup)
-        parent.save(failOnError: true)
+        assert parent.save(failOnError: true)
 
     }
 }

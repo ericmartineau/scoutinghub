@@ -20,3 +20,8 @@ function createDialogClosure(oldHref, data, config) {
     }
 }
 
+function configurePositionField(jPosition, fn) {
+    jPosition.change(fn);
+}
+
+

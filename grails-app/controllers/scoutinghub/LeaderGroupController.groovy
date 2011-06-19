@@ -19,9 +19,22 @@ class LeaderGroupController {
     }
 
     @Secured(["IS_AUTHENTICATED_ANONYMOUSLY"])
+    def checkPositionAndUnit = {
+        def rtn = [:]
+        if (params.position?.trim()) {
+            ScoutGroup leaderGroup = ScoutGroup.get(params.id)
+            LeaderPositionType type = LeaderPositionType.valueOf(params.position.trim())
+            if (!leaderGroup.findApplicablePositionTypes()?.contains(type)) {
+                rtn.mismatch = true
+            }
+        }
+
+        render rtn as JSON
+    }
+
+    @Secured(["IS_AUTHENTICATED_ANONYMOUSLY"])
     def getApplicablePositions = {
         ScoutGroup leaderGroup = ScoutGroup.get(params.id)
-        ScoutUnitType unitType = leaderGroup.unitType
         def rtnList = [:]
         leaderGroup.findApplicablePositionTypes().each {
             rtnList[it.name()] = it.name().humanize()
@@ -81,7 +94,7 @@ class LeaderGroupController {
     }
 
     def rebuildTraining = {
-        Leader.list().each{Leader leader->
+        Leader.list().each {Leader leader ->
             trainingService.recalculatePctTrained(leader)
         }
         render("Done")
@@ -112,7 +125,7 @@ class LeaderGroupController {
                             leader.addToGroups(found)
                         } else if (found) {
                             found?.admin = isAdmin
-                            found?.save(flush:true, failOnError:true)
+                            found?.save(flush: true, failOnError: true)
 
                         }
                     }
@@ -122,7 +135,7 @@ class LeaderGroupController {
                         //Add role
                         if (!leader.hasRole("ROLE_ADMIN") && isAdmin) {
                             LeaderRole.create(leader, Role.findByAuthority("ROLE_ADMIN"), true)
-                        } else if(!isAdmin) {
+                        } else if (!isAdmin) {
                             LeaderRole.remove(leader, Role.findByAuthority("ROLE_ADMIN"), true)
                         }
 

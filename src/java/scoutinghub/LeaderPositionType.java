@@ -2,6 +2,10 @@ package scoutinghub;
 
 import org.apache.commons.io.filefilter.FalseFileFilter;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import static scoutinghub.ScoutGroupType.*;
 import static scoutinghub.ScoutUnitType.*;
 
@@ -30,10 +34,11 @@ public enum LeaderPositionType {
     CommitteeMember("MC", false, false, Troop, Pack, Crew, Team),
     ScoutParentsUnitCoordinator("PC", false, false, Troop, Pack, Crew, Team),
     Executive("EX", false, Council),
-    Professional("PF", false, Council),
     Chairman("DistrictChairman", false, District),
     Commissioner("DistrictCommissioner", false, District),
     DistrictExecutive("DistrictExecutive", false, District),
+    AssistantDistrictCommissioner("ADC", false, District, Stake),
+    UnitCommissioner("UC", false, District, Stake),
     DistrictRelations("DistrictRelations", false, District),
     DistrictCubScoutProgram("DistrictCubScoutProgram", false, District),
     District11YrOldScoutProgram("District11YrOldScoutProgram", false, District),
@@ -49,41 +54,49 @@ public enum LeaderPositionType {
     DistrictActivitiesCivicServiceCommittee("DistrictActivitiesCivicServiceCommittee", false, District),
     DistrictCampingOutdoorCommittee("CampingOutdoorCommittee", false, District),
     DistrictTrainingCommittee("DistrictTrainingCommittee", false, District),
-    AssistantDistrictCommissioner("ADC", false, Stake),
-    UnitCommissioner("UC", false, Stake),
     RelationsCommittee("RC", false, Stake),
 
-    Volunteer("VO", false, Council, District, CharteringOrg, Stake, Group),
+    Volunteer("VO", false, District, CharteringOrg, Stake, Group),
     Administrator("AD", false, Council, District, CharteringOrg, Stake, Group);
 
 
     LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutUnitType... scoutUnitTypes) {
         this.code = code;
         this.directContact = directContact;
-        this.scoutUnitTypes = scoutUnitTypes;
-        this.keyLeaderPosition = keyLeaderPosition;
-        this.scoutGroupTypes = new ScoutGroupType[0];
 
+        Set unitSet = new LinkedHashSet();
+        for (ScoutUnitType scoutUnitType : scoutUnitTypes) {
+            unitSet.add(scoutUnitType);
+        }
+        this.scoutUnitTypes = unitSet;
+        this.keyLeaderPosition = keyLeaderPosition;
+        this.scoutGroupTypes = new HashSet<ScoutGroupType>();
     }
 
-    LeaderPositionType(String code, boolean directContact, ScoutGroupType... scoutUnitTypes) {
+    LeaderPositionType(String code, boolean directContact, ScoutGroupType... scoutGroupTypes) {
         this.code = code;
         this.directContact = directContact;
         this.keyLeaderPosition = false;
-        this.scoutGroupTypes = scoutUnitTypes;
-        this.scoutUnitTypes = new ScoutUnitType[0];
+        Set groupSet = new LinkedHashSet();
+
+        for (ScoutGroupType scoutGroupType : scoutGroupTypes) {
+            groupSet.add(scoutGroupType);
+        }
+
+        this.scoutGroupTypes = groupSet;
+        this.scoutUnitTypes = new HashSet<ScoutUnitType>();
     }
 
     LeaderPositionType(String code, boolean directContact) {
         this.code = code;
         this.directContact = directContact;
         this.keyLeaderPosition = false;
-        this.scoutGroupTypes = new ScoutGroupType[0];
-        this.scoutUnitTypes = new ScoutUnitType[0];
+        this.scoutGroupTypes = new HashSet();
+        this.scoutUnitTypes = new HashSet();
     }
 
-    public final ScoutUnitType[] scoutUnitTypes;
-    public final ScoutGroupType[] scoutGroupTypes;
+    public final Set<ScoutUnitType> scoutUnitTypes;
+    public final Set<ScoutGroupType> scoutGroupTypes;
     public final String code;
     public final boolean directContact;
     public final boolean keyLeaderPosition;

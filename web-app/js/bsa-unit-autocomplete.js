@@ -58,22 +58,30 @@ function configureUnitAutocomplete() {
         //This prevents it from running again
         jthis.removeClass("unitSelector");
 
-        var idName = jthis.attr("idField");
-        if(idName) {
+        var idName = jthis.attr("idfield");
+        if (idName) {
             idName = idName.replace(".", "\\.");
         }
 
         var idField = jQuery("#" + idName);
-        var positionField = jQuery("#" + jthis.attr("positionField"));
+        var positionField = jQuery("#" + jthis.attr("positionfield"));
+
+        //This nonsense is here because the selectBox component we are using
+        //doesn't seem to fire or bind to the original select box - so
+        //we need a different implementation for mobile
+        configurePositionField(positionField, function() {
+            getApplicablePositions(positionField, jthis, idField);
+        });
+
 
         //Let's initialize the drop-down right now
         if (idField.val()) {
-            getApplicablePositions(positionField, idField.val());
+            getApplicablePositions(positionField, jthis, idField);
         }
 
 
         jthis.autocomplete({
-                    source:getUnitData,
+                    source:getUnitDataClosure(positionField),
 //            autoFill: true,
                     mustMatch: true,
                     matchContains: false,
@@ -89,7 +97,7 @@ function configureUnitAutocomplete() {
                     select: function(event, ui) {
                         idField.val(ui.item.key);
                         jthis.val(ui.item.label);
-                        getApplicablePositions(positionField, ui.item.key);
+                        getApplicablePositions(positionField, jthis, idField);
                         return false;
                     }
                 });
@@ -125,24 +133,39 @@ function configureUnitAutocomplete() {
      * @param selectFld
      * @param unitId
      */
-    function getApplicablePositions(selectFld, unitId) {
+    function getApplicablePositions(selectFld, unitNameFld, unitIdFld) {
         var currVal = selectFld.val();
-        selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
-        jQuery.getJSON("/scoutinghub/leaderGroup/getApplicablePositions/" + unitId, null, function(json) {
-            selectFld.html("");
-            for (i in json) {
-                var obj = json[i];
-                selectFld.selectBox('options', json);
+        if (currVal && unitIdFld.val()) {
+
+//        selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
+            jQuery.getJSON("/scoutinghub/leaderGroup/checkPositionAndUnit/" + unitIdFld.val(), {position:currVal}, function(json) {
+
+                if (json.mismatch) {
+                    //Add tooltip
+                    unitNameFld.val("");
+                    unitIdFld.val("");
+                }
+//            selectFld.html("");
+//            for (i in json) {
+//                var obj = json[i];
+//                selectFld.selectBox('options', json);
 //            append("<option value='" + obj.objectValue + "'>" + obj.objectLabel + "</option>");
-            }
-            selectFld.val(currVal);
-        });
+//            }
+//            selectFld.val(currVal);
+            });
+
+        }
 
     }
 }
 
-function getUnitData(term, callback) {
-    jQuery.getJSON("/scoutinghub/findScoutGroup/findUnits", term, function(json) {
-        callback(json)
-    })
+function getUnitDataClosure($position) {
+    return function(term, callback) {
+        term.position = $position.val();
+        jQuery.getJSON("/scoutinghub/findScoutGroup/findUnits", term, function(json) {
+            callback(json)
+        });
+    }
 }
+
+
