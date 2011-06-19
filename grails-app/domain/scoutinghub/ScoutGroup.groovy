@@ -146,4 +146,8 @@ class ScoutGroup implements Serializable {
     def beforeUpdate = {
         updateDate = new Date()
     }
+
+    String groupOrUnitName() {
+        return unitType?.name() ?: groupType?.name()
+    }
 }

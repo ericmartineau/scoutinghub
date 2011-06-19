@@ -144,6 +144,24 @@ function configureUnitAutocomplete() {
                     //Add tooltip
                     unitNameFld.val("");
                     unitIdFld.val("");
+//                    if (unitNameFld.data("qtip")) {
+//                        unitNameFld.qtip("destroy");
+//                    }
+
+                    unitNameFld.qtip(
+                            {
+                                content: json.msgText,
+                                show: {ready:true, event:false},
+                                position: {my: "top center", at: "bottom center"},
+                                hide: {event:"click"},
+                                style: {
+                                    classes: "ui-tooltip-rounded tooltip-display"
+//                                    widget: true
+                                }
+                            }
+                    )
+
+
                 }
 //            selectFld.html("");
 //            for (i in json) {

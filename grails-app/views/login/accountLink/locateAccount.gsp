@@ -15,7 +15,7 @@
 </content>
 
 
-<s:content>
+<s:content class="registration">
 
     <g:form action="accountLink">
 
@@ -57,6 +57,12 @@
 
         <s:section>
             <s:sectionHeader code="flow.locateAccount.unitInfo" icon="units-icon"/>
+            %{--<s:text>--}%
+                %{--<g:message code="flow.locateAccount.unitCreateLater"/>--}%
+            %{--</s:text>--}%
+
+            <s:msg code="flow.locateAccount.unitCreateLater" type="info" />
+
             <s:bigSelecter class="selecter"
                            id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
                            placeholder="${message(code:'label.unitPosition')}">
@@ -67,6 +73,7 @@
             <s:bigTextField name="unitNumber" otherAttrs="[idfield:'unitNumberId', positionfield:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}"
                             code="${message(code:'label.unitNumber')}"
                             placeholder="${message(code:'label.unitNumber')}">
+
             </s:bigTextField>
 
         %{--<s:unitSelector name="unitNumber" class="unitSelector" value="${createAccount?.unitNumber}" code="${message(code:'label.unitNumber')}"/>--}%

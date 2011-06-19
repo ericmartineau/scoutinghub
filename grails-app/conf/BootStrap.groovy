@@ -222,6 +222,41 @@ class BootStrap {
     }
 
     void registerStringMetaclass() {
+
+        String.metaClass.article = {
+            String val = delegate.toString()?.toLowerCase();
+            if(["a", "e", "i", "o", "u"].find {
+                val.startsWith(it)
+            }) {
+                return "an"
+            } else {
+                return "a"
+            }
+        }
+
+        String.metaClass.firstLetterUpper = {
+            String val = delegate.toString();
+            String rtn
+            if(val) {
+                if(val.length() == 1) {
+                    rtn = val.toUpperCase()
+                } else {
+                    rtn = val.charAt(0).toString().toUpperCase() + val.substring(1)
+                }
+            }
+            return rtn
+        }
+
+        List.metaClass.joiner = {String lastSeparator->
+            if(delegate.size() == 1) {
+                return String.valueOf(delegate[0])
+            } else {
+                int idxMinus1 =  delegate.size() - 2
+                String firstSet = delegate.getAt[0..idxMinus1].join(", ")
+                return firstSet + " ${lastSeparator} " + delegate.last()
+            }
+        }
+
         String.metaClass.trimTo = {int i->
             String val = delegate.toString()
             return val.substring(0, Math.min(i, val.length()))

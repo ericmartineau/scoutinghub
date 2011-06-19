@@ -147,7 +147,7 @@ class SwitchingTagLib {
             out << body()
             out << "</li>"
         } else {
-            out << "<div class='text'>${body()}</div>"
+            out << "<div class='text ${attrs.class ?: ''}'>${body()}</div>"
 
         }
     }

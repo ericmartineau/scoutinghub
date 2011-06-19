@@ -16,11 +16,13 @@
     %{--<g:javascript library="jquery-min"/>--}%
     <g:javascript library="jquery-1.5.1.min"/>
 
+
     <g:javascript library="jquery.cookie"/>
     <g:javascript library="jquery.hotkeys"/>
     <g:javascript library="jquery-ui-1.8.11.custom/development-bundle/ui/jquery-ui-1.8.11.custom"/>
     %{--<g:javascript library="jquery.selectBox-1.0.1/jquery.selectBox.min"/>--}%
     <g:javascript library="jquery.selectbox"/>
+    <g:javascript library="jquery.qtip.min"/>
 
     <g:javascript library="jquery.ba-throttle-debounce.min"/>
     <g:javascript library="bsa"/>
@@ -35,6 +37,7 @@
     <link rel="stylesheet" href="${resource(dir: 'js/jquery.selectBox-1.0.1', file: 'jquery.selectBox.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'js/jquery-ui-1.8.11.custom/css/start', file: 'jquery-ui-1.8.11.custom.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bsa.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.qtip.min.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'js/themes/default', file: 'style.css')}"/>
 
     <g:javascript library="application"/>

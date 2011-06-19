@@ -20,12 +20,35 @@ class LeaderGroupController {
 
     @Secured(["IS_AUTHENTICATED_ANONYMOUSLY"])
     def checkPositionAndUnit = {
+        List.metaClass.joiner = {String lastSeparator->
+                    if(delegate.size() == 1) {
+                        return String.valueOf(delegate[0])
+                    } else if(delegate.size() ==2) {
+                        return delegate.join(" ${lastSeparator} ");
+                    } else {
+                        int idxMinus1 =  delegate.size() - 2
+                        String firstSet = delegate[0..idxMinus1].join(", ")
+                        return firstSet + " ${lastSeparator} " + delegate.last()
+                    }
+                }
+
         def rtn = [:]
         if (params.position?.trim()) {
             ScoutGroup leaderGroup = ScoutGroup.get(params.id)
             LeaderPositionType type = LeaderPositionType.valueOf(params.position.trim())
             if (!leaderGroup.findApplicablePositionTypes()?.contains(type)) {
                 rtn.mismatch = true
+                String groupTypeLabel = message(code:leaderGroup.groupOrUnitName() + ".label")
+                String positionLabel = message(code:type.name() + ".label")
+                String article = positionLabel.article().firstLetterUpper()
+
+                def applicableItemsList = []
+                applicableItemsList.addAll(type.scoutGroupTypes.collect {it.name()})
+                applicableItemsList.addAll(type.scoutUnitTypes.collect {it.name()})
+
+                final applicableItemList = applicableItemsList.joiner("or")
+                rtn.msgText = message(code:'leaderGroup.mismatch', args:[groupTypeLabel, article + " " + positionLabel,
+                        applicableItemList])
             }
         }
 

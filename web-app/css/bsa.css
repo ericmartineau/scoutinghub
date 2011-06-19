@@ -1415,6 +1415,21 @@ input {
     padding: 10px;
 }
 
+.tooltip {
+    display:none;
+}
+
+.tooltip-display {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    text-align: center !important;
+}
+
+.registration {
+    width: 500px;
+}
+
+
 .info, .success, .warning, .error, .star, .validation {
     border: 1px solid;
     margin: 10px 0px;
@@ -1886,7 +1901,7 @@ span.chk-input {
 }
 
 .text {
-    font-size: 15px;
+    font-size: 14px;
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
