@@ -22,8 +22,8 @@ function commonDecorate() {
     jQuery("form.dialog-form").each(
             function() {
                 var $this = jQuery(this);
-                $this.submit(function(event) {
-                    event.preventDefault();
+                $this.submit(function(event) { //hijack form submission
+                    event.preventDefault(); //prevent form from submitting
                     // Send the request
                     jQuery.post($this.attr("action"), $this.serialize(), function(json) {
                         if (json.success) {
@@ -51,7 +51,7 @@ function commonDecorate() {
 
 function configureUnitAutocomplete() {
 
-//Creates unit selector widget (autocomplete) (that communicates with position drop-down boxes)
+    //Creates unit selector widget (autocomplete) (that communicates with position drop-down boxes)
     jQuery(".unitSelector").each(function() {
         var jthis = jQuery(this);
 
@@ -68,24 +68,21 @@ function configureUnitAutocomplete() {
 
         //This nonsense is here because the selectBox component we are using
         //doesn't seem to fire or bind to the original select box - so
-        //we need a different implementation for mobile
+        //we need a different implementation for mobile.
         configurePositionField(positionField, function() {
             getApplicablePositions(positionField, jthis, idField);
         });
 
 
-        //Let's initialize the drop-down right now
+        //Let's initialize the drop-down right now (this will be called on page load)
         if (idField.val()) {
             getApplicablePositions(positionField, jthis, idField);
         }
 
-
         jthis.autocomplete({
                     source:getUnitDataClosure(positionField),
-//            autoFill: true,
                     mustMatch: true,
                     matchContains: false,
-//            scrollHeight: 220,
                     formatItem: function(data, i, total) {
                         return data[0]
                     },
@@ -127,56 +124,43 @@ function configureUnitAutocomplete() {
         return row[0]; //value
     }
 
-
     /**
      * Ajax call to retrieve positions that apply based on the unit type
-     * @param selectFld
-     * @param unitId
      */
     function getApplicablePositions(selectFld, unitNameFld, unitIdFld) {
         var currVal = selectFld.val();
         if (currVal && unitIdFld.val()) {
 
-//        selectFld.children().remove().end().append('<option selected value="">Please select a unit</option>')
             jQuery.getJSON("/scoutinghub/leaderGroup/checkPositionAndUnit/" + unitIdFld.val(), {position:currVal}, function(json) {
 
                 if (json.mismatch) {
-                    //Add tooltip
+                    //Clear out the current values for unit in the case of a mismatch
                     unitNameFld.val("");
                     unitIdFld.val("");
-//                    if (unitNameFld.data("qtip")) {
-//                        unitNameFld.qtip("destroy");
-//                    }
 
-                    unitNameFld.qtip(
-                            {
-                                content: json.msgText,
-                                show: {ready:true, event:false},
-                                position: {my: "top center", at: "bottom center"},
-                                hide: {event:"click"},
-                                style: {
-                                    classes: "ui-tooltip-rounded tooltip-display"
-//                                    widget: true
+                    //Add tooltip
+                    if (jQuery.fn.qtip) {
+                        unitNameFld.qtip(
+                                {
+                                    content: json.msgText,
+                                    show: {ready:true, event:false},
+                                    position: {my: "top center", at: "bottom center"},
+                                    hide: {event:"click"},
+                                    style: {
+                                        classes: "ui-tooltip-rounded tooltip-display"
+                                    }
                                 }
-                            }
-                    )
-
-
+                        )
+                    }
                 }
-//            selectFld.html("");
-//            for (i in json) {
-//                var obj = json[i];
-//                selectFld.selectBox('options', json);
-//            append("<option value='" + obj.objectValue + "'>" + obj.objectLabel + "</option>");
-//            }
-//            selectFld.val(currVal);
             });
-
         }
-
     }
 }
 
+/*
+ * This closure allows us to put the position select box in scope for the callback.
+ */
 function getUnitDataClosure($position) {
     return function(term, callback) {
         term.position = $position.val();
