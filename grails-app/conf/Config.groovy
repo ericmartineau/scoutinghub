@@ -51,8 +51,8 @@ environments {
     production {
         grails.serverURL = "http://www.scoutinghub.com/${appName}"
         google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
-
     }
+
     development {
         grails.serverURL = "http://dev.scoutinghub.com:8080/${appName}"
         google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"

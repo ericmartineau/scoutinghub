@@ -43,6 +43,15 @@ grails.project.dependency.resolution = {
         compile 'commons-logging:commons-logging:1.1.1'
         compile 'com.sun.xml.bind:jaxb-impl:2.1.9'
         compile 'org.json:json:20080701'
+        compile('org.codehaus.groovy:groovy-xmlrpc:0.7') {
+            transitive = false
+//            excludes "smack"
+        }
+
+//        compile('org.igniterealtime.smack:smack:3.1.0') {
+//            transitive = false
+//        }
+
         compile 'org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0'
         compile 'com.google.code.facebookapi:facebook-java-api:3.0.2'
         compile 'com.google.code.facebookapi:facebook-java-api-schema:3.0.2'
