@@ -9,7 +9,7 @@
 <s:content>
     <s:section>
         <s:sectionHeader><g:message code="flow.suggestSocialLoginSuccess.header" args="[provider]"/></s:sectionHeader>
-        <s:text><g:message code="flow.suggestSocialLoginSuccess.msg1" args="[provider]"/><img align="top" src="/scoutinghub/images/${provider?.toLowerCase()}-logo-square.png" />
+        <s:text><g:message code="flow.suggestSocialLoginSuccess.msg1" args="[provider]"/><img align="top" src="/scoutinghub/images/social/PNG/32px/${provider?.toLowerCase()}.png" />
             %{--<g:message code="flow.suggestSocialLoginSuccess.msg2" />--}%
         </s:text>
 

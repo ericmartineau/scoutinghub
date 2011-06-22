@@ -117,9 +117,13 @@
 
                                                 <tr>
                                                     <td><g:message code="login.saveTimeLoggingIn"/></td>
-                                                    <td><a href="/scoutinghub/openId/yahoo?suggest=true"><img src="/scoutinghub/images/yahoo-logo-square.png"/></a></td>
-                                                    <td><a href="/scoutinghub/openId/google?suggest=true"><img src="/scoutinghub/images/google-logo-square.png"/></a></td>
-                                                    <td><a href="/scoutinghub/openId/facebook?suggest=true"><img src="/scoutinghub/images/facebook-logo-square.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/aol?suggest=true"><img src="/scoutinghub/images/social/PNG/32px/aol.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/yahoo?suggest=true"><img src="/scoutinghub/images/social/PNG/32px/yahoo.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/google?suggest=true"><img src="/scoutinghub/images/social/PNG/32px/google.png"/></a></td>
+                                                    <td><a href="/scoutinghub/openId/facebook?suggest=true"><img src="/scoutinghub/images/social/PNG/32px/facebook.png"/></a></td>
+                                                    %{--<td><a href="/scoutinghub/openId/google?suggest=true"><img src="/scoutinghub/images/google-logo-square.png"/></a></td>--}%
+                                                    %{--<td><a href="/scoutinghub/openId/google?suggest=true"><img src="/scoutinghub/images/google-logo-square.png"/></a></td>--}%
+                                                    %{--<td><a href="/scoutinghub/openId/facebook?suggest=true"><img src="/scoutinghub/images/facebook-logo-square.png"/></a></td>--}%
                                                     %{--<td><fb:login-button class="fbconnect_login" size="large" length="long" background="white"--}%
                                                     %{--onlogin="javascript:FB.Connect.requireSession(facebook_onlogin);">Facebook</fb:login-button></td>--}%
                                                 </tr>

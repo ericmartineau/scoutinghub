@@ -16,13 +16,13 @@ import org.springframework.security.facebook.FacebookHelper
  */
 class OpenIdController {
 
-    /** Dependency injection for daoAuthenticationProvider.    */
+    /** Dependency injection for daoAuthenticationProvider.     */
     def daoAuthenticationProvider
 
-    /** Dependency injection for OpenIDAuthenticationFilter.    */
+    /** Dependency injection for OpenIDAuthenticationFilter.     */
     def openIDAuthenticationFilter
 
-    /** Dependency injection for the springSecurityService.    */
+    /** Dependency injection for the springSecurityService.     */
     def springSecurityService
 
     def grailsApplication
@@ -55,7 +55,7 @@ class OpenIdController {
     }
 
     def yahoo = {
-        if(params.suggest == "true") {
+        if (params.suggest == "true") {
             session['social_suggest'] = true
         }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
@@ -65,8 +65,19 @@ class OpenIdController {
         redirect uri: "/j_spring_openid_security_check?openid_identifier=http://www.yahoo.com/"
     }
 
+    def aol = {
+        if (params.suggest == "true") {
+            session['social_suggest'] = true
+        }
+        if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
+            session["open_link_userid"] = springSecurityService.currentUser?.id
+        }
+        session["LAST_AUTH_PROVIDER"] = "AOL";
+        redirect uri: "/j_spring_openid_security_check?openid_identifier=https://openid.aol.com"
+    }
+
     def google = {
-        if(params.suggest == "true") {
+        if (params.suggest == "true") {
             session['social_suggest'] = true
         }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
@@ -81,7 +92,7 @@ class OpenIdController {
     }
 
     def facebook = {
-        if(params.suggest == "true") {
+        if (params.suggest == "true") {
             session['social_suggest'] = true
         }
         if (springSecurityService.authentication.principal && springSecurityService.currentUser?.id > 0) {
