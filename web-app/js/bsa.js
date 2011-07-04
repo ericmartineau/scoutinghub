@@ -77,6 +77,27 @@ function createDialog(url, data, config) {
     });
 }
 
+function createTooltip(selector, message) {
+    jQuery(document).ready(
+            (function() {
+
+                var $this = jQuery(selector);
+                if (jQuery.fn.qtip) {
+                    $this.qtip(
+                            {
+                                content: message,
+                                show: {event:'focus', solo:true},
+                                position: {my: "right center", at: "left center"},
+                                hide: {event:"blur"},
+                                style: {
+                                    classes: "ui-tooltip-rounded tooltip-display"
+                                }
+                            }
+                    )
+                }
+            }));
+}
+
 function createDialogClosure(url, data, config) {
     return function() {
         createDialog(url, data, config)

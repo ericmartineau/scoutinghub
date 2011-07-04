@@ -161,6 +161,7 @@ class LeaderCertificationController {
                         leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
                         leaderCertification.enteredBy = springSecurityService.currentUser
                         leaderCertification.dateEntered = new Date()
+                        leaderCertification.save()
                         leader.addToCertifications(leaderCertification)
                         leader.save()
                         if(leader.hasErrors()) {

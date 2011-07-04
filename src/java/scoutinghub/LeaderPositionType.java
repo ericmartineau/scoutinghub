@@ -29,7 +29,7 @@ public enum LeaderPositionType {
     AssistantVarsityCoach("VA", true, false, Team),
     CrewAdvisor("NL", true, true, Crew),
     AssistantCrewAdvisor("NA", true, false, Crew),
-    CharterRep("CR", false, false, Troop, Pack, Crew, Team),
+    CharterRep("CR", false, false, new ScoutGroupType[] {CharteringOrg}, new ScoutUnitType[] {Troop, Pack, Crew, Team}),
     CommitteeChair("CC", false, false, Troop, Pack, Crew, Team),
     CommitteeMember("MC", false, false, Troop, Pack, Crew, Team),
     ScoutParentsUnitCoordinator("PC", false, false, Troop, Pack, Crew, Team),
@@ -60,39 +60,35 @@ public enum LeaderPositionType {
     Administrator("AD", false, Council, District, CharteringOrg, Stake, Group);
 
 
-    LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutUnitType... scoutUnitTypes) {
+    LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutGroupType[] scoutGroupTypes, ScoutUnitType[] scoutUnitTypes) {
         this.code = code;
         this.directContact = directContact;
-
-        Set unitSet = new LinkedHashSet();
-        for (ScoutUnitType scoutUnitType : scoutUnitTypes) {
-            unitSet.add(scoutUnitType);
-        }
-        this.scoutUnitTypes = unitSet;
         this.keyLeaderPosition = keyLeaderPosition;
-        this.scoutGroupTypes = new HashSet<ScoutGroupType>();
-    }
-
-    LeaderPositionType(String code, boolean directContact, ScoutGroupType... scoutGroupTypes) {
-        this.code = code;
-        this.directContact = directContact;
-        this.keyLeaderPosition = false;
         Set groupSet = new LinkedHashSet();
 
         for (ScoutGroupType scoutGroupType : scoutGroupTypes) {
             groupSet.add(scoutGroupType);
         }
 
+        Set unitSet = new LinkedHashSet();
+        for (ScoutUnitType scoutUnitType : scoutUnitTypes) {
+            unitSet.add(scoutUnitType);
+        }
+        this.scoutUnitTypes = unitSet;
+
         this.scoutGroupTypes = groupSet;
-        this.scoutUnitTypes = new HashSet<ScoutUnitType>();
+    }
+
+    LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutUnitType... scoutUnitTypes) {
+        this(code, directContact, keyLeaderPosition, new ScoutGroupType[0], scoutUnitTypes);
+    }
+
+    LeaderPositionType(String code, boolean directContact, ScoutGroupType... scoutGroupTypes) {
+        this(code, directContact, false, scoutGroupTypes, new ScoutUnitType[0]);
     }
 
     LeaderPositionType(String code, boolean directContact) {
-        this.code = code;
-        this.directContact = directContact;
-        this.keyLeaderPosition = false;
-        this.scoutGroupTypes = new HashSet();
-        this.scoutUnitTypes = new HashSet();
+        this(code, directContact, false, new ScoutGroupType[0], new ScoutUnitType[0]);
     }
 
     public final Set<ScoutUnitType> scoutUnitTypes;

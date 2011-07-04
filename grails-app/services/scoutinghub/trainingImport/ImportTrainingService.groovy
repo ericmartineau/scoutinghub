@@ -58,8 +58,6 @@ class ImportTrainingService {
             "EffectiveDate": "effectiveDate"
     ]
 
-
-
     def certDefinitionTypeMap = [
             "yptDate": CertificationType.YouthProtection,
             "thisIsScoutingDate": CertificationType.ThisIsScouting,
@@ -89,14 +87,15 @@ class ImportTrainingService {
             "WebelosLeader": LeaderPositionType.WebelosLeader,
             "AssistantDenLeader": LeaderPositionType.AssistantDenLeader,
             "AsstDenLeader": LeaderPositionType.AssistantDenLeader,
+            "Asst.DenLeader": LeaderPositionType.AssistantDenLeader,
             "AssistantWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
             "AsstWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
             "VarsityScoutCoach": LeaderPositionType.VarsityCoach,
             "AssistantVarsityCoach": LeaderPositionType.AssistantVarsityCoach,
             "VenturingCrewAdvisor": LeaderPositionType.CrewAdvisor,
+            "VenturingCrewAssoc.Advisor": LeaderPositionType.AssistantCrewAdvisor,
             "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor,
             "VenturingCrewAssocAdvisor": LeaderPositionType.AssistantCrewAdvisor
-
     ]
 
     /**

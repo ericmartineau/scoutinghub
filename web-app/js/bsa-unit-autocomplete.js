@@ -143,8 +143,8 @@ function configureUnitAutocomplete() {
                         unitNameFld.qtip(
                                 {
                                     content: json.msgText,
-                                    show: {ready:true, event:false},
-                                    position: {my: "top center", at: "bottom center"},
+                                    show: {ready:true, event:false, solo:true},
+                                    position: {my: "right center", at: "left center"},
                                     hide: {event:"click"},
                                     style: {
                                         classes: "ui-tooltip-rounded tooltip-display"

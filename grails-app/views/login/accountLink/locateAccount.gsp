@@ -44,10 +44,13 @@
 
             </g:if>
 
+
             <s:bigTextField name="firstName" value="${createAccount?.firstName}" code="${message(code:'leader.firstName.label')}"
                             placeholder="${message(code:'leader.firstName.label')}"/>
+
             <s:bigTextField name="lastName" value="${createAccount?.lastName}" code="${message(code:'leader.lastName.label')}"
                             placeholder="${message(code:'leader.lastName.label')}"/>
+            <s:tooltip code="flow.locateAccount.emailIsYourUsername" selector="#email" />
             <s:bigTextField name="email" value="${createAccount?.email}" code="${message(code:'leader.email.label')}"
                             placeholder="${message(code:'leader.email.label')}"/>
             <s:bigTextField name="scoutid" value="${createAccount?.scoutid}" code="${message(code:'label.scoutid')}"
@@ -61,7 +64,8 @@
                 %{--<g:message code="flow.locateAccount.unitCreateLater"/>--}%
             %{--</s:text>--}%
 
-            <s:msg code="flow.locateAccount.unitCreateLater" type="info" />
+            <s:tooltip code="flow.locateAccount.unitCreateLater" selector="a.selectBox" />
+
 
             <s:bigSelecter class="selecter"
                            id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"

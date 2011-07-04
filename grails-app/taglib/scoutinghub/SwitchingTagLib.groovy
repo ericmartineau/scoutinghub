@@ -59,6 +59,12 @@ class SwitchingTagLib {
         }
     }
 
+    def tooltip = {attrs->
+        def code = attrs.code
+        def selector = attrs.selector
+        out << "<script type='text/javascript'>if(createTooltip) createTooltip('${selector}', '${message(code:code)}')</script>"
+    }
+
     def leaderUnit = {attrs, body ->
         LeaderGroup leaderGroup = attrs.leaderGroup;
         if (session.isMobile) {
