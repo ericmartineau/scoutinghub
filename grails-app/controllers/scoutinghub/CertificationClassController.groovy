@@ -15,22 +15,35 @@ class CertificationClassController {
     }
 
     @Secured(['ROLE_LEADER'])
+    def onlineTraining = {
+        Certification certification = Certification.get(params.id)
+        return [certification:certification]
+
+    }
+
+    @Secured(['ROLE_LEADER'])
     def findByCertification = {
 
         Certification cert = Certification.get(Integer.parseInt(params.certificationId))
         Leader leader = Leader.get(Integer.parseInt(params.leaderId));
 
-        //Look for registered
-        CertificationClass registered = leader.certificationClasses?.find {it.certification.id == cert.id}
-        if (registered) {
-            return [registeredFor: registered]
+        if (cert.trainingUrl) {
+            //Render online training link
+            render(template:'onlineTraining', model:[certification:cert])
         } else {
-            def availableClasses = CertificationClass.findAllByCertificationAndClassDateGreaterThan(
-                    cert, new Date())
-            if (availableClasses && availableClasses.size() > 0) {
-                return [availableClasses: availableClasses]
+
+            //Look for registered
+            CertificationClass registered = leader.certificationClasses?.find {it.certification.id == cert.id}
+            if (registered) {
+                return [registeredFor: registered]
             } else {
-                render("")
+                def availableClasses = CertificationClass.findAllByCertificationAndClassDateGreaterThan(
+                        cert, new Date())
+                if (availableClasses && availableClasses.size() > 0) {
+                    return [availableClasses: availableClasses]
+                } else {
+                    render("")
+                }
             }
         }
     }
@@ -53,7 +66,7 @@ class CertificationClassController {
         Leader leader = Leader.get(Integer.parseInt(params.leaderId))
         certificationClass.addToRegistrants(leader)
         leader.addToCertificationClasses(certificationClass)
-        def rtn = [success:true]
+        def rtn = [success: true]
         try {
             certificationClass.save(flush: true)
             leader.save(flush: true)
@@ -72,7 +85,7 @@ class CertificationClassController {
         Leader leader = Leader.get(Integer.parseInt(params.leaderId))
         certificationClass.removeFromRegistrants(leader)
         leader.removeFromCertificationClasses(certificationClass)
-        def rtn = [success:true]
+        def rtn = [success: true]
         try {
             certificationClass.save(flush: true)
             leader.save(flush: true)
@@ -89,7 +102,7 @@ class CertificationClassController {
         int id = Integer.parseInt(params.id)
         CertificationClass certificationClass = CertificationClass.get(id)
         Leader leader = Leader.get(Integer.parseInt(params.leaderId))
-        return [leader:leader, certificationClass: certificationClass]
+        return [leader: leader, certificationClass: certificationClass]
     }
 
     def confirmDelete = {
@@ -98,7 +111,7 @@ class CertificationClassController {
     }
 
     def list = {
-        if(!params.sort) {
+        if (!params.sort) {
             params.sort = "id"
             params.order = "desc"
         }

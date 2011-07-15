@@ -77,7 +77,19 @@ function createDialog(url, data, config) {
     });
 }
 
-function createTooltip(selector, message) {
+function createOverTooltip(selector, message) {
+    createTooltip(selector, message, "mouseenter", "mouseleave")
+
+}
+
+function createTooltip(selector, message, onEvent, offEvent) {
+    if(!onEvent || onEvent == "") {
+        onEvent = "focus";
+    }
+    if(!offEvent || offEvent== "") {
+        offEvent = "blur"
+    }
+
     jQuery(document).ready(
             (function() {
 
@@ -86,9 +98,9 @@ function createTooltip(selector, message) {
                     $this.qtip(
                             {
                                 content: message,
-                                show: {event:'focus', solo:true},
+                                show: {event:onEvent, solo:true},
                                 position: {my: "right center", at: "left center"},
-                                hide: {event:"blur"},
+                                hide: {event:offEvent},
                                 style: {
                                     classes: "ui-tooltip-rounded tooltip-display"
                                 }

@@ -17,6 +17,10 @@
                     });
         }
 
+        function enterTrainingDetails(id) {
+            jQuery("#completeTraining" + id).click();
+        }
+
         jQuery(document).ready(function() {
             var pct = parseInt(jQuery(this).attr("pct"));
             jQuery("#trainingCompletion").progressbar({value:pct});
@@ -223,7 +227,20 @@
 
     <g:if test="${certificationInfo?.size() > 0}">
         <s:section class="floatSection">
-            <s:sectionHeader code="leader.profile.mytraining" icon="training-icon"/>
+            <s:sectionHeader code="leader.profile.mytraining" icon="training-icon">
+                <s:ctxmenu>
+                <g:ctxmenuItem>
+                    <s:linker elementId="whatAboutOthers" title="${message(code: 'training.whatAboutOthers')}" controller="leader" action="whatAboutOthers" class="lightbox">
+                        <g:inlineIcon class="blank-icon"/>
+                        <g:ctxmenuLabel>
+                            <g:message code="training.whatAboutOthers"/>
+                        </g:ctxmenuLabel>
+                    </s:linker>
+                </g:ctxmenuItem>
+                <s:tooltip code="training.whatAboutOthers.more" selector="#whatAboutOthers" onEvent="mouseenter" offEvent="mouseleave" />
+
+            </s:ctxmenu>
+            </s:sectionHeader>
 
             <g:if test="${!certificationInfo}">
                 <s:msg type="warning" code="leader.profile.notInUnit"/>

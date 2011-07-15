@@ -15,17 +15,51 @@ class LeaderController {
     TrainingService trainingService;
 
     def create = {
-        int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
-        return [scoutGroup: ScoutGroup.get(scoutGroupId)]
 
+        int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
+        return [addCommand: new AddLeaderToGroupCommand(unit: ScoutGroup.get(scoutGroupId))]
+    }
+
+    def save = {AddLeaderToGroupCommand addCommand ->
+
+        if (!addCommand.validate()) {
+            render(view: 'create', model: [errors: "There are errors", addCommand: addCommand])
+        } else {
+            Leader leader
+            if (addCommand.foundLeader) {
+                leader = addCommand.foundLeader
+            } else {
+                leader = new Leader()
+                leader.firstName = addCommand.firstName
+                leader.lastName = addCommand.lastName
+                leader.email = addCommand.email
+            }
+
+            //If the scoutid doesn't exist, add it
+            if (addCommand.scoutid) {
+                if (!MyScoutingId.findByMyScoutingIdentifier(addCommand.scoutid)) {
+                    leader.addToMyScoutingIds([myScoutingIdentifier: addCommand.scoutid])
+                }
+            }
+
+            //If the leader is not already in the group, add it
+            if (!leader.groups?.find {it.scoutGroup.id == addCommand.unit.id}) {
+                leader.addToGroups([scoutGroup: addCommand.unit, leaderPosition: addCommand.unitPosition])
+            }
+
+            leader.save(failOnError: true)
+            leader.reindex();
+            trainingService.recalculatePctTrained(leader)
+            redirect(controller: "scoutGroup", action: "show", id: addCommand.unit.id)
+        }
     }
 
     def getLeaderDetails = {
         Leader leader = Leader.get(params.id)
-        def rtn = [id:leader.id,
+        def rtn = [id: leader.id,
                 firstName: leader?.firstName,
-                lastName:leader?.lastName,
-                email:leader?.email]
+                lastName: leader?.lastName,
+                email: leader?.email]
         render rtn as JSON
     }
 
@@ -39,7 +73,7 @@ class LeaderController {
     def findLeaderMatch = {
         final Set<Leader> leaders = leaderService.findLeaders(params.scoutid, params.email, params.firstName, params.lastName, null);
         if (leaders?.size() > 0) {
-            return [leaders:leaders]
+            return [leaders: leaders]
         } else {
             render("")
         }
@@ -76,10 +110,10 @@ class LeaderController {
         leader.email = params.email
         leader.phone = params.phone
 
-        if(!leader.save()) {
+        if (!leader.save()) {
             flash.leaderError = leader
             flash.error = true
-            redirect(action: "view", id:leader.id, params:[edit:true])
+            redirect(action: "view", id: leader.id, params: [edit: true])
         } else {
             leader.reindex()
             redirect(action: "view", id: leader.id)
@@ -91,16 +125,16 @@ class LeaderController {
         Leader leaderA = Leader.get(Integer.parseInt(params.leaderA))
         Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
 
-        leaderService.mergeLeaders(leaderA,leaderB);
+        leaderService.mergeLeaders(leaderA, leaderB);
         trainingService.recalculatePctTrained(leaderA);
-        redirect(view:"view", id:leaderA.id)
+        redirect(view: "view", id: leaderA.id)
 
     }
 
     def accountCreated = {
         Leader leader = springSecurityService.currentUser
         leader.reindex()
-        forward(action:'view')
+        forward(action: 'view')
     }
 
     def view = {
@@ -119,7 +153,7 @@ class LeaderController {
             leader = springSecurityService.currentUser
         }
 
-        if(!leader) {
+        if (!leader) {
             redirect(controller: "login", action: "denied")
             return
         }

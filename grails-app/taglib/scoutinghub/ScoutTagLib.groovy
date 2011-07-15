@@ -13,6 +13,7 @@ class ScoutTagLib {
     def completeTrainingLink = {attrs, body ->
         LeaderCertificationInfo certificationInfo = attrs.certificationInfo;
         out << s.linker(controller: "leaderCertification",
+                elementId: "completeTraining${certificationInfo.certification.id}",
                 action: "createForm",
                 img: "/scoutinghub/images/training-${certificationInfo.certificationStatus?.name()?.toLowerCase()}.png",
                 'class': 'lightbox',

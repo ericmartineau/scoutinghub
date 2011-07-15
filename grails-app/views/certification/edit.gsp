@@ -44,7 +44,7 @@
                                   <label for="name"><g:message code="certification.name.label" default="Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${certificationInstance?.name}" />
+                                    <g:textField name="name" value="${certificationInstance?.name}" size="40" />
                                 </td>
                             </tr>
                         
@@ -56,7 +56,16 @@
                                     <g:textArea name="description" cols="40" rows="5" value="${certificationInstance?.description}" />
                                 </td>
                             </tr>
-                        
+
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="description"><g:message code="certification.trainingUrl.label" default="Training Url" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'trainingUrl', 'errors')}">
+                                    <g:textField name="trainingUrl" cols="40" rows="5" value="${certificationInstance?.trainingUrl}" size="40" />
+                                </td>
+                            </tr>
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="durationInDays"><g:message code="certification.durationInDays.label" default="Duration In Days" /></label>
@@ -75,24 +84,7 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="createDate"><g:message code="certification.createDate.label" default="Create Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'createDate', 'errors')}">
-                                    <g:datePicker name="createDate" precision="day" value="${certificationInstance?.createDate}" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="updateDate"><g:message code="certification.updateDate.label" default="Update Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: certificationInstance, field: 'updateDate', 'errors')}">
-                                    <g:datePicker name="updateDate" precision="day" value="${certificationInstance?.updateDate}" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="leaderCertifications"><g:message code="certification.leaderCertifications.label" default="Leader Certifications" /></label>

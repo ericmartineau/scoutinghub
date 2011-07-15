@@ -7,6 +7,8 @@ class Certification {
     String name;
     String description;
 
+    String trainingUrl;
+
     /**
      * How long (in days) before a certification expires
      */
@@ -37,6 +39,7 @@ class Certification {
         createDate nullable: true
         updateDate nullable: true
         certificationType nullable: true
+        trainingUrl blank: true
     }
 
     static mapping = {
