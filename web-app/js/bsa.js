@@ -86,7 +86,7 @@ function createTooltip(selector, message, onEvent, offEvent) {
     if(!onEvent || onEvent == "") {
         onEvent = "focus";
     }
-    if(!offEvent || offEvent== "") {
+    if(!offEvent || offEvent == "") {
         offEvent = "blur"
     }
 
@@ -98,9 +98,9 @@ function createTooltip(selector, message, onEvent, offEvent) {
                     $this.qtip(
                             {
                                 content: message,
-                                show: {event:onEvent, solo:true},
+                                show: {event: onEvent, solo:true},
                                 position: {my: "right center", at: "left center"},
-                                hide: {event:offEvent},
+                                hide: {event: offEvent},
                                 style: {
                                     classes: "ui-tooltip-rounded tooltip-display"
                                 }
