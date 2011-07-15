@@ -107,7 +107,7 @@
                             <tr>
                                 <td valign="middle"><img src="/scoutinghub/images/footerbsa.gif"/></td>
                                 <td align="left" class="footer-version">
-                                    Copyright &copy; <g:formatDate date="${new Date()}" format="yyyy"/> ScoutingHub Version <g:meta name="app.version"/>
+                                    Copyright &copy; <g:formatDate date="${new Date()}" format="yyyy"/> ScoutingHub Version <g:meta name="app.version"/><br/>
                                 </td>
                                 <td valign="middle" align="right">
                                     <g:pageProperty name="page.footer"/>

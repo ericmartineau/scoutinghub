@@ -8,6 +8,8 @@
 
         <sec:ifLoggedIn>
 
+            <li><a target="councilsurvey" href="http://doubleknot.com/form/formjump.asp?bidx=0&surveyID=23544&OrgKey=62">Council Survey</a></li>
+
             <li><a href="/scoutinghub/logout/"><g:message code="menu.logout"/></a></li>
 
         </sec:ifLoggedIn>
