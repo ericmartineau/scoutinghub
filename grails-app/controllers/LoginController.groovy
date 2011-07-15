@@ -354,16 +354,6 @@ class LoginController {
                     flow.leader = leader
                     return foundSingleExistingRecord()
                 }
-
-                //Add unit
-//                ScoutUnit scoutUnit = ScoutUnit.findByUnitIdentifier(flow.createAccount?.unitNumber)
-//                if(scoutUnit) {
-//                    scoutUnit.addToLeaders(leader)
-//                    scoutUnit.save(failOnError:true)
-//                }
-//
-//                socialLoginService.linkSocialLogin(leader, session)
-//                return success()
             }
             on("foundSingleExistingRecord").to "foundSingleExistingRecord"
             on("selectUsernameAndPassword").to "selectUsernameAndPassword"

@@ -27,7 +27,7 @@
                         <g:link controller="scoutGroup" action="show" id="${scoutGroupInstance?.parent?.id}">${scoutGroupInstance?.parent}</g:link>
                     </g:if>
                     <g:else>
-                        <g:message code="None" />
+                        <g:message code="None"/>
                     </g:else>
                 </s:property>
 
@@ -58,7 +58,12 @@
 
         <g:if test="${scoutGroupInstance.leaderGroups?.size() > 0}">
             <s:section>
-                <s:sectionHeader code="scoutGroup.leaders" icon="units-icon"/>
+                <s:sectionHeader code="scoutGroup.leaders" icon="units-icon">
+                    <s:ctxmenu>
+                        <g:ctxmenuItem controller="leader" action="create" params="['scoutGroup.id':scoutGroupInstance?.id]"
+                                       args="[scoutGroupInstance.toString()]" iconType="add" code="scoutGroup.addLeader"/>
+                    </s:ctxmenu>
+                </s:sectionHeader>
                 <s:propertyList class="vertical-form">
                     <g:each in="${scoutGroupInstance.leaderGroups}" var="leader" status="leaderStatus">
 

@@ -2,9 +2,14 @@ package scoutinghub
 
 class SeedService {
 
+    void seedCertifications072011() {
 
-    void seedCertifications() {
-        def addCertification = {String name, List<String> codes, CertificationType certificationType, Collection<LeaderPositionType> position, int duration = 1780, boolean tourPermitRequired = false ->
+        //Need to add certifications for other positions
+
+
+    }
+
+    void addCertification(String name, List<String> codes, CertificationType certificationType, Collection<LeaderPositionType> position, int duration = 1780, boolean tourPermitRequired = false) {
             Certification certification = new Certification(
                     name: name,
                     certificationType: certificationType,
@@ -31,6 +36,9 @@ class SeedService {
                 programCertification.save(failOnError: true);
             }
         }
+
+    void seedCertifications() {
+
 
         //Add the fast starts for each leaderPosition
         addCertification("Cubmaster Fast Start", ["C72", "CF3"], CertificationType.FastStart, [LeaderPositionType.Cubmaster, LeaderPositionType.AssistantCubmaster], 1780)

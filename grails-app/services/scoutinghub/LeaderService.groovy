@@ -28,7 +28,7 @@ class LeaderService {
         return leader
     }
 
-    void mergeLeaders(Leader primary, Leader secondary){
+    void mergeLeaders(Leader primary, Leader secondary) {
         //merge scouting ids
         mergeScoutIds(primary, secondary);
 
@@ -37,7 +37,6 @@ class LeaderService {
         //merge leader certifications
         mergeLeaderCertifications(primary, secondary);
 
-
         //persist primary
         primary.save(failOnError: true);
         //kill secondary
@@ -45,26 +44,25 @@ class LeaderService {
         primary.refresh();
     }
 
-    void mergeScoutIds(Leader primary, Leader secondary){
-           secondary.myScoutingIds.each(){
+    void mergeScoutIds(Leader primary, Leader secondary) {
+        secondary.myScoutingIds.each() {
             def idString = it.myScoutingIdentifier;
             def myScoutingIdInstance = new MyScoutingId()
             myScoutingIdInstance.leader = primary
-            myScoutingIdInstance.myScoutingIdentifier=idString;
+            myScoutingIdInstance.myScoutingIdentifier = idString;
 
-            it.myScoutingIdentifier="del"+idString;
-            secondary.save(flush: true,failOnError: true);
+            it.myScoutingIdentifier = "del" + idString;
+            secondary.save(flush: true, failOnError: true);
 
             secondary.refresh();
             primary.addToMyScoutingIds(myScoutingIdInstance)
-            primary.save(flush: true,failOnError: true);
+            primary.save(flush: true, failOnError: true);
         }
     }
 
-    void mergeLeaderCertifications(Leader primary, Leader secondary){
+    void mergeLeaderCertifications(Leader primary, Leader secondary) {
         LeaderCertification primaryLeaderCert;
         Set<LeaderCertification> leaderCertificationsToBeAdded = new HashSet<LeaderCertification>();
-
 
         // look for collisions, keep only the most recent cert relationships
         secondary.certifications.each() {
@@ -94,7 +92,7 @@ class LeaderService {
             leaderCertification.dateEarned = it.dateEarned
             leaderCertification.dateEntered = it.dateEntered
             leaderCertification.enteredType = it.enteredType
-            if(it.enteredBy.equals(secondary)) {
+            if (it.enteredBy.equals(secondary)) {
                 leaderCertification.enteredBy = primary
             } else {
                 leaderCertification.enteredBy = it.enteredBy
@@ -102,11 +100,11 @@ class LeaderService {
             leaderCertification.save(failOnError: true)
 
             primary.addToCertifications(leaderCertification);
-            primary.save(flush: true,failOnError: true);
+            primary.save(flush: true, failOnError: true);
             secondary.certifications.remove(it);
         }
 
-        primary.save(flush: true,failOnError: true);
+        primary.save(flush: true, failOnError: true);
     }
 
     void mergeLeaderGroups(Leader primary, Leader secondary) {
@@ -149,9 +147,7 @@ class LeaderService {
 
 
     Leader findExactLeaderMatch(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup) {
-        if (scoutGroup == null) {
-            return null
-        }
+
         Leader leader = null
         if (!leader && scoutid != "") {
             def c = Leader.createCriteria();
@@ -173,7 +169,7 @@ class LeaderService {
         }
 
         //Try first/last/unit
-        if (!leader) {
+        if (!leader && scoutGroup) {
             def c = Leader.createCriteria();
             leader = c.get {
                 eq('firstName', firstName)
@@ -181,10 +177,6 @@ class LeaderService {
 
                 groups {
                     eq('scoutGroup', scoutGroup)
-//                    scoutGroup {
-//                        eq('groupIdentifier', unitNumber)
-//                    }
-
                 }
             }
         }
@@ -194,29 +186,20 @@ class LeaderService {
     Set<Leader> findLeaders(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup) {
         Set<Leader> rtn = new HashSet<Leader>();
 
-        if (scoutGroup != null) {
-
-            Leader match = findExactLeaderMatch(scoutid, email, firstName, lastName, scoutGroup)
-            if (match) {
-                rtn.add(match);
-            }
-
-            //Try email
-
-            if (email) {
-                Collection<Leader> leaders = Leader.findAllByEmail(email)
-                if (leaders?.size() > 0) {
-                    rtn.addAll(leaders)
-                }
-            }
-
-
+        Leader match = findExactLeaderMatch(scoutid, email, firstName, lastName, scoutGroup)
+        if (match) {
+            rtn.add(match);
         }
 
-
+        //Try email
+        if (email) {
+            Collection<Leader> leaders = Leader.findAllByEmail(email)
+            if (leaders?.size() > 0) {
+                rtn.addAll(leaders)
+            }
+        }
 
         return rtn
-
     }
 
 }

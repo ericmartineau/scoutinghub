@@ -25,6 +25,7 @@ class BootStrap {
             }
         }
 
+        seedService.seedCertifications072011()
 
         if (Leader.list()?.size() == 0) {
             ScoutGroup council = new ScoutGroup(

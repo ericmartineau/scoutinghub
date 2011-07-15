@@ -262,7 +262,7 @@ class SwitchingTagLib {
         } else {
             out << "<div class='${attrs?.class}'>"
             out << "<span class='chk-input'>"
-            out << g.checkBox(attrs)
+            out << "<input type='checkbox' name='${attrs.name}' id='${attrs.name}' value='true' />"
             out << "</span>"
             out << "<span class='chk-label'>"
             out << message(code: attrs?.code)

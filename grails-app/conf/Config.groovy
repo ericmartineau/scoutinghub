@@ -103,3 +103,8 @@ grails.plugins.springsecurity.providerNames = ['openIDAuthProvider', 'facebookAu
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.Annotation
 grails.plugins.springsecurity.openid.domainClass = 'scoutinghub.OpenID'
 grails.plugins.springsecurity.openid.registration.autocreate=true
+grails.plugins.springsecurity.rememberMe.persistent=true
+grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName='scoutinghub.PersistentToken'
+
+grails.plugins.springsecurity.rememberMe.persistent = true
+grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'scoutinghub.PersistentToken'

@@ -3,6 +3,7 @@ package scoutinghub
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
+import grails.converters.JSON
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -13,8 +14,38 @@ class LeaderController {
 
     TrainingService trainingService;
 
+    def create = {
+        int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
+        return [scoutGroup: ScoutGroup.get(scoutGroupId)]
+
+    }
+
+    def getLeaderDetails = {
+        Leader leader = Leader.get(params.id)
+        def rtn = [id:leader.id,
+                firstName: leader?.firstName,
+                lastName:leader?.lastName,
+                email:leader?.email]
+        render rtn as JSON
+    }
+
+    def recheckLeaderMatch = {
+        final Set<Leader> leaders = leaderService.findLeaders(params.scoutid, params.email, params.firstName, params.lastName, null);
+        def rtn = [check: leaders?.find {it.id == Integer.parseInt(params.id)} != null]
+        render rtn as JSON
+    }
+
+
+    def findLeaderMatch = {
+        final Set<Leader> leaders = leaderService.findLeaders(params.scoutid, params.email, params.firstName, params.lastName, null);
+        if (leaders?.size() > 0) {
+            return [leaders:leaders]
+        } else {
+            render("")
+        }
+    }
+
     def index = {
-        //@todo this should be secured
         forward(action: 'profile')
     }
 
