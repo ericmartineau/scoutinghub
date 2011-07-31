@@ -59,10 +59,10 @@ class SwitchingTagLib {
         }
     }
 
-    def tooltip = {attrs->
+    def tooltip = {attrs ->
         def code = attrs.code
         def selector = attrs.selector
-        out << "<script type='text/javascript'>if(createTooltip) createTooltip('${selector}', '${message(code:code)}', '${attrs.onEvent?:''}', '${attrs.offEvent?:''}')</script>"
+        out << "<script type='text/javascript'>if(createTooltip) createTooltip('${selector}', '${message(code: code)}', '${attrs.onEvent ?: ''}', '${attrs.offEvent ?: ''}')</script>"
     }
 
     def leaderUnit = {attrs, body ->
@@ -477,6 +477,32 @@ class SwitchingTagLib {
             }
             out << "</optgroup>"
 
+        }
+    }
+
+    def certificationOptions = {attrs ->
+        List<ProgramCertification> certifications = ProgramCertification.listOrderByPositionType()
+        Map leaderPositionTypesToRequiredCertification = [:]
+        certifications.each {
+            ProgramCertification programCertification ->
+            LeaderPositionType positionType = programCertification.positionType
+            if (positionType != null) {
+                if (!leaderPositionTypesToRequiredCertification.containsKey(positionType)) {
+                    leaderPositionTypesToRequiredCertification[positionType] = []
+                }
+                leaderPositionTypesToRequiredCertification[positionType] << programCertification.certification
+            }
+        }
+
+        leaderPositionTypesToRequiredCertification.each {entry ->
+            out << optGroup(label: message(code: entry.key.name() + ".label")) {
+                entry.value.each {
+                    Certification certification->
+                    out << g.selectOption(value: certification.id) {
+                        out << certification.name
+                    }
+                }
+            }
         }
     }
 

@@ -193,7 +193,18 @@ class LeaderController {
 
         }
 
-        def rtn = [certificationInfo: certificationInfo, leader: leader]
+        //We need to build a list of "extra" certifications.  This would include any leader certification
+        //not found in the query above.
+        def extraCertificationInfo = []
+
+        //Load up all certifications
+        leader.certifications?.each { extraCertificationInfo << new LeaderCertificationInfo(it) }
+
+        //Remove the ones already represented by required training
+        certificationInfo.each { extraCertificationInfo.remove(it) }
+
+
+        def rtn = [extraCertificationInfo:extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
 
         return rtn
 

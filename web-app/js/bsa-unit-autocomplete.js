@@ -1,50 +1,50 @@
 function commonDecorate() {
     jQuery("a.lightbox").each(
-            function() {
-                var oldHref = this.href;
-                this.href = "javascript:void(0)";
-                var config = {};
-                var $this = jQuery(this);
-                if ($this.attr("title")) {
-                    config.title = $this.attr("title");
-                }
-                if ($this.attr("lbheight")) {
-                    config.height = parseInt($this.attr("lbheight"));
-                }
-                if ($this.attr("lbwidth")) {
-                    config.width = parseInt($this.attr("lbwidth"));
-                }
+        function() {
+            var oldHref = this.href;
+            this.href = "javascript:void(0)";
+            var config = {};
+            var $this = jQuery(this);
+            if ($this.attr("title")) {
+                config.title = $this.attr("title");
+            }
+            if ($this.attr("lbheight")) {
+                config.height = parseInt($this.attr("lbheight"));
+            }
+            if ($this.attr("lbwidth")) {
+                config.width = parseInt($this.attr("lbwidth"));
+            }
 
-                $this.click(createDialogClosure(oldHref, {}, config));
-            }).removeClass("lightbox");
+            $this.click(createDialogClosure(oldHref, {}, config));
+        }).removeClass("lightbox");
 
     //Dialog forms operate in a lightbox - we want to submit the form via ajax, and read the json response.
     jQuery("form.dialog-form").each(
-            function() {
-                var $this = jQuery(this);
-                $this.submit(function(event) { //hijack form submission
-                    event.preventDefault(); //prevent form from submitting
-                    // Send the request
-                    jQuery.post($this.attr("action"), $this.serialize(), function(json) {
-                        if (json.success) {
-                            closeDialog();
-                            if ($this.attr("reload") != "false") {
-                                window.location.reload();
-                            }
-                        } else {
-                            jQuery("div.errors", "#dialog").remove();
-                            var errDiv = jQuery("<div class='errors'></div>");
-                            errDiv
-                                    .hide()
-                                    .prependTo($this)
-                                    .load("/scoutinghub/errorRendering/show", {}, function() {
-                                        errDiv.show("blind", { direction: "vertical" }, 200);
-                                    });
+        function() {
+            var $this = jQuery(this);
+            $this.submit(function(event) { //hijack form submission
+                event.preventDefault(); //prevent form from submitting
+                // Send the request
+                jQuery.post($this.attr("action"), $this.serialize(), function(json) {
+                    if (json.success) {
+                        closeDialog();
+                        if ($this.attr("reload") != "false") {
+                            window.location.reload();
                         }
-                    }, 'json');
-                    return false;
-                });
-            }).removeClass("dialog-form");
+                    } else {
+                        jQuery("div.errors", "#dialog").remove();
+                        var errDiv = jQuery("<div class='errors'></div>");
+                        errDiv
+                            .hide()
+                            .prependTo($this)
+                            .load("/scoutinghub/errorRendering/show", {}, function() {
+                                errDiv.show("blind", { direction: "vertical" }, 200);
+                            });
+                    }
+                }, 'json');
+                return false;
+            });
+        }).removeClass("dialog-form");
 
     configureUnitAutocomplete();
 }
@@ -80,24 +80,24 @@ function configureUnitAutocomplete() {
         }
 
         jthis.autocomplete({
-                    source:getUnitDataClosure(positionField),
-                    mustMatch: true,
-                    matchContains: false,
-                    formatItem: function(data, i, total) {
-                        return data[0]
-                    },
-                    focus: function(event, ui) {
-                        idField.val(ui.item.key);
-                        jthis.val(ui.item.label);
-                        return false;
-                    },
-                    select: function(event, ui) {
-                        idField.val(ui.item.key);
-                        jthis.val(ui.item.label);
-                        getApplicablePositions(positionField, jthis, idField);
-                        return false;
-                    }
-                });
+            source:getUnitDataClosure(positionField),
+            mustMatch: true,
+            matchContains: false,
+            formatItem: function(data, i, total) {
+                return data[0]
+            },
+            focus: function(event, ui) {
+                idField.val(ui.item.key);
+                jthis.val(ui.item.label);
+                return false;
+            },
+            select: function(event, ui) {
+                idField.val(ui.item.key);
+                jthis.val(ui.item.label);
+                getApplicablePositions(positionField, jthis, idField);
+                return false;
+            }
+        });
     });
 
     /**
@@ -141,15 +141,15 @@ function configureUnitAutocomplete() {
                     //Add tooltip
                     if (jQuery.fn.qtip) {
                         unitNameFld.qtip(
-                                {
-                                    content: json.msgText,
-                                    show: {ready:true, event:false, solo:true},
-                                    position: {my: "right center", at: "left center"},
-                                    hide: {event:"click"},
-                                    style: {
-                                        classes: "ui-tooltip-rounded tooltip-display"
-                                    }
+                            {
+                                content: json.msgText,
+                                show: {ready:true, event:false, solo:true},
+                                position: {my: "right center", at: "left center"},
+                                hide: {event:"click"},
+                                style: {
+                                    classes: "ui-tooltip-rounded tooltip-display"
                                 }
+                            }
                         )
                     }
                 }
@@ -169,5 +169,23 @@ function getUnitDataClosure($position) {
         });
     }
 }
+
+function configureDrillDown(parentSelect, childSelect, url, runNow) {
+    setTimeout(function() {
+        var $parentSelect = jQuery(parentSelect);
+        var $childSelect = jQuery(childSelect);
+        getSelectTarget($parentSelect).change(function() {
+            jQuery.getJSON(url, {selectedValue: $parentSelect.val()}, function(json) {
+                var currVal = $childSelect.val();
+                $childSelect.html("");
+                setSelectOptions($childSelect, json);
+                $childSelect.val(currVal);
+            });
+        });
+    }, 500);
+
+
+}
+
 
 

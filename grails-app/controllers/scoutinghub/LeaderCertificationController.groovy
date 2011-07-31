@@ -10,6 +10,7 @@ class LeaderCertificationController {
 
     SpringSecurityService springSecurityService
     TrainingService trainingService
+    LeaderCertificationService leaderCertificationService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -102,7 +103,17 @@ class LeaderCertificationController {
         redirect(controller: "leader", action: "view", id: leaderCertification?.leader?.id)
     }
 
+    def certificationOptions = {
+        String leaderPositionType = LeaderPositionType.valueOf(params.selectedValue)
+        def rtn = [:]
 
+        List<ProgramCertification> certifications = ProgramCertification.findAllByPositionType(leaderPositionType)
+        certifications.each {ProgramCertification programCertification->
+            long certificationId = programCertification.certification.id
+            rtn[certificationId] = programCertification.certification.toString()
+        }
+        render rtn as JSON
+    }
 
     def create = {
         def leaderCertificationInstance = new LeaderCertification()
@@ -120,15 +131,19 @@ class LeaderCertificationController {
     }
 
     def save = {
+        Date dateEarned = leaderCertificationService.parseCertificationDate(params.dateEarned)
         def leaderCertificationInstance = new LeaderCertification(params)
-        if (leaderCertificationInstance.save(flush: true)) {
+        leaderCertificationInstance.dateEarned = dateEarned
 
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'leaderCertification.label', default: 'LeaderCertification'), leaderCertificationInstance.id])}"
-            redirect(action: "show", id: leaderCertificationInstance.id)
+        boolean successful = leaderCertificationService.saveLeaderCertification(leaderCertificationInstance);
+        def rtn = [:]
+        if (successful) {
+            rtn.success = true
+        } else {
+            rtn.success = false
+            flash.errorObj = leaderCertificationInstance
         }
-        else {
-            render(view: "create", model: [leaderCertificationInstance: leaderCertificationInstance])
-        }
+        render rtn as JSON
     }
 
     def saveCertification = {

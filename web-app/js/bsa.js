@@ -116,6 +116,14 @@ function createDialogClosure(url, data, config) {
     }
 }
 
+function getSelectTarget($sel) {
+    return $sel.selectBox();
+}
+
+function setSelectOptions($sel, options) {
+    $sel.selectBox("options", options);
+}
+
 function configurePositionField(jPosition, fn) {
     jPosition.selectBox().change(fn);
 }
