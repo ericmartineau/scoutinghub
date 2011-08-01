@@ -1,5 +1,6 @@
 <%@ page import="scoutinghub.CertificationStatus" %>
-<div class="profileCertificationContainer ${request.currClass}"  leaderId="${certificationInfo?.leader?.id}" certificationId="${certificationInfo?.certificationStatus == CertificationStatus.Current ? "0" : certificationInfo?.certification?.id ?: '0'}">
+<div class="profileCertificationContainer ${request.currClass}" leaderId="${certificationInfo?.leader?.id}"
+     certificationId="${certificationInfo?.certificationStatus == CertificationStatus.Current ? "0" : certificationInfo?.certification?.id ?: '0'}">
 
     <g:if test="${certificationInfo.certificationStatus == CertificationStatus.Expired}">
 
@@ -44,11 +45,25 @@
         <div class="profileCertification training-complete">
             <div class="training-title">${certificationInfo.certification.name}</div>
 
-            <div class="training-details">Good until <g:formatDate
-                    date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/>&nbsp;
+            <div class="training-details">
+
+                <g:if test="${certificationInfo.leaderCertification.goodUntilDate()}">
+                    Good until <g:formatDate
+                        date="${certificationInfo.leaderCertification.goodUntilDate()}" format="MM-dd-yyyy"/>&nbsp;
                     <f:completeTrainingLink certificationInfo="${certificationInfo}">
                         <g:message code="leader.profile.alreadyComplete"/>
-                    </f:completeTrainingLink><br/>
+                    </f:completeTrainingLink>
+
+                </g:if>
+                <g:else>
+                    <g:message code="leader.profile.goodForever"/>&nbsp;
+                    <f:completeTrainingLink certificationInfo="${certificationInfo}">
+                        <g:message code="leader.profile.alreadyComplete"/>
+                    </f:completeTrainingLink>
+
+                </g:else>
+
+                <br/>
                 <g:message
                         code="${certificationInfo.leaderCertification.enteredType}.label"/> ${certificationInfo.leaderCertification.enteredBy} <g:formatDate
                         date="${certificationInfo.leaderCertification.dateEntered}" format="MMM yyyy"/>
@@ -57,6 +72,5 @@
 
         </div>
     </g:else>
-
 
 </div>

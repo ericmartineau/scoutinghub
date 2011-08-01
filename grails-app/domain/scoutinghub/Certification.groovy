@@ -39,7 +39,7 @@ class Certification {
         createDate nullable: true
         updateDate nullable: true
         certificationType nullable: true
-        trainingUrl blank: true
+        trainingUrl blank: true, nullable: true
     }
 
     static mapping = {

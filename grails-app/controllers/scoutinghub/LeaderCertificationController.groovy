@@ -108,7 +108,7 @@ class LeaderCertificationController {
         def rtn = [:]
 
         List<ProgramCertification> certifications = ProgramCertification.findAllByPositionType(leaderPositionType)
-        certifications.each {ProgramCertification programCertification->
+        certifications.each {ProgramCertification programCertification ->
             long certificationId = programCertification.certification.id
             rtn[certificationId] = programCertification.certification.toString()
         }
@@ -146,8 +146,19 @@ class LeaderCertificationController {
         render rtn as JSON
     }
 
+    def deleteCertification = {
+        def rtn = [:]
+
+        Leader leader = Leader.get(Integer.parseInt(params.leaderId));
+        Certification certification = Certification.get(Integer.parseInt(params.certificationId));
+        LeaderCertification.findAllByLeaderAndCertification(leader, certification)*.delete(flush: true)
+        rtn.success = true
+        render rtn as JSON
+    }
+
     def saveCertification = {
         def rtn = [:]
+
         if (params.dateEarned) {
 
             Leader leader = Leader.get(Integer.parseInt(params.leaderId));
@@ -156,18 +167,18 @@ class LeaderCertificationController {
             try {
                 try {
                     dateEarned = Date.parse("MM/dd/yyyy", params.dateEarned)
-                } catch(ParseException e) {
+                } catch (ParseException e) {
                     dateEarned = Date.parse("MM-dd-yyyy", params.dateEarned)
                 }
                 if (leader && certification && dateEarned) {
                     try {
                         //Let's delete any prior certification record.
                         leader.certifications?.findAll {
-                            LeaderCertification leaderCert->
+                            LeaderCertification leaderCert ->
                             leaderCert.certification.id == certification.id
                         }?.each {
                             leader.removeFromCertifications(it)
-                            it.delete(flush:true)
+                            it.delete(flush: true)
                         }
                         LeaderCertification leaderCertification = new LeaderCertification()
                         leaderCertification.leader = leader
@@ -179,7 +190,7 @@ class LeaderCertificationController {
                         leaderCertification.save()
                         leader.addToCertifications(leaderCertification)
                         leader.save()
-                        if(leader.hasErrors()) {
+                        if (leader.hasErrors()) {
                             flash.errorObj = leader
                             rtn.success = false
                         } else {
@@ -198,7 +209,7 @@ class LeaderCertificationController {
                     flash.error = "Unknown error"
                     rtn.success = false
                 }
-            } catch(ParseException e) {
+            } catch (ParseException e) {
                 rtn.success = false
                 flash.error = "Invalid date.  Please enter in the format dd/mm/yyyy"
             } catch (Exception e) {

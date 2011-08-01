@@ -21,9 +21,9 @@ class LeaderCertification implements Serializable {
 
     static belongsTo = [certification: Certification, leader: Leader]
     static constraints = {
-        createDate nullable: true
-        updateDate nullable: true
-        expirationDate nullable:true
+        createDate(nullable: true)
+        updateDate(nullable: true)
+        expirationDate(nullable:true)
         certification(unique: 'leader')
     }
 
