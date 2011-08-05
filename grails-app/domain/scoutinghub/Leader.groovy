@@ -98,7 +98,7 @@ class Leader implements Serializable {
 
     boolean canBeAdministeredBy(Leader leader) {
         boolean hasPermission = false
-        if (leader.hasRole("ROLE_ADMIN")) {
+        if (leader?.hasRole("ROLE_ADMIN")) {
             hasPermission = true
         } else if(this.id == leader?.id) {
             hasPermission = true

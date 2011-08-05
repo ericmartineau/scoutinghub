@@ -1,6 +1,7 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.SpringSecurityService
+import org.compass.annotations.SearchableConstant
 
 
 
@@ -34,14 +35,49 @@ class LeaderService {
 
         //merge leader groups
         mergeLeaderGroups(primary, secondary);
+
         //merge leader certifications
         mergeLeaderCertifications(primary, secondary);
 
+        //Merge inactive groups
+        mergeInactiveLeaderGroups(primary, secondary);
+
+        //Merge leader roles
+        mergeLeaderRoles(primary, secondary);
+
+        mergeLeaderInformation(primary, secondary);
+
+        //kill secondary
+        secondary.delete(failOnError: true, flush:true);
+
         //persist primary
         primary.save(failOnError: true);
-        //kill secondary
-        secondary.delete(failOnError: true);
-        primary.refresh();
+
+    }
+
+    void mergeLeaderRoles(Leader primary, Leader secondary) {
+        LeaderRole.findAllByLeader(secondary)?.each {
+            LeaderRole role ->
+
+            if (!primary.hasAuthority(role.role)) {
+                LeaderRole primaryRole = new LeaderRole();
+                primaryRole.leader = primary
+                primaryRole.role = role.role
+                primaryRole.save(failOnError:true)
+            }
+
+            role.delete()
+        }
+    }
+
+    void mergeLeaderInformation(Leader primary, Leader secondary) {
+        primary.username = primary.username ?: secondary.username
+        primary.password = primary.password ?: secondary.password
+        primary.email = primary.email ?: secondary.email
+        primary.phone = primary.phone ?: secondary.phone
+        if(!primary.enabled) {
+            primary.enabled = secondary.enabled
+        }
     }
 
     void mergeScoutIds(Leader primary, Leader secondary) {
@@ -57,6 +93,21 @@ class LeaderService {
             secondary.refresh();
             primary.addToMyScoutingIds(myScoutingIdInstance)
             primary.save(flush: true, failOnError: true);
+        }
+    }
+
+    void mergeInactiveLeaderGroups(Leader primary, Leader secondary) {
+        LeaderCertification primaryLeaderCert;
+        InactiveLeaderGroup.findAllByLeader(secondary)?.each {
+            InactiveLeaderGroup inactiveLeaderGroup->
+
+            InactiveLeaderGroup copied = new InactiveLeaderGroup()
+            copied.leader = primary
+            copied.scoutGroup = inactiveLeaderGroup.scoutGroup
+            copied.createDate = inactiveLeaderGroup.createDate
+            copied.save(failOnError:true)
+
+            inactiveLeaderGroup.delete()
         }
     }
 
@@ -97,14 +148,23 @@ class LeaderService {
             } else {
                 leaderCertification.enteredBy = it.enteredBy
             }
-            leaderCertification.save(failOnError: true)
 
             primary.addToCertifications(leaderCertification);
-            primary.save(flush: true, failOnError: true);
-            secondary.certifications.remove(it);
+
+            it.delete();
+            secondary.removeFromCertifications(it);
         }
 
         primary.save(flush: true, failOnError: true);
+        secondary.save(flush:true, failOnError:true)
+
+
+
+        //Move over any certifications that were entered by the secondary (but aren't actually for the secondary)
+        LeaderCertification.findAllByEnteredBy(secondary)?.each {
+            it.enteredBy = primary
+            it.save(failOnError:true)
+        }
     }
 
     void mergeLeaderGroups(Leader primary, Leader secondary) {

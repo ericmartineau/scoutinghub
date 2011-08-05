@@ -33,10 +33,12 @@ class SeedExecutionService {
                     scriptExecution.completed = true
 
                 } catch (Exception e) {
+                    log.error "Error running seed script ${it.name}", e
                     scriptExecution.completed = false
                     scriptExecution.message = e.message
 
                 } finally {
+                    log.info "Ran ${it.name} successfully"
                     scriptExecution.save(failOnError: true)
 
                 }
