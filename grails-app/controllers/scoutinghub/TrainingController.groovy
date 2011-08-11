@@ -10,13 +10,20 @@ import scoutinghub.trainingImport.ImportSheet
 import scoutinghub.trainingImport.ImportTrainingService
 import org.apache.poi.ss.usermodel.*
 import grails.plugins.springsecurity.SpringSecurityService
+import scoutinghub.trainingImport.SimpleImportJob
+import scoutinghub.trainingImport.SimpleImportTrainingService
 
 @Secured(["ROLE_LEADER"])
 class TrainingController {
 
-    ImportTrainingService importTrainingService
+    def importTrainingService
+
+    def simpleImportTrainingService
+
     SpringSecurityService springSecurityService
+
     MessageSource messageSource
+
     ScoutGroupService scoutGroupService
 
     def index = {
@@ -119,13 +126,14 @@ class TrainingController {
     }
 
     def getFilters = {
-
         render rtn as JSON
     }
 
 
     def importStatus = {
+    }
 
+    def simpleImportStatus = {
     }
 
 
@@ -142,6 +150,18 @@ class TrainingController {
                         importStatus: importSheet.importStatus.name()
                 ]
             }
+            rtn.alive = importJob.alive
+        }
+
+        render rtn as JSON
+    }
+
+    def simpleImportStatusPoll = {
+        Map rtn = [:]
+        if (session.simpleImportJob) {
+            SimpleImportJob importJob = session.simpleImportJob
+            rtn.totalToImport = importJob.totalToProcess
+            rtn.totalCompleted = importJob.totalCompleted
             rtn.alive = importJob.alive
         }
 
@@ -290,6 +310,47 @@ class TrainingController {
 
         writer.flush()
         writer.close()
+    }
+
+    def simpleImportTraining = {
+        if (session.simpleImportJob) {
+            if (session.simpleImportJob.alive) {
+                flash.message = "training.importTraining.alreadyRunning"
+                redirect(action: "simpleImportStatus")
+            } else {
+                session.removeAttribute "simpleImportJob"
+            }
+
+        }
+    }
+
+    def processSimpleImportTraining = {
+        if (session.simpleImportJob) {
+            flash.message = "training.importTraining.alreadyRunning"
+            redirect(action: "simpleImportStatus")
+        } else {
+            CommonsMultipartFile importFile = request.getFile("spreadsheet")
+
+            if (importFile?.size == 0) {
+                flash.message = "training.importTraining.fileRequired"
+                redirect(action: "simpleImportTraining")
+            } else if (!importFile?.fileItem?.name?.endsWith(".xls")) {
+                flash.message = "training.importTraining.xlsRequired"
+                redirect(action: "simpleImportTraining")
+            } else {
+
+                Workbook xlsFile = WorkbookFactory.create(importFile.inputStream);
+
+                SimpleImportJob importJob = new SimpleImportJob()
+                importJob.workbook = xlsFile
+                importJob.simpleImportTrainingService = simpleImportTrainingService
+                importJob.importedBy = springSecurityService.currentUser
+                session.simpleImportJob = importJob
+                importJob.start()
+                redirect(action: "simpleImportStatus")
+
+            }
+        }
     }
 
     def processImportTraining = {

@@ -23,26 +23,33 @@ class AddUnitComissionerTrainingService implements SeedScript {
 
     void execute() {
 
-        seedService.addCertification("Commissioner Specific Training", ["D20"], null, [LeaderPositionType.Commissioner], 0, false, true)
-        seedService.addCertification("Commissioner Fast Start", ["WDUC"], null, [LeaderPositionType.Commissioner], 0, false, true)
+        def positionTypes = [LeaderPositionType.Commissioner, LeaderPositionType.AssistantDistrictCommissioner,
+                LeaderPositionType.DistrictRoundtableCommittee, LeaderPositionType.UnitCommissioner]
+
+        seedService.addCertification("Commissioner Specific Training", ["D20"], null, positionTypes, 0, false, true)
+        seedService.addCertification("Commissioner Fast Start", ["WDUC"], null, positionTypes, 0, false, true)
 
         Certification thisIsScouting = CertificationCode.findByCode("WA01").certification
-        Certification youthProtectionTraining = CertificationCode.findByCode("Y01").certification
 
-        //We need to add it:
-        ProgramCertification thisIsScoutingProgramCertification = new ProgramCertification()
-        thisIsScoutingProgramCertification.positionType = LeaderPositionType.Commissioner
-        thisIsScoutingProgramCertification.certification = thisIsScouting
-        thisIsScoutingProgramCertification.required = true
 
-        Date startDate = Date.parse('yyyy/MM/dd', '1973/01/01')
-        Date endDate = Date.parse('yyyy/MM/dd', '2030/01/01')
+        positionTypes.each {
 
-        thisIsScoutingProgramCertification.startDate = startDate
-        thisIsScoutingProgramCertification.endDate = endDate
+            ProgramCertification thisIsScoutingProgramCertification = new ProgramCertification()
+            thisIsScoutingProgramCertification.positionType = it
+            thisIsScoutingProgramCertification.certification = thisIsScouting
+            thisIsScoutingProgramCertification.required = true
 
-        thisIsScouting.addToProgramCertifications(thisIsScoutingProgramCertification)
+            Date startDate = Date.parse('yyyy/MM/dd', '1973/01/01')
+            Date endDate = Date.parse('yyyy/MM/dd', '2030/01/01')
+
+            thisIsScoutingProgramCertification.startDate = startDate
+            thisIsScoutingProgramCertification.endDate = endDate
+
+            thisIsScouting.addToProgramCertifications(thisIsScoutingProgramCertification)
+
+        }
         thisIsScouting.save(failOnError: true)
+
 
     }
 
