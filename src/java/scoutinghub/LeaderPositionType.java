@@ -57,7 +57,8 @@ public enum LeaderPositionType {
     RelationsCommittee("RC", false, Stake),
 
     Volunteer("VO", false, District, CharteringOrg, Stake, Group),
-    Administrator("AD", false, Council, District, CharteringOrg, Stake, Group);
+    Administrator("AD", false, Council, District, CharteringOrg, Stake, Group),
+    Bishop("BI", false, Stake);
 
 
     LeaderPositionType(String code, boolean directContact, boolean keyLeaderPosition, ScoutGroupType[] scoutGroupTypes, ScoutUnitType[] scoutUnitTypes) {
