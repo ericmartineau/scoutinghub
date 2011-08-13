@@ -2,17 +2,7 @@
 <head>
     <title><g:message code="menu.training.report"/></title>
     <meta name="layout" content="${layoutName}"/>
-    <script>
-        jQuery(document).ready(function() {
-//            jQuery("#filterName").selectBox();
 
-//            jQuery.getJSON("/scoutinghub/training/getFilters", {}, function(json) {
-//                jQuery("#filterName").selectBox("options", json);
-            %{--jQuery("#filterName").selectBox("value", "${session.filterName}");--}%
-//            });
-
-        });
-    </script>
 </head>
 
 <body>

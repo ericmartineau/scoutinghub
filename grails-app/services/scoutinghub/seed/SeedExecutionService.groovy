@@ -3,6 +3,8 @@ package scoutinghub.seed
 import scoutinghub.SeedScriptExecution
 import scoutinghub.SeedScript
 import org.springframework.beans.factory.annotation.Autowired
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Callable
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +18,12 @@ class SeedExecutionService {
     @Autowired
     Collection<SeedScript> seedScripts;
 
+    ExecutorService executorService
+
+    def searchableService
+
+
+
     void executeSeedScripts() {
         seedScripts.sort {it.order}.each {
             //Has it already been executed?
@@ -27,6 +35,7 @@ class SeedExecutionService {
                 scriptExecution.executionDate = new Date()
 
                 String message
+                Exception error = null
                 try {
                     it.execute()
 
@@ -36,13 +45,20 @@ class SeedExecutionService {
                     log.error "Error running seed script ${it.name}", e
                     scriptExecution.completed = false
                     scriptExecution.message = e.message
-
+                    error = e
                 } finally {
                     log.info "Ran ${it.name} successfully"
                     scriptExecution.save(failOnError: true)
+                    if(error) {
+                        throw error
+                    }
 
                 }
             }
         }
+
+        executorService.submit({
+            searchableService.index()
+        } as Callable)
     }
 }

@@ -72,9 +72,12 @@ function createDialog(url, data, config) {
         config.width = 400;
     }
 
-    jQuery("<div id='dialog'></div>").load(url, data, function(result) {
-        jQuery(this).dialog(config)
-    });
+    config.beforeClose = function(event, ui) {
+        jQuery("#dialog").find("select").selectBox("destroy");
+    };
+
+    var dialog = jQuery("<div id='dialog'><div class='loading-spinner'><h2>Loading</h2><img src='/scoutinghub/images/loading.gif' /></div></div>");
+    dialog.dialog(config).load(url, data);
 }
 
 function createOverTooltip(selector, message) {
@@ -129,7 +132,8 @@ function configurePositionField(jPosition, fn) {
 }
 
 function closeDialog() {
-    jQuery("#dialog").remove();
+    var dialog = jQuery("#dialog");
+    dialog.remove();
 }
 
 /**
@@ -173,7 +177,10 @@ function decorate() {
             }).addClass("ui-button-style").removeClass("ui-button");
 
     //Creates jquery date pickers
-    jQuery(".datePicker").datepicker();
+    jQuery(".datePicker").datepicker({
+        changeMonth: true,
+		changeYear: true
+    });
 
     //Creates jquery select boxes
     jQuery(".selecter").selectBox();

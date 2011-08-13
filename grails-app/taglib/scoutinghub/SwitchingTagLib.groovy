@@ -256,13 +256,13 @@ class SwitchingTagLib {
 
             out << """<li class='checkbox ${attrs.class ?: ''}'>
                     <span class='name'>${message(code: attrs.code)}</span>"""
-            out << checkBox(attrs)
+            out << g.checkBox(attrs)
             out << "</li>"
 
         } else {
             out << "<div class='${attrs?.class}'>"
             out << "<span class='chk-input'>"
-            out << "<input type='checkbox' name='${attrs.name}' id='${attrs.name}' value='true' />"
+            out << g.checkBox(attrs)
             out << "</span>"
             out << "<span class='chk-label'>"
             out << message(code: attrs?.code)
@@ -468,7 +468,7 @@ class SwitchingTagLib {
             }
         }
 
-        final Closure groupTypeFilter = {it != ScoutGroupType.Unit && it != ScoutGroupType.CharteringOrg && it != ScoutGroupType.Group}
+        final Closure groupTypeFilter = {it != ScoutGroupType.Unit && it != ScoutGroupType.Group}
         ScoutGroupType.values().findAll(groupTypeFilter)?.each {ScoutGroupType scoutGroupType ->
             out << "<optgroup label='${message(code: scoutGroupType.name() + ".label")}'>"
             LeaderPositionType.values().findAll {it.scoutGroupTypes.contains(scoutGroupType)}?.each {
