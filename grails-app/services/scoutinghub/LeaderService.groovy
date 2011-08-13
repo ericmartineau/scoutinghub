@@ -1,15 +1,14 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.SpringSecurityService
-import org.compass.annotations.SearchableConstant
-
-
+import scoutinghub.infusionsoft.InfusionsoftLeaderInfo
 
 class LeaderService {
 
     static transactional = true
 
     SpringSecurityService springSecurityService;
+
 
     Leader createLeader(def params) {
         Leader leader = new Leader(
@@ -45,14 +44,65 @@ class LeaderService {
         //Merge leader roles
         mergeLeaderRoles(primary, secondary);
 
+        //Merge social logins
+        mergeSocialLogins(primary, secondary)
+
+        //Merge class registrations
+        mergeTrainingClassRegistrations(primary, secondary)
+
+        //Merge infusionsoft merge information
+        mergeInfusionsoftMergeInformation(primary, secondary)
+
+        //Merge name, email, etc
         mergeLeaderInformation(primary, secondary);
 
         //kill secondary
-        secondary.delete(failOnError: true, flush:true);
+        secondary.delete(failOnError: true, flush: true);
 
         //persist primary
         primary.save(failOnError: true);
 
+    }
+
+    void mergeSocialLogins(Leader primary, Leader secondary) {
+        secondary.openIds?.each {OpenID secondaryOpenID ->
+
+            OpenID primaryOpenID = new OpenID();
+            primaryOpenID.url = secondaryOpenID.url
+            primaryOpenID.createDate = secondaryOpenID.createDate
+            primaryOpenID.updateDate = secondaryOpenID.updateDate
+            primaryOpenID.leader = primary
+
+            secondary.removeFromOpenIds(secondaryOpenID)
+            secondaryOpenID.delete(flush:true)
+
+            primary.addToOpenIds(primaryOpenID)
+            primary.save(failOnError:true)
+
+
+        }
+    }
+
+    void mergeTrainingClassRegistrations(Leader primary, Leader secondary) {
+        secondary.certificationClasses?.each {CertificationClass certificationClass->
+            if(!primary.certificationClasses?.find{it.id == certificationClass.id}) {
+                primary.addToCertificationClasses(certificationClass)
+            }
+            secondary.removeFromCertificationClasses(certificationClass)
+            secondary.save(failOnError:true)
+        }
+    }
+
+    void mergeInfusionsoftMergeInformation(Leader primary, Leader secondary) {
+        InfusionsoftLeaderInfo.findAllByLeader(secondary)?.each {
+            if (!InfusionsoftLeaderInfo.findByLeader(primary)) {
+                InfusionsoftLeaderInfo copied = new InfusionsoftLeaderInfo()
+                copied.infusionsoftContactId = it.infusionsoftContactId
+                copied.leader = primary
+                copied.save(failOnError:true)
+            }
+            it.delete(failOnError:true)
+        }
     }
 
     void mergeLeaderRoles(Leader primary, Leader secondary) {
@@ -63,7 +113,7 @@ class LeaderService {
                 LeaderRole primaryRole = new LeaderRole();
                 primaryRole.leader = primary
                 primaryRole.role = role.role
-                primaryRole.save(failOnError:true)
+                primaryRole.save(failOnError: true)
             }
 
             role.delete()
@@ -75,7 +125,7 @@ class LeaderService {
         primary.password = primary.password ?: secondary.password
         primary.email = primary.email ?: secondary.email
         primary.phone = primary.phone ?: secondary.phone
-        if(!primary.enabled) {
+        if (!primary.enabled) {
             primary.enabled = secondary.enabled
         }
     }
@@ -99,13 +149,13 @@ class LeaderService {
     void mergeInactiveLeaderGroups(Leader primary, Leader secondary) {
         LeaderCertification primaryLeaderCert;
         InactiveLeaderGroup.findAllByLeader(secondary)?.each {
-            InactiveLeaderGroup inactiveLeaderGroup->
+            InactiveLeaderGroup inactiveLeaderGroup ->
 
             InactiveLeaderGroup copied = new InactiveLeaderGroup()
             copied.leader = primary
             copied.scoutGroup = inactiveLeaderGroup.scoutGroup
             copied.createDate = inactiveLeaderGroup.createDate
-            copied.save(failOnError:true)
+            copied.save(failOnError: true)
 
             inactiveLeaderGroup.delete()
         }
@@ -156,14 +206,12 @@ class LeaderService {
         }
 
         primary.save(flush: true, failOnError: true);
-        secondary.save(flush:true, failOnError:true)
-
-
+        secondary.save(flush: true, failOnError: true)
 
         //Move over any certifications that were entered by the secondary (but aren't actually for the secondary)
         LeaderCertification.findAllByEnteredBy(secondary)?.each {
             it.enteredBy = primary
-            it.save(failOnError:true)
+            it.save(failOnError: true)
         }
     }
 

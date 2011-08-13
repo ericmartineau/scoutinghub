@@ -20,7 +20,7 @@ class ModifyCertificationExpirationsService implements SeedScript {
         Certification.findAllByDurationInDays(1780)?.each {
             Certification certification->
             certification.setDurationInDays(0)
-            certification.save(flush:true)
+            certification.save()
 
             LeaderCertification.findAllByCertification(certification).each{
                 LeaderCertification leaderCertification->

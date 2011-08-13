@@ -33,8 +33,12 @@ environments {
     }
     test {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:mem:testDb"
+            dialect = scoutinghub.CustomInnoDBDialect
+            driverClassName = "com.mysql.jdbc.Driver"
+            username = "eric"
+            password = "eric5425"
+            url = "jdbc:mysql://localhost/scoutinghubtest"
+            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
         }
     }
     production {
