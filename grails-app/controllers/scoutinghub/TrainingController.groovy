@@ -405,6 +405,34 @@ class TrainingController {
                 }
             }
         }
+
+    }
+
+     def extractNames = {
+        Workbook workbook = WorkbookFactory.create(new FileInputStream("/Users/ericm/Documents/scoutinghub/big.xls"))
+        //Scan column headers for certification mappings
+        def firstSheet = workbook.getSheetAt(0)
+        def row = firstSheet?.getRow(0)
+        def row2 = firstSheet?.getRow(1)
+        if (!row) {
+            throw new Exception("simpleImport.noHeaderRow")
+        }
+        row.each {Cell cell ->
+            if (cell.cellType == Cell.CELL_TYPE_STRING) {
+                def nameCell = row2.getCell(cell.columnIndex)
+                if (nameCell) {
+
+                    Certification foundCertification = CertificationCode.findByCode(cell.stringCellValue)?.certification
+                    if (!foundCertification) {
+                        println "${nameCell.stringCellValue} (${cell.stringCellValue})"
+                    }
+
+                }
+            }
+        }
+
+        render("Done")
+
     }
 
 

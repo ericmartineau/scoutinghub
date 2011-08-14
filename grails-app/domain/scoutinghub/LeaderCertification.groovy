@@ -27,6 +27,10 @@ class LeaderCertification implements Serializable {
         certification(unique: 'leader')
     }
 
+    static mapping = {
+        sort 'dateEarned'
+    }
+
     boolean hasExpired() {
         return goodUntilDate()?.before(new Date())
     }

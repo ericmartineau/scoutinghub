@@ -44,6 +44,7 @@ class Certification {
 
     static mapping = {
         cache(true)
+        sort: 'name'
     }
 
     @Override

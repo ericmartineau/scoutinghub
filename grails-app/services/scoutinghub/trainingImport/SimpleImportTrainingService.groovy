@@ -45,7 +45,10 @@ class SimpleImportTrainingService {
                             Date trainingDate = cell.dateCellValue
                             if (trainingDate) {
                                 //Check to make sure there's not a newer training date on the record
-                                LeaderCertification existing = foundLeader.certifications.find {return it.certification.id == certification.id}
+                                LeaderCertification existing = foundLeader.certifications.find {
+                                    return it.certification.id == certification.id
+                                }
+
 
                                 if (existing && trainingDate.after(existing.dateEarned)) {
                                     existing.dateEarned = trainingDate

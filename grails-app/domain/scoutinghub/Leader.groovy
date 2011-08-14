@@ -49,7 +49,10 @@ class Leader implements Serializable {
 
     static mapping = {
         password column: '`password`'
-        groups cascade: 'all-delete-orphan'
+        groups(cascade: 'all-delete-orphan', sort:'scoutGroup')
+        certifications(sort:'dateEarned')
+
+
         //myScoutingIds cascade: 'all-delete-orphan'
     }
 

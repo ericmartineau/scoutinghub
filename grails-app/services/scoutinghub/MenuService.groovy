@@ -36,6 +36,7 @@ class MenuService {
                 .addMenuItem(new SubMenuItem("certification", "index", "menu.trainingDefinition.index", "ROLE_ADMIN"))
 //                .addMenuItem(new SubMenuItem("leaderCertification", "index", "menu.trainingLeader.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("training", "importTraining", "menu.training.import", "ROLE_ADMIN"))
+                .addMenuItem(new SubMenuItem("training", "simpleImportTraining", "menu.training.simpleImport", "ROLE_ADMIN"))
 
         addMenuItem(trainingMenu)
 
