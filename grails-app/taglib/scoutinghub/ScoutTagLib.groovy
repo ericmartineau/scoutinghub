@@ -4,10 +4,57 @@ class ScoutTagLib {
     static namespace = "f"
 
     ScoutGroupService scoutGroupService
+    TrainingService trainingService
 
     def leaderTraining = {attrs ->
         LeaderCertificationInfo certificationInfo = attrs.certificationInfo
         out << render(template: "/tags/leaderTraining", model: [certificationInfo: certificationInfo]);
+    }
+
+    def missingTrainingCodes = {attrs->
+        LeaderGroup leaderGroup = attrs.leaderGroup
+        List<ProgramCertification> certifications = trainingService.getRequiredCertifications(leaderGroup)
+        def missing = []
+        certifications.each {ProgramCertification programCertification->
+            if (!leaderGroup.leader.certifications?.find {it.certification.id == programCertification.certification.id}) {
+                missing << programCertification.certification.certificationCodes?.iterator()?.next()
+            }
+        }
+        if(missing.size() == 0) {
+            out << "None"
+        } else {
+            out << missing.join(", ")
+        }
+
+    }
+
+    def scoutGroupReport = {attrs ->
+
+        ScoutGroup group = attrs.group
+        int index = attrs.index ?: 1
+
+        out << "<tr><td class='level${index}' colspan='6'><h${index}>${group}</h${index}></td></tr>"
+
+        if (group.leaderGroups?.size() > 0) {
+            out << """<tr>
+    <th class="level${index + 1}">Name</th>
+    <th>Position</th>
+    <th>% Trained</th>
+    <th>Missing Training</th>
+    <th>Has Logged In</th>
+</tr>"""
+            group.leaderGroups?.each {
+                LeaderGroup leaderGroup ->
+                out << render(template: "/training/leaderRow", model: [leaderGroup: leaderGroup, index:index + 1])
+            }
+
+        }
+
+        group.childGroups.each {
+            ScoutGroup scoutGroup ->
+            out << scoutGroupReport(group: scoutGroup, index: index + 1)
+        }
+
     }
 
     def completeTrainingLink = {attrs, body ->

@@ -2,16 +2,14 @@ package scoutinghub
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.context.MessageSource
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import scoutinghub.trainingImport.ImportError
 import scoutinghub.trainingImport.ImportJob
 import scoutinghub.trainingImport.ImportSheet
-import scoutinghub.trainingImport.ImportTrainingService
-import org.apache.poi.ss.usermodel.*
-import grails.plugins.springsecurity.SpringSecurityService
 import scoutinghub.trainingImport.SimpleImportJob
-import scoutinghub.trainingImport.SimpleImportTrainingService
+import org.apache.poi.ss.usermodel.*
 
 @Secured(["ROLE_LEADER"])
 class TrainingController {
@@ -28,6 +26,11 @@ class TrainingController {
 
     def index = {
         forward(action:'trainingReport')
+    }
+
+    def detailedReport = {
+        ScoutGroup group = ScoutGroup.get(params.id)
+        renderPdf(template: '/training/detailedReport', model: [group:group])
     }
 
     def importTraining = {

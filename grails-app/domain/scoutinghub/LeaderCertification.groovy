@@ -58,5 +58,10 @@ class LeaderCertification implements Serializable {
         expirationDate = goodUntilDate();
     }
 
+    @Override
+    String toString() {
+        return "${leader}: ${certification}"
+    }
+
 
 }

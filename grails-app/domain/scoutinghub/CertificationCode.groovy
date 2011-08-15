@@ -10,4 +10,15 @@ class CertificationCode {
     static constraints = {
         code(blank:false, unique:true)
     }
+
+    static mapping = {
+        sort("code")
+    }
+
+    @Override
+    String toString() {
+        return code
+    }
+
+
 }

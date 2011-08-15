@@ -40,8 +40,6 @@ class TrainingService {
             }
         }
 
-
-
         leader.save(failOnError: true)
     }
 

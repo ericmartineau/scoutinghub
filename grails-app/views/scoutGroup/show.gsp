@@ -3,8 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="${layoutName}"/>
-    <g:set var="entityName" value="${message(code: 'scoutGroup.label', default: 'ScoutGroup')}"/>
-    <title><g:message code="default.show.label" args="[entityName]"/></title>
+    <title>${scoutGroupInstance}</title>
 </head>
 
 <body>
@@ -42,6 +41,11 @@
                     <g:link controller="training" action="trainingReport" id="${scoutGroupInstance?.id}"><g:message
                             code="scoutGroup.trainingReport.view"/></g:link>
                 </s:property>
+                <s:property code="scoutGroup.printableReport.label">
+                    <g:link onclick="alert('${message(code:'training.detailedReport.patience')}')" controller="training" action="detailedReport" id="${scoutGroupInstance?.id}"><g:message
+                            code="scoutGroup.printableReport.view"/></g:link>
+                </s:property>
+
             </s:propertyList>
 
         </s:section>

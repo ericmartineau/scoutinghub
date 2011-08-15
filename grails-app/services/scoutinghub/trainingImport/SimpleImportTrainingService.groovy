@@ -9,6 +9,7 @@ import scoutinghub.MyScoutingId
 import java.text.DecimalFormat
 import scoutinghub.LeaderCertification
 import scoutinghub.LeaderCertificationEnteredType
+import scoutinghub.TrainingService
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,6 +19,8 @@ import scoutinghub.LeaderCertificationEnteredType
  * To change this template use File | Settings | File Templates.
  */
 class SimpleImportTrainingService {
+
+    TrainingService trainingService
 
     void processSimpleImportJob(SimpleImportJob simpleImportJob) {
         //Scan column headers for certification mappings
@@ -53,6 +56,8 @@ class SimpleImportTrainingService {
                                 if (existing && trainingDate.after(existing.dateEarned)) {
                                     existing.dateEarned = trainingDate
                                     existing.save(failOnError: true)
+                                    trainingService.recalculatePctTrained(foundLeader)
+
                                 } else if (!existing) {
                                     LeaderCertification leaderCertification = new LeaderCertification()
                                     leaderCertification.leader = foundLeader
@@ -64,7 +69,7 @@ class SimpleImportTrainingService {
                                     leaderCertification.save(failOnError: true)
                                     foundLeader.addToCertifications(leaderCertification)
                                     foundLeader.save(failOnError: true)
-
+                                    trainingService.recalculatePctTrained(foundLeader)
                                 }
                             }
                         }

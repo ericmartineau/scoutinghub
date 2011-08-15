@@ -16,14 +16,22 @@
             <g:else>
                 <g:set var="headerCode" value="All"/>
             </g:else>
-            <s:sectionHeader code="training.report.title" args='["${headerCode}"]' icon="training-icon"/>
+            <s:sectionHeader code="training.report.title" args='["${headerCode}"]' icon="training-icon">
+                <g:if test="${reportGroup}">
+                    <s:ctxmenu>
+                        <g:ctxmenuItem onclick="alert('${message(code:'training.detailedReport.patience')}')" controller="training" iconType="edit" action="detailedReport" id="${reportGroup.id}" code="training.detailedReport"/>
+                    </s:ctxmenu>
+                </g:if>
+            </s:sectionHeader>
             <s:propertyList class="training-filter alternate-color">
-                <s:selecter code="training.report.selectFilter" id="filterName" name="filterName" onChange="document.filterForm.submit()"
+                <s:selecter code="training.report.selectFilter" id="filterName" name="filterName"
+                            onChange="document.filterForm.submit()"
                             value="${session.filterName}">
                     <g:each in="${allFilters}" var="categoryEntry">
                         <optgroup label="${categoryEntry.key}">
                             <g:each in="${categoryEntry.value}" var="optionEntry">
-                                <g:selectOption value="${optionEntry.key}"><g:message code="${optionEntry.key}.label"/></g:selectOption>
+                                <g:selectOption value="${optionEntry.key}"><g:message
+                                        code="${optionEntry.key}.label"/></g:selectOption>
                             </g:each>
                         </optgroup>
                     </g:each>
@@ -40,7 +48,8 @@
             <g:if test="${reportGroup?.parent}">
                 <p:canAdministerGroup scoutGroup="${reportGroup.parent}">
                     <s:ctxmenu>
-                        <s:ctxmenuItem code="trainingReport.backTo" args="[reportGroup?.parent?.toString()]" controller="training" action="trainingReport"
+                        <s:ctxmenuItem code="trainingReport.backTo" args="[reportGroup?.parent?.toString()]"
+                                       controller="training" action="trainingReport"
                                        id="${reportGroup.parent?.id}"/>
                     </s:ctxmenu>
 
@@ -65,8 +74,10 @@
             </s:browser>
             <g:each in="${reports}" var="certificationReport">
                 <g:if test="${certificationReport.count > 0}">
-                    <s:trainingRollup controller="training" action="trainingReport" id="${certificationReport.scoutGroup.id}"
-                                      message="${certificationReport.scoutGroup}" pct="${certificationReport.pctTrained}"
+                    <s:trainingRollup controller="training" action="trainingReport"
+                                      id="${certificationReport.scoutGroup.id}"
+                                      message="${certificationReport.scoutGroup}"
+                                      pct="${certificationReport.pctTrained}"
                                       typeCode="${certificationReport.scoutGroup.unitType ?: certificationReport.scoutGroup.groupType}.label"/>
                 </g:if>
             </g:each>

@@ -69,7 +69,11 @@ class HtmlContainersTagLib {
             if(!img && attrs.iconType) {
                 img = "${attrs.iconType}-icon"
             }
-            out << s.linker(img:img, controller: attrs.controller, style: "white-space:nowrap;", action: attrs.action, id: attrs.id, params: attrs.params) {
+            def linkAttrs = [img:img, controller: attrs.controller, style: "white-space:nowrap;", action: attrs.action, id: attrs.id, params: attrs.params]
+            if(attrs.onclick) {
+                linkAttrs.onclick=attrs.onclick
+            }
+            out << s.linker(linkAttrs) {
                 if (attrs.iconType) {
                     out << inlineIcon(class: "${attrs.iconType}-icon")
                 }

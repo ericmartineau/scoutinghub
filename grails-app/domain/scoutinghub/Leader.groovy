@@ -51,8 +51,7 @@ class Leader implements Serializable {
         password column: '`password`'
         groups(cascade: 'all-delete-orphan', sort:'scoutGroup')
         certifications(sort:'dateEarned')
-
-
+        sort('lastName')
         //myScoutingIds cascade: 'all-delete-orphan'
     }
 

@@ -80,7 +80,9 @@ class ScoutGroup implements Serializable {
 
     static mapping = {
         cache(true)
-        leaderGroups cascade: 'all-delete-orphan'
+        leaderGroups(cascade: 'all-delete-orphan', sort: 'leader')
+        childGroups(sort: "groupIdentifier")
+        sort("groupIdentifier")
     }
 
     String toCrumbString() {
