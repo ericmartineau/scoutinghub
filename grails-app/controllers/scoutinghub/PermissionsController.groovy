@@ -18,7 +18,7 @@ class PermissionsController {
     def rebuild = {
         scoutGroupService.reindex()
 
-        searchableService.reindexAll()
+        searchableService.index()
         render("Done")
     }
 

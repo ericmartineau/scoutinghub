@@ -10,6 +10,7 @@ import scoutinghub.trainingImport.ImportJob
 import scoutinghub.trainingImport.ImportSheet
 import scoutinghub.trainingImport.SimpleImportJob
 import org.apache.poi.ss.usermodel.*
+import au.com.bytecode.opencsv.CSVReader
 
 @Secured(["ROLE_LEADER"])
 class TrainingController {
@@ -337,15 +338,14 @@ class TrainingController {
             if (importFile?.size == 0) {
                 flash.message = "training.importTraining.fileRequired"
                 redirect(action: "simpleImportTraining")
-            } else if (!importFile?.fileItem?.name?.endsWith(".xls")) {
-                flash.message = "training.importTraining.xlsRequired"
+            } else if (!importFile?.fileItem?.name?.endsWith(".txt")) {
+                flash.message = "training.importTraining.txtRequired"
                 redirect(action: "simpleImportTraining")
             } else {
-
-                Workbook xlsFile = WorkbookFactory.create(importFile.inputStream);
+                CSVReader csvReader = new CSVReader(new InputStreamReader(importFile.inputStream), '\t' as char);
 
                 SimpleImportJob importJob = new SimpleImportJob()
-                importJob.workbook = xlsFile
+                importJob.csvReader = csvReader
                 importJob.simpleImportTrainingService = simpleImportTrainingService
                 importJob.importedBy = springSecurityService.currentUser
                 session.simpleImportJob = importJob

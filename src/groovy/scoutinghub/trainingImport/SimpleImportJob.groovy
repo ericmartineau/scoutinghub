@@ -2,6 +2,7 @@ package scoutinghub.trainingImport
 
 import org.apache.poi.ss.usermodel.Workbook
 import scoutinghub.Leader
+import au.com.bytecode.opencsv.CSVReader
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,8 +15,9 @@ class SimpleImportJob extends Thread {
     def columnIndexToCertificationMap = [:]
     int totalToProcess
     int totalCompleted
-    Workbook workbook
+    CSVReader csvReader
     Leader importedBy
+    int emailColumn
 
     def simpleImportTrainingService
 

@@ -10,6 +10,9 @@ import java.text.DecimalFormat
 import scoutinghub.LeaderCertification
 import scoutinghub.LeaderCertificationEnteredType
 import scoutinghub.TrainingService
+import java.text.DateFormat
+import org.apache.commons.httpclient.util.DateParseException
+import org.hibernate.SessionFactory
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,34 +23,48 @@ import scoutinghub.TrainingService
  */
 class SimpleImportTrainingService {
 
+    SessionFactory sessionFactory
+
     TrainingService trainingService
 
     void processSimpleImportJob(SimpleImportJob simpleImportJob) {
         //Scan column headers for certification mappings
-        def firstSheet = simpleImportJob.workbook.getSheetAt(0)
-        firstSheet.each {Row row ->
+
+        String[] line
+        int saveCount = 1
+        while ((line = simpleImportJob.csvReader.readNext()) != null) {
             simpleImportJob.totalCompleted++
-            def personIdCell = row.getCell(0)
-            String personId
-            if(personIdCell) {
-                if (personIdCell.cellType == Cell.CELL_TYPE_STRING) personId = personIdCell.stringCellValue
-                if (personIdCell.cellType == Cell.CELL_TYPE_NUMERIC) personId = new DecimalFormat("#0").format(personIdCell.numericCellValue)
-            }
+            String personId = line[0]
 
             if (personId && personId != "person_id") {
 
                 Leader foundLeader = MyScoutingId.findByMyScoutingIdentifier(personId)?.leader
                 if (foundLeader) {
+                    if(!foundLeader.email) {
+                        String emailFromCsv = line[simpleImportJob.emailColumn]
+                        if(emailFromCsv) {
+                            foundLeader.email = emailFromCsv
+                            if(!foundLeader.validate()) {
+                                println "Invalid email: ${emailFromCsv}"
+                                foundLeader.email = null
+                            }
+                        }
+                    }
                     simpleImportJob.columnIndexToCertificationMap.each {entry ->
                         int cellId = entry.key
                         Certification certification = entry.value
 
-                        Cell cell = row.getCell(cellId)
-                        if (cell && cell.cellType == Cell.CELL_TYPE_NUMERIC) {
+                        String dateValue = line[cellId]
+                        if (dateValue && dateValue.length() > 0) {
 
-                            Date trainingDate = cell.dateCellValue
+                            Date trainingDate
+                            try {
+                                trainingDate = Date.parse("MM/dd/yyyy", dateValue)
+                            } catch (DateParseException de) {
+                                println "Failed to parse date: ${dateValue}"
+                            }
                             if (trainingDate) {
-                                //Check to make sure there's not a newer training date on the record
+                                //Check to make sure there's not a newer training dateValue on the record
                                 LeaderCertification existing = foundLeader.certifications.find {
                                     return it.certification.id == certification.id
                                 }
@@ -57,6 +74,7 @@ class SimpleImportTrainingService {
                                     existing.dateEarned = trainingDate
                                     existing.save(failOnError: true)
                                     trainingService.recalculatePctTrained(foundLeader)
+
 
                                 } else if (!existing) {
                                     LeaderCertification leaderCertification = new LeaderCertification()
@@ -74,30 +92,45 @@ class SimpleImportTrainingService {
                             }
                         }
                     }
+                    saveCount++
+                    if (saveCount % 100 == 0) {
+                        saveCount = 1
+                        println "Processed 100 records - flushing"
+                        sessionFactory.currentSession.flush()
+                        sessionFactory.currentSession.clear()
+                    }
+
                 }
             }
-
         }
+
+        sessionFactory.currentSession.flush()
+        sessionFactory.currentSession.clear()
     }
 
     def setupSimpleImportJob(SimpleImportJob simpleImportJob) {
         //Scan column headers for certification mappings
-        def firstSheet = simpleImportJob.workbook.getSheetAt(0)
-        def row = firstSheet?.getRow(0)
-        if (!row) {
+        def headerRow = simpleImportJob.csvReader.readNext();
+
+        if (!headerRow) {
             throw new Exception("simpleImport.noHeaderRow")
         }
-        row.each {Cell cell ->
-            if (cell.cellType == Cell.CELL_TYPE_STRING) {
-                Certification foundCertification = CertificationCode.findByCode(cell.stringCellValue)?.certification
+        int columnIndex = 0
+        headerRow.each {String cell ->
+            if (cell?.equalsIgnoreCase("Net Address")) {
+                simpleImportJob.emailColumn = columnIndex
+            } else {
+
+                Certification foundCertification = CertificationCode.findByCode(cell)?.certification
                 if (foundCertification) {
-                    log.info "Mapped ${cell.stringCellValue} to ${foundCertification.name}"
-                    simpleImportJob.columnIndexToCertificationMap[cell.columnIndex] = foundCertification
+                    log.info "Mapped ${cell} to ${foundCertification.name}"
+                    simpleImportJob.columnIndexToCertificationMap[columnIndex] = foundCertification
                 }
             }
+            columnIndex++
         }
 
         //Calculate total number of rows to process
-        simpleImportJob.totalToProcess = firstSheet.lastRowNum
+        simpleImportJob.totalToProcess = 36000
     }
 }

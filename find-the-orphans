@@ -1,0 +1,32 @@
+import groovy.sql.Sql;
+
+sql = Sql.newInstance("jdbc:mysql://localhost/scoutinghub2", "eric",
+                     "eric5425", "com.mysql.jdbc.Driver")
+                     
+def queries = []
+sql.eachRow("SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE `CONSTRAINT_SCHEMA` LIKE 'scoutinghub2'") {
+    if(it.referenced_table_name && it.referenced_column_name) {
+        println "Checking ${it.table_name}.${it.column_name} --> ${it.referenced_table_name}.${it.referenced_column_name}"
+        def tn = it.table_name
+        def tc = it.column_name
+    
+        def rtn = it.referenced_table_name
+        def rtc = it.referenced_column_name
+    
+        def thesql = "DELETE FROM a USING `${tn}` a LEFT JOIN `${rtn}` b ON `b`.`${rtc}` = `a`.`${tc}` WHERE `b`.`${rtc}` IS NULL"
+        queries << thesql
+    }
+    
+}
+println "Done creating queries - NOW RUN THEM"
+
+queries.each{query->
+    println query + ";"
+    try {
+    sql.eachRow(query) {result->
+      println "\tBad row: ${tn}.${result};"
+    }
+    }catch(Exception e){
+    //println e.message
+    }
+}

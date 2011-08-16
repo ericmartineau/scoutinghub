@@ -22,8 +22,6 @@ class SeedExecutionService {
 
     def searchableService
 
-
-
     void executeSeedScripts() {
         seedScripts.sort {it.order}.each {
             //Has it already been executed?

@@ -33,6 +33,7 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
+        compile 'net.sf.opencsv:opencsv:2.3'
         compile 'org.apache.poi:poi:3.7'
         compile('org.apache.poi:poi-ooxml:3.7') {
             transitive=false
