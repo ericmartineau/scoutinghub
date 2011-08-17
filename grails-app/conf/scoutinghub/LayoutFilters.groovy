@@ -1,7 +1,5 @@
 package scoutinghub
 
-import org.geeks.browserdetection.UserAgentIdentService
-
 class LayoutFilters {
 
     def filters = {
