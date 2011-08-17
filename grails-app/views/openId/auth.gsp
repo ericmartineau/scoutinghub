@@ -36,10 +36,10 @@
 
     <s:mobile>
         <s:section code="login.alternateproviders">
-            <s:linker controller="openId" action="aol" img="/images/social/PNG/32px/aol.png">AOL</s:linker>
-            <s:linker controller="openId" action="yahoo" img="/images/social/PNG/32px/yahoo.png">Yahoo!</s:linker>
-            <s:linker controller="openId" action="google" img="/images/social/PNG/32px/google.png">Google</s:linker>
-            <s:linker controller="openId" action="facebook" img="/images/social/PNG/32px/facebook.png">Facebook</s:linker>
+            <s:linker controller="openId" action="aol" img="/scoutinghub/images/social/PNG/32px/aol.png">AOL</s:linker>
+            <s:linker controller="openId" action="yahoo" img="/scoutinghub/images/social/PNG/32px/yahoo.png">Yahoo!</s:linker>
+            <s:linker controller="openId" action="google" img="/scoutinghub/images/social/PNG/32px/google.png">Google</s:linker>
+            <s:linker controller="openId" action="facebook" img="/scoutinghub/images/social/PNG/32px/facebook.png">Facebook</s:linker>
         </s:section>
     </s:mobile>
 </s:content>

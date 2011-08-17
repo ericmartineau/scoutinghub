@@ -59,7 +59,7 @@ class SimpleImportTrainingService {
 
                             Date trainingDate
                             try {
-                                trainingDate = Date.parse("MM/dd/yyyy", dateValue)
+                                trainingDate = Date.parse("MM/dd/yy", dateValue)
                             } catch (DateParseException de) {
                                 println "Failed to parse date: ${dateValue}"
                             }
