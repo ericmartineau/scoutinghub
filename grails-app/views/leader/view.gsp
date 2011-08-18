@@ -67,6 +67,23 @@
     <li><g:link action="foo">Edit My Profile</g:link></li>
 </g:set>
 
+<g:if test="${leader.certifications?.size() == 0 && leader.myScoutingIds?.size() == 0}">
+    <s:section>
+        <s:msg type="warning">
+            <div class="msg1"><g:message code="leader.profile.nolink"/></div>
+
+            <div class="msg2">
+                <g:message code="leader.profile.nolinkdescription"/>
+                <ul class="list">
+                    <li><g:message code="leader.profile.nolinkdescription_item1"/></li>
+                    <li><g:message code="leader.profile.nolinkdescription_item2"/></li>
+                </ul>
+            </div>
+
+        </s:msg>
+    </s:section>
+</g:if>
+
 <g:form action="saveProfile">
     <s:section class="floatSection myprofile">
         <s:sectionHeader icon="profile-icon" code="leader.profile.myprofile">
@@ -236,7 +253,7 @@
 
 <g:if test="${certificationInfo?.size() > 0}">
     <s:section class="floatSection">
-        <s:sectionHeader code="leader.profile.mytraining" icon="training-icon" />
+        <s:sectionHeader code="leader.profile.mytraining" icon="training-icon"/>
 
         <g:if test="${!certificationInfo}">
             <s:msg type="warning" code="leader.profile.notInUnit"/>

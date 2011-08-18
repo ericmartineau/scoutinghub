@@ -74,22 +74,22 @@ class LeaderService {
             primaryOpenID.leader = primary
 
             secondary.removeFromOpenIds(secondaryOpenID)
-            secondaryOpenID.delete(flush:true)
+            secondaryOpenID.delete(flush: true)
 
             primary.addToOpenIds(primaryOpenID)
-            primary.save(failOnError:true)
+            primary.save(failOnError: true)
 
 
         }
     }
 
     void mergeTrainingClassRegistrations(Leader primary, Leader secondary) {
-        secondary.certificationClasses?.each {CertificationClass certificationClass->
-            if(!primary.certificationClasses?.find{it.id == certificationClass.id}) {
+        secondary.certificationClasses?.each {CertificationClass certificationClass ->
+            if (!primary.certificationClasses?.find {it.id == certificationClass.id}) {
                 primary.addToCertificationClasses(certificationClass)
             }
             secondary.removeFromCertificationClasses(certificationClass)
-            secondary.save(failOnError:true)
+            secondary.save(failOnError: true)
         }
     }
 
@@ -99,9 +99,9 @@ class LeaderService {
                 InfusionsoftLeaderInfo copied = new InfusionsoftLeaderInfo()
                 copied.infusionsoftContactId = it.infusionsoftContactId
                 copied.leader = primary
-                copied.save(failOnError:true)
+                copied.save(failOnError: true)
             }
-            it.delete(failOnError:true)
+            it.delete(failOnError: true)
         }
     }
 
@@ -269,10 +269,18 @@ class LeaderService {
         //Try a strict lookup
         if (!leader) {
             def c = Leader.createCriteria();
-            leader = c.get {
+            def matched = c.list {
                 eq('firstName', firstName)
                 eq('lastName', lastName)
                 eq('email', email)
+            }
+            int maxTrainingRecords = 0
+            matched.each {
+                Leader foundLeader ->
+                if (foundLeader.certifications?.size() > maxTrainingRecords) {
+                    leader = foundLeader
+                    maxTrainingRecords = foundLeader.certifications?.size()
+                }
             }
         }
 

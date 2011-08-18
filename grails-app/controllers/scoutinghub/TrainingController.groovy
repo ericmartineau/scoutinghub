@@ -31,7 +31,7 @@ class TrainingController {
 
     def detailedReport = {
         ScoutGroup group = ScoutGroup.get(params.id)
-        renderPdf(template: '/training/detailedReport', model: [group:group])
+        render(template: '/training/detailedReport', model: [group:group])
     }
 
     def importTraining = {

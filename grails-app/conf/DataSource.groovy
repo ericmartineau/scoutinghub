@@ -23,8 +23,6 @@ environments {
             // blown away every time), uncomment these lines.  You'll also need to change the url below
             // in the development block of code - don't check in!:
             dialect = scoutinghub.CustomInnoDBDialect
-            logSql = true
-            loggingSql = true
             driverClassName = "com.mysql.jdbc.Driver"
             username = "eric"
             password = "eric5425"

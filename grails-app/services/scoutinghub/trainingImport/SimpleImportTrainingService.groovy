@@ -1,19 +1,9 @@
 package scoutinghub.trainingImport
 
-import org.apache.poi.ss.usermodel.Cell
-import org.apache.poi.ss.usermodel.Row
-import scoutinghub.Certification
-import scoutinghub.CertificationCode
-import scoutinghub.Leader
-import scoutinghub.MyScoutingId
-import java.text.DecimalFormat
-import scoutinghub.LeaderCertification
-import scoutinghub.LeaderCertificationEnteredType
-import scoutinghub.TrainingService
-import java.text.DateFormat
 import org.apache.commons.httpclient.util.DateParseException
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
+import scoutinghub.*
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,6 +24,7 @@ class SimpleImportTrainingService {
         String[] line
         int saveCount = 1
         Transaction transaction = sessionFactory.currentSession.beginTransaction()
+        transaction.begin()
         while ((line = simpleImportJob.csvReader.readNext()) != null) {
             simpleImportJob.totalCompleted++
             String personId = line[0]
@@ -52,11 +43,11 @@ class SimpleImportTrainingService {
                         foundLeader.addToMyScoutingIds([myScoutingIdentifier: personId])
                         foundLeader.save()
                     }
-                    if(foundLeader.hasErrors()) {
+                    if (foundLeader.hasErrors()) {
                         println foundLeader.errors
                         foundLeader.discard()
 
-                    } else  {
+                    } else {
                         if (!foundLeader.email) {
                             String emailFromCsv = line[simpleImportJob.emailColumn]
                             if (emailFromCsv) {
@@ -80,6 +71,7 @@ class SimpleImportTrainingService {
                                 } catch (DateParseException de) {
                                     println "Failed to parse date: ${dateValue}"
                                 }
+
                                 if (trainingDate) {
                                     //Check to make sure there's not a newer training dateValue on the record
                                     LeaderCertification existing = foundLeader.certifications.find {
@@ -116,8 +108,8 @@ class SimpleImportTrainingService {
                             transaction.commit()
                             sessionFactory.currentSession.flush()
                             sessionFactory.currentSession.clear()
-
                             transaction = sessionFactory.currentSession.beginTransaction()
+                            transaction.begin()
                         }
 
                     }

@@ -50,7 +50,8 @@
 
 
 <div>
-    * A list of training codes and their descriptions can be found at the end of this report.
+    * A list of training codes and their descriptions can be found at the end of this report.<br/>
+    * This report is best printed in landscape mode
 </div>
 <table width="100%">
     <f:scoutGroupReport group="${group}"/>

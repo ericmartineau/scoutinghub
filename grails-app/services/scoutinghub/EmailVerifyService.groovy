@@ -11,8 +11,6 @@ class EmailVerifyService {
 
     MailService mailService
 
-    RecordSavingService recordSavingService
-
     void generateTokenForEmailValidation(Leader leader, String messageSubject) {
 
         //Generate token for verifying email address

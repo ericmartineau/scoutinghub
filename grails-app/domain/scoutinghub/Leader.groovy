@@ -39,8 +39,6 @@ class Leader implements Serializable {
         setupDate nullable: true
     }
 
-    static fetchMode = [certifications: 'eager']
-
     static hasMany = [certificationClasses: CertificationClass,
             certifications: LeaderCertification,
             openIds: OpenID,

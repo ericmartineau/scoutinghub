@@ -1,34 +1,17 @@
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import grails.converters.JSON
+import grails.plugin.mail.MailService
 import grails.plugins.springsecurity.Secured
 import javax.servlet.http.HttpServletResponse
+import org.apache.commons.validator.EmailValidator
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.plugins.springsecurity.openid.OpenIdAuthenticationFailureHandler
-import org.springframework.security.authentication.AccountExpiredException
-import org.springframework.security.authentication.CredentialsExpiredException
-import org.springframework.security.authentication.DisabledException
-import org.springframework.security.authentication.LockedException
+import org.springframework.security.core.Authentication
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import scoutinghub.Leader
-import scoutinghub.SocialLoginService
-import scoutinghub.LeaderRole
-import scoutinghub.Role
-import grails.plugin.mail.MailService
-import scoutinghub.EmailVerifyService
-import scoutinghub.LeaderService
-
-import scoutinghub.CreateAccountCommand
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
-import scoutinghub.LeaderPositionType
-import scoutinghub.ScoutGroup
-import scoutinghub.LeaderGroup
-import scoutinghub.CreateAccountService
-import scoutinghub.RecordSavingService
-import org.apache.commons.validator.EmailValidator
+import org.springframework.security.authentication.*
+import scoutinghub.*
 
 @Secured(['ROLE_ANONYMOUS'])
 class LoginController {
@@ -56,8 +39,6 @@ class LoginController {
     LeaderService leaderService
 
     CreateAccountService createAccountService
-
-    RecordSavingService recordSavingService
 
     /**
      * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
@@ -370,6 +351,7 @@ class LoginController {
                 CreateAccountCommand createAccount = flow.createAccount
                 createAccount.username = params.username ?: createAccount.username ?: createAccount.email
                 createAccount.password = params.password ?: createAccount.password
+                createAccount.confirmPassword = params.confirmPassword ?: createAccount.confirmPassword
 
                 if (Leader.findByUsername(createAccount?.username)) {
                     flash.error = "flow.submitUsernameAndPassword.usernameTaken"
@@ -530,16 +512,18 @@ class LoginController {
 
                 //add to unit
                 CreateAccountCommand createAccount = flow.createAccount
-                ScoutGroup targetUnit = createAccount.unit.merge();
-                if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
-                    targetUnit.addToLeaderGroups(new LeaderGroup(leader: leader, scoutGroup: createAccount.unit, leaderPosition: createAccount.unitPosition));
-                    targetUnit.save(flush: true)
-                }
 
                 boolean linkedSocial = socialLoginService.linkSocialLogin(leader, session)
                 if (!linkedSocial) {
                     springSecurityService.reauthenticate(leader.username, leader.password)
                 }
+
+                ScoutGroup targetUnit = createAccount.unit;
+                if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
+                    targetUnit.addToLeaderGroups([leader: leader, leaderPosition: createAccount.unitPosition]);
+                    targetUnit.save(failOnError:true)
+                }
+
 
                 flow.leader = null
                 if (flow.newSetup && !linkedSocial) {
