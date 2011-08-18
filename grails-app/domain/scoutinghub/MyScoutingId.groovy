@@ -21,6 +21,8 @@ class MyScoutingId implements Serializable{
         updateDate nullable: true
     }
 
+    static fetchMode = [leader: 'eager']
+
     def beforeInsert = {
         createDate = new Date()
     }

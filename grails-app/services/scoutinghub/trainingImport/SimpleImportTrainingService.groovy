@@ -13,6 +13,7 @@ import scoutinghub.TrainingService
 import java.text.DateFormat
 import org.apache.commons.httpclient.util.DateParseException
 import org.hibernate.SessionFactory
+import org.hibernate.Transaction
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,77 +33,102 @@ class SimpleImportTrainingService {
 
         String[] line
         int saveCount = 1
+        Transaction transaction = sessionFactory.currentSession.beginTransaction()
         while ((line = simpleImportJob.csvReader.readNext()) != null) {
             simpleImportJob.totalCompleted++
             String personId = line[0]
 
             if (personId && personId != "person_id") {
+                try {
+                    Leader foundLeader = MyScoutingId.findByMyScoutingIdentifier(personId)?.leader
 
-                Leader foundLeader = MyScoutingId.findByMyScoutingIdentifier(personId)?.leader
-                if (foundLeader) {
-                    if(!foundLeader.email) {
-                        String emailFromCsv = line[simpleImportJob.emailColumn]
-                        if(emailFromCsv) {
-                            foundLeader.email = emailFromCsv
-                            if(!foundLeader.validate()) {
-                                println "Invalid email: ${emailFromCsv}"
-                                foundLeader.email = null
-                            }
-                        }
+                    if (!foundLeader) {
+                        //Create a new leader record with the data from
+                        foundLeader = new Leader()
+                        foundLeader.firstName = line[2]
+                        foundLeader.lastName = line[4]
+                        foundLeader.email = line[7]
+
+                        foundLeader.addToMyScoutingIds([myScoutingIdentifier: personId])
+                        foundLeader.save()
                     }
-                    simpleImportJob.columnIndexToCertificationMap.each {entry ->
-                        int cellId = entry.key
-                        Certification certification = entry.value
+                    if(foundLeader.hasErrors()) {
+                        println foundLeader.errors
+                        foundLeader.discard()
 
-                        String dateValue = line[cellId]
-                        if (dateValue && dateValue.length() > 0) {
-
-                            Date trainingDate
-                            try {
-                                trainingDate = Date.parse("MM/dd/yyyy", dateValue)
-                            } catch (DateParseException de) {
-                                println "Failed to parse date: ${dateValue}"
-                            }
-                            if (trainingDate) {
-                                //Check to make sure there's not a newer training dateValue on the record
-                                LeaderCertification existing = foundLeader.certifications.find {
-                                    return it.certification.id == certification.id
-                                }
-
-
-                                if (existing && trainingDate.after(existing.dateEarned)) {
-                                    existing.dateEarned = trainingDate
-                                    existing.save(failOnError: true)
-                                    trainingService.recalculatePctTrained(foundLeader)
-
-
-                                } else if (!existing) {
-                                    LeaderCertification leaderCertification = new LeaderCertification()
-                                    leaderCertification.leader = foundLeader
-                                    leaderCertification.certification = certification
-                                    leaderCertification.dateEarned = trainingDate
-                                    leaderCertification.dateEntered = new Date()
-                                    leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
-                                    leaderCertification.enteredBy = simpleImportJob.importedBy
-                                    leaderCertification.save(failOnError: true)
-                                    foundLeader.addToCertifications(leaderCertification)
-                                    foundLeader.save(failOnError: true)
-                                    trainingService.recalculatePctTrained(foundLeader)
+                    } else  {
+                        if (!foundLeader.email) {
+                            String emailFromCsv = line[simpleImportJob.emailColumn]
+                            if (emailFromCsv) {
+                                foundLeader.email = emailFromCsv
+                                if (!foundLeader.validate()) {
+                                    println "Invalid email: ${emailFromCsv}"
+                                    foundLeader.email = null
                                 }
                             }
                         }
-                    }
-                    saveCount++
-                    if (saveCount % 100 == 0) {
-                        saveCount = 1
-                        println "Processed 100 records - flushing"
-                        sessionFactory.currentSession.flush()
-                        sessionFactory.currentSession.clear()
-                    }
+                        simpleImportJob.columnIndexToCertificationMap.each {entry ->
+                            int cellId = entry.key
+                            Certification certification = entry.value
 
+                            String dateValue = line[cellId]
+                            if (dateValue && dateValue.length() > 0) {
+
+                                Date trainingDate
+                                try {
+                                    trainingDate = Date.parse("MM/dd/yy", dateValue)
+                                } catch (DateParseException de) {
+                                    println "Failed to parse date: ${dateValue}"
+                                }
+                                if (trainingDate) {
+                                    //Check to make sure there's not a newer training dateValue on the record
+                                    LeaderCertification existing = foundLeader.certifications.find {
+                                        return it.certification.id == certification.id
+                                    }
+
+
+                                    if (existing && trainingDate.after(existing.dateEarned)) {
+                                        existing.dateEarned = trainingDate
+                                        existing.save(failOnError: true)
+                                        trainingService.recalculatePctTrained(foundLeader)
+
+
+                                    } else if (!existing) {
+                                        LeaderCertification leaderCertification = new LeaderCertification()
+                                        leaderCertification.leader = foundLeader
+                                        leaderCertification.certification = certification
+                                        leaderCertification.dateEarned = trainingDate
+                                        leaderCertification.dateEntered = new Date()
+                                        leaderCertification.enteredType = LeaderCertificationEnteredType.Imported
+                                        leaderCertification.enteredBy = simpleImportJob.importedBy
+                                        leaderCertification.save(failOnError: true)
+                                        foundLeader.addToCertifications(leaderCertification)
+                                        foundLeader.save(failOnError: true)
+                                        trainingService.recalculatePctTrained(foundLeader)
+                                    }
+                                }
+                            }
+                        }
+                        saveCount++
+                        if (saveCount % 100 == 0) {
+                            saveCount = 1
+                            println "Processed 100 records - flushing"
+                            transaction.commit()
+                            sessionFactory.currentSession.flush()
+                            sessionFactory.currentSession.clear()
+
+                            transaction = sessionFactory.currentSession.beginTransaction()
+                        }
+
+                    }
+                } catch (Exception e) {
+                    println "Error importing: ${e}"
                 }
             }
+
         }
+
+        transaction.commit()
 
         sessionFactory.currentSession.flush()
         sessionFactory.currentSession.clear()
