@@ -1609,7 +1609,21 @@ table tr td {
 
 .msg2 {
     font-size: 13px;
+    margin-bottom: 10px;
+}
 
+.duplicate-results div div {
+    display: table-cell;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.duplicate-results .header {
+    font-weight: bold;
+}
+
+.duplicate-results div {
+    display: table-row;
 }
 
 div.link {
@@ -2029,6 +2043,15 @@ a.leaderProfileLink {
     background-color: #E8E8E8;
     font-size: 16px;
     padding: 5px;
+}
+
+.leaderResult .no-permission {
+    background-color: #CCC;
+    background-image: none;
+    color: #FFF;
+}
+
+.has-permission .leaderName {
     cursor: move;
 }
 

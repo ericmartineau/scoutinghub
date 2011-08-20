@@ -21,6 +21,14 @@
             jQuery("#completeTraining" + id).click();
         }
 
+        function ignoreDuplicate(leaderIdA, leaderIdB) {
+            jQuery.getJSON("/scoutinghub/leader/ignoreDuplicate", {leaderA:leaderIdA, leaderB:leaderIdB}, function(json) {
+                if(json.success) {
+                    window.location.reload();
+                }
+            });
+        }
+
         jQuery(document).ready(function() {
             var pct = parseInt(jQuery(this).attr("pct"));
             jQuery("#trainingCompletion").progressbar({value:pct});
@@ -67,22 +75,81 @@
     <li><g:link action="foo">Edit My Profile</g:link></li>
 </g:set>
 
-<g:if test="${leader.certifications?.size() == 0 && leader.myScoutingIds?.size() == 0}">
-    <s:section>
-        <s:msg type="warning">
-            <div class="msg1"><g:message code="leader.profile.nolink"/></div>
+<g:if test="${duplicates?.size()}">
+    <s:browser>
+        <s:section>
+            <s:msg type="warning">
+                <div class="msg1">
+                    <g:message code="leader.profile.duplicate"/>
+                </div>
 
-            <div class="msg2">
-                <g:message code="leader.profile.nolinkdescription"/>
-                <ul class="list">
-                    <li><g:message code="leader.profile.nolinkdescription_item1"/></li>
-                    <li><g:message code="leader.profile.nolinkdescription_item2"/></li>
-                </ul>
-            </div>
+                <div class="msg2">
+                    <g:message code="leader.profile.duplicate2"/>
+                    <b>
+                        <g:message code="leader.profile.duplicate_verify"/>
+                    </b>
+                </div>
 
-        </s:msg>
-    </s:section>
+                <div class="msg2">
+                <div class="duplicate-results">
+                    <div class="header">
+                        <div>First Name</div>
+                        <div>Last Name</div>
+                        <div>Phone</div>
+                        <div>Email</div>
+                        <div>BSA ID</div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <g:each in="${duplicates}" var="duplicate">
+
+                        <div>
+                            <div>${duplicate.firstName}</div>
+                            <div>${duplicate.lastName}</div>
+                            <div>${duplicate.phone ?: "No Phone"}</div>
+                            <div>${duplicate.email ?: "No Email"}</div>
+                            <div>
+                                <g:if test="${duplicate.myScoutingIds?.size() > 0}">
+                                    ${duplicate.myScoutingIds?.iterator()?.next()}
+                                </g:if>
+                                <g:else>No BSA ID</g:else>
+
+                            </div>
+
+                            <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a></div>
+                            <div><a href="javascript:ignoreDuplicate(${leader.id}, ${duplicate.id})">Not a Match</a></div>
+                        </div>
+
+
+
+                    </g:each>
+                    </div>
+
+                </div>
+
+            </s:msg>
+        </s:section>
+    </s:browser>
 </g:if>
+<g:else>
+    <g:if test="${leader.certifications?.size() == 0 && leader.myScoutingIds?.size() == 0}">
+        <s:section>
+            <s:msg type="warning">
+                <div class="msg1"><g:message code="leader.profile.nolink"/></div>
+
+                <div class="msg2">
+                    <g:message code="leader.profile.nolinkdescription"/>
+                    <ul class="list">
+                        <li><g:message code="leader.profile.nolinkdescription_item1"/></li>
+                        <li><g:message code="leader.profile.nolinkdescription_item2"/></li>
+                    </ul>
+                </div>
+
+            </s:msg>
+        </s:section>
+    </g:if>
+</g:else>
+
 
 <g:form action="saveProfile">
     <s:section class="floatSection myprofile">

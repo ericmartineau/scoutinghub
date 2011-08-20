@@ -3,7 +3,7 @@ package scoutinghub
 /**
  * Record that links a BSA Id to a Leader record.
  */
-class MyScoutingId implements Serializable{
+class MyScoutingId implements Serializable {
 
     static searchable = true
 
@@ -16,7 +16,7 @@ class MyScoutingId implements Serializable{
     static belongsTo = [Leader]
 
     static constraints = {
-        myScoutingIdentifier(unique:true, blank:false)
+        myScoutingIdentifier(unique: true, blank: false)
         createDate nullable: true
         updateDate nullable: true
     }
@@ -29,5 +29,10 @@ class MyScoutingId implements Serializable{
 
     def beforeUpdate = {
         updateDate = new Date()
+    }
+
+
+    public String toString() {
+        return myScoutingIdentifier
     }
 }

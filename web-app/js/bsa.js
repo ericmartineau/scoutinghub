@@ -15,6 +15,10 @@ jQuery(document).ready(function() {
     decorate();
 });
 
+function openMergeLeaderDialog(leaderidA, leaderidB) {
+    createDialog("/scoutinghub/leader/merge", {leaderA:leaderidA, leaderB:leaderidB}, {title:'Merge', modal:true, width: 500});
+}
+
 function keypressDelay(key, $jq, closure, delay) {
     $jq.keypress(function() {
         if (queryTimeouts[key]) {
@@ -44,9 +48,9 @@ var currSelectId
 function addAddress(selectId) {
     currSelectId = selectId
     createDialog("/scoutinghub/address/create", {}, {
-                title: 'New Address',
-                width:450
-            })
+        title: 'New Address',
+        width:450
+    })
 }
 
 function refreshAddressList() {
@@ -86,31 +90,31 @@ function createOverTooltip(selector, message) {
 }
 
 function createTooltip(selector, message, onEvent, offEvent) {
-    if(!onEvent || onEvent == "") {
+    if (!onEvent || onEvent == "") {
         onEvent = "focus";
     }
-    if(!offEvent || offEvent == "") {
+    if (!offEvent || offEvent == "") {
         offEvent = "blur"
     }
 
     jQuery(document).ready(
-            (function() {
+        (function() {
 
-                var $this = jQuery(selector);
-                if (jQuery.fn.qtip) {
-                    $this.qtip(
-                            {
-                                content: message,
-                                show: {event: onEvent, solo:true},
-                                position: {my: "right center", at: "left center"},
-                                hide: {event: offEvent},
-                                style: {
-                                    classes: "ui-tooltip-rounded tooltip-display"
-                                }
-                            }
-                    )
-                }
-            }));
+            var $this = jQuery(selector);
+            if (jQuery.fn.qtip) {
+                $this.qtip(
+                    {
+                        content: message,
+                        show: {event: onEvent, solo:true},
+                        position: {my: "right center", at: "left center"},
+                        hide: {event: offEvent},
+                        style: {
+                            classes: "ui-tooltip-rounded tooltip-display"
+                        }
+                    }
+                )
+            }
+        }));
 }
 
 function createDialogClosure(url, data, config) {
@@ -157,29 +161,29 @@ function decorate() {
 
     //Creates jquery buttons
     jQuery(".ui-button").each(
-            function() {
-                var $this = jQuery(this);
-                if ($this.hasClass("ui-state-active")) {
-                    $this.mouseout(applyStyleClosure("ui-state-active"));
-                    $this.mouseover(removeStyleClosure("ui-state-active"));
-                }
-                var config;
-                if ($this.attr("buttonicon")) {
-                    config = {
-                        icons: {
-                            primary: $this.attr("buttonicon")
-                        }
+        function() {
+            var $this = jQuery(this);
+            if ($this.hasClass("ui-state-active")) {
+                $this.mouseout(applyStyleClosure("ui-state-active"));
+                $this.mouseover(removeStyleClosure("ui-state-active"));
+            }
+            var config;
+            if ($this.attr("buttonicon")) {
+                config = {
+                    icons: {
+                        primary: $this.attr("buttonicon")
                     }
-                } else {
-                    config = {};
                 }
-                $this.button(config)
-            }).addClass("ui-button-style").removeClass("ui-button");
+            } else {
+                config = {};
+            }
+            $this.button(config)
+        }).addClass("ui-button-style").removeClass("ui-button");
 
     //Creates jquery date pickers
     jQuery(".datePicker").datepicker({
         changeMonth: true,
-		changeYear: true
+        changeYear: true
     });
 
     //Creates jquery select boxes
@@ -192,10 +196,10 @@ function decorate() {
         var leaderidA = dragger.attr("leaderid");
         var leaderidB = dropper.attr("leaderid");
 
-        createDialog("/scoutinghub/leader/merge", {leaderA:leaderidA, leaderB:leaderidB}, {title:'Merge', modal:true, width: 500});
+        openMergeLeaderDialog(leaderidA, leaderidB);
+
 
     }
-
 
     function startDrag() {
         jQuery(this).css("zIndex", 5000);
@@ -206,9 +210,17 @@ function decorate() {
     }
 
     //Creates drag and drop regions for leader record merging
-    jQuery(".leaderResult")
-            .draggable({ start:startDrag, stop:stopDrag, axis: "y", opacity:0.35, cursor:'move', handle: ".leaderName", containment: ".leaderResultContainer", revert:true })
-            .droppable({hoverClass: 'leaderResultAccept', accept: ".leaderResult", drop: mergeLeaders});
+    jQuery(".leaderResult").each(function() {
+        var $this = jQuery(this);
+        $this.droppable({hoverClass: 'leaderResultAccept', accept: ".leaderResult", drop: mergeLeaders});
+
+        if ($this.hasClass("has-permission")) {
+            $this.draggable({ start:startDrag, stop:stopDrag, axis: "y", opacity:0.35, cursor:'move', handle: ".leaderName", containment: ".leaderResultContainer", revert:true })
+        }
+
+
+    });
+
 
     configureUnitAutocomplete();
 
@@ -220,12 +232,12 @@ function decorate() {
         jQuery("th").addClass("ui-widget-header");
         var $headerMenu = jQuery("div.header-menu-pe");
         $headerMenu
-                .mouseover(applyStyleClosure("ui-state-hover"))
-                .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
-                .removeClass("header-menu-pe").children("span").click(toggleMenu);
+            .mouseover(applyStyleClosure("ui-state-hover"))
+            .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
+            .removeClass("header-menu-pe").children("span").click(toggleMenu);
         jQuery("ul.ctx-menu-pe")
 //                .menu()
-                .addClass("ctx-menu").removeClass("ctx-menu-pe");
+            .addClass("ctx-menu").removeClass("ctx-menu-pe");
 
     }
 
@@ -310,24 +322,24 @@ var geocoder;
 function showMap(address) {
 
     geocoder.getLatLng(
-            address,
-            function(point) {
-                if (!point) {
-                    alert(address + " not found");
-                } else {
-                    jQuery("#mapper").show();
-                    var map = new GMap2(document.getElementById("mapper"));
+        address,
+        function(point) {
+            if (!point) {
+                alert(address + " not found");
+            } else {
+                jQuery("#mapper").show();
+                var map = new GMap2(document.getElementById("mapper"));
 
-                    var marker = new GMarker(point);
-                    map.addOverlay(marker);
-                    map.checkResize();
-                    map.setCenter(point, 15);
-                    map.setUIToDefault();
-                    map.checkResize();
+                var marker = new GMarker(point);
+                map.addOverlay(marker);
+                map.checkResize();
+                map.setCenter(point, 15);
+                map.setUIToDefault();
+                map.checkResize();
 
 
-                }
             }
+        }
     );
     jQuery("#mapper").dialog({open:true, title: address, width: 800, height:600, modal:true});
 }

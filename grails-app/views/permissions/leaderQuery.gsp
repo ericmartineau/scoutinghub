@@ -7,16 +7,34 @@
         </tr>
     </g:if>
     <g:each in="${results}" var="leader">
-        <div class="shadow leaderResult validation ui-corner-all" leaderid="${leader.id}">
-            <div class="ui-widget-header ui-state-active ui-corner-tr ui-corner-tl leaderName">
+
+        <g:set var="hasPermissionClass" value="" />
+        <g:set var="hasPermissionInnerClass" value="no-permission" />
+
+        <p:canAdministerLeader leader="${leader}">
+            <g:set var="hasPermissionClass">has-permission</g:set>
+            <g:set var="hasPermissionInnerClass">ui-state-active</g:set>
+        </p:canAdministerLeader>
+
+        <div class="leaderResult shadow validation ui-corner-all ${hasPermissionClass}" leaderid="${leader.id}">
+            <div class="ui-widget-header ${hasPermissionInnerClass} ui-corner-tr ui-corner-tl leaderName">
                 ${leader?.firstName} ${leader?.lastName}
-                <span style="float:right">
-                    <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader.id}"><g:message code="leader.viewProfile"/></g:link>
-                </span>
+                <p:canAdministerLeader leader="${leader}">
+                    <span style="float:right">
+                        <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader.id}"><g:message
+                                code="leader.viewProfile"/></g:link>
+                    </span>
+                </p:canAdministerLeader>
             </div>
             <s:propertyList>
-                <s:property code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-                <s:property code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+                <s:property
+                        code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+                <s:property
+                        code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+
+                <g:if test="${leader.myScoutingIds?.size() > 0}">
+                    <s:property code="leader.profile.scoutingids">${leader.myScoutingIds.iterator().next()}</s:property>
+                </g:if>
 
                 <g:each in="${leader.groups}" var="group">
                     <s:property code="${group?.leaderPosition}.label">

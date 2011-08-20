@@ -9,6 +9,8 @@ import scoutinghub.ScoutUserDetailsService
 import org.springframework.security.facebook.MappedFacebookAuthenticationProvider
 import org.compass.core.converter.basic.EnumConverter
 import java.util.concurrent.Executors
+import scoutinghub.ScoutingHubAuthenticationSuccessHandler
+import grails.plugins.springsecurity.SpringSecurityService
 
 // Place your Spring DSL code here
 beans = {
@@ -16,6 +18,10 @@ beans = {
     def conf = SpringSecurityUtils.securityConfig
     if (!conf || !conf.active) {
         return
+    }
+
+    scoutingHubAuthenticationSuccessHandler(ScoutingHubAuthenticationSuccessHandler) {
+        springSecurityService = ref("springSecurityService")
     }
 
     SpringSecurityUtils.loadSecondaryConfig 'DefaultOpenIdSecurityConfig'

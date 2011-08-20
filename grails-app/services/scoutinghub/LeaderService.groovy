@@ -9,6 +9,7 @@ class LeaderService {
 
     SpringSecurityService springSecurityService;
 
+    TrainingService trainingService
 
     Leader createLeader(def params) {
         Leader leader = new Leader(
@@ -61,6 +62,8 @@ class LeaderService {
 
         //persist primary
         primary.save(failOnError: true);
+
+        trainingService.recalculatePctTrained(primary)
 
     }
 
@@ -125,6 +128,7 @@ class LeaderService {
         primary.password = primary.password ?: secondary.password
         primary.email = primary.email ?: secondary.email
         primary.phone = primary.phone ?: secondary.phone
+        primary.setupDate = primary.setupDate ?: secondary.setupDate
         if (!primary.enabled) {
             primary.enabled = secondary.enabled
         }
@@ -318,4 +322,24 @@ class LeaderService {
         return rtn
     }
 
+    Set<Leader> findDuplicateLeaders(Leader leader) {
+        //Find by email address
+        //Find by first & last name
+        return Leader.withCriteria {
+            ne('id', leader.id)
+            or {
+                if(leader.email) {
+                    eq('email', leader.email)
+                }
+                and {
+                    eq('firstName', leader.firstName)
+                    eq('lastName', leader.lastName)
+                }
+                if(leader?.phone) {
+                    eq('phone', leader.phone)
+                }
+            }
+        }
+
+    }
 }

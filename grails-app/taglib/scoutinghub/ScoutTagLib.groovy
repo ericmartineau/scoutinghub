@@ -11,6 +11,10 @@ class ScoutTagLib {
         out << render(template: "/tags/leaderTraining", model: [certificationInfo: certificationInfo]);
     }
 
+    def findLeaderMatch = {attrs->
+        out << render(template: "/leader/findLeaderMatch", model: [leader:attrs.leaders])
+    }
+
     def missingTrainingCodes = {attrs->
         LeaderGroup leaderGroup = attrs.leaderGroup
         List<ProgramCertification> certifications = trainingService.getRequiredCertifications(leaderGroup)

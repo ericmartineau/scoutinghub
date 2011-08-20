@@ -16,6 +16,14 @@ class PermissionsTagLib {
         }
     }
 
+    def canAdministerLeader = {attrs, body ->
+        Leader leader = attrs.leader
+        Leader loggedIn = springSecurityService.currentUser
+        if (leader.canBeAdministeredBy(loggedIn)) {
+            out << body()
+        }
+    }
+
     def allGroupPermissions = {attrs ->
         Leader leader = attrs.leader
         def units = new LinkedHashMap()

@@ -29,12 +29,11 @@ class PermissionsController {
         try {
             Leader leader = springSecurityService.currentUser
             def results;
-            if (leader.hasRole("ROLE_ADMIN")) {
+            List<String> allGroups = leader?.groups?.findAll {it.admin}?.collect {String.valueOf(it.scoutGroup.id)}
+            if (allGroups?.size() > 0 || leader.hasRole("ROLE_ADMIN")) {
                 results = Leader.search(params.leaderQuery?.trim() + "*", params)
-            } else {
-                List<String> allGroups = leader?.groups?.findAll {it.admin}?.collect {String.valueOf(it.scoutGroup.id)}
-                results = Leader.search(params.leaderQuery?.trim() + "*", params, filter: ScoutGroupFilter.createFilter(allGroups));
             }
+//                results = Leader.search(params.leaderQuery?.trim() + "*", params, filter: ScoutGroupFilter.createFilter(allGroups));
 
             return [results: results.results]
         } catch (SearchEngineQueryParseException ex) {

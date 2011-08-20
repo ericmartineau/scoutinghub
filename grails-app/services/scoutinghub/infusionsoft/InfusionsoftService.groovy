@@ -7,6 +7,7 @@ import scoutinghub.LeaderPositionType
 import scoutinghub.ScoutGroup
 import org.springframework.context.MessageSource
 import scoutinghub.LeaderGroup
+import org.hibernate.SessionFactory
 
 /**
  * A service that allows data from scoutinghub to be synced to Infusionsoft for email communication.
@@ -22,24 +23,24 @@ class InfusionsoftService {
      */
     MessageSource messageSource
 
+    SessionFactory sessionFactory
+
     /**
      * Syncs all leader records.
      */
     void syncAllLeaders() {
+        ScoutGroup scoutGroup = ScoutGroup.get(params.id)
+        syncAllLeaders(scoutGroup)
+    }
 
-        def currBlock = 0
-        def currResults = Leader.list(max: 200, offset: 0)
-        while (currResults?.size() > 0) {
-
-            currResults.each {
-                syncLeader(it)
-            }
-
-            currBlock++
-            currResults = Leader.list(max: 200, offset: currBlock * 200)
-
+    void syncAllLeaders(ScoutGroup scoutGroup) {
+        scoutGroup.leaderGroups?.leader?.each {
+            syncLeader(it)
         }
 
+        scoutGroup.childGroups?.each {
+            syncAllLeaders(it)
+        }
     }
 
     int syncLeader(Leader leader) {

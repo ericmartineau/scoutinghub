@@ -137,6 +137,19 @@ class LeaderController {
         forward(action: 'view')
     }
 
+    def ignoreDuplicate = {
+        int leaderA = Integer.parseInt(params.leaderA)
+        int leaderB = Integer.parseInt(params.leaderB)
+        if (leaderA > 0 && leaderB > 0) {
+            IgnoredDuplicate ignoredDuplicate = new IgnoredDuplicate()
+            ignoredDuplicate.leaderId = leaderA
+            ignoredDuplicate.suspectedLeaderId = leaderB
+            ignoredDuplicate.save(failOnError:true)
+            def rtn = [success:true]
+            render rtn as JSON
+        }
+    }
+
     def view = {
         Date now = new Date()
         Leader leader
@@ -151,6 +164,13 @@ class LeaderController {
 
         } else {
             leader = springSecurityService.currentUser
+        }
+
+        //Let's query for potential duplicate records
+        def duplicates = leaderService.findDuplicateLeaders(leader)
+        List<IgnoredDuplicate> allIgnored = IgnoredDuplicate.findAllByLeaderId(leader.id)
+        allIgnored?.each {IgnoredDuplicate ignoredDuplicate->
+            duplicates.removeAll {it.id == ignoredDuplicate.suspectedLeaderId}
         }
 
         if (!leader) {
@@ -204,7 +224,7 @@ class LeaderController {
         certificationInfo.each { extraCertificationInfo.remove(it) }
 
 
-        def rtn = [extraCertificationInfo:extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
+        def rtn = [duplicates: duplicates, extraCertificationInfo:extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
 
         return rtn
 

@@ -90,6 +90,7 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.useSecurityEventListener = true
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'scoutinghub.Leader'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'scoutinghub.LeaderRole'
 grails.plugins.springsecurity.authority.className = 'scoutinghub.Role'
