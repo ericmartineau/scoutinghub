@@ -34,7 +34,7 @@ public class MainMenuItem extends MenuItem {
             rtn = true;
         } else {
             for (SubMenuItem subItem : subItems) {
-                if (subItem.getController().equalsIgnoreCase(controller) && action.equalsIgnoreCase(action)) {
+                if (subItem.getController().equalsIgnoreCase(controller) && subItem.getAction().equalsIgnoreCase(action)) {
                     rtn = true;
                     break;
                 }

@@ -153,24 +153,31 @@ class LeaderController {
     def view = {
         Date now = new Date()
         Leader leader
+        Leader loggedIn = springSecurityService.currentUser
+
         if (params.id) {
             leader = Leader.get(params.id)
-            Leader loggedIn = springSecurityService.currentUser
+
             if (!leader.canBeAdministeredBy(loggedIn) && !loggedIn.hasRole("ROLE_ADMIN")) {
                 redirect(controller: "login", action: "denied")
                 return
             }
-
-
         } else {
             leader = springSecurityService.currentUser
         }
+
+
 
         //Let's query for potential duplicate records
         def duplicates = leaderService.findDuplicateLeaders(leader)
         List<IgnoredDuplicate> allIgnored = IgnoredDuplicate.findAllByLeaderId(leader.id)
         allIgnored?.each {IgnoredDuplicate ignoredDuplicate->
             duplicates.removeAll {it.id == ignoredDuplicate.suspectedLeaderId}
+        }
+
+        //Don't let non-admin users merge two user records together
+        if(!loggedIn.canAdminAtLeastOneUnit()) {
+            duplicates.removeAll {it.setupDate != null}
         }
 
         if (!leader) {

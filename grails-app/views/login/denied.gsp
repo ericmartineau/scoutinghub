@@ -6,9 +6,9 @@
 <body>
 <s:content>
     <s:section code="Access Denied">
-        <s:text class="error">
+        <s:msg class="error">
             Sorry, you're not authorized to view this page.
-        </s:text>
+        </s:msg>
 
     </s:section>
 </s:content>

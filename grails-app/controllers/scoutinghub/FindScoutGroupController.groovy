@@ -42,8 +42,6 @@ class FindScoutGroupController {
 
             }
 
-            //def results = ScoutGroup.search(params.term.trim() + "*", defaultOperator:"or", properties:
-//                ["groupLabel", "parent_groupLabel", "groupIdentifier", "parent_groupIdentifier", "groupType", "unitType"])
 
             //Had some weird issues with stale objects - this should force a refresh
             results.results.each{it.refresh()}

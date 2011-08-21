@@ -96,6 +96,10 @@ class Leader implements Serializable {
         return hasScoutingId
     }
 
+    boolean canAdminAtLeastOneUnit() {
+        return groups?.find {it.admin} != null || hasRole("ROLE_ADMIN")
+    }
+
     boolean canBeAdministeredBy(Leader leader) {
         boolean hasPermission = false
         if (leader?.hasRole("ROLE_ADMIN")) {

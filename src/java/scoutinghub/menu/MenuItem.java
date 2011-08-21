@@ -72,6 +72,13 @@ public abstract class MenuItem {
         this.requiredRoles = requiredRoles;
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
 
     public boolean isCurrentMenuItem(String controller, String action) {
         return this.controller.equalsIgnoreCase(controller) && this.action.equalsIgnoreCase(action);

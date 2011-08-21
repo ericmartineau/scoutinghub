@@ -27,8 +27,10 @@ class ScoutGroupController {
         redirect(controller: "leader", view: "view", id: leaderGroup.leader.id)
     }
 
-    @Secured(["ROLE_ADMIN"])
+    @Secured(["ROLE_LEADER"])
     def unitQuery = {
+
+        Leader leader = springSecurityService.currentUser
         def searchParam = params.param?.trim()
         def orgTypeParam = params.orgType?.trim()
         if (!searchParam && !orgTypeParam) {
@@ -36,14 +38,25 @@ class ScoutGroupController {
         }
         try {
 
+            List<String> allGroups = leader?.groups?.findAll {it.admin}?.collect {String.valueOf(it.scoutGroup.id)}
+
 //            def results = ScoutGroup.search(searchQuery, params)
-            def results = ScoutGroup.search {
+            def searchClosure = {
                 if (orgTypeParam) {
                     must(term('groupType', orgTypeParam?.toLowerCase()))
                 }
                 if (searchParam) {
                     queryString("${searchParam}*")
                 }
+                // Leader.search(params.leaderQuery?.trim() + "*", params, filter: ScoutGroupFilter.createFilter(allGroups));
+                //If not an admin, only allow searching on unit admins
+                //def results = ScoutGroup.search(params.term.trim() + "*", defaultOperator:"or", properties:
+            }
+            def results
+            if(leader.hasRole("ROLE_ADMIN")) {
+                results = ScoutGroup.search(searchClosure)
+            } else {
+                results = ScoutGroup.search(searchClosure, filter: ScoutGroupFilter.createFilter(allGroups))
             }
 
             results.results?.each {it.refresh()}
@@ -61,10 +74,12 @@ class ScoutGroupController {
 
     }
 
+    @Secured(["ROLE_LEADER"])
     def index = {
-        redirect(action: "list", params: params)
+        forward(action: "list")
     }
 
+    @Secured(["ROLE_LEADER"])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [scoutGroupInstanceList: ScoutGroup.list(params), scoutGroupInstanceTotal: ScoutGroup.count()]

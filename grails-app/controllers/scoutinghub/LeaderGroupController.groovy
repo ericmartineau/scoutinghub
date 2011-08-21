@@ -15,7 +15,7 @@ class LeaderGroupController {
     SpringSecurityService springSecurityService
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "create", params: params)
     }
 
     @Secured(["IS_AUTHENTICATED_ANONYMOUSLY"])
