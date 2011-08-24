@@ -15,6 +15,7 @@ import scoutinghub.*
 class SimpleImportTrainingService {
 
     SessionFactory sessionFactory
+    LeaderService leaderService
 
     TrainingService trainingService
 
@@ -26,30 +27,42 @@ class SimpleImportTrainingService {
         Transaction transaction = sessionFactory.currentSession.beginTransaction()
         transaction.begin()
         while ((line = simpleImportJob.csvReader.readNext()) != null) {
+            line.metaClass.getCSVData = {String columnName ->
+                return delegate[simpleImportJob.columnNameToIndexMap[columnName]]
+            }
             simpleImportJob.totalCompleted++
             String personId = line[0]
 
             if (personId && personId != "person_id") {
                 try {
-                    Leader foundLeader = MyScoutingId.findByMyScoutingIdentifier(personId)?.leader
+
+                    Leader foundLeader = null
+                    if(line.getCSVData("First Name")) {
+                        foundLeader = leaderService.findExactLeaderMatch(personId, line.getCSVData("Net Address"), line.getCSVData("First Name"),
+                                            line.getCSVData("Last Name"))
+                    }
 
                     if (!foundLeader) {
                         //Create a new leader record with the data from
                         foundLeader = new Leader()
-                        foundLeader.firstName = line[2]
-                        foundLeader.lastName = line[4]
-                        foundLeader.email = line[7]
+                        foundLeader.firstName = line.getCSVData("First Name")
+                        foundLeader.middleName = line.getCSVData("Middle Name")
+                        foundLeader.lastName = line.getCSVData("Last Name")
+
+                        foundLeader.email = line.getCSVData("Net Address")
+                        foundLeader.phone = line.getCSVData("Phone Number")
+                        foundLeader.address1 = line.getCSVData("Address 1")
+                        foundLeader.address2 = line.getCSVData("Address 2")
+                        foundLeader.city = line.getCSVData("City")
+                        foundLeader.state = line.getCSVData("State")
+                        foundLeader.postalCode = line.getCSVData("Zip Code")
+
 
                         foundLeader.addToMyScoutingIds([myScoutingIdentifier: personId])
-                        foundLeader.save()
-                    }
-                    if (foundLeader.hasErrors()) {
-                        println foundLeader.errors
-                        foundLeader.discard()
-
+                        foundLeader.save(failOnError:true)
                     } else {
                         if (!foundLeader.email) {
-                            String emailFromCsv = line[simpleImportJob.emailColumn]
+                            String emailFromCsv = line.getCSVData("Net Address")
                             if (emailFromCsv) {
                                 foundLeader.email = emailFromCsv
                                 if (!foundLeader.validate()) {
@@ -58,6 +71,27 @@ class SimpleImportTrainingService {
                                 }
                             }
                         }
+
+                        foundLeader.middleName = foundLeader.middleName ?: line.getCSVData("Middle Name")
+                        foundLeader.phone = foundLeader.phone ?: line.getCSVData("Phone Number")
+
+                        if (!foundLeader.address1) {
+                            foundLeader.address1 = line.getCSVData("Address 1")
+                            foundLeader.address2 = line.getCSVData("Address 2")
+                            foundLeader.city = line.getCSVData("City")
+                            foundLeader.state = line.getCSVData("State")
+                            foundLeader.postalCode = line.getCSVData("Zip Code")
+                        }
+
+                        foundLeader.save(failOnError:true)
+
+                    }
+                    if (foundLeader.hasErrors()) {
+                        println foundLeader.errors
+                        foundLeader.discard()
+
+                    } else {
+                        boolean needsRecalculation = false
                         simpleImportJob.columnIndexToCertificationMap.each {entry ->
                             int cellId = entry.key
                             Certification certification = entry.value
@@ -82,9 +116,7 @@ class SimpleImportTrainingService {
                                     if (existing && trainingDate.after(existing.dateEarned)) {
                                         existing.dateEarned = trainingDate
                                         existing.save(failOnError: true)
-                                        trainingService.recalculatePctTrained(foundLeader)
-
-
+                                        needsRecalculation = true
                                     } else if (!existing) {
                                         LeaderCertification leaderCertification = new LeaderCertification()
                                         leaderCertification.leader = foundLeader
@@ -96,10 +128,13 @@ class SimpleImportTrainingService {
                                         leaderCertification.save(failOnError: true)
                                         foundLeader.addToCertifications(leaderCertification)
                                         foundLeader.save(failOnError: true)
-                                        trainingService.recalculatePctTrained(foundLeader)
+                                        needsRecalculation = true
                                     }
                                 }
                             }
+                        }
+                        if(needsRecalculation) {
+                            trainingService.recalculatePctTrained(foundLeader)
                         }
                         saveCount++
                         if (saveCount % 100 == 0) {
@@ -133,11 +168,13 @@ class SimpleImportTrainingService {
         if (!headerRow) {
             throw new Exception("simpleImport.noHeaderRow")
         }
+
         int columnIndex = 0
         headerRow.each {String cell ->
-            if (cell?.equalsIgnoreCase("Net Address")) {
-                simpleImportJob.emailColumn = columnIndex
-            } else {
+
+            if (cell) {
+                simpleImportJob.columnNameToIndexMap[cell] = columnIndex
+
 
                 Certification foundCertification = CertificationCode.findByCode(cell)?.certification
                 if (foundCertification) {
@@ -145,6 +182,7 @@ class SimpleImportTrainingService {
                     simpleImportJob.columnIndexToCertificationMap[columnIndex] = foundCertification
                 }
             }
+
             columnIndex++
         }
 

@@ -30,6 +30,9 @@ class LeaderService {
     }
 
     void mergeLeaders(Leader primary, Leader secondary) {
+
+        boolean isLoggedIn = secondary.id == springSecurityService.currentUser?.id || primary.id == springSecurityService.currentUser?.id
+
         //merge scouting ids
         mergeScoutIds(primary, secondary);
 
@@ -61,9 +64,13 @@ class LeaderService {
         secondary.delete(failOnError: true, flush: true);
 
         //persist primary
-        primary.save(failOnError: true);
+        primary.save(flush: true);
 
         trainingService.recalculatePctTrained(primary)
+
+        if(isLoggedIn) {
+            springSecurityService.reauthenticate(primary.username)
+        }
 
     }
 
@@ -124,6 +131,17 @@ class LeaderService {
     }
 
     void mergeLeaderInformation(Leader primary, Leader secondary) {
+
+        primary.middleName = primary.middleName ?: secondary.middleName
+
+        if(!primary.address1) {
+            primary.address1 = secondary.address1
+            primary.address2 = secondary.address2
+            primary.city = secondary.city
+            primary.state = secondary.state
+            primary.postalCode = secondary.postalCode
+        }
+
         primary.username = primary.username ?: secondary.username
         primary.password = primary.password ?: secondary.password
         primary.email = primary.email ?: secondary.email
@@ -258,7 +276,7 @@ class LeaderService {
     }
 
 
-    Leader findExactLeaderMatch(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup) {
+    Leader findExactLeaderMatch(String scoutid, String email, String firstName, String lastName, ScoutGroup scoutGroup = null) {
 
         Leader leader = null
         if (!leader && scoutid != "") {
@@ -332,11 +350,36 @@ class LeaderService {
                     eq('email', leader.email)
                 }
                 and {
-                    eq('firstName', leader.firstName)
+                    if(leader.middleName) {
+                        or {
+                            and {
+                                eq('firstName', leader.middleName)
+                                isNull('middleName')
+                            }
+                            and {
+                                eq('firstName', leader.firstName)
+                                isNull('middleName')
+                            }
+                            and {
+                                eq('firstName', leader.firstName)
+                                eq('middleName', leader.middleName)
+                            }
+                        }
+
+                    } else {
+                       or {
+                           eq('firstName', leader.firstName)
+                           eq('middleName', leader.firstName)
+                       }
+                    }
+
                     eq('lastName', leader.lastName)
                 }
                 if(leader?.phone) {
                     eq('phone', leader.phone)
+                }
+                if(leader?.address1) {
+                    eq('address1', leader.address1)
                 }
             }
         }

@@ -1613,6 +1613,7 @@ table tr td {
 }
 
 .duplicate-results div div {
+    white-space: nowrap;
     display: table-cell;
     padding-left: 6px;
     padding-right: 6px;

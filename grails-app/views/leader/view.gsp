@@ -23,7 +23,7 @@
 
         function ignoreDuplicate(leaderIdA, leaderIdB) {
             jQuery.getJSON("/scoutinghub/leader/ignoreDuplicate", {leaderA:leaderIdA, leaderB:leaderIdB}, function(json) {
-                if(json.success) {
+                if (json.success) {
                     window.location.reload();
                 }
             });
@@ -87,38 +87,48 @@
                 </div>
 
                 <div class="msg2">
-                <div class="duplicate-results">
-                    <div class="header">
-                        <div>First Name</div>
-                        <div>Last Name</div>
-                        <div>Phone</div>
-                        <div>Email</div>
-                        <div>BSA ID</div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                    <g:each in="${duplicates}" var="duplicate">
+                    <div class="duplicate-results">
+                        <div class="header">
+                            <div>Name</div>
 
-                        <div>
-                            <div>${duplicate.firstName}</div>
-                            <div>${duplicate.lastName}</div>
-                            <div>${duplicate.phone ?: "No Phone"}</div>
-                            <div>${duplicate.email ?: "No Email"}</div>
+                            <div>Phone</div>
+
+                            <div>Email</div>
+
+                            <div>Address</div>
+
+                            <div>BSA ID</div>
+
+                            <div></div>
+
+                            <div></div>
+                        </div>
+                        <g:each in="${duplicates}" var="duplicate">
+
                             <div>
-                                <g:if test="${duplicate.myScoutingIds?.size() > 0}">
-                                    ${duplicate.myScoutingIds?.iterator()?.next()}
-                                </g:if>
-                                <g:else>No BSA ID</g:else>
+                                <div>${duplicate}</div>
 
+                                <div>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</div>
+
+                                <div>${duplicate.email ?: "No Email"}</div>
+                                <div>${duplicate.address1 ?: "No Address"}</div>
+
+                                <div>
+                                    <g:if test="${duplicate.myScoutingIds?.size() > 0}">
+                                        ${duplicate.myScoutingIds?.iterator()?.next()}
+                                    </g:if>
+                                    <g:else>No BSA ID</g:else>
+
+                                </div>
+
+                                <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a>
+                                </div>
+
+                                <div><a href="javascript:ignoreDuplicate(${leader.id}, ${duplicate.id})">Not a Match</a>
+                                </div>
                             </div>
 
-                            <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a></div>
-                            <div><a href="javascript:ignoreDuplicate(${leader.id}, ${duplicate.id})">Not a Match</a></div>
-                        </div>
-
-
-
-                    </g:each>
+                        </g:each>
                     </div>
 
                 </div>
@@ -136,8 +146,21 @@
                 <div class="msg2">
                     <g:message code="leader.profile.nolinkdescription"/>
                     <ul class="list">
-                        <li><g:message code="leader.profile.nolinkdescription_item1"/></li>
-                        <li><g:message code="leader.profile.nolinkdescription_item2"/></li>
+                        <li>
+                            <strong>
+                                <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
+                                    class="lightbox"
+                                    controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                                    <g:message code="leader.profile.nolinkdescription_item1"/>
+                                </g:link>
+                            </strong>
+                        </li>
+                        <li>
+                            <strong><g:link controller="leader" action="view" id="${leader.id}" params="[edit:true]"><g:message code="leader.profile.nolinkdescription_item2"/></g:link></strong>
+                        </li>
+                        <li>
+                           <g:message code="leader.profile.nolinkdescription_item3"/>
+                        </li>
                     </ul>
                 </div>
 
@@ -184,13 +207,30 @@
                 <g:hiddenField name="id" value="${leader.id}"/>
                 <s:div class="alternate-color">
                     <s:textField name="firstName" code="leader.firstName.label" value="${leader?.firstName}"/>
-                    <s:textField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
+                    <s:textField name="address1" code="leader.address1.label" value="${leader?.address1}"/>
+                </s:div>
+                <s:div class="alternate-color">
+                    <s:textField name="middleName" code="leader.middleName.label" value="${leader?.middleName}"/>
+                    <s:textField name="address2" code="leader.address2.label" value="${leader?.address2}"/>
+
+                </s:div>
+                <s:div class="alternate-color">
+                    <s:textField name="lastName" code="leader.firstName.label" value="${leader?.lastName}"/>
+                    <s:textField name="city" code="leader.city.label" value="${leader?.city}"/>
                 </s:div>
 
                 <s:div class="alternate-color">
                     <s:textField name="email" code="leader.email.label" value="${leader?.email}"/>
-                    <s:textField name="phone" code="leader.phone.label" value="${leader?.phone}"/>
+                    <s:textField name="state" code="leader.state.label" value="${leader?.state}"/>
                 </s:div>
+
+                <s:div class="alternate-color">
+                    <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
+                    <s:textField name="postalCode" code="leader.postalCode.label" value="${leader?.postalCode}"/>
+                </s:div>
+
+
+
                 <s:div>
                     <s:submit name="submit" value="${message(code:'Save')}"/>
                 </s:div>
@@ -200,15 +240,16 @@
             <g:else>
 
                 <s:div class="alternate-color prop-container">
-                    <s:property code="leader.firstName.label">${leader?.firstName}</s:property>
-                    <s:property code="leader.lastName.label">${leader?.lastName}</s:property>
+                    <s:property code="leader.name.label">${leader}</s:property>
+                    <s:property
+                            code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
+
                 </s:div>
 
                 <s:div class="prop-container">
                     <s:property
-                            code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
-                    <s:property
-                            code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+                            code="leader.phone.label">${f.formatPhone(phone: leader?.phone) ?: message(code: 'leader.phone.noneFound')}</s:property>
+                    <s:property code="leader.address.label">${leader?.address1 ?: "Not set"}</s:property>
                 </s:div>
 
 

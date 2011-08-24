@@ -15,7 +15,6 @@ class LeaderController {
     TrainingService trainingService;
 
     def create = {
-
         int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
         return [addCommand: new AddLeaderToGroupCommand(unit: ScoutGroup.get(scoutGroupId))]
     }
@@ -109,6 +108,12 @@ class LeaderController {
         leader.lastName = params.lastName
         leader.email = params.email
         leader.phone = params.phone
+        leader.middleName = params.middleName
+        leader.address1 = params.address1
+        leader.address2 = params.address2
+        leader.city = params.city
+        leader.state = params.state
+        leader.postalCode = params.postalCode
 
         if (!leader.save()) {
             flash.leaderError = leader

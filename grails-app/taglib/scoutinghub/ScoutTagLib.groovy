@@ -15,6 +15,19 @@ class ScoutTagLib {
         out << render(template: "/leader/findLeaderMatch", model: [leader:attrs.leaders])
     }
 
+    def formatPhone = {attrs->
+        String phone = attrs.phone
+        if(phone?.length() == 7) {
+            out << phone.substring(0, 3) + "-" + phone.substring(4)
+        } else if(phone?.length() == 10) {
+            out << "(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}"
+        } else if(phone?.length() == 11) {
+            out << "${phone.substring(0, 1)} (${phone.substring(1, 4)}) ${phone.substring(4, 7)}-${phone.substring(7)}"
+        } else {
+            return null
+        }
+    }
+
     def missingTrainingCodes = {attrs->
         LeaderGroup leaderGroup = attrs.leaderGroup
         List<ProgramCertification> certifications = trainingService.getRequiredCertifications(leaderGroup)

@@ -17,7 +17,7 @@ class SimpleImportJob extends Thread {
     int totalCompleted
     CSVReader csvReader
     Leader importedBy
-    int emailColumn
+    def columnNameToIndexMap = [:]
 
     def simpleImportTrainingService
 

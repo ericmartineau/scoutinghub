@@ -18,7 +18,7 @@
 
         <div class="leaderResult shadow validation ui-corner-all ${hasPermissionClass}" leaderid="${leader.id}">
             <div class="ui-widget-header ${hasPermissionInnerClass} ui-corner-tr ui-corner-tl leaderName">
-                ${leader?.firstName} ${leader?.lastName}
+                ${leader}
                 <p:canAdministerLeader leader="${leader}">
                     <span style="float:right">
                         <g:link class="leaderProfileLink" controller="leader" action="view" id="${leader.id}"><g:message
@@ -30,7 +30,9 @@
                 <s:property
                         code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
                 <s:property
-                        code="leader.phone.label">${leader?.phone ?: message(code: 'leader.phone.noneFound')}</s:property>
+                        code="leader.phone.label">${f.formatPhone(phone:leader?.phone) ?: message(code: 'leader.phone.noneFound')}</s:property>
+                <s:property
+                        code="leader.address.label">${leader?.address1 ?: message(code: 'leader.address.noneFound')}</s:property>
 
                 <g:if test="${leader.myScoutingIds?.size() > 0}">
                     <s:property code="leader.profile.scoutingids">${leader.myScoutingIds.iterator().next()}</s:property>

@@ -3,17 +3,25 @@ package scoutinghub
 class Leader implements Serializable {
 
     static searchable = {
-        only: ['firstName', 'lastName', 'email']
+        only: ['firstName', 'middleName', 'phone1', 'address1', 'lastName', 'email']
         myScoutingIds component: true
         groups component: true
     }
 
     String firstName
+    String middleName
     String lastName
     String username
     String password
     String email
     String phone
+
+    String address1
+    String address2
+    String city
+    String state
+    String postalCode
+
     String verifyHash
     boolean enabled
     boolean accountExpired
@@ -37,6 +45,16 @@ class Leader implements Serializable {
         createDate nullable: true
         updateDate nullable: true
         setupDate nullable: true
+
+        middleName(nullable:true)
+
+        address1(nullable:true)
+        address2(nullable:true)
+        city(nullable:true)
+        state(nullable:true)
+        postalCode(nullable:true)
+
+
     }
 
     static hasMany = [certificationClasses: CertificationClass,
@@ -51,6 +69,10 @@ class Leader implements Serializable {
         certifications(sort:'dateEarned')
         sort('lastName')
         //myScoutingIds cascade: 'all-delete-orphan'
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone?.findAll {it?.isNumber()}?.join("")
     }
 
     Set<Role> getAuthorities() {
@@ -123,7 +145,10 @@ class Leader implements Serializable {
 
     @Override
     String toString() {
-        return firstName + " " + lastName
+        String rtn = firstName + " "
+        if(middleName) rtn += middleName + " "
+        rtn += lastName
+        return rtn
     }
 
     def beforeInsert = {

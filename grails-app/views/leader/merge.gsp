@@ -4,14 +4,23 @@
 
         <div class="mergeRow">
             <div class="merge">
-                <h1>${leaderA.firstName} ${leaderA.lastName}</h1>
+                <h1>${leaderA}</h1>
                 <div>${leaderA.email ?: "No email"}</div>
-                <div>${leaderA.phone ?: "No phone"}</div>
+                <div>${f.formatPhone(phone: leaderA.phone) ?: "No phone"}</div>
+                <div>${leaderA.address1 ?: "No address"}</div>
+                <g:each in="${leaderA.myScoutingIds}" var="scoutingId">
+                    <div>${scoutingId.myScoutingIdentifier}</div>
+                </g:each>
             </div>
             <div class="merge">
-                <h1>${leaderB.firstName} ${leaderB.lastName}</h1>
+                <h1>${leaderB}</h1>
                 <div>${leaderB.email ?: "No email"}</div>
-                <div>${leaderB.phone ?: "No phone"}</div>
+                <div>${f.formatPhone(phone: leaderB.phone) ?: "No phone"}</div>
+                <div>${leaderB.address1 ?: "No address"}</div>
+                <g:each in="${leaderB.myScoutingIds}" var="scoutingId">
+                    <div>${scoutingId.myScoutingIdentifier}</div>
+                </g:each>
+
             </div>
 
         </div>

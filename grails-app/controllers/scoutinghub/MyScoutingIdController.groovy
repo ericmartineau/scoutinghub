@@ -4,6 +4,8 @@ import grails.converters.JSON
 
 class MyScoutingIdController {
 
+    def scaffold = true
+
     def searchableService
 
     LeaderService leaderService
