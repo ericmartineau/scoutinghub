@@ -56,7 +56,7 @@
 
                 </g:if>
                 <g:else>
-                    <g:message code="leader.profile.goodForever"/>&nbsp;
+                    <g:message code="leader.profile.goodForever" args="[g.formatDate(format: 'MM-dd-yyyy', date:certificationInfo.leaderCertification.dateEarned)]"/>&nbsp;
                     <f:completeTrainingLink certificationInfo="${certificationInfo}">
                         <g:message code="leader.profile.alreadyComplete"/>
                     </f:completeTrainingLink>

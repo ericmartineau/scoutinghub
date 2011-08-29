@@ -1374,7 +1374,10 @@ input {
 
 .selecter {
     width: 254px;
+}
 
+.selecter-short {
+    width: 200px;
 }
 
 .selecter-container {

@@ -1,12 +1,9 @@
 <s:msg type="info">
     <div class="msg1">The following records already exist and may be a match:</div>
 
-    <div class="msg2">
-        <g:each in="${leaders}" var="leader">
-            <div>
-                ${leader.firstName} ${leader.lastName} (${leader.email ?: "No email"})
-                <a href="javascript:useLeader(${leader.id})">Use This Record</a>
-            </div>
-        </g:each>
-    </div>
+    <f:leaderList leaders="${leaders}">
+        <div>
+            <a href="javascript:useLeader(${request.leaderInList.id})">Use This Record</a>
+        </div>
+    </f:leaderList>
 </s:msg>

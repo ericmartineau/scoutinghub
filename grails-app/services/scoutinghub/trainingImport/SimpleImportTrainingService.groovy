@@ -59,6 +59,10 @@ class SimpleImportTrainingService {
 
 
                         foundLeader.addToMyScoutingIds([myScoutingIdentifier: personId])
+                        foundLeader.validate()
+                        if(foundLeader.hasErrors()) {
+                            foundLeader.email = null
+                        }
                         foundLeader.save(failOnError:true)
                     } else {
                         if (!foundLeader.email) {

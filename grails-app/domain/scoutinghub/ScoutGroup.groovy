@@ -133,12 +133,14 @@ class ScoutGroup implements Serializable {
 
     @Override
     String toString() {
-        String rootName = ""
+        String rtn = ""
         if (unitType) {
-            rootName += "${unitType} - "
+            rtn += "${unitType} ${groupIdentifier} - ${parent.groupLabel}"
+        } else {
+            rtn += groupLabel ?: groupIdentifier
         }
-        rootName += groupLabel ?: groupIdentifier
-        return rootName
+
+        return rtn
     }
 
     def beforeInsert = {

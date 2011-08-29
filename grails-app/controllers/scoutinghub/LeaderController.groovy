@@ -20,18 +20,17 @@ class LeaderController {
     }
 
     def save = {AddLeaderToGroupCommand addCommand ->
-
+        Leader leader = null
+        if (params.id && Integer.parseInt(params.id) > 0) {
+            leader = Leader.get(params.id)
+            addCommand.foundLeader = leader
+        }
         if (!addCommand.validate()) {
             render(view: 'create', model: [errors: "There are errors", addCommand: addCommand])
         } else {
-            Leader leader
-            if (addCommand.foundLeader) {
-                leader = addCommand.foundLeader
-            } else {
-                leader = new Leader()
-                leader.firstName = addCommand.firstName
-                leader.lastName = addCommand.lastName
-                leader.email = addCommand.email
+
+            if (!leader) {
+                leader = new Leader(params)
             }
 
             //If the scoutid doesn't exist, add it
@@ -55,11 +54,7 @@ class LeaderController {
 
     def getLeaderDetails = {
         Leader leader = Leader.get(params.id)
-        def rtn = [id: leader.id,
-                firstName: leader?.firstName,
-                lastName: leader?.lastName,
-                email: leader?.email]
-        render rtn as JSON
+        render leader as JSON
     }
 
     def recheckLeaderMatch = {
@@ -71,6 +66,10 @@ class LeaderController {
 
     def findLeaderMatch = {
         final Set<Leader> leaders = leaderService.findLeaders(params.scoutid, params.email, params.firstName, params.lastName, null);
+        Leader leader = new Leader(params)
+        Set<Leader> foundFromLeaderObject = leaderService.findDuplicateLeaders(leader)
+        leaders.addAll(foundFromLeaderObject)
+
         if (leaders?.size() > 0) {
             return [leaders: leaders]
         } else {
@@ -149,8 +148,8 @@ class LeaderController {
             IgnoredDuplicate ignoredDuplicate = new IgnoredDuplicate()
             ignoredDuplicate.leaderId = leaderA
             ignoredDuplicate.suspectedLeaderId = leaderB
-            ignoredDuplicate.save(failOnError:true)
-            def rtn = [success:true]
+            ignoredDuplicate.save(failOnError: true)
+            def rtn = [success: true]
             render rtn as JSON
         }
     }
@@ -171,17 +170,15 @@ class LeaderController {
             leader = springSecurityService.currentUser
         }
 
-
-
         //Let's query for potential duplicate records
         def duplicates = leaderService.findDuplicateLeaders(leader)
         List<IgnoredDuplicate> allIgnored = IgnoredDuplicate.findAllByLeaderId(leader.id)
-        allIgnored?.each {IgnoredDuplicate ignoredDuplicate->
+        allIgnored?.each {IgnoredDuplicate ignoredDuplicate ->
             duplicates.removeAll {it.id == ignoredDuplicate.suspectedLeaderId}
         }
 
         //Don't let non-admin users merge two user records together
-        if(!loggedIn.canAdminAtLeastOneUnit()) {
+        if (!loggedIn.canAdminAtLeastOneUnit()) {
             duplicates.removeAll {it.setupDate != null}
         }
 
@@ -236,7 +233,7 @@ class LeaderController {
         certificationInfo.each { extraCertificationInfo.remove(it) }
 
 
-        def rtn = [duplicates: duplicates, extraCertificationInfo:extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
+        def rtn = [duplicates: duplicates, extraCertificationInfo: extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
 
         return rtn
 

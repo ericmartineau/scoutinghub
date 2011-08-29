@@ -15,6 +15,10 @@ class ScoutTagLib {
         out << render(template: "/leader/findLeaderMatch", model: [leader:attrs.leaders])
     }
 
+    def leaderList = {attrs, body->
+        out << render(template: "/leader/leaderList", model: [body:body, leaders:attrs.leaders])
+    }
+
     def formatPhone = {attrs->
         String phone = attrs.phone
         if(phone?.length() == 7) {
@@ -118,6 +122,10 @@ class ScoutTagLib {
         def type = attrs.type ?: "text"
 
         out << "<input "
+        if(attrs.tabindex) {
+            if(!attrs.otherAttrs) attrs.otherAttrs = [:]
+            attrs.otherAttrs.tabindex = attrs.tabindex
+        }
         attrs.otherAttrs?.each {
             out << "${it.key}='${it.value}' "
         }

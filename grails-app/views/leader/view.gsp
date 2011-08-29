@@ -86,52 +86,13 @@
                     </b>
                 </div>
 
-                <div class="msg2">
-                    <div class="duplicate-results">
-                        <div class="header">
-                            <div>Name</div>
-
-                            <div>Phone</div>
-
-                            <div>Email</div>
-
-                            <div>Address</div>
-
-                            <div>BSA ID</div>
-
-                            <div></div>
-
-                            <div></div>
-                        </div>
-                        <g:each in="${duplicates}" var="duplicate">
-
-                            <div>
-                                <div>${duplicate}</div>
-
-                                <div>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</div>
-
-                                <div>${duplicate.email ?: "No Email"}</div>
-                                <div>${duplicate.address1 ?: "No Address"}</div>
-
-                                <div>
-                                    <g:if test="${duplicate.myScoutingIds?.size() > 0}">
-                                        ${duplicate.myScoutingIds?.iterator()?.next()}
-                                    </g:if>
-                                    <g:else>No BSA ID</g:else>
-
-                                </div>
-
-                                <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a>
-                                </div>
-
-                                <div><a href="javascript:ignoreDuplicate(${leader.id}, ${duplicate.id})">Not a Match</a>
-                                </div>
-                            </div>
-
-                        </g:each>
+                <f:leaderList leaders="${duplicates}">
+                    <div><a href="javascript:openMergeLeaderDialog(${request.leaderInList.id},${leader.id})">Definitely a Match</a>
                     </div>
 
-                </div>
+                    <div><a href="javascript:ignoreDuplicate(${leader.id}, ${request.leaderInList.id})">Not a Match</a>
+                    </div>
+                </f:leaderList>
 
             </s:msg>
         </s:section>
@@ -149,17 +110,19 @@
                         <li>
                             <strong>
                                 <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
-                                    class="lightbox"
-                                    controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                                        class="lightbox"
+                                        controller="myScoutingId" action="create" params="['leader.id':leader.id]">
                                     <g:message code="leader.profile.nolinkdescription_item1"/>
                                 </g:link>
                             </strong>
                         </li>
                         <li>
-                            <strong><g:link controller="leader" action="view" id="${leader.id}" params="[edit:true]"><g:message code="leader.profile.nolinkdescription_item2"/></g:link></strong>
+                            <strong><g:link controller="leader" action="view" id="${leader.id}"
+                                            params="[edit:true]"><g:message
+                                        code="leader.profile.nolinkdescription_item2"/></g:link></strong>
                         </li>
                         <li>
-                           <g:message code="leader.profile.nolinkdescription_item3"/>
+                            <g:message code="leader.profile.nolinkdescription_item3"/>
                         </li>
                     </ul>
                 </div>
@@ -215,7 +178,7 @@
 
                 </s:div>
                 <s:div class="alternate-color">
-                    <s:textField name="lastName" code="leader.firstName.label" value="${leader?.lastName}"/>
+                    <s:textField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
                     <s:textField name="city" code="leader.city.label" value="${leader?.city}"/>
                 </s:div>
 

@@ -13,6 +13,11 @@ class AddLeaderToGroupCommand {
     String email
     Leader foundLeader
     String scoutid
+    String phone
+    String address1
+    String city
+    String state
+    String postalCode
     ScoutGroup unit
     LeaderPositionType unitPosition
 
@@ -20,7 +25,14 @@ class AddLeaderToGroupCommand {
         scoutid(nullable:true)
         firstName(blank:false)
         lastName(blank:false)
-        email(email:true,blank:false)
+        email(email:true,nullable:true)
+
+        phone(nullable:true)
+        address1(nullable:true)
+        city(nullable:true)
+        state(nullable:true)
+        postalCode(nullable:false)
+
         unit(nullable:false)
         unitPosition(nullable:false)
         foundLeader(nullable:true)

@@ -344,7 +344,9 @@ class LeaderService {
         //Find by email address
         //Find by first & last name
         return Leader.withCriteria {
-            ne('id', leader.id)
+            if(leader.id) {
+                ne('id', leader.id)
+            }
             or {
                 if(leader.email) {
                     eq('email', leader.email)
