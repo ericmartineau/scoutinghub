@@ -6,7 +6,7 @@ package scoutinghub
  * Time: 9:59 PM
  */
 enum LeaderCertificationEnteredType {
-    Imported("Imported"),ManuallyEntered("Manually entered");
+    Imported("Imported"),ManuallyEntered("Manually entered"),Merged("Merged");
 
     public final String label
 

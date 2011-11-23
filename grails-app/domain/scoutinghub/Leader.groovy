@@ -139,10 +139,6 @@ class Leader implements Serializable {
 
     }
 
-    Set<LeaderCertification> getLeaderCertifications() {
-        LeaderCertification.findAllByLeader(this).collect {it.leaderCertification} as Set
-    }
-
     @Override
     String toString() {
         String rtn = firstName + " "

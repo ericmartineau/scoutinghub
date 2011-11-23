@@ -96,6 +96,14 @@ class LeaderController {
         return [leaderA: leaderA, leaderB: leaderB]
     }
 
+    def unmerge = {
+        Leader leaderA = Leader.get(Integer.parseInt(params.id))
+        MergedLeader.findAllByMergedTo(leaderA).each {
+            leaderService.unmergeLeaders(leaderA, it)
+        }
+        render("Done")
+    }
+
     def saveProfile = {
 
         Leader leader = Leader.get(params.id);
@@ -130,7 +138,6 @@ class LeaderController {
         Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
 
         leaderService.mergeLeaders(leaderA, leaderB);
-        trainingService.recalculatePctTrained(leaderA);
         redirect(view: "view", id: leaderA.id)
 
     }

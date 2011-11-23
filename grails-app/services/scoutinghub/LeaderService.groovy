@@ -2,6 +2,8 @@ package scoutinghub
 
 import grails.plugins.springsecurity.SpringSecurityService
 import scoutinghub.infusionsoft.InfusionsoftLeaderInfo
+import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import org.codehaus.groovy.grails.commons.GrailsDomainClassProperty
 
 class LeaderService {
 
@@ -29,36 +31,137 @@ class LeaderService {
         return leader
     }
 
+    void unmergeLeaders(Leader leader, MergedLeader mergedLeader) {
+
+        Leader unmerged = new Leader();
+        def mergedLeaderDomain = new DefaultGrailsDomainClass(MergedLeader.class)
+        def leaderDomain = new DefaultGrailsDomainClass(Leader.class)
+
+        Set fieldNames = new HashSet();
+        mergedLeaderDomain.persistantProperties.each {
+            GrailsDomainClassProperty mergedProp->
+
+            leaderDomain.persistantProperties.each {
+                GrailsDomainClassProperty leaderProp ->
+                if (leaderProp.name?.equals(mergedProp.name)) {
+                    fieldNames.add(leaderProp.name)
+                }
+            }
+        }
+
+        fieldNames.each {
+            unmerged."${it}" = mergedLeader."${it}"
+            if(mergedLeader.oldValues) {
+                leader."${it}" = mergedLeader.oldValues."${it}"
+            }
+        }
+        leader.save(failOnError:true, flush:true)
+        unmerged.save(failOnError:true)
+        mergedLeader.mergedRecords.each {
+            MergedRecord mergedRecord->
+            def got = mergedRecord.mergeRecordClass.get(mergedRecord.recordId)
+            if(got) {
+                got."${mergedRecord.mergeRecordField}" = unmerged
+                got.save(failOnError:true)
+            }
+        }
+
+        mergedLeader.mergedScoutingId?.each {MergedScoutingId mergedScoutingId->
+            MyScoutingId.findAllByMyScoutingIdentifier(mergedScoutingId.scoutingId).each {leader.removeFromMyScoutingIds(it); it.delete(flush:true)}
+            MyScoutingId myScoutingId = new MyScoutingId()
+            myScoutingId.myScoutingIdentifier = mergedScoutingId.scoutingId
+            myScoutingId.leader = unmerged
+            unmerged.addToMyScoutingIds(myScoutingId)
+        }
+
+        mergedLeader?.mergedLeaderCertifications?.each {MergedLeaderCertification mergedLeaderCertification->
+            LeaderCertification leaderCertification = new LeaderCertification()
+            leaderCertification.certification = mergedLeaderCertification.certification
+            leaderCertification.dateEarned =  mergedLeaderCertification.dateEarned
+            leaderCertification.leader = unmerged
+            leaderCertification.enteredBy = springSecurityService.currentUser
+            leaderCertification.dateEntered = new Date()
+            leaderCertification.enteredType = LeaderCertificationEnteredType.ManuallyEntered
+
+            leader.certifications?.findAll {it.certification.id == mergedLeaderCertification.certification.id &&
+                it.enteredType == LeaderCertificationEnteredType.Merged}?.each {leader.removeFromCertifications(it); it.delete()}
+
+            unmerged.addToCertifications(leaderCertification)
+        }
+
+        mergedLeader?.mergedLeaderGroups?.each {MergedLeaderGroup mergedLeaderGroup->
+            LeaderGroup leaderGroup = new LeaderGroup()
+            leaderGroup.admin = mergedLeaderGroup.admin
+            leaderGroup.leader = unmerged
+            leaderGroup.scoutGroup = mergedLeaderGroup.scoutGroup
+            leaderGroup.leaderPosition = mergedLeaderGroup.leaderPosition
+            unmerged.addToGroups(leaderGroup)
+
+            leader.groups?.findAll {
+                it.leaderPosition == mergedLeaderGroup.leaderPosition &&
+                        it.scoutGroup.id == mergedLeaderGroup.scoutGroup.id
+            }?.each{leader.removeFromGroups(it); it.delete()}
+        }
+
+        mergedLeader.mergedLeaderRoles?.each {
+            LeaderRole leaderRole = new LeaderRole()
+            leaderRole.leader = unmerged
+            leaderRole.role = it.role
+            leaderRole.save(failOnError:true)
+        }
+
+        leader.save(failOnError:true)
+        unmerged.save(failOnError:true)
+
+        trainingService.recalculatePctTrained(leader);
+        trainingService.recalculatePctTrained(unmerged);
+
+        mergedLeader?.mergedLeaderGroups*.delete();
+        mergedLeader?.mergedLeaderRoles*.delete();
+        mergedLeader?.mergedLeaderCertifications*.delete();
+        mergedLeader?.mergedRecords*.delete();
+        mergedLeader.delete()
+    }
+
     void mergeLeaders(Leader primary, Leader secondary) {
 
         boolean isLoggedIn = secondary.id == springSecurityService.currentUser?.id || primary.id == springSecurityService.currentUser?.id
 
+        MergedLeader originalValues = new MergedLeader(primary.properties)
+        MergedLeader mergedLeader = new MergedLeader(secondary.properties)
+        mergedLeader.oldValues = originalValues
+        mergedLeader.originalId = secondary.id
+        mergedLeader.mergedTo = primary
+
         //merge scouting ids
-        mergeScoutIds(primary, secondary);
+        mergeScoutIds(primary, secondary, mergedLeader);
 
         //merge leader groups
-        mergeLeaderGroups(primary, secondary);
+        mergeLeaderGroups(primary, secondary, mergedLeader);
 
         //merge leader certifications
-        mergeLeaderCertifications(primary, secondary);
+        mergeLeaderCertifications(primary, secondary, mergedLeader);
 
         //Merge inactive groups
-        mergeInactiveLeaderGroups(primary, secondary);
+        mergeInactiveLeaderGroups(primary, secondary, mergedLeader);
 
         //Merge leader roles
-        mergeLeaderRoles(primary, secondary);
+        mergeLeaderRoles(primary, secondary, mergedLeader);
 
         //Merge social logins
-        mergeSocialLogins(primary, secondary)
+        mergeSocialLogins(primary, secondary, mergedLeader);
 
         //Merge class registrations
-        mergeTrainingClassRegistrations(primary, secondary)
+        mergeTrainingClassRegistrations(primary, secondary, mergedLeader);
 
         //Merge infusionsoft merge information
-        mergeInfusionsoftMergeInformation(primary, secondary)
+        mergeInfusionsoftMergeInformation(primary, secondary, mergedLeader);
 
         //Merge name, email, etc
         mergeLeaderInformation(primary, secondary);
+
+        //Save merged leader information
+        mergedLeader.save(failOnError:true)
 
         //kill secondary
         secondary.delete(failOnError: true, flush: true);
@@ -74,8 +177,10 @@ class LeaderService {
 
     }
 
-    void mergeSocialLogins(Leader primary, Leader secondary) {
+    void mergeSocialLogins(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         secondary.openIds?.each {OpenID secondaryOpenID ->
+
+            addMergeRecord(secondaryOpenID, mergedLeader)
 
             OpenID primaryOpenID = new OpenID();
             primaryOpenID.url = secondaryOpenID.url
@@ -93,8 +198,10 @@ class LeaderService {
         }
     }
 
-    void mergeTrainingClassRegistrations(Leader primary, Leader secondary) {
+    void mergeTrainingClassRegistrations(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         secondary.certificationClasses?.each {CertificationClass certificationClass ->
+            addMergeRecord(certificationClass, mergedLeader)
+
             if (!primary.certificationClasses?.find {it.id == certificationClass.id}) {
                 primary.addToCertificationClasses(certificationClass)
             }
@@ -103,8 +210,10 @@ class LeaderService {
         }
     }
 
-    void mergeInfusionsoftMergeInformation(Leader primary, Leader secondary) {
+    void mergeInfusionsoftMergeInformation(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         InfusionsoftLeaderInfo.findAllByLeader(secondary)?.each {
+            addMergeRecord(it, mergedLeader)
+
             if (!InfusionsoftLeaderInfo.findByLeader(primary)) {
                 InfusionsoftLeaderInfo copied = new InfusionsoftLeaderInfo()
                 copied.infusionsoftContactId = it.infusionsoftContactId
@@ -115,10 +224,10 @@ class LeaderService {
         }
     }
 
-    void mergeLeaderRoles(Leader primary, Leader secondary) {
+    void mergeLeaderRoles(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         LeaderRole.findAllByLeader(secondary)?.each {
             LeaderRole role ->
-
+            mergedLeader.addToMergedLeaderRoles(new MergedLeaderRole(role.role))
             if (!primary.hasAuthority(role.role)) {
                 LeaderRole primaryRole = new LeaderRole();
                 primaryRole.leader = primary
@@ -152,8 +261,22 @@ class LeaderService {
         }
     }
 
-    void mergeScoutIds(Leader primary, Leader secondary) {
-        secondary.myScoutingIds.each() {
+    void addMergeRecord(def object, String fieldName, MergedLeader mergedLeader) {
+        MergedRecord mergedRecord = new MergedRecord(object.class, fieldName, (Long) object?.id)
+        mergedRecord.mergedLeader = mergedLeader
+        mergedLeader.addToMergedRecords(mergedRecord)
+    }
+
+    void addMergeRecord(def object, MergedLeader mergedLeader) {
+        addMergeRecord(object, "leader", mergedLeader);
+    }
+
+    void mergeScoutIds(Leader primary, Leader secondary, MergedLeader mergedLeader) {
+        secondary.myScoutingIds.each {
+
+            MergedScoutingId scoutingId = new MergedScoutingId(scoutingId: it.myScoutingIdentifier)
+            mergedLeader.addToMergedScoutingId(scoutingId);
+
             def idString = it.myScoutingIdentifier;
             def myScoutingIdInstance = new MyScoutingId()
             myScoutingIdInstance.leader = primary
@@ -168,10 +291,12 @@ class LeaderService {
         }
     }
 
-    void mergeInactiveLeaderGroups(Leader primary, Leader secondary) {
+    void mergeInactiveLeaderGroups(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         LeaderCertification primaryLeaderCert;
         InactiveLeaderGroup.findAllByLeader(secondary)?.each {
             InactiveLeaderGroup inactiveLeaderGroup ->
+
+            addMergeRecord(inactiveLeaderGroup, mergedLeader)
 
             InactiveLeaderGroup copied = new InactiveLeaderGroup()
             copied.leader = primary
@@ -183,12 +308,14 @@ class LeaderService {
         }
     }
 
-    void mergeLeaderCertifications(Leader primary, Leader secondary) {
+    void mergeLeaderCertifications(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         LeaderCertification primaryLeaderCert;
         Set<LeaderCertification> leaderCertificationsToBeAdded = new HashSet<LeaderCertification>();
 
         // look for collisions, keep only the most recent cert relationships
         secondary.certifications.each() {
+            addMergeRecord(it, mergedLeader)
+            mergedLeader.addToMergedLeaderCertifications(new MergedLeaderCertification(it.dateEarned, it.certification))
             if (primary.hasCertification(it.certification)) {
                 primaryLeaderCert = primary.findCertification(it.certification);
 
@@ -214,7 +341,7 @@ class LeaderService {
             leaderCertification.certification = it.certification
             leaderCertification.dateEarned = it.dateEarned
             leaderCertification.dateEntered = it.dateEntered
-            leaderCertification.enteredType = it.enteredType
+            leaderCertification.enteredType = LeaderCertificationEnteredType.Merged
             if (it.enteredBy.equals(secondary)) {
                 leaderCertification.enteredBy = primary
             } else {
@@ -225,6 +352,7 @@ class LeaderService {
 
             it.delete();
             secondary.removeFromCertifications(it);
+
         }
 
         primary.save(flush: true, failOnError: true);
@@ -237,12 +365,14 @@ class LeaderService {
         }
     }
 
-    void mergeLeaderGroups(Leader primary, Leader secondary) {
+    void mergeLeaderGroups(Leader primary, Leader secondary, MergedLeader mergedLeader) {
         // look for collisions and handle them.
         LeaderGroup primaryScoutGroup;
         Set<LeaderGroup> groupsToAdd = new HashSet<LeaderGroup>();
 
         secondary.groups.each() {LeaderGroup leaderGroup ->
+            mergedLeader.addToMergedLeaderGroups(new MergedLeaderGroup(leaderGroup.scoutGroup, leaderGroup.admin, leaderGroup.leaderPosition))
+            addMergeRecord(leaderGroup, mergedLeader)
 
             if (primary.hasScoutGroup(leaderGroup.scoutGroup)) {
                 primaryScoutGroup = primary.findScoutGroup(leaderGroup.scoutGroup);
@@ -252,6 +382,7 @@ class LeaderService {
                         primaryScoutGroup.admin = leaderGroup.admin || secondaryScoutGroup.admin;
                         primaryScoutGroup.save(flush: true, failOnError: true);
                     }
+
                     secondary.removeFromGroups(leaderGroup)
                     leaderGroup.delete(flush: true, failOnError: true);
                 } else {
@@ -267,7 +398,10 @@ class LeaderService {
             ScoutGroup existingUnit = it.scoutGroup;
             existingUnit.removeFromLeaderGroups(it);
             secondary.removeFromGroups(it);
-            existingUnit.addToLeaderGroups([leader: primary, leaderPosition: it.leaderPosition]);
+
+            LeaderGroup newGroup = new LeaderGroup(leader: primary, leaderPosition: it.leaderPosition)
+            existingUnit.addToLeaderGroups(newGroup);
+            primary.addToGroups(newGroup)
             existingUnit.save(flush: true, failOnError: true);
         }
 
