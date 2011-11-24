@@ -3,6 +3,7 @@ package scoutinghub
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
+import org.hibernate.SessionFactory
 
 @Secured(["ROLE_LEADER"])
 class LeaderGroupController {
@@ -10,6 +11,7 @@ class LeaderGroupController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def searchableService
+    SessionFactory sessionFactory
 
     TrainingService trainingService
     SpringSecurityService springSecurityService
@@ -118,14 +120,19 @@ class LeaderGroupController {
 
     def rebuildTraining = {
         ScoutGroup scoutGroup = ScoutGroup.get(params.id)
-        if (scoutGroup) {
-            scoutGroup.leaderGroups?.collect {it.leader}?.each{
-                trainingService.recalculatePctTrained(it)
+        List<ScoutGroup> childGroups = ScoutGroup.findAllByLeftNodeGreaterThanAndRightNodeLessThan(scoutGroup.leftNode, scoutGroup.rightNode)
+        int number = 0;
+        childGroups.each {ScoutGroup processGroup->
+            number++;
+
+            processGroup.leaderGroups?.collect {it.leader}?.each{trainingService.recalculatePctTrained(it)}
+
+            if(number % 20 == 0) {
+                sessionFactory.currentSession.clear()
             }
-            render("Done")
-        } else {
-            render("No scoutGroup provided")
         }
+
+        render("Done: ${number}")
     }
 
     def savePermissions = {

@@ -121,6 +121,8 @@ class LeaderController {
         leader.city = params.city
         leader.state = params.state
         leader.postalCode = params.postalCode
+        leader.username = params.username
+        leader.password = springSecurityService.encodePassword(params.password)
 
         if (!leader.save()) {
             flash.leaderError = leader

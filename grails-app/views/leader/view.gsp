@@ -161,6 +161,17 @@
         <g:set var="menu" value="" scope="request"/>
         <s:propertyList class="edit-profile">
             <g:if test="${params.edit}">
+                <script type="text/javascript">
+                    jQuery(document).ready(function() {
+                        jQuery("[name='email']").keypress(function(e) {
+                            var $this = jQuery(this);
+                            var $username = jQuery("[name='username']");
+                            if($this.val() == $username.val()) {
+                                $username.val($this.val()  + String.fromCharCode(e.which));
+                            }
+                        });
+                    });
+                </script>
                 <g:hasErrors bean="${flash.leaderError}">
                     <s:msg type="error">
                         <g:renderErrors bean="${flash.leaderError}"/>
@@ -188,8 +199,13 @@
                 </s:div>
 
                 <s:div class="alternate-color">
-                    <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
+                    <s:textField name="username" code="leader.profile.username" value="${leader?.username}"/>
                     <s:textField name="postalCode" code="leader.postalCode.label" value="${leader?.postalCode}"/>
+                </s:div>
+
+                <s:div class="alternate-color">
+                    <s:textField type="password" name="password" code="leader.profile.password" value="${leader?.password}"/>
+                    <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
                 </s:div>
 
 
@@ -239,6 +255,10 @@
                     <s:property code="leader.setupDate.label">
                         <g:if test="${leader?.setupDate}">
                             <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
+                            <g:if test="${leader?.username != leader?.email}">
+                                <br/>
+                                <g:message code="leader.profile.username"/>: ${leader?.username}
+                            </g:if>
                         </g:if>
                         <g:else>
                             Not Set Up Yet
