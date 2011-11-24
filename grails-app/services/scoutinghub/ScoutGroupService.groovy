@@ -12,16 +12,20 @@ class ScoutGroupService {
 
     void reindex() {
         executorService.submit({
-            IndexState state = new IndexState()
-            def topNodes = ScoutGroup.findAllByParentIsNull();
-            topNodes.each {ScoutGroup group ->
-                handleGroup(group, state)
-            }
-            log.info("Finished indexing depth-first index")
-            ScoutGroup.reindex();
-            log.info("Finished indexing compass ScoutGroup indexes")
+            reindexNow()
         } as Callable)
 
+    }
+
+    void reindexNow() {
+        IndexState state = new IndexState()
+        def topNodes = ScoutGroup.findAllByParentIsNull();
+        topNodes.each {ScoutGroup group ->
+            handleGroup(group, state)
+        }
+        log.info("Finished indexing depth-first index")
+        ScoutGroup.reindex();
+        log.info("Finished indexing compass ScoutGroup indexes")
     }
 
     void handleGroup(ScoutGroup group, IndexState indexState) {
@@ -32,7 +36,7 @@ class ScoutGroupService {
         }
 
         group.rightNode = indexState.currState++
-        group.save()
+        group.save(failOnError:true, flush:true)
     }
 
 

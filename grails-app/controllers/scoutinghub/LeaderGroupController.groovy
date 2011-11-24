@@ -121,8 +121,12 @@ class LeaderGroupController {
     def rebuildTraining = {
         ScoutGroup scoutGroup = ScoutGroup.get(params.id)
         List<ScoutGroup> childGroups = ScoutGroup.findAllByLeftNodeGreaterThanAndRightNodeLessThan(scoutGroup.leftNode, scoutGroup.rightNode)
+        Collection<Integer> collectedIds = childGroups.collect {it.id};
+        childGroups = null
         int number = 0;
-        childGroups.each {ScoutGroup processGroup->
+        collectedIds.each {
+
+            ScoutGroup processGroup = ScoutGroup.get(it)
             number++;
 
             processGroup.leaderGroups?.collect {it.leader}?.each{trainingService.recalculatePctTrained(it)}
