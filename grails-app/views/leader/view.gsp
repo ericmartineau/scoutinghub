@@ -162,14 +162,20 @@
         <s:propertyList class="edit-profile">
             <g:if test="${params.edit}">
                 <script type="text/javascript">
+
                     jQuery(document).ready(function() {
-                        jQuery("[name='email']").keypress(function(e) {
-                            var $this = jQuery(this);
-                            var $username = jQuery("[name='username']");
-                            if($this.val() == $username.val()) {
-                                $username.val($this.val()  + String.fromCharCode(e.which));
+                        var $username = jQuery("[name='username']");
+                        var $email = jQuery("[name='email']");
+                        var oldValue = $email.val();
+                        $email.change(function() {
+
+                            var newValue = $email.val();
+                            if($username.val() == oldValue) {
+                                $username.val(newValue);
                             }
+                            oldValue = $email.val();
                         });
+
                     });
                 </script>
                 <g:hasErrors bean="${flash.leaderError}">
@@ -204,11 +210,9 @@
                 </s:div>
 
                 <s:div class="alternate-color">
-                    <s:textField type="password" name="password" code="leader.profile.password" value="${leader?.password}"/>
+                    <s:textField type="password" name="password" code="leader.profile.password" />
                     <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
                 </s:div>
-
-
 
                 <s:div>
                     <s:submit name="submit" value="${message(code:'Save')}"/>
