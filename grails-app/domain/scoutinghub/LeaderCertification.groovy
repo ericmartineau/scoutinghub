@@ -14,6 +14,7 @@ class LeaderCertification implements Serializable {
     Leader leader
     Leader enteredBy
     Date dateEntered
+    Date lastCalculationDate
     LeaderCertificationEnteredType enteredType
 
     Date createDate;
@@ -21,6 +22,7 @@ class LeaderCertification implements Serializable {
 
     static belongsTo = [certification: Certification, leader: Leader]
     static constraints = {
+        lastCalculationDate(nullable: true)
         createDate(nullable: true)
         updateDate(nullable: true)
         expirationDate(nullable:true)

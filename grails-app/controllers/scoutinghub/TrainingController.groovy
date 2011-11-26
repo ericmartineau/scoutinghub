@@ -15,6 +15,8 @@ import au.com.bytecode.opencsv.CSVReader
 @Secured(["ROLE_LEADER"])
 class TrainingController {
 
+    TrainingService trainingService
+
     def importTrainingService
 
     def simpleImportTrainingService
@@ -44,6 +46,10 @@ class TrainingController {
             }
 
         }
+    }
+
+    def processExpiredTrainings = {
+        return [expiredTrainings: trainingService.processExpiredTrainings()]
     }
 
     def trainingReport = {

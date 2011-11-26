@@ -1,20 +1,54 @@
 package scoutinghub
 
+import org.hibernate.SessionFactory
+import org.springframework.transaction.TransactionStatus
+
 class TrainingService {
 
     static transactional = true
 
-    void processExpiredTrainings() {
-        //find all certifications that have expirations in the past
-        def criteria = LeaderCertification.withCriteria {
-            lt('expirationDate', new Date())
-            leader {
-                or {
-                    isNull('lastCalculationDate')
+    SessionFactory sessionFactory
 
+    Collection processExpiredTrainings() {
+        //find all certifications that have expirations in the past
+        Date date = new Date()
+        Set<Long> ids = [] as Set;
+        def criteria = LeaderCertification.withCriteria {
+            and {
+                isNotNull("expirationDate")
+                lt('expirationDate', date)
+                or {
+                    ltProperty("lastCalculationDate", "expirationDate")
+                    isNull("lastCalculationDate")
                 }
+
+            }
+
+        }.each {LeaderCertification leaderCertification ->
+            ids.add(leaderCertification.leader?.id)
+        }
+
+        int count = 0
+        Leader.withTransaction {TransactionStatus status ->
+            ids.each {
+                Leader leader = Leader.get(it)
+                leader.certifications?.each {
+
+                    it.lastCalculationDate = date
+                }
+                println "Recalcing for ${leader}"
+                recalculatePctTrained(leader)
+                sessionFactory.currentSession.flush();
+                count++;
+                if (count % 50 == 0) {
+                    status.flush()
+                    sessionFactory.currentSession.clear()
+                }
+
             }
         }
+
+        return ids
     }
 
     void recalculatePctTrained(Leader leader) {
