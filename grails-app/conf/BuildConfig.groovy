@@ -2,8 +2,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
-grails.plugin.repos.distribution.scoutinghub="http://cubtrails.com/nexus/content/repositories/scoutinghub/"
-grails.plugin.repos.discovery.scoutinghub="http://cubtrails.com/nexus/content/repositories/scoutinghub/"
+grails.plugin.repos.distribution.martytime="http://martytime.com/nexus/content/repositories/martytime/"
+grails.plugin.repos.discovery.martytime="http://martytime.com/nexus/content/repositories/martytime/"
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -14,7 +14,7 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 
-        mavenRepo "http://cubtrails.com/nexus/content/repositories/scoutinghub/"
+        mavenRepo "http://martytime.com.com/nexus/content/repositories/martytime/"
         grailsPlugins()
         grailsHome()
         grailsCentral()
