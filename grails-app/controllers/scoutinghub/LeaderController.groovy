@@ -4,6 +4,7 @@ import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
 import grails.converters.JSON
+import scoutinghub.events.LeaderInvitedEvent
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -136,6 +137,27 @@ class LeaderController {
 
     }
 
+    def invite = {
+        Leader leader = Leader.get(params.id)
+        if (!leader.canBeAdministeredBy(springSecurityService.currentUser)) {
+            throw new AccessDeniedException("Can't edit this user");
+        }
+        return [leader:leader]
+    }
+
+    def sendInvite = {
+        Leader leader = Leader.get(params.id)
+        if (!leader.canBeAdministeredBy(springSecurityService.currentUser)) {
+            throw new AccessDeniedException("Can't edit this user");
+        }
+
+        publishEvent(new LeaderInvitedEvent(leader, springSecurityService.currentUser))
+
+        def rtn = [success:true]
+        render rtn as JSON
+
+    }
+
     def accountCreated = {
         Leader leader = springSecurityService.currentUser
         leader.reindex()
@@ -149,8 +171,8 @@ class LeaderController {
             IgnoredDuplicate ignoredDuplicate = new IgnoredDuplicate()
             ignoredDuplicate.leaderId = leaderA
             ignoredDuplicate.suspectedLeaderId = leaderB
-            ignoredDuplicate.save(failOnError:true)
-            def rtn = [success:true]
+            ignoredDuplicate.save(failOnError: true)
+            def rtn = [success: true]
             render rtn as JSON
         }
     }
@@ -171,17 +193,15 @@ class LeaderController {
             leader = springSecurityService.currentUser
         }
 
-
-
         //Let's query for potential duplicate records
         def duplicates = leaderService.findDuplicateLeaders(leader)
         List<IgnoredDuplicate> allIgnored = IgnoredDuplicate.findAllByLeaderId(leader.id)
-        allIgnored?.each {IgnoredDuplicate ignoredDuplicate->
+        allIgnored?.each {IgnoredDuplicate ignoredDuplicate ->
             duplicates.removeAll {it.id == ignoredDuplicate.suspectedLeaderId}
         }
 
         //Don't let non-admin users merge two user records together
-        if(!loggedIn.canAdminAtLeastOneUnit()) {
+        if (!loggedIn.canAdminAtLeastOneUnit()) {
             duplicates.removeAll {it.setupDate != null}
         }
 
@@ -236,7 +256,7 @@ class LeaderController {
         certificationInfo.each { extraCertificationInfo.remove(it) }
 
 
-        def rtn = [duplicates: duplicates, extraCertificationInfo:extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
+        def rtn = [duplicates: duplicates, extraCertificationInfo: extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
 
         return rtn
 

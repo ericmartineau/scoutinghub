@@ -111,6 +111,7 @@
                                 <div>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</div>
 
                                 <div>${duplicate.email ?: "No Email"}</div>
+
                                 <div>${duplicate.address1 ?: "No Address"}</div>
 
                                 <div>
@@ -118,7 +119,6 @@
                                         ${duplicate.myScoutingIds?.iterator()?.next()}
                                     </g:if>
                                     <g:else>No BSA ID</g:else>
-
                                 </div>
 
                                 <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a>
@@ -149,17 +149,19 @@
                         <li>
                             <strong>
                                 <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
-                                    class="lightbox"
-                                    controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                                        class="lightbox"
+                                        controller="myScoutingId" action="create" params="['leader.id':leader.id]">
                                     <g:message code="leader.profile.nolinkdescription_item1"/>
                                 </g:link>
                             </strong>
                         </li>
                         <li>
-                            <strong><g:link controller="leader" action="view" id="${leader.id}" params="[edit:true]"><g:message code="leader.profile.nolinkdescription_item2"/></g:link></strong>
+                            <strong><g:link controller="leader" action="view" id="${leader.id}"
+                                            params="[edit:true]"><g:message
+                                        code="leader.profile.nolinkdescription_item2"/></g:link></strong>
                         </li>
                         <li>
-                           <g:message code="leader.profile.nolinkdescription_item3"/>
+                            <g:message code="leader.profile.nolinkdescription_item3"/>
                         </li>
                     </ul>
                 </div>
@@ -277,8 +279,14 @@
                         <g:if test="${leader?.setupDate}">
                             <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
                         </g:if>
+                        <g:elseif test="${leader.email != null}">
+                            <g:link title="${message(code:'leader.profile.invite')}" lbwidth="500" class="lightbox"
+                                    controller="leader" action="invite" id="${leader.id}">
+                                <g:message code="leader.profile.invite"/>
+                            </g:link>
+                        </g:elseif>
                         <g:else>
-                            Not Set Up Yet
+                            <g:message code="leader.profile.enterEmailToInvite"/>
                         </g:else>
                     </s:property>
 

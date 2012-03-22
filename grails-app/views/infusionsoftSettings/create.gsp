@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="layout" content="main"/>
-    <g:set var="entityName" value="${message(code: 'infusionsoftSettings.label', default: 'InfusionsoftSettings')}"/>
+    <meta name="layout" content="${layoutName}"/>
     <title><g:message code="default.create.label" args="[entityName]"/></title>
 </head>
 
