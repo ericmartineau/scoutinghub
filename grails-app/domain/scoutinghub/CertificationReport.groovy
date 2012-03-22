@@ -4,7 +4,7 @@ class CertificationReport {
 
     ScoutGroup scoutGroup
     double pctTrained
-    int count
+    int reportCount
     Date reportDate
 
     static constraints = {

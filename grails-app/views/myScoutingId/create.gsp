@@ -1,5 +1,7 @@
 <s:content>
 
+    <g:renderErrors bean="${myScoutingIdInstance}" />
+
     <g:form class="dialog-form" name="myScoutingIdCreate" action="save">
         <s:section>
 

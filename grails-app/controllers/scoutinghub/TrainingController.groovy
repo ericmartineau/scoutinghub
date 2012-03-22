@@ -113,7 +113,7 @@ class TrainingController {
             def first = results?.first()
             if (first) {
                 report.pctTrained = first[0] ?: 0
-                report.count = first[1] ?: 0
+                report.reportCount = first[1] ?: 0
             }
             reports << report
 

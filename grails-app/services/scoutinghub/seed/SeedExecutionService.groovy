@@ -5,6 +5,7 @@ import scoutinghub.SeedScript
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Callable
+import org.hibernate.SessionFactory
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,6 +20,7 @@ class SeedExecutionService {
     Collection<SeedScript> seedScripts;
 
     ExecutorService executorService
+    SessionFactory sessionFactory
 
     def searchableService
 
@@ -39,6 +41,7 @@ class SeedExecutionService {
 
                     scriptExecution.completed = true
 
+
                 } catch (Exception e) {
                     log.error "Error running seed script ${it.name}", e
                     scriptExecution.completed = false
@@ -47,6 +50,8 @@ class SeedExecutionService {
                 } finally {
                     log.info "Ran ${it.name} successfully"
                     scriptExecution.save(failOnError: true)
+                    sessionFactory.currentSession.flush()
+//                    sessionFactory.currentSession.clear()
                     if(error) {
                         throw error
                     }

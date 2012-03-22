@@ -1,6 +1,6 @@
 import groovy.sql.Sql;
 
-sql = Sql.newInstance("jdbc:mysql://localhost/scoutinghub2", "eric",
+sql = Sql.newInstance("jdbc:mysql://localhost/cubtrail", "eric",
                      "eric5425", "com.mysql.jdbc.Driver")
                      
 def queries = []

@@ -36,7 +36,7 @@ class ScoutGroupService {
         }
 
         group.rightNode = indexState.currState++
-        group.save(failOnError:true, flush:true)
+        group.save(failOnError:true)
     }
 
 
