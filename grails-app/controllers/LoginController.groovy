@@ -518,7 +518,7 @@ class LoginController {
                     springSecurityService.reauthenticate(leader.username, leader.password)
                 }
 
-                ScoutGroup targetUnit = createAccount.unit;
+                ScoutGroup targetUnit = ScoutGroup.get(createAccount.unit.id);
                 if (!targetUnit.leaderGroups?.find {LeaderGroup gp -> gp.leader.id == leader.id}) {
                     targetUnit.addToLeaderGroups([leader: leader, leaderPosition: createAccount.unitPosition]);
                     targetUnit.save(failOnError:true)

@@ -28,8 +28,8 @@ class InfusionsoftService {
     /**
      * Syncs all leader records.
      */
-    void syncAllLeaders() {
-        ScoutGroup scoutGroup = ScoutGroup.get(params.id)
+    void syncAllLeaders(int groupId) {
+        ScoutGroup scoutGroup = ScoutGroup.get(groupId)
         syncAllLeaders(scoutGroup)
     }
 

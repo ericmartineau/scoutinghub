@@ -55,7 +55,7 @@ class LeaderCertificationController {
                 leaderCertification.dateEntered = new Date()
                 leader.addToCertifications(leaderCertification)
                 leader.save(failOnError: true)
-                trainingService.recalculatePctTrained(leaderCertification);
+                trainingService.recalculatePctTrained(leader);
 
             } catch (Exception e) {
                 flash.error = "leaderCertification.create.error"

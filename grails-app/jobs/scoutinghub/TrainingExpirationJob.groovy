@@ -5,9 +5,14 @@ class TrainingExpirationJob {
 
     TrainingService trainingService
 
-    def timeout = 0001000 //Once per day
+    static triggers = {
+        simple name:'trainingExpirationCron', startDelay:5000, repeatInterval: 86400000, repeatCount: -1
+    }
+
+    def concurrent = false
 
     def execute() {
-//        trainingService.processExpiredTrainings();
+        Set<Long> numProcessed = trainingService.processExpiredTrainings();
+        println "Processed expiration job in quartz: ${numProcessed?.size() ?: "0"}"
     }
 }

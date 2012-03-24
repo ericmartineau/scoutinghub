@@ -8,8 +8,8 @@
     </g:if>
     <g:each in="${results}" var="leader">
 
-        <g:set var="hasPermissionClass" value="" />
-        <g:set var="hasPermissionInnerClass" value="no-permission" />
+        <g:set var="hasPermissionClass" value=""/>
+        <g:set var="hasPermissionInnerClass" value="no-permission"/>
 
         <p:canAdministerLeader leader="${leader}">
             <g:set var="hasPermissionClass">has-permission</g:set>
@@ -30,7 +30,7 @@
                 <s:property
                         code="leader.email.label">${leader?.email ?: message(code: 'leader.email.noneFound')}</s:property>
                 <s:property
-                        code="leader.phone.label">${f.formatPhone(phone:leader?.phone) ?: message(code: 'leader.phone.noneFound')}</s:property>
+                        code="leader.phone.label">${f.formatPhone(phone: leader?.phone) ?: message(code: 'leader.phone.noneFound')}</s:property>
                 <s:property
                         code="leader.address.label">${leader?.address1 ?: message(code: 'leader.address.noneFound')}</s:property>
 
@@ -76,3 +76,27 @@
         </div>
     </g:each>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+
+        jQuery(".no-permission").each(function() {
+            var $this = jQuery(this);
+
+            if (jQuery.fn.qtip) {
+                $this.qtip(
+                        {
+                            content: "<g:message code="leader.query.gray"/>",
+                            show: {event: 'mouseover'},
+                            position: {target:'mouse', my: "left bottom", at: "right top"},
+                            hide: {event:"mouseout"},
+                            style: {
+                                classes: "ui-tooltip-rounded tooltip-display"
+                            }
+                        }
+                )
+            }
+        })
+
+    });
+</script>

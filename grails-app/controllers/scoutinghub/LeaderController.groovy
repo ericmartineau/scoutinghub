@@ -21,18 +21,17 @@ class LeaderController {
     }
 
     def save = {AddLeaderToGroupCommand addCommand ->
-
+        Leader leader = null
+        if (params.id && Integer.parseInt(params.id) > 0) {
+            leader = Leader.get(params.id)
+            addCommand.foundLeader = leader
+        }
         if (!addCommand.validate()) {
             render(view: 'create', model: [errors: "There are errors", addCommand: addCommand])
         } else {
-            Leader leader
-            if (addCommand.foundLeader) {
-                leader = addCommand.foundLeader
-            } else {
-                leader = new Leader()
-                leader.firstName = addCommand.firstName
-                leader.lastName = addCommand.lastName
-                leader.email = addCommand.email
+
+            if (!leader) {
+                leader = new Leader(params)
             }
 
             //If the scoutid doesn't exist, add it
@@ -56,11 +55,7 @@ class LeaderController {
 
     def getLeaderDetails = {
         Leader leader = Leader.get(params.id)
-        def rtn = [id: leader.id,
-                firstName: leader?.firstName,
-                lastName: leader?.lastName,
-                email: leader?.email]
-        render rtn as JSON
+        render leader as JSON
     }
 
     def recheckLeaderMatch = {
@@ -72,6 +67,10 @@ class LeaderController {
 
     def findLeaderMatch = {
         final Set<Leader> leaders = leaderService.findLeaders(params.scoutid, params.email, params.firstName, params.lastName, null);
+        Leader leader = new Leader(params)
+        Set<Leader> foundFromLeaderObject = leaderService.findDuplicateLeaders(leader)
+        leaders.addAll(foundFromLeaderObject)
+
         if (leaders?.size() > 0) {
             return [leaders: leaders]
         } else {
@@ -98,6 +97,14 @@ class LeaderController {
         return [leaderA: leaderA, leaderB: leaderB]
     }
 
+    def unmerge = {
+        Leader leaderA = Leader.get(Integer.parseInt(params.id))
+        MergedLeader.findAllByMergedTo(leaderA).each {
+            leaderService.unmergeLeaders(leaderA, it)
+        }
+        render("Done")
+    }
+
     def saveProfile = {
 
         Leader leader = Leader.get(params.id);
@@ -115,6 +122,10 @@ class LeaderController {
         leader.city = params.city
         leader.state = params.state
         leader.postalCode = params.postalCode
+        leader.username = params.username
+        if(params.password) {
+            leader.password = springSecurityService.encodePassword(params.password)
+        }
 
         if (!leader.save()) {
             flash.leaderError = leader
@@ -132,7 +143,6 @@ class LeaderController {
         Leader leaderB = Leader.get(Integer.parseInt(params.leaderB))
 
         leaderService.mergeLeaders(leaderA, leaderB);
-        trainingService.recalculatePctTrained(leaderA);
         redirect(view: "view", id: leaderA.id)
 
     }

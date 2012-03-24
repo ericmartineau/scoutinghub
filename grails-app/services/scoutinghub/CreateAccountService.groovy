@@ -1,7 +1,10 @@
 package scoutinghub
 
+import grails.plugins.springsecurity.SpringSecurityService
+
 class CreateAccountService {
 
+    SpringSecurityService springSecurityService;
     static transactional = false
 
     void mergeCreateAccountWithExistingLeader(CreateAccountCommand createAccount, Leader leader) {
@@ -11,6 +14,8 @@ class CreateAccountService {
 //        leader.phone = createAccount?.phone ?: leader.phone
 //        leader.username = createAccount?.username ?: leader.username ?: createAccount?.email
 //        leader.username = createAccount?.username ?: leader.username ?: createAccount?.email
+        leader.password = springSecurityService.encodePassword(createAccount.password)
+
     }
 
 }

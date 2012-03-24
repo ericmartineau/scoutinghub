@@ -86,10 +86,9 @@
                     </b>
                 </div>
 
-                <div class="msg2">
-                    <div class="duplicate-results">
-                        <div class="header">
-                            <div>Name</div>
+                <f:leaderList leaders="${duplicates}">
+                    <div><a href="javascript:openMergeLeaderDialog(${request.leaderInList.id},${leader.id})">Definitely a Match</a>
+                    </div>
 
                             <div>Phone</div>
 
@@ -130,8 +129,7 @@
 
                         </g:each>
                     </div>
-
-                </div>
+                </f:leaderList>
 
             </s:msg>
         </s:section>
@@ -200,6 +198,23 @@
         <g:set var="menu" value="" scope="request"/>
         <s:propertyList class="edit-profile">
             <g:if test="${params.edit}">
+                <script type="text/javascript">
+
+                    jQuery(document).ready(function() {
+                        var $username = jQuery("[name='username']");
+                        var $email = jQuery("[name='email']");
+                        var oldValue = $email.val();
+                        $email.change(function() {
+
+                            var newValue = $email.val();
+                            if($username.val() == oldValue) {
+                                $username.val(newValue);
+                            }
+                            oldValue = $email.val();
+                        });
+
+                    });
+                </script>
                 <g:hasErrors bean="${flash.leaderError}">
                     <s:msg type="error">
                         <g:renderErrors bean="${flash.leaderError}"/>
@@ -217,7 +232,7 @@
 
                 </s:div>
                 <s:div class="alternate-color">
-                    <s:textField name="lastName" code="leader.firstName.label" value="${leader?.lastName}"/>
+                    <s:textField name="lastName" code="leader.lastName.label" value="${leader?.lastName}"/>
                     <s:textField name="city" code="leader.city.label" value="${leader?.city}"/>
                 </s:div>
 
@@ -227,11 +242,14 @@
                 </s:div>
 
                 <s:div class="alternate-color">
-                    <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
+                    <s:textField name="username" code="leader.profile.username" value="${leader?.username}"/>
                     <s:textField name="postalCode" code="leader.postalCode.label" value="${leader?.postalCode}"/>
                 </s:div>
 
-
+                <s:div class="alternate-color">
+                    <s:textField type="password" name="password" code="leader.profile.password" />
+                    <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
+                </s:div>
 
                 <s:div>
                     <s:submit name="submit" value="${message(code:'Save')}"/>
@@ -278,6 +296,10 @@
                     <s:property code="leader.setupDate.label">
                         <g:if test="${leader?.setupDate}">
                             <g:formatDate date="${leader?.setupDate}" format="MM-dd-yyyy"/>
+                            <g:if test="${leader?.username != leader?.email}">
+                                <br/>
+                                <g:message code="leader.profile.username"/>: ${leader?.username}
+                            </g:if>
                         </g:if>
                         <g:elseif test="${leader.email != null}">
                             <g:link title="${message(code:'leader.profile.invite')}" lbwidth="500" class="lightbox"
