@@ -4,7 +4,7 @@
 <head>
     <link rel="SHORTCUT ICON" href="/scoutinghub/favicon.ico" />
 
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
+    <link rel="stylesheet" type="text/css" href="/scoutinghub/css/reset-min.css">
     %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'vanilla.css')}"/>--}%
 
 

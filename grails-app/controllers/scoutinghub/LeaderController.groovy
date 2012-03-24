@@ -1,10 +1,13 @@
 package scoutinghub
 
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
 import grails.converters.JSON
 import scoutinghub.events.LeaderInvitedEvent
+import scoutinghub.meritbadge.MeritBadgeService
+import scoutinghub.meritbadge.MeritBadgeCounselor
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -13,7 +16,9 @@ class LeaderController {
 
     LeaderService leaderService
 
-    TrainingService trainingService;
+    TrainingService trainingService
+    
+    MeritBadgeService meritBadgeService
 
     def create = {
         int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
@@ -219,6 +224,11 @@ class LeaderController {
             redirect(controller: "login", action: "denied")
             return
         }
+        
+        //Determine if is merit badge counselor
+        List<MeritBadgeCounselor> meritBadgeCounselors = meritBadgeService.getOrCreateMeritBadgeCounselor(leader)
+
+        
         def requiredCertifications
         def certificationInfo = []
         if (leader?.groups?.size() > 0) {
@@ -266,7 +276,8 @@ class LeaderController {
         certificationInfo.each { extraCertificationInfo.remove(it) }
 
 
-        def rtn = [duplicates: duplicates, extraCertificationInfo: extraCertificationInfo, certificationInfo: certificationInfo, leader: leader]
+        def rtn = [meritBadgeCounselors: meritBadgeCounselors, duplicates: duplicates, extraCertificationInfo: extraCertificationInfo,
+                certificationInfo: certificationInfo, leader: leader]
 
         return rtn
 

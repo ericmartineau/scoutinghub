@@ -12,7 +12,7 @@ class TrainingExpirationJob {
     def concurrent = false
 
     def execute() {
-        Set<Long> numProcessed = trainingService.processExpiredTrainings();
-        println "Processed expiration job in quartz: ${numProcessed?.size() ?: "0"}"
+//        Set<Long> numProcessed = trainingService.processExpiredTrainings();
+//        println "Processed expiration job in quartz: ${numProcessed?.size() ?: "0"}"
     }
 }

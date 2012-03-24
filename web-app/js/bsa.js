@@ -345,7 +345,11 @@ function showMap(address) {
 }
 
 function initializeMaps() {
-    geocoder = new GClientGeocoder();
+    try {
+        geocoder = new GClientGeocoder();
+    }catch(error){
+        console.log("Problem loading maps");
+    }
 }
 
 jQuery(document).ready(initializeMaps);

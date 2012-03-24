@@ -1,8 +1,5 @@
 package scoutinghub;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
-
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -55,6 +52,7 @@ public enum LeaderPositionType {
     DistrictCampingOutdoorCommittee("CampingOutdoorCommittee", false, District),
     DistrictTrainingCommittee("DistrictTrainingCommittee", false, District),
     RelationsCommittee("RC", false, Stake),
+    MeritBadgeCounselor("MBC", true, Council, District, Stake, Group),
 
     Volunteer("VO", false, District, CharteringOrg, Stake, Group),
     Administrator("AD", false, Council, District, CharteringOrg, Stake, Group),

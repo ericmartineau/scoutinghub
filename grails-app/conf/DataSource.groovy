@@ -1,7 +1,8 @@
 import scoutinghub.CustomInnoDBDialect
+import org.hibernate.dialect.HSQLDialect
 
 dataSource {
-    pooled = true
+//    pooled = true
     driverClassName = "org.hsqldb.jdbcDriver"
     username = "sa"
     password = ""
@@ -19,6 +20,7 @@ environments {
 //            url = "jdbc:hsqldb:mem:devDb"
 //            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
 
+//            dialect = HSQLDialect
         //If you want to use mysql for your development environment (so your database doesn't get
             // blown away every time), uncomment these lines.  You'll also need to change the url below
             // in the development block of code - don't check in!:
@@ -31,6 +33,7 @@ environments {
 
         }
     }
+
     test {
         dataSource {
             dialect = scoutinghub.CustomInnoDBDialect

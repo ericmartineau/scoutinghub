@@ -13,7 +13,7 @@
         function togglePermission(checkbox, leaderid, roleid) {
             jQuery.ajax({
                 url:"/scoutinghub/permissions/setPermission",
-                data: {checked: checkbox.checked, leaderId:leaderid, roleId: roleid}
+                data:{checked:checkbox.checked, leaderId:leaderid, roleId:roleid}
             });
         }
 
@@ -22,33 +22,33 @@
         }
 
         function ignoreDuplicate(leaderIdA, leaderIdB) {
-            jQuery.getJSON("/scoutinghub/leader/ignoreDuplicate", {leaderA:leaderIdA, leaderB:leaderIdB}, function(json) {
+            jQuery.getJSON("/scoutinghub/leader/ignoreDuplicate", {leaderA:leaderIdA, leaderB:leaderIdB}, function (json) {
                 if (json.success) {
                     window.location.reload();
                 }
             });
         }
 
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             var pct = parseInt(jQuery(this).attr("pct"));
             jQuery("#trainingCompletion").progressbar({value:pct});
 
             jQuery(".leader-unit").mouseover(
-                    function() {
+                    function () {
                         jQuery(".remove-button", this).show();
                     }
-            ).mouseout(function() {
+            ).mouseout(function () {
                         jQuery(".remove-button", this).hide();
                     });
 
-            jQuery(".profileCertificationContainer").each(function() {
+            jQuery(".profileCertificationContainer").each(function () {
                 var jthis = jQuery(this);
                 var certificationId = parseInt(jthis.attr("certificationId"));
                 var leaderId = parseInt(jthis.attr("leaderId"));
 
                 if (certificationId > 0) {
                     jQuery.get("/scoutinghub/certificationClass/findByCertification", {certificationId:certificationId, leaderId:leaderId},
-                            function(data) {
+                            function (data) {
                                 if (data) {
                                     jthis.find(".upcomingTrainings").append("<div class='currentTraining ui-corner-all'>" + data + "</div>");
 
@@ -146,16 +146,16 @@
                     <ul class="list">
                         <li>
                             <strong>
-                                <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
+                                <g:link title="${message(code: 'leader.profile.addScoutingId')}" lbwidth="500"
                                         class="lightbox"
-                                        controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                                        controller="myScoutingId" action="create" params="['leader.id': leader.id]">
                                     <g:message code="leader.profile.nolinkdescription_item1"/>
                                 </g:link>
                             </strong>
                         </li>
                         <li>
                             <strong><g:link controller="leader" action="view" id="${leader.id}"
-                                            params="[edit:true]"><g:message
+                                            params="[edit: true]"><g:message
                                         code="leader.profile.nolinkdescription_item2"/></g:link></strong>
                         </li>
                         <li>
@@ -175,7 +175,7 @@
         <s:sectionHeader icon="profile-icon" code="leader.profile.myprofile">
             <s:ctxmenu>
                 <g:ctxmenuItem img="edit-icon" controller="leader" action="view" id="${leader.id}"
-                               params="[edit:true]" iconType="edit" code="leader.profile.edit">
+                               params="[edit: true]" iconType="edit" code="leader.profile.edit">
                 %{--<s:linker style="white-space:nowrap;" action="view" id="${leader.id}" params="[edit:true]">--}%
                 %{--<g:inlineIcon class="edit-icon"/>--}%
                 %{--<g:ctxmenuLabel>--}%
@@ -184,9 +184,9 @@
                 %{--</s:linker>--}%
                 </g:ctxmenuItem>
                 <g:ctxmenuItem>
-                    <s:linker img="add-icon" title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
+                    <s:linker img="add-icon" title="${message(code: 'leader.profile.addScoutingId')}" lbwidth="500"
                               class="lightbox"
-                              controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                              controller="myScoutingId" action="create" params="['leader.id': leader.id]">
                         <g:inlineIcon class="add-icon"/>
                         <g:ctxmenuLabel><g:message code="leader.profile.addAnother"/></g:ctxmenuLabel>
                     </s:linker>
@@ -200,14 +200,14 @@
             <g:if test="${params.edit}">
                 <script type="text/javascript">
 
-                    jQuery(document).ready(function() {
+                    jQuery(document).ready(function () {
                         var $username = jQuery("[name='username']");
                         var $email = jQuery("[name='email']");
                         var oldValue = $email.val();
-                        $email.change(function() {
+                        $email.change(function () {
 
                             var newValue = $email.val();
-                            if($username.val() == oldValue) {
+                            if ($username.val() == oldValue) {
                                 $username.val(newValue);
                             }
                             oldValue = $email.val();
@@ -247,12 +247,12 @@
                 </s:div>
 
                 <s:div class="alternate-color">
-                    <s:textField type="password" name="password" code="leader.profile.password" />
+                    <s:textField type="password" name="password" code="leader.profile.password"/>
                     <s:textField name="phone" code="leader.phone.label" value="${f.formatPhone(phone: leader?.phone)}"/>
                 </s:div>
 
                 <s:div>
-                    <s:submit name="submit" value="${message(code:'Save')}"/>
+                    <s:submit name="submit" value="${message(code: 'Save')}"/>
                 </s:div>
 
             </g:if>
@@ -283,9 +283,9 @@
 
                         </g:if>
                         <g:else>
-                            <g:link title="${message(code:'leader.profile.addScoutingId')}" lbwidth="500"
+                            <g:link title="${message(code: 'leader.profile.addScoutingId')}" lbwidth="500"
                                     class="lightbox"
-                                    controller="myScoutingId" action="create" params="['leader.id':leader.id]">
+                                    controller="myScoutingId" action="create" params="['leader.id': leader.id]">
                                 <g:message code="leader.profile.noneYet"/>
                             </g:link>
 
@@ -316,13 +316,47 @@
             </g:else>
         </s:propertyList>
     </s:section>
+    <g:each in="${meritBadgeCounselors}" var="meritBadgeCounselor">
+
+        <s:section class="floatSection myprofile">
+            <s:sectionHeader icon="profile-icon" code="leader.profile.meritBadgeCounselor">
+                <s:ctxmenu>
+                    <g:ctxmenuItem>
+                        <s:linker img="add-icon" title="${message(code: 'leader.profile.addMeritBadge')}" lbwidth="500"
+                                  class="lightbox"
+                                  controller="meritBadgeCounselorBadge" action="create" params="['meritBadgeCounselor.id': meritBadgeCounselor.id]">
+                            <g:inlineIcon class="add-icon"/>
+                            <g:ctxmenuLabel><g:message code="leader.profile.addMeritBadge"/></g:ctxmenuLabel>
+                        </s:linker>
+                    </g:ctxmenuItem>
+                </s:ctxmenu>
+            </s:sectionHeader>
+
+            <s:propertyList class="edit-profile">
+                <g:if test="${meritBadgeCounselor.badges?.size() == 0}">
+                    <s:linker title="${message(code: 'leader.profile.addMeritBadge')}" lbwidth="500"
+                              class="lightbox"
+                              controller="meritBadgeCounselorBadge" action="create" params="['meritBadgeCounselor.id': meritBadgeCounselor.id]">
+                        <g:message code="leader.profile.addMeritBadge"/>
+                    </s:linker>
+                </g:if>
+
+                <g:each in="${meritBadgeCounselor.badges}" var="badgeDefinition">
+                    <s:property>${badgeDefinition.meritBadge}</s:property>
+                </g:each>
+            </s:propertyList>
+        </s:section>
+
+    </g:each>
+
+
 </g:form>
 
 <s:section class="floatSection">
     <s:sectionHeader icon="units-icon" code="leader.profile.groups">
         <s:ctxmenu>
             <g:ctxmenuItem>
-                <s:linker img="edit-icon" class="lightbox" title="${message(code:'leader.profile.addToGroup')}"
+                <s:linker img="edit-icon" class="lightbox" title="${message(code: 'leader.profile.addToGroup')}"
                           lbwidth="475"
                           controller="leaderGroup" action="create" params="['leader.id': leader.id]">
                     <g:inlineIcon class="edit-icon"/>
@@ -333,7 +367,7 @@
             </g:ctxmenuItem>
 
             <g:ctxmenuItem>
-                <s:linker img="add-icon" title="${message(code: 'leaderGroup.permissions', args:[leader])}"
+                <s:linker img="add-icon" title="${message(code: 'leaderGroup.permissions', args: [leader])}"
                           controller="leaderGroup" action="permissions" id="${leader.id}" class="lightbox">
                     <g:inlineIcon class="add-icon"/>
                     <g:ctxmenuLabel>
@@ -347,7 +381,7 @@
     <s:propertyList>
         <g:if test="${leader?.groups?.size()}">
             <g:each in="${leader.groups}" var="group" status="i">
-                <g:if test="${i%2 == 0}">
+                <g:if test="${i % 2 == 0}">
                     <g:if test="${currClass == 'alternate-color'}">
                         <g:set var="currClass" value=""/>
                     </g:if>
@@ -370,13 +404,13 @@
                 </s:leaderUnit>
                 <g:set var="grpI" value="${i}" scope="request"/>
             </g:each>
-            <g:if test="${request.grpI%2==0}">
+            <g:if test="${request.grpI % 2 == 0}">
                 <s:leaderUnit class="${currClass}"/>
             </g:if>
         </g:if>
         <g:else>
             <s:property>
-                <g:link class="lightbox" title="${message(code:'leader.profile.addToGroup')}" lbwidth="600"
+                <g:link class="lightbox" title="${message(code: 'leader.profile.addToGroup')}" lbwidth="600"
                         controller="leaderGroup" action="create" params="['leader.id': leader.id]">
                     <g:message code="leader.profile.noneYet" args="[leader.firstName]"/>
                 </g:link>
@@ -395,7 +429,7 @@
 
         <g:set scope="request" var="certIndex" value="${0}"/>
         <g:each in="${certificationInfo}" var="certification">
-            <g:if test="${request.certIndex%2 == 0}">
+            <g:if test="${request.certIndex % 2 == 0}">
 
                 <g:if test="${request.currClass == 'alternate-color'}">
                     <g:set var="currClass" value="" scope="request"/>
@@ -404,11 +438,11 @@
                     <g:set var="currClass" value="alternate-color" scope="request"/>
                 </g:else>
             </g:if>
-            <g:set var="certIndex" value="${request.certIndex+1}" scope="request"/>
+            <g:set var="certIndex" value="${request.certIndex + 1}" scope="request"/>
             <s:leaderTraining certificationInfo="${certification}"/>
         </g:each>
 
-        <g:if test="${request.certIndex%2==1}">
+        <g:if test="${request.certIndex % 2 == 1}">
             <s:div class="profileCertificationContainer ${request.currClass}"><s:div
                     class="profileCertification"/></s:div>
         </g:if>
@@ -421,7 +455,7 @@
         <s:ctxmenu>
             <g:ctxmenuItem iconType="add">
                 <s:linker img="edit-icon" class="lightbox"
-                          title="${message(code:'leader.profile.addAdditionalLinkCtx')}"
+                          title="${message(code: 'leader.profile.addAdditionalLinkCtx')}"
                           lbwidth="600"
                           controller="leaderCertification" action="create" params="['leader.id': leader.id]">
                     <g:inlineIcon class="add-icon"/>
@@ -437,7 +471,7 @@
     <g:if test="${!extraCertificationInfo}">
         <s:text>
             <g:message code="leader.profile.addAdditional"/>
-            <s:linker img="edit-icon" class="lightbox" title="${message(code:'leader.profile.addAdditionalLink')}"
+            <s:linker img="edit-icon" class="lightbox" title="${message(code: 'leader.profile.addAdditionalLink')}"
                       lbwidth="600"
                       controller="leaderCertification" action="create" params="['leader.id': leader.id]">
                 <g:message code="leader.profile.addAdditionalLink"/>
@@ -447,7 +481,7 @@
 
     <g:set scope="request" var="certIndex" value="${0}"/>
     <g:each in="${extraCertificationInfo}" var="certification">
-        <g:if test="${request.certIndex%2 == 0}">
+        <g:if test="${request.certIndex % 2 == 0}">
 
             <g:if test="${request.currClass == 'alternate-color'}">
                 <g:set var="currClass" value="" scope="request"/>
@@ -456,16 +490,18 @@
                 <g:set var="currClass" value="alternate-color" scope="request"/>
             </g:else>
         </g:if>
-        <g:set var="certIndex" value="${request.certIndex+1}" scope="request"/>
+        <g:set var="certIndex" value="${request.certIndex + 1}" scope="request"/>
         <s:leaderTraining certificationInfo="${certification}"/>
     </g:each>
 
-    <g:if test="${request.certIndex%2==1}">
+    <g:if test="${request.certIndex % 2 == 1}">
         <s:div class="profileCertificationContainer ${request.currClass}"><s:div
                 class="profileCertification"/></s:div>
     </g:if>
 
 </s:section>
+
+
 </s:content>
 
 </body>
