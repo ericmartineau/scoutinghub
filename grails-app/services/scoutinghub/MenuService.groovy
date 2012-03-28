@@ -1,6 +1,5 @@
 package scoutinghub
 
-import scoutinghub.menu.MenuItem
 import javax.annotation.PostConstruct
 import scoutinghub.menu.MainMenuItem
 import scoutinghub.menu.SubMenuItem
@@ -40,6 +39,7 @@ class MenuService {
 
         def unitsMenu = new MainMenuItem("scoutGroup", "menu.scoutGroup.index", {Leader leader-> leader?.canAdminAtLeastOneUnit()})
             .addMenuItem(new SubMenuItem("leader", "create", "menu.leader.create", "ROLE_LEADER"))
+            .addMenuItem(new SubMenuItem("unitAdmin", "importUnits", "menu.units.import", "ROLE_ADMIN"))
         addMenuItem(unitsMenu)
     }
 
