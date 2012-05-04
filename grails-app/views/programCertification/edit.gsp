@@ -9,7 +9,7 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <g:header>g:message code="default.edit.label" args="[entityName]" /></g:header>
+        <g:header><g:message code="default.edit.label" args="[entityName]" /></g:header>
         <div class="nav">
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
@@ -30,14 +30,14 @@
                     <table>
                         <tbody>
                         
-                            <tr class="prop">
+                            %{--<tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="unitType"><g:message code="programCertification.unitType.label" default="Unit Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: programCertificationInstance, field: 'unitType', 'errors')}">
                                     <g:select name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${programCertificationInstance?.unitType}" noSelection="['': '']" />
                                 </td>
-                            </tr>
+                            </tr>--}%
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

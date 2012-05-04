@@ -28,9 +28,57 @@ class TrainingService {
             ids.add(leaderCertification.leader?.id)
         }
 
+        recalculateTrainingForLeaders(ids)
+
+        return ids
+    }
+
+    Collection processTrainingsForCertification(Certification certification) {
+        //find all certifications that have expirations in the past
+        Date date = new Date()
+        Set<Long> ids = [] as Set;
+        LeaderCertification.withTransaction { TransactionStatus status ->
+            def results = LeaderCertification.executeQuery("select distinct lc.leader.id from LeaderCertification as lc where lc.certification.id = ?", [certification.id])
+            ids.addAll(results)
+        }
+
+        recalculateTrainingForLeaders(ids)
+
+        return ids
+    }
+
+    Collection processCertificationsForModifiedTrainings() {
+        Date date = new Date()
+        Set<Long> ids = [] as Set;
+        LeaderCertification.withTransaction { TransactionStatus status ->
+            def results = LeaderCertification.executeQuery("select distinct lc.leader.id from LeaderCertification as lc, ProgramCertification as pc where pc.updateDate is not null and pc.certification.id = lc.certification.id and pc.updateDate > lc.lastCalculationDate")
+            ids.addAll(results)
+        }
+
+        recalculateTrainingForLeaders(ids)
+
+        return ids
+    }
+
+    Collection reprocessAllTrainings() {
+        Date date = new Date()
+        Set<Long> ids = [] as Set;
+        LeaderCertification.withTransaction { TransactionStatus status ->
+            def results = LeaderCertification.executeQuery("select distinct lc.leader.id from LeaderCertification as lc")
+            ids.addAll(results)
+        }
+
+        recalculateTrainingForLeaders(ids)
+
+        return ids
+    }
+
+    private def recalculateTrainingForLeaders(Set<Long> leaderIds) {
+
+        Date date = new Date()
         int count = 0
         Leader.withTransaction {TransactionStatus status ->
-            ids.each {
+            leaderIds.each {
                 Leader leader = Leader.get(it)
                 leader.certifications?.each {
 
@@ -48,7 +96,7 @@ class TrainingService {
             }
         }
 
-        return ids
+        println("Recalculated ${count} leaders")
     }
 
     void recalculatePctTrained(Leader leader) {
