@@ -28,12 +28,12 @@
                             
                         </tr>
                     
-                        <tr class="prop">
+                        %{--<tr class="prop">
                             <td valign="top" class="name"><g:message code="programCertification.unitType.label" default="Unit Type" /></td>
                             
                             <td valign="top" class="value">${programCertificationInstance?.unitType?.encodeAsHTML()}</td>
                             
-                        </tr>
+                        </tr>--}%
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="programCertification.required.label" default="Required" /></td>

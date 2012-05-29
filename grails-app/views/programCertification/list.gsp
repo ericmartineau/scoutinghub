@@ -23,7 +23,7 @@
                         
                             <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="id" title="${message(code: 'programCertification.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="unitType" title="${message(code: 'programCertification.unitType.label', default: 'Unit Type')}" />
+                           %{-- <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="unitType" title="${message(code: 'programCertification.unitType.label', default: 'Unit Type')}" />--}%
                         
                             <g:sortableColumn class="ui-state-hover ui-widget-header tableHeader" property="required" title="${message(code: 'programCertification.required.label', default: 'Required')}" />
 
@@ -41,7 +41,7 @@
                         
                             <td><g:link action="show" id="${programCertificationInstance.id}">${fieldValue(bean: programCertificationInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: programCertificationInstance, field: "unitType")}</td>
+                            %{--<td>${fieldValue(bean: programCertificationInstance, field: "unitType")}</td>--}%
                         
                             <td><g:formatBoolean boolean="${programCertificationInstance.required}" /></td>
                         

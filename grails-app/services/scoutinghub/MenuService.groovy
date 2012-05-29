@@ -1,6 +1,5 @@
 package scoutinghub
 
-import scoutinghub.menu.MenuItem
 import javax.annotation.PostConstruct
 import scoutinghub.menu.MainMenuItem
 import scoutinghub.menu.SubMenuItem
@@ -30,7 +29,7 @@ class MenuService {
 //                .addMenuItem(new SubMenuItem("training", "individual", "menu.training.individual", "ROLE_LEADER"))
                 .addMenuItem(new SubMenuItem("certificationClass", "index", "menu.trainingEvent.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("training", "trainingReport", "menu.training.report", "ROLE_LEADER"))
-//                .addMenuItem(new SubMenuItem("programCertification", "index", "menu.trainingDefinition.index", "ROLE_ADMIN"))
+                .addMenuItem(new SubMenuItem("programCertification", "index", "menu.trainingProgramDefinition.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("certification", "index", "menu.trainingDefinition.index", "ROLE_ADMIN"))
 //                .addMenuItem(new SubMenuItem("leaderCertification", "index", "menu.trainingLeader.index", "ROLE_ADMIN"))
                 .addMenuItem(new SubMenuItem("training", "importTraining", "menu.training.import", "ROLE_ADMIN"))
@@ -40,6 +39,7 @@ class MenuService {
 
         def unitsMenu = new MainMenuItem("scoutGroup", "menu.scoutGroup.index", {Leader leader-> leader?.canAdminAtLeastOneUnit()})
             .addMenuItem(new SubMenuItem("leader", "create", "menu.leader.create", "ROLE_LEADER"))
+            .addMenuItem(new SubMenuItem("unitAdmin", "importUnits", "menu.units.import", "ROLE_ADMIN"))
         addMenuItem(unitsMenu)
     }
 

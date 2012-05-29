@@ -1,6 +1,10 @@
 package scoutinghub
 
+import grails.plugins.springsecurity.Secured
+
+@Secured(["ROLE_ADMIN"])
 class ProgramCertificationController {
+    TrainingService trainingService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -66,6 +70,7 @@ class ProgramCertificationController {
             }
             programCertificationInstance.properties = params
             if (!programCertificationInstance.hasErrors() && programCertificationInstance.save(flush: true)) {
+                trainingService.processCertificationsForModifiedTrainings()
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'programCertification.label', default: 'ProgramCertification'), programCertificationInstance.id])}"
                 redirect(action: "show", id: programCertificationInstance.id)
             }
@@ -83,7 +88,9 @@ class ProgramCertificationController {
         def programCertificationInstance = ProgramCertification.get(params.id)
         if (programCertificationInstance) {
             try {
+                Certification certification = programCertificationInstance.certification
                 programCertificationInstance.delete(flush: true)
+                trainingService.processTrainingsForCertification(certification)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'programCertification.label', default: 'ProgramCertification'), params.id])}"
                 redirect(action: "list")
             }
@@ -96,5 +103,11 @@ class ProgramCertificationController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'programCertification.label', default: 'ProgramCertification'), params.id])}"
             redirect(action: "list")
         }
+    }
+
+    def recalculateAllTrainings = {
+        Set<Long> ids = trainingService.reprocessAllTrainings()
+        flash.message = "${message(code: 'programCertification.recalculateAllTraining', args: [ids.size()])}"
+        redirect(action: "list")
     }
 }

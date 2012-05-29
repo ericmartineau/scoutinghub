@@ -42,4 +42,9 @@ class ProgramCertification {
     def beforeUpdate = {
         updateDate = new Date()
     }
+
+    @Override
+    String toString() {
+        return unitType + ":"  + positionType + ":"  + certification
+    }
 }

@@ -27,14 +27,14 @@
                     <table>
                         <tbody>
                         
-                            <tr class="prop">
+                            %{--<tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="unitType"><g:message code="programCertification.unitType.label" default="Unit Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: programCertificationInstance, field: 'unitType', 'errors')}">
                                     <g:select name="unitType" from="${scoutinghub.ScoutUnitType?.values()}" value="${programCertificationInstance?.unitType}" noSelection="['': '']" />
                                 </td>
-                            </tr>
+                            </tr>--}%
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

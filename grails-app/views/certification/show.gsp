@@ -93,7 +93,22 @@
 
             </tr>
 
-            <tr class="prop">
+            %{--<tr class="prop">
+                <td valign="top" class="name"><g:message code="certification.programCertifications.label"
+                                                         default="Program Certifications"/></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${certificationInstance.programCertifications}" var="l">
+                            <li><g:link controller="programCertification" action="show"
+                                        id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>--}%
+
+            %{--<tr class="prop">
                 <td valign="top" class="name"><g:message code="certification.leaderCertifications.label"
                                                          default="Leader Certifications"/></td>
 
@@ -106,7 +121,7 @@
                     </ul>
                 </td>
 
-            </tr>
+            </tr>--}%
 
             </tbody>
         </table>

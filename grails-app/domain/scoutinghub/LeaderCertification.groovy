@@ -63,6 +63,7 @@ class LeaderCertification implements Serializable {
     @Override
     String toString() {
         return "${leader}: ${certification}"
+        //return "leader: certification"
     }
 
 
