@@ -17,17 +17,18 @@ class MeritBadgeService {
     synchronized List<MeritBadgeCounselor> getOrCreateMeritBadgeCounselor(Leader leader) {
         def rtn = []
         def meritBadgeCounselorRecords = leader.groups?.find {it.leaderPosition == LeaderPositionType.MeritBadgeCounselor}
-        meritBadgeCounselorRecords.each{
-            LeaderGroup leaderGroup->
-            //Find existing record
-            MeritBadgeCounselor counselor = MeritBadgeCounselor.findByLeaderGroup(leaderGroup)
+        if(meritBadgeCounselorRecords) {
+            MeritBadgeCounselor counselor = MeritBadgeCounselor.findByLeader(leader)
             if (!counselor) {
                 counselor = new MeritBadgeCounselor()
-                counselor.leaderGroup = leaderGroup
+                counselor.leader = leader
                 counselor.save(failOnError: true)
             }
             rtn << counselor
+        } else {
+            MeritBadgeCounselor.findByLeader(leader)?.each{it.delete(failOnError: true)}
         }
+
 
         return rtn
     }

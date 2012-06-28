@@ -4,10 +4,9 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
-import grails.converters.JSON
 import scoutinghub.events.LeaderInvitedEvent
-import scoutinghub.meritbadge.MeritBadgeService
 import scoutinghub.meritbadge.MeritBadgeCounselor
+import scoutinghub.meritbadge.MeritBadgeService
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {

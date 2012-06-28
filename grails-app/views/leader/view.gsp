@@ -85,51 +85,14 @@
                         <g:message code="leader.profile.duplicate_verify"/>
                     </b>
                 </div>
-
                 <f:leaderList leaders="${duplicates}">
                     <div><a href="javascript:openMergeLeaderDialog(${request.leaderInList.id},${leader.id})">Definitely a Match</a>
                     </div>
 
-                            <div>Phone</div>
-
-                            <div>Email</div>
-
-                            <div>Address</div>
-
-                            <div>BSA ID</div>
-
-                            <div></div>
-
-                            <div></div>
-                        </div>
-                        <g:each in="${duplicates}" var="duplicate">
-
-                            <div>
-                                <div>${duplicate}</div>
-
-                                <div>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</div>
-
-                                <div>${duplicate.email ?: "No Email"}</div>
-
-                                <div>${duplicate.address1 ?: "No Address"}</div>
-
-                                <div>
-                                    <g:if test="${duplicate.myScoutingIds?.size() > 0}">
-                                        ${duplicate.myScoutingIds?.iterator()?.next()}
-                                    </g:if>
-                                    <g:else>No BSA ID</g:else>
-                                </div>
-
-                                <div><a href="javascript:openMergeLeaderDialog(${duplicate.id},${leader.id})">Definitely a Match</a>
-                                </div>
-
-                                <div><a href="javascript:ignoreDuplicate(${leader.id}, ${duplicate.id})">Not a Match</a>
-                                </div>
-                            </div>
-
-                        </g:each>
+                    <div><a href="javascript:ignoreDuplicate(${leader.id}, ${request.leaderInList.id})">Not a Match</a>
                     </div>
                 </f:leaderList>
+
 
             </s:msg>
         </s:section>
@@ -321,29 +284,27 @@
         <s:section class="floatSection myprofile">
             <s:sectionHeader icon="profile-icon" code="leader.profile.meritBadgeCounselor">
                 <s:ctxmenu>
+
                     <g:ctxmenuItem>
-                        <s:linker img="add-icon" title="${message(code: 'leader.profile.addMeritBadge')}" lbwidth="500"
-                                  class="lightbox"
-                                  controller="meritBadgeCounselorBadge" action="create" params="['meritBadgeCounselor.id': meritBadgeCounselor.id]">
-                            <g:inlineIcon class="add-icon"/>
-                            <g:ctxmenuLabel><g:message code="leader.profile.addMeritBadge"/></g:ctxmenuLabel>
+                        <s:linker controller="meritBadgeCounselor" action="edit" params="['id': meritBadgeCounselor.id]">
+                            <g:inlineIcon class="edit-icon"/>
+                            <g:ctxmenuLabel><g:message code="leader.profile.editMeritBadgeCounselor"/></g:ctxmenuLabel>
                         </s:linker>
                     </g:ctxmenuItem>
+
+
                 </s:ctxmenu>
             </s:sectionHeader>
 
-            <s:propertyList class="edit-profile">
-                <g:if test="${meritBadgeCounselor.badges?.size() == 0}">
-                    <s:linker title="${message(code: 'leader.profile.addMeritBadge')}" lbwidth="500"
-                              class="lightbox"
-                              controller="meritBadgeCounselorBadge" action="create" params="['meritBadgeCounselor.id': meritBadgeCounselor.id]">
-                        <g:message code="leader.profile.addMeritBadge"/>
-                    </s:linker>
-                </g:if>
+            <s:propertyList>
+                <s:property class="full-width-property">
+                    <g:each in="${meritBadgeCounselor.sortedMeritBadges}" var="meritBadge">
+                        <div class="merit-badge-checkbox">
+                            ${meritBadge.name}
+                        </div>
 
-                <g:each in="${meritBadgeCounselor.badges}" var="badgeDefinition">
-                    <s:property>${badgeDefinition.meritBadge}</s:property>
-                </g:each>
+                    </g:each>
+                </s:property>
             </s:propertyList>
         </s:section>
 

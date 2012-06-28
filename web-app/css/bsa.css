@@ -1310,6 +1310,16 @@ H4.registerTitle {
     FONT-SIZE: 12px
 }
 
+.merit-badge-checkbox {
+    float:left;
+    width: 290px;
+    display: inline-block;
+}
+
+.full-width-property {
+    width:100% !important;
+}
+
 input.alternate-color {
     background-color: white;
 }

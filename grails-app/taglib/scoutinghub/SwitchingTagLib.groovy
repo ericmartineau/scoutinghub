@@ -402,6 +402,16 @@ class SwitchingTagLib {
         }
 
     }
+    
+    def dateField = {attrs, body ->
+        if (attrs.value instanceof Date) {
+            attrs.value = attrs.value.format("MM/dd/yyyy")
+        }
+        attrs.size = "10"
+        attrs.class="ui-corner-all datePicker"
+        attrs.placeholder="mm/dd/yyyy"
+        out << textField(attrs, body)
+    }
 
     def textField = {attrs, body ->
         if (session.isMobile) {
