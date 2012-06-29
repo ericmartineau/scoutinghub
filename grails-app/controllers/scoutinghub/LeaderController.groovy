@@ -4,8 +4,9 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
-import scoutinghub.meritbadge.MeritBadgeService
+import scoutinghub.events.LeaderInvitedEvent
 import scoutinghub.meritbadge.MeritBadgeCounselor
+import scoutinghub.meritbadge.MeritBadgeService
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -147,6 +148,27 @@ class LeaderController {
 
         leaderService.mergeLeaders(leaderA, leaderB);
         redirect(view: "view", id: leaderA.id)
+
+    }
+
+    def invite = {
+        Leader leader = Leader.get(params.id)
+        if (!leader.canBeAdministeredBy(springSecurityService.currentUser)) {
+            throw new AccessDeniedException("Can't edit this user");
+        }
+        return [leader:leader]
+    }
+
+    def sendInvite = {
+        Leader leader = Leader.get(params.id)
+        if (!leader.canBeAdministeredBy(springSecurityService.currentUser)) {
+            throw new AccessDeniedException("Can't edit this user");
+        }
+
+        publishEvent(new LeaderInvitedEvent(leader, springSecurityService.currentUser))
+
+        def rtn = [success:true]
+        render rtn as JSON
 
     }
 

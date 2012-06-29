@@ -1,14 +1,17 @@
 package scoutinghub.meritbadge
 
-import scoutinghub.LeaderGroup
+import scoutinghub.Leader
 
 class MeritBadgeCounselor {
 
     /**
-     * Attached to the LeaderGroup record so a counselor can certify different merit badges for different organizations.  For example, they
-     * may certify for 5 merit badges for the district, but may certify 1 merit badge for the council
+     * Attached to the leaderGroup for type "Merit Badge Counselor"
      */
-    LeaderGroup leaderGroup
+    Leader leader
+    
+    Date originalCertificationDate
+    Date recertificationDate
+
 
     /**
      * badges:  Which badges the particular counselor can certify for
@@ -16,6 +19,14 @@ class MeritBadgeCounselor {
      */
     static hasMany = [badges:MeritBadge]
 
+    static belongsTo = [Leader]
+
     static constraints = {
+        originalCertificationDate(nullable: true)
+        recertificationDate(nullable: true)
+    }
+
+    public Collection<MeritBadge> getSortedMeritBadges() {
+        return badges?.sort {it.name}
     }
 }

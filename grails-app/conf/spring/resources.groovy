@@ -11,9 +11,14 @@ import org.compass.core.converter.basic.EnumConverter
 import java.util.concurrent.Executors
 import scoutinghub.ScoutingHubAuthenticationSuccessHandler
 import grails.plugins.springsecurity.SpringSecurityService
+import scoutinghub.infusionsoft.InfusionsoftLeaderRegisteredEventHandler
+import scoutinghub.infusionsoft.LeaderInvitedEventHandler
+import scoutinghub.CustomDatePropertyRegistrar
 
 // Place your Spring DSL code here
 beans = {
+
+    customDatePropertyRegistrar(CustomDatePropertyRegistrar)
 
     def conf = SpringSecurityUtils.securityConfig
     if (!conf || !conf.active) {
@@ -23,6 +28,8 @@ beans = {
     scoutingHubAuthenticationSuccessHandler(ScoutingHubAuthenticationSuccessHandler) {
         springSecurityService = ref("springSecurityService")
     }
+
+    infusionsoftLeaderInvitedEventHandler(LeaderInvitedEventHandler)
 
     SpringSecurityUtils.loadSecondaryConfig 'DefaultOpenIdSecurityConfig'
     // have to get again after overlaying DefaultOpenIdSecurityConfig

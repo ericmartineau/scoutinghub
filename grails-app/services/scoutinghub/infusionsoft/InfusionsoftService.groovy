@@ -91,6 +91,7 @@ class InfusionsoftService {
         } else {
             //Just update the information
             getApiService().ContactService.update(leaderSync.infusionsoftContactId, contact)
+            rtn = leaderSync.infusionsoftContactId
         }
 
         //Create a list of all groups the leader is a part of, including all parent groups
@@ -197,6 +198,10 @@ class InfusionsoftService {
     }
 
 
+    boolean isConfigured() {
+        def list = InfusionsoftSettings.list()
+        return list != null && list.size() > 0
+    }
 
     def getApiService() {
         final InfusionsoftSettings infusionsoftSettings = InfusionsoftSettings.list()[0]

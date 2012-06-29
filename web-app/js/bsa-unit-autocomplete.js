@@ -79,6 +79,9 @@ function configureUnitAutocomplete() {
             getApplicablePositions(positionField, jthis, idField);
         }
 
+        //Configurable function to allow a callback on change
+        var onChange = jthis.attr("data-onchange");
+
         jthis.autocomplete({
             source:getUnitDataClosure(positionField),
             mustMatch: true,
@@ -94,6 +97,9 @@ function configureUnitAutocomplete() {
             select: function(event, ui) {
                 idField.val(ui.item.key);
                 jthis.val(ui.item.label);
+                if(onChange) {
+                    eval(onChange + "()");
+                }
                 getApplicablePositions(positionField, jthis, idField);
                 return false;
             }

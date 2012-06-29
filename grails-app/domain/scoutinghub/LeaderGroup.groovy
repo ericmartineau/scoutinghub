@@ -1,5 +1,7 @@
 package scoutinghub
 
+import scoutinghub.meritbadge.MeritBadgeCounselor
+
 class LeaderGroup implements Serializable {
 
     static searchable = {

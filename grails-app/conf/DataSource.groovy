@@ -30,6 +30,7 @@ environments {
             password = "eric5425"
             url = "jdbc:mysql://localhost/scoutinghub"
             dbCreate = "update" // one of 'create', 'create-drop','update'
+            loggingSql=true
 
         }
     }
