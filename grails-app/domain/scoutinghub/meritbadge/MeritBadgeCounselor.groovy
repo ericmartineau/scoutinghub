@@ -2,6 +2,7 @@ package scoutinghub.meritbadge
 
 import scoutinghub.Leader
 
+
 class MeritBadgeCounselor {
 
     /**

@@ -41,6 +41,11 @@ class MenuService {
             .addMenuItem(new SubMenuItem("leader", "create", "menu.leader.create", "ROLE_LEADER"))
             .addMenuItem(new SubMenuItem("unitAdmin", "importUnits", "menu.units.import", "ROLE_ADMIN"))
         addMenuItem(unitsMenu)
+        def mbMenu = new MainMenuItem("meritBadgeCounselor", "menu.meritBadgeCounselor.index", "ROLE_LEADER")
+                .addMenuItem(new SubMenuItem("meritBadgeCounselor", "list", "menu.meritBadgeCounselor.list", "ROLE_MERITBADGE_ADMIN"))
+                .addMenuItem(new SubMenuItem("meritBadgeCounselor", "find", "menu.meritBadgeCounselor.find"))
+
+        addMenuItem(mbMenu)
     }
 
 }

@@ -32,16 +32,6 @@
                 <s:property
                         code="leader.address.label">${leader?.address1 ?: message(code: 'leader.address.noneFound')}</s:property>
 
-                <g:if test="${leader.myScoutingIds?.size() > 0}">
-                    <s:property code="leader.profile.scoutingids">${leader.myScoutingIds.iterator().next()}</s:property>
-                </g:if>
-
-                <g:each in="${leader.groups}" var="group">
-                    <s:property code="${group?.leaderPosition}.label">
-                        ${group?.scoutGroup}
-                        <g:if test="${group?.admin}">(admin)</g:if>
-                    </s:property>
-                </g:each>
             </s:propertyList>
 
 

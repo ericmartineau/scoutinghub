@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="layout" content="main"/>
-    <g:set var="entityName" value="${message(code: 'meritBadgeCounselor.label', default: 'MeritBadgeCounselor')}"/>
-    <title><g:message code="default.edit.label" args="[entityName]"/></title>
+    <meta name="layout" content="${layoutName}"/>
+
+    <title><g:message code="menu.meritBadgeCounselor.find" /></title>
 
     <script type="text/javascript">
 
@@ -16,16 +16,9 @@
             var badgeId = jQuery("#searchBadge").val();
             var unitId = jQuery("#searchUnit").val();
             if (badgeId && unitId) {
-
-                jQuery.ajax({
-                    url:"/scoutinghub/meritBadgeCounselor/performCounselorSearch",
-                    data:{badge:badgeId, unit:unitId},
-                    cache:false,
-                    dataType:"json",
-                    success:function (json) {
-                        alert("Hello!!")
-                    }
-                });
+                jQuery(".search-results").load(
+                        "/scoutinghub/meritBadgeCounselor/performCounselorSearch",
+                        {badge:badgeId, unit:unitId});
 
             }
         }
@@ -59,6 +52,9 @@
             </s:propertyList>
         </s:section>
 
+        <s:section>
+            <s:div class="search-results"></s:div>
+        </s:section>
     </s:content>
 </g:form>
 

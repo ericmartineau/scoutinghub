@@ -1,14 +1,15 @@
 package scoutinghub.meritbadge
 
+import grails.plugins.springsecurity.Secured
 import scoutinghub.LeaderPositionType
 import scoutinghub.ScoutGroup
-import grails.converters.JSON
 
+@Secured("ROLE_LEADER")
 class MeritBadgeCounselorController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def findMeritBadgeCounselor = {
+    def find     = {
 //        def meritBadgesById = [:]
 //        MeritBadge.list()?.each {
 //            meritBadgesById[it.id] = it
