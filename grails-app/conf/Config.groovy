@@ -49,16 +49,25 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.scoutinghub.com/${appName}"
         google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
     }
 
     development {
-        grails.serverURL = "http://dev.scoutinghub.com:8080/${appName}"
         google.key = "ABQIAAAAgoRonsXmaX5cVtBJUQdV_xRQbRNcLbW9ou7XtPmvSIlWQpGzBBSmS9E1da3JBVfLiWruMVA0KRqLgQ"
     }
+}
+
+environments {
+    production {
+        scoutinghub.serverURL = "http://www.scoutinghub.com/${appName}"
+    }
+
+    development {
+        scoutinghub.serverURL = "http://dev.scoutinghub.com:8080/${appName}"
+    }
+
     test {
-        grails.serverURL = "http://localhost:8080/${appName}"
+        scoutinghub.serverURL = "http://localhost:8080/${appName}"
     }
 
 }
@@ -105,8 +114,9 @@ grails.plugins.springsecurity.providerNames = ['openIDAuthProvider', 'facebookAu
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.Annotation
 grails.plugins.springsecurity.openid.domainClass = 'scoutinghub.OpenID'
 grails.plugins.springsecurity.openid.registration.autocreate=true
-grails.plugins.springsecurity.rememberMe.persistent=true
-grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName='scoutinghub.PersistentToken'
 
 grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'scoutinghub.PersistentToken'
+
+elasticSearch.bulkIndexOnStartup = false
+elasticSearch.client.mode = 'node'

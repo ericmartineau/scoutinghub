@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException
 import scoutinghub.events.LeaderInvitedEvent
 import scoutinghub.meritbadge.MeritBadgeCounselor
 import scoutinghub.meritbadge.MeritBadgeService
+import org.grails.plugins.geolocation.Coordinates
 
 @Secured(["ROLE_LEADER"])
 class LeaderController {
@@ -18,6 +19,13 @@ class LeaderController {
     TrainingService trainingService
     
     MeritBadgeService meritBadgeService
+
+
+    def geocode = {
+        Coordinates code =
+            leaderService.lookupGeoCode(new Address(address: "2065 W Obispo", city: "Gilbert", state: "AZ", zip: "85233"))
+        println code
+    }
 
     def create = {
         int scoutGroupId = Integer.parseInt(params['scoutGroup.id'] ?: "0");
@@ -51,7 +59,6 @@ class LeaderController {
             }
 
             leader.save(failOnError: true)
-            leader.reindex();
             trainingService.recalculatePctTrained(leader)
             redirect(controller: "scoutGroup", action: "show", id: addCommand.unit.id)
         }
@@ -131,12 +138,16 @@ class LeaderController {
             leader.password = springSecurityService.encodePassword(params.password)
         }
 
+        LeaderGeoPosition geoPosition = leaderService.getGeoCodeForLeader(leader)
+        if(geoPosition) {
+            leader.geoPosition = geoPosition.merge()
+        }
+
         if (!leader.save()) {
             flash.leaderError = leader
             flash.error = true
             redirect(action: "view", id: leader.id, params: [edit: true])
         } else {
-            leader.reindex()
             redirect(action: "view", id: leader.id)
         }
 
@@ -174,7 +185,6 @@ class LeaderController {
 
     def accountCreated = {
         Leader leader = springSecurityService.currentUser
-        leader.reindex()
         forward(action: 'view')
     }
 

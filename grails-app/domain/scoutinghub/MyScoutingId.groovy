@@ -5,7 +5,9 @@ package scoutinghub
  */
 class MyScoutingId implements Serializable {
 
-    static searchable = true
+    static searchable = {
+        root false
+    }
 
     Leader leader
     String myScoutingIdentifier

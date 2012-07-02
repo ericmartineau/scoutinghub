@@ -1,5 +1,7 @@
 package scoutinghub
 
+import grails.validation.Validateable
+
 /**
  * Created by IntelliJ IDEA.
  * User: ericm
@@ -7,6 +9,7 @@ package scoutinghub
  * Time: 10:09 PM
  * To change this template use File | Settings | File Templates.
  */
+@Validateable
 class AddLeaderToGroupCommand {
     String firstName
     String lastName

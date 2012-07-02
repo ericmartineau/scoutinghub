@@ -7,7 +7,6 @@ import scoutinghub.FacebookSocialAuthenticationFilter
 import scoutinghub.OpenIdSocialAuthenticationFilter
 import scoutinghub.ScoutUserDetailsService
 import org.springframework.security.facebook.MappedFacebookAuthenticationProvider
-import org.compass.core.converter.basic.EnumConverter
 import java.util.concurrent.Executors
 import scoutinghub.ScoutingHubAuthenticationSuccessHandler
 import grails.plugins.springsecurity.SpringSecurityService
@@ -87,7 +86,6 @@ beans = {
         filterProcessesUrl = '/j_spring_openid_security_check' // not configurable
     }
 
-    enumConverter(org.compass.core.converter.basic.EnumConverter)
 
     executorService(grails.plugin.executor.SessionBoundExecutorService) { bean->
         bean.destroyMethod = 'destroy' //keep this destroy method so it can try and clean up nicely

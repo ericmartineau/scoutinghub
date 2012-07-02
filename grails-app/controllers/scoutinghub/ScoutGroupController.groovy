@@ -1,7 +1,6 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.Secured
-import org.compass.core.engine.SearchEngineQueryParseException
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.access.AccessDeniedException
 

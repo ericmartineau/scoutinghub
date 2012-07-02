@@ -3,9 +3,12 @@ package scoutinghub
 class Leader implements Serializable {
 
     static searchable = {
-        only: ['firstName', 'middleName', 'phone1', 'address1', 'lastName', 'email']
+        only = ['firstName', 'middleName', 'phone', 'address1', 'lastName', 'email',
+                'myScoutingIds', 'groups', 'geoPosition']
+
         myScoutingIds component: true
         groups component: true
+        geoPosition component: true
     }
 
     String firstName
@@ -22,14 +25,16 @@ class Leader implements Serializable {
     String state
     String postalCode
 
+    LeaderGeoPosition geoPosition
+
     String verifyHash
     boolean enabled
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
 
-    Date createDate;
-    Date updateDate;
+    Date createDate
+    Date updateDate
 
     /**
      * The date the user set up their account (and logged in) to the system.
@@ -46,6 +51,7 @@ class Leader implements Serializable {
         updateDate nullable: true
         setupDate nullable: true
 
+        geoPosition nullable: true
         middleName(nullable:true)
 
         address1(nullable:true)
@@ -136,7 +142,6 @@ class Leader implements Serializable {
             }
         }
         return hasPermission
-
     }
 
     @Override
@@ -147,11 +152,11 @@ class Leader implements Serializable {
         return rtn
     }
 
-    def beforeInsert = {
+    def beforeInsert() {
         createDate = new Date()
     }
 
-    def beforeUpdate = {
+    def beforeUpdate() {
         updateDate = new Date()
     }
 

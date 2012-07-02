@@ -15,10 +15,10 @@ package scoutinghub
 class ScoutGroup implements Serializable {
 
     static searchable = {
-        id name: 'scoutGroupId'
+//        id name: 'scoutGroupId'
         //groupType (propertyConverter:'enumConverter')
-        except = ["parent", "leftNode", "rightNode", "childGroups", "leaderGroups"]
-        parent(component: [maxDepth: 6, prefix: "parent_"])
+        except = ["childGroups", "leaderGroups", "parent"]
+//        parent(component: [maxDepth: 6, prefix: "parent_"])
     }
 
     /**

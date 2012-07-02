@@ -1,8 +1,6 @@
 package scoutinghub
 
 import grails.converters.JSON
-import org.compass.core.engine.SearchEngineQueryParseException
-import org.compass.core.CompassQuery
 
 class FindScoutGroupController {
 
@@ -55,7 +53,7 @@ class FindScoutGroupController {
                 collectedResults.add([key: "", label: "No results found "])
             }
             render collectedResults as JSON
-        } catch (SearchEngineQueryParseException ex) {
+        } catch (Exception ex) {
             return [parseException: true]
         }
 

@@ -7,6 +7,13 @@ import javax.servlet.http.HttpSession
 import javax.servlet.ServletInputStream
 import javax.servlet.RequestDispatcher
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.Part
+import javax.servlet.ServletContext
+import javax.servlet.AsyncContext
+import javax.servlet.ServletRequest
+import javax.servlet.ServletResponse
+import javax.servlet.DispatcherType
 
 /**
  * This class helps when your app sits behind a reverse proxy.  The social libraries we use check against the url in the
@@ -104,7 +111,7 @@ public class GrailsHttpServletRequest implements HttpServletRequest{
     public StringBuffer getRequestURL() {
         String requestUri = this.getRequestURI();
         requestUri = requestUri.substring(getContextPath().length())
-        return new StringBuffer(ConfigurationHolder.config.grails.serverURL + requestUri);
+        return new StringBuffer(ConfigurationHolder.config.scoutinghub.serverURL + requestUri);
     }
 
     @Override
@@ -297,5 +304,52 @@ public class GrailsHttpServletRequest implements HttpServletRequest{
         httpServletRequest.setCharacterEncoding(s);
     }
 
+    boolean authenticate(HttpServletResponse httpServletResponse) {
+        return httpServletRequest.authenticate(httpServletResponse)
+    }
+
+    void login(String s, String s1) {
+        httpServletRequest.login(s, s1)
+    }
+
+    void logout() {
+        httpServletRequest.logout()
+    }
+
+    Collection<Part> getParts() {
+        return httpServletRequest.getParts()
+    }
+
+    Part getPart(String s) {
+        return httpServletRequest.getPart(s)
+    }
+
+    ServletContext getServletContext() {
+        return httpServletRequest.getServletContext()
+    }
+
+    AsyncContext startAsync() {
+        return httpServletRequest.startAsync()
+    }
+
+    AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) {
+        return httpServletRequest.startAsync(servletRequest, servletResponse)
+    }
+
+    boolean isAsyncStarted() {
+        return httpServletRequest.isAsyncStarted()
+    }
+
+    boolean isAsyncSupported() {
+        return httpServletRequest.isAsyncSupported()
+    }
+
+    AsyncContext getAsyncContext() {
+        return httpServletRequest.getAsyncContext()
+    }
+
+    DispatcherType getDispatcherType() {
+        return httpServletRequest.getDispatcherType()
+    }
 }
 

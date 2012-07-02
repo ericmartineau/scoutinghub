@@ -1,13 +1,13 @@
 package scoutinghub
 
-import org.compass.core.engine.SearchEngineQueryParseException
 import grails.plugins.springsecurity.Secured
 import grails.converters.JSON
+import org.grails.plugins.elasticsearch.ElasticSearchService
 
 @Secured(["ROLE_LEADER"])
 class PermissionsController {
 
-    def searchableService
+    ElasticSearchService elasticSearchService
     def springSecurityService
     ScoutGroupService scoutGroupService
 
@@ -16,9 +16,7 @@ class PermissionsController {
     }
 
     def rebuild = {
-        scoutGroupService.reindexNow()
-
-
+        elasticSearchService.index()
         render("Done")
     }
 
@@ -41,7 +39,7 @@ class PermissionsController {
 //                results = Leader.search(params.leaderQuery?.trim() + "*", params, filter: ScoutGroupFilter.createFilter(allGroups));
 
             return [results: results?.results]
-        } catch (SearchEngineQueryParseException ex) {
+        } catch (Exception ex) {
             return [parseException: true]
         }
     }

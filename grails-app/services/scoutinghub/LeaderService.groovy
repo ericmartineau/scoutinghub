@@ -1,9 +1,13 @@
 package scoutinghub
 
 import grails.plugins.springsecurity.SpringSecurityService
-import scoutinghub.infusionsoft.InfusionsoftLeaderInfo
+import groovyx.net.http.HTTPBuilder
+import org.apache.commons.io.IOUtils
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.codehaus.groovy.grails.commons.GrailsDomainClassProperty
+import scoutinghub.infusionsoft.InfusionsoftLeaderInfo
+
+import static groovyx.net.http.ContentType.URLENC
 
 class LeaderService {
 
@@ -12,6 +16,55 @@ class LeaderService {
     SpringSecurityService springSecurityService;
 
     TrainingService trainingService
+
+    LeaderGeoPosition getGeoCodeForLeader(Leader leader) {
+        Address address = new Address(
+                address: leader.address1 + " " + leader.address2,
+                city: leader.city,
+                state: leader.state,
+                zip: leader.postalCode
+        )
+
+        return lookupGeoCode(address)
+    }
+
+    LeaderGeoPosition lookupGeoCode(Address address) {
+        def rtn = null;
+
+        if (address.address && address.city) {
+            String addressBlock = "${address.address ?: ""}, ${address.city ?: ""}, ${address.state}, ${address.zip}"
+            def http = new HTTPBuilder("http://rpc.geocoder.us")
+
+            def postBody = [address: addressBlock, parse_address: 1]
+            http.post(path: "/service/namedcsv", body: postBody, requestContentType: URLENC) { resp, data ->
+                def lines = IOUtils.readLines(data)
+                 println "Geocoding response: " + lines.size()
+                if(lines.size() > 1) {
+                    String resultList = lines[1]
+                    def props = [:]
+
+                    String[] pairs = resultList.split(",")
+                    for (String pair : pairs) {
+                        String[] keyValue = pair.split("=")
+                        if(keyValue.length > 1) {
+                            props[keyValue[0]] = keyValue[1]
+                            println keyValue[0] + "=" + keyValue[1]
+                        }
+                    }
+                    if(props.lat && props.long) {
+                        rtn = new LeaderGeoPosition(
+                                latitude: Double.parseDouble(props.lat),
+                                longitude: Double.parseDouble(props.long)
+                        )
+                    }
+                }
+            }
+
+
+
+        }
+        return rtn
+    }
 
     Leader createLeader(def params) {
         Leader leader = new Leader(

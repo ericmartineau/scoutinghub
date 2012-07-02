@@ -8,6 +8,9 @@ class Address {
     String state
     String zip
 
+    Long latitude
+    Long longitude
+
     @Override
     String toString() {
         return locationName

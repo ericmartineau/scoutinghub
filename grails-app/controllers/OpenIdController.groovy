@@ -104,7 +104,7 @@ class OpenIdController {
         redirect(url: "https://www.facebook.com/login.php" +
                 "?api_key=7ff080f0a28d435c77b2506472e4add1" +
                 "&version=1.0&display=page" +
-                "&next=" + grailsApplication.config.grails.serverURL + "/j_spring_facebook_security_check")
+                "&next=" + grailsApplication.config.scoutinghub.serverURL + "/j_spring_facebook_security_check")
     }
 
     /**
