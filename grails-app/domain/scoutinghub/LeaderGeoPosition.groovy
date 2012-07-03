@@ -2,8 +2,8 @@ package scoutinghub
 
 class LeaderGeoPosition {
 
-    Double latitude
-    Double longitude
+    Double lat
+    Double lon
     Date timestamp
     Leader leader
 
@@ -13,8 +13,8 @@ class LeaderGeoPosition {
     }
 
     static constraints = {
-        latitude(nullable: true)
-        longitude(nullable: true)
+        lat(nullable: true)
+        lon(nullable: true)
         timestamp(nullable: true)
     }
 

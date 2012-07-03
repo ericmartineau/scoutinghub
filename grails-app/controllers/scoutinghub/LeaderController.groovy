@@ -20,6 +20,25 @@ class LeaderController {
     
     MeritBadgeService meritBadgeService
 
+    def saveABunch = {
+        def list = Leader.findAllByGeoPositionIsNull(max:1000)
+        list.each{
+            if(!it.geoPosition) {
+                def geoPosition = leaderService.getGeoCodeForLeader(it)
+
+                if(geoPosition) {
+                    it.geoPosition = new LeaderGeoPosition(lat: geoPosition.lat, lon: geoPosition.lon, leader:it, timestamp: new Date())
+                    it.geoPosition.save(failOnError: true)
+                }
+                print "${it}"
+                it.save(failOnError:true)
+            } else {
+                println "Already has geoposition data: ${it}"
+            }
+
+        }
+        render("Done")
+    }
 
     def geocode = {
         Coordinates code =
@@ -138,9 +157,11 @@ class LeaderController {
             leader.password = springSecurityService.encodePassword(params.password)
         }
 
-        LeaderGeoPosition geoPosition = leaderService.getGeoCodeForLeader(leader)
+        def geoPosition = leaderService.getGeoCodeForLeader(leader)
+
         if(geoPosition) {
-            leader.geoPosition = geoPosition.merge()
+            leader.geoPosition = new LeaderGeoPosition(lat: geoPosition.lat, lon: geoPosition.lon, leader:leader, timestamp: new Date())
+            leader.geoPosition.save()
         }
 
         if (!leader.save()) {

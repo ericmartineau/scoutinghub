@@ -8,7 +8,7 @@ class Leader implements Serializable {
 
         myScoutingIds component: true
         groups component: true
-        geoPosition component: true
+        geoPosition geopoint: true
     }
 
     String firstName

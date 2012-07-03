@@ -17,7 +17,7 @@ class LeaderService {
 
     TrainingService trainingService
 
-    LeaderGeoPosition getGeoCodeForLeader(Leader leader) {
+    def getGeoCodeForLeader(Leader leader) {
         Address address = new Address(
                 address: leader.address1 + " " + leader.address2,
                 city: leader.city,
@@ -28,7 +28,7 @@ class LeaderService {
         return lookupGeoCode(address)
     }
 
-    LeaderGeoPosition lookupGeoCode(Address address) {
+    def lookupGeoCode(Address address) {
         def rtn = null;
 
         if (address.address && address.city) {
@@ -37,27 +37,32 @@ class LeaderService {
 
             def postBody = [address: addressBlock, parse_address: 1]
             http.post(path: "/service/namedcsv", body: postBody, requestContentType: URLENC) { resp, data ->
-                def lines = IOUtils.readLines(data)
-                 println "Geocoding response: " + lines.size()
-                if(lines.size() > 1) {
-                    String resultList = lines[1]
-                    def props = [:]
+                if(resp.statusLine.statusCode == 200) {
+                    def lines = IOUtils.readLines(data)
+                    println "Geocoding response: " + lines.size()
+                    if(lines.size() > 1) {
+                        String resultList = lines[1]
+                        def props = [:]
 
-                    String[] pairs = resultList.split(",")
-                    for (String pair : pairs) {
-                        String[] keyValue = pair.split("=")
-                        if(keyValue.length > 1) {
-                            props[keyValue[0]] = keyValue[1]
-                            println keyValue[0] + "=" + keyValue[1]
+                        String[] pairs = resultList.split(",")
+                        for (String pair : pairs) {
+                            String[] keyValue = pair.split("=")
+                            if(keyValue.length > 1) {
+                                props[keyValue[0]] = keyValue[1]
+                                println keyValue[0] + "=" + keyValue[1]
+                            }
+                        }
+                        if(props.lat && props.long) {
+                            rtn = [
+                                    lat: Double.parseDouble(props.lat),
+                                    lon: Double.parseDouble(props.long)
+                            ]
                         }
                     }
-                    if(props.lat && props.long) {
-                        rtn = new LeaderGeoPosition(
-                                latitude: Double.parseDouble(props.lat),
-                                longitude: Double.parseDouble(props.long)
-                        )
-                    }
+                } else {
+                    println "Unknown status code: ${resp.statusLine}"
                 }
+
             }
 
 
