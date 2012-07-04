@@ -1,14 +1,19 @@
 package scoutinghub
 
+import scoutinghub.search.MyScoutingIdMarshaller
+import scoutinghub.search.LeaderGroupMarshaller
+
 class Leader implements Serializable {
 
     static searchable = {
         only = ['firstName', 'middleName', 'phone', 'address1', 'lastName', 'email',
                 'myScoutingIds', 'groups', 'geoPosition']
 
-        myScoutingIds component: true
-        groups component: true
+        myScoutingIds converter: MyScoutingIdMarshaller.class
+//        groups converter: LeaderGroupMarshaller.class
+        groups component:true
         geoPosition geopoint: true
+
     }
 
     String firstName
