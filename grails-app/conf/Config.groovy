@@ -59,7 +59,7 @@ environments {
 
 environments {
     production {
-        scoutinghub.serverURL = "http://www.scoutinghub.com/${appName}"
+        scoutinghub.serverURL = "https://secure.scoutinghub.com/${appName}"
     }
 
     development {

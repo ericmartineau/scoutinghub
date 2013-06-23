@@ -9,6 +9,7 @@ public enum ScoutUnitType {
     Pack,
     Troop,
     Crew,
-    Team
-
+    Team,
+    Post,
+    Ship
 }

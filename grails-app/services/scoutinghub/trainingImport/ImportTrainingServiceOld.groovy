@@ -9,24 +9,9 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.hibernate.Session
 import org.springframework.context.support.DefaultMessageSourceResolvable
 import org.springframework.validation.ObjectError
-import scoutinghub.Leader
-import scoutinghub.LeaderService
-import scoutinghub.ScoutGroup
+import scoutinghub.*
 
-import scoutinghub.ScoutUnitType
-import scoutinghub.Certification
-import scoutinghub.LeaderCertification
-import scoutinghub.LeaderCertificationEnteredType
-import scoutinghub.LeaderPositionType
-import scoutinghub.ScoutGroupService
-import scoutinghub.TrainingService
-import scoutinghub.InactiveLeaderGroup
-import scoutinghub.CertificationType
-import scoutinghub.CertificationCode
-import scoutinghub.ProgramCertification
-import org.apache.commons.lang.StringUtils
-
-class ImportTrainingService {
+class ImportTrainingServiceOld {
 
     //Maybe it should be?
     static transactional = true
@@ -42,19 +27,24 @@ class ImportTrainingService {
      * seen,
      */
     def headerMap = [
-            "PersonID":"scoutingId",
+            "PID#": "scoutingId",
             "FirstName": "firstName",
             "LastName": "lastName",
-            "EMailAddr": "email",
-            "Number": "unitNumber",
-            "Unit": "unitType",
+            "Email": "email",
+            "Unit#": "unitNumber",
+            "UnitType": "unitType",
             "PositionCode": "leaderPosition",
             "Position": "leaderPosition",
-            "Course" : "course",
-
+            "YPT": "yptDate",
+            "ThisIsScouting": "thisIsScoutingDate",
+            "FastStart": "fastStartDate",
+            "LeaderSpecific": "leaderSpecificDate",
+            "IntroOutdoorSkills": "outdoorSkillsDate",
+            "Y02CrewsOnly": "y02CrewSkillsDate",
+            "EffectiveDate": "effectiveDate"
     ]
 
-    /*def certDefinitionTypeMap = [
+    def certDefinitionTypeMap = [
             "yptDate": CertificationType.YouthProtection,
             "thisIsScoutingDate": CertificationType.ThisIsScouting,
             "leaderSpecificDate": CertificationType.LeaderSpecific,
@@ -63,29 +53,35 @@ class ImportTrainingService {
     def certDefinitionMap = [
             "outdoorSkillsDate": "S11",
             "y02CrewSkillsDate": "Y01"
-    ]*/
+    ]
 
     def leaderPositionTypeMap = [
-            "CR": LeaderPositionType.CharterRep,
-            "CC": LeaderPositionType.CommitteeChair,
-            "MC": LeaderPositionType.CommitteeMember,
-            "SM": LeaderPositionType.Scoutmaster,
-            "SA": LeaderPositionType.AssistantScoutMaster,
-            "CM": LeaderPositionType.Cubmaster,
-            "CA": LeaderPositionType.AssistantCubmaster,
-            "TL": LeaderPositionType.TigerLeader,
-            "DL": LeaderPositionType.DenLeader,
-            "PT": LeaderPositionType.PackTrainer,
-            "WL": LeaderPositionType.WebelosLeader,
-            "DA": LeaderPositionType.AssistantDenLeader,
-            "WA": LeaderPositionType.AssistantWebelosLeader,
-            "VC": LeaderPositionType.VarsityCoach,
-            "VA": LeaderPositionType.AssistantVarsityCoach,
-            "NL": LeaderPositionType.CrewAdvisor,
-            "NA": LeaderPositionType.AssistantCrewAdvisor,
-            "PC" : LeaderPositionType.CommitteeMember,
-            "92U" : LeaderPositionType.CommitteeMember,
-            "10" : LeaderPositionType.CommitteeMember
+            "CharterRep": LeaderPositionType.CharterRep,
+            "CharteredOrganizationRep": LeaderPositionType.CharterRep,
+            "CommitteeChair": LeaderPositionType.CommitteeChair,
+            "CommitteeChairman": LeaderPositionType.CommitteeChair,
+            "CommitteeMember": LeaderPositionType.CommitteeMember,
+            "Scoutmaster": LeaderPositionType.Scoutmaster,
+            "AssistantScoutMaster": LeaderPositionType.AssistantScoutMaster,
+            "AssistantScoutmaster": LeaderPositionType.AssistantScoutMaster,
+            "Cubmaster": LeaderPositionType.Cubmaster,
+            "AssistantCubmaster": LeaderPositionType.AssistantCubmaster,
+            "TigerLeader": LeaderPositionType.TigerLeader,
+            "TigerCubDenLeader": LeaderPositionType.TigerLeader,
+            "DenLeader": LeaderPositionType.DenLeader,
+            "PackTrainer": LeaderPositionType.PackTrainer,
+            "WebelosLeader": LeaderPositionType.WebelosLeader,
+            "AssistantDenLeader": LeaderPositionType.AssistantDenLeader,
+            "AsstDenLeader": LeaderPositionType.AssistantDenLeader,
+            "Asst.DenLeader": LeaderPositionType.AssistantDenLeader,
+            "AssistantWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
+            "AsstWebelosLeader": LeaderPositionType.AssistantWebelosLeader,
+            "VarsityScoutCoach": LeaderPositionType.VarsityCoach,
+            "AssistantVarsityCoach": LeaderPositionType.AssistantVarsityCoach,
+            "VenturingCrewAdvisor": LeaderPositionType.CrewAdvisor,
+            "VenturingCrewAssoc.Advisor": LeaderPositionType.AssistantCrewAdvisor,
+            "AssistantCrewAdvisor": LeaderPositionType.AssistantCrewAdvisor,
+            "VenturingCrewAssocAdvisor": LeaderPositionType.AssistantCrewAdvisor
     ]
 
     /**
@@ -113,19 +109,47 @@ class ImportTrainingService {
     }
 
     /**
+     * The POI libraries don't provide an easy way to retrieve the value of a cell as the underlying object it represents (like
+     * and rst.getObject call).  Because of this, we'll need to know what type of data we're expecting, and this closure provides
+     * the logic to retrieve the data correctly
+     *
+     * @todo Research whether the cellType logic changes for the newer xml-based formats
+     */
+    def dateClosure = {
+        def rtn = null
+        try {
+            if (it?.cellType == 3 || it?.cellType == 1) { //String
+                if (it?.stringCellValue?.trim() != "") {
+                    //@todo handle this error case
+                }
+            } else {
+                rtn = it?.dateCellValue
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return rtn
+    }
+
+    /**
      * This determines what type of data will be returned for each column
      */
     def dataTypeMap = [
-            "PersonID": stringClosure,
+            "PID#": stringClosure,
             "FirstName": stringClosure,
             "LastName": stringClosure,
-            "EMailAddr": stringClosure,
-            "Number": stringClosure,
-            "Unit": stringClosure,
+            "Email": stringClosure,
+            "Unit#": stringClosure,
+            "UnitType": stringClosure,
             "PositionCode": stringClosure,
             "Position": stringClosure,
-            "Course": stringClosure,
-            "Date" : stringClosure
+            "YPT": dateClosure,
+            "ThisIsScouting": dateClosure,
+            "FastStart": dateClosure,
+            "LeaderSpecific": dateClosure,
+            "IntroOutdoorSkills": dateClosure,
+            "Y02CrewsOnly": dateClosure,
+            "EffectiveDate": dateClosure
     ]
 
     /**
@@ -149,7 +173,7 @@ class ImportTrainingService {
             //Let's verify the headers
             for (Cell cell: headerRow) {
                 String cellValue = getModifiedHeaderValue(cell.getStringCellValue())
-                if (cellValue != "" && headerMap.containsKey(cellValue) && !headerIndex.containsKey(cellValue)) {
+                if (cellValue != "" && headerMap.containsKey(cellValue)) {
                     headerIndex[cellValue] = cell.columnIndex
                 }
 
@@ -305,25 +329,10 @@ class ImportTrainingService {
                                         if (!dataClosure) {
                                             throw new IllegalStateException("Closure mapping missing for field ${spreadsheetFieldName}")
                                         }
-
                                         def spreadSheetData = dataClosure(cell)
-                                        // ugly hack... got file on short notice, need it by this afternoon.  Get it working then clean up
-                                        // if this new format even turns out to be one that BSA can duplicate consistently.
-                                        if(spreadsheetFieldName.equals("Course")) {
-                                            int courseIndex = cellIndex
-                                            for(int x = 0; x < 8; x++) {
-                                                def courseData = dataClosure(row.getCell(courseIndex))
-                                                def dateData = dataClosure(row.getCell(courseIndex+1))
-                                                if(StringUtils.isNotBlank(courseData) && StringUtils.isNotBlank(dateData)) {
-                                                    record.addCertificationData(courseData, Date.parse("MM/dd/yyyy",dateData));
-                                                }
-                                                courseIndex = courseIndex +2;
-                                            }
-                                        } else {
-                                            String importRecoredPropertyName = headerMap[spreadsheetFieldName]
-                                            record.setProperty(importRecoredPropertyName, spreadSheetData)
-                                        }
 
+                                        String importRecoredPropertyName = headerMap[spreadsheetFieldName]
+                                        record.setProperty(importRecoredPropertyName, spreadSheetData)
                                     }
 
                                     if (!record.unitNumber) {
@@ -343,7 +352,7 @@ class ImportTrainingService {
                                     }
 
                                     if (!existingUnit) {
-                                        throw new Exception("Unknown unit number " + record.unitNumber + " of type " + record.unitType)
+                                        throw new Exception("Unknown unit")
                                     }
 
                                     final String positionCode = record.leaderPosition?.replaceAll("\\s", "")
@@ -365,9 +374,9 @@ class ImportTrainingService {
                                         }
                                         leader.save(flush: true, failOnError: true)
 
-                                        existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position, registered:true])
+                                        existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position])
 
-                                        processCertification(record, position, certificationForType, certificationMap, leader, importJob, currentSheet);
+                                        processCertification(record, position, certificationForType, certificationMap, leader, importJob);
 
                                     } else {
                                         leader.firstName = record.firstName ?: leader.firstName
@@ -382,12 +391,12 @@ class ImportTrainingService {
                                         if (record.unitNumber) {
                                             if (!existingUnit.leaderGroups?.collect {it.leader?.id}?.contains(leader.id)) {
                                                 if (!InactiveLeaderGroup.findByLeaderAndScoutGroup(leader, existingUnit)) {
-                                                    existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position, registered:true])
+                                                    existingUnit.addToLeaderGroups([leader: leader, leaderPosition: position])
                                                 }
                                             }
                                         }
 
-                                        processCertification(record, position, certificationForType, certificationMap, leader, importJob, currentSheet);
+                                        processCertification(record, position, certificationForType, certificationMap, leader, importJob);
 
                                     }
 
@@ -438,7 +447,7 @@ class ImportTrainingService {
 
     }
 
-    void processCertification(ImportedRecord record, LeaderPositionType positionType, Map positionTypeMap, Map certificationMap, Leader leader, ImportJob importJob, ImportSheet currentSheet) {
+    void processCertification(ImportedRecord record, LeaderPositionType positionType, Map positionTypeMap, Map certificationMap, Leader leader, ImportJob importJob) {
 
         def saveCertificationClosure = {Date trainingDate, Certification certification ->
             //Check to make sure there's not a newer training date on the record
@@ -460,18 +469,33 @@ class ImportTrainingService {
             }
         }
 
-        record.certificationDataMap.each {entry ->
-            Date trainingDate = entry.value
+        certDefinitionMap.each {entry ->
+            Date trainingDate = record.getProperty(entry.key)
             if (trainingDate) {
-                Certification certification = certificationMap[entry.key]
+                String certCode = entry.value
+                Certification certification = certificationMap[certCode]
                 if (!certification) {
-                    System.out.println("Certification ${entry.key} not found");
-                    currentSheet.errors << new ImportError(record: record).addMessage(new DefaultMessageSourceResolvable(null, "Certification ${entry.key} not found"))
-                    currentSheet.totalErrors++
-                } else {
-                    saveCertificationClosure(trainingDate, certification);
+                    throw new IllegalStateException("Certification ${certCode} not found")
                 }
+
+                saveCertificationClosure(trainingDate, certification);
             }
+        }
+
+        certDefinitionTypeMap.each {
+            entry ->
+            Date trainingDate = record.getProperty(entry.key)
+            if (trainingDate) {
+
+                CertificationType type = entry.value
+                //Look up based on leaderPosition
+                Certification certification = positionTypeMap.get(type)?.get(positionType)
+                if (!certification) {
+                    throw new IllegalStateException("Certification ${type}: ${positionType} not found")
+                }
+                saveCertificationClosure(trainingDate, certification)
+            }
+
         }
 
     }

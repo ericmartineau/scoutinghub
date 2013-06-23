@@ -14,6 +14,18 @@ class ImportedRecord {
     String unitType
     String leaderPosition
 
+    Map<String, Date> certificationDataMap = new HashMap<String, Date>();
+
+    public void addCertificationData(String key, Date date) {
+        if(certificationDataMap.containsKey(key) && certificationDataMap.get(key).after(date)) {
+            // do nothing
+        } else {
+            certificationDataMap.put(key,date);
+        }
+    }
+
+
+    // created to support initial import that BSA is no longer capable of creating
     Date yptDate
     Date thisIsScoutingDate
     Date fastStartDate
