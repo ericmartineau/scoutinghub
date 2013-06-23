@@ -5,10 +5,20 @@ import scoutinghub.Leader
 
 class MeritBadgeCounselor {
 
+    static transients = ['leader']
+
     /**
      * Attached to the leaderGroup for type "Merit Badge Counselor"
      */
-    Leader leader
+    Integer leaderId
+
+    Leader getLeader() {
+        Leader.get(leaderId)
+    }
+
+    void setLeader(Leader leader) {
+        this.leaderId = leader?.id
+    }
     
     Date originalCertificationDate
     Date recertificationDate
@@ -20,7 +30,7 @@ class MeritBadgeCounselor {
      */
     static hasMany = [badges:MeritBadge]
 
-    static belongsTo = [Leader]
+//    static belongsTo = [Leader]
 
     static constraints = {
         originalCertificationDate(nullable: true)

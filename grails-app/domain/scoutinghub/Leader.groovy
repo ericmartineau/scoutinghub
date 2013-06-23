@@ -5,6 +5,8 @@ import scoutinghub.search.MyScoutingIdMarshaller
 
 class Leader implements Serializable {
 
+    static mapWith = "neo4j"
+
     static searchable = {
         only = ['firstName', 'middleName', 'phone', 'address1', 'lastName', 'email',
                 'myScoutingIds', 'groups', 'geoPosition']
@@ -64,8 +66,6 @@ class Leader implements Serializable {
         city(nullable:true)
         state(nullable:true)
         postalCode(nullable:true)
-
-
     }
 
     static hasMany = [certificationClasses: CertificationClass,

@@ -7,9 +7,11 @@ package scoutinghub
  */
 class MergedLeader {
 
+    static transients = ['mergedTo']
+
     int originalId
 
-    Leader mergedTo
+    Integer mergedToId
 
     MergedLeader oldValues
 
@@ -65,5 +67,14 @@ class MergedLeader {
             mergedScoutingId: MergedScoutingId,
             mergedLeaderGroups: MergedLeaderGroup
     ]
+
+    Leader getMergedTo() {
+        Leader.get(mergedToId)
+    }
+
+     void setMergedTo(Leader mergedTo) {
+         this.mergedToId = mergedTo?.id
+     }
+
 
 }

@@ -6,7 +6,17 @@ package scoutinghub
  * Time: 10:35 PM
  */
 class MergedLeaderRole {
-    Role role
+    Integer roleId
+
+    static transients = ['role']
+
+    Role getRole() {
+        return Role.get(roleId)
+    }
+
+    void setRole(Role role) {
+        this.roleId = role?.id
+    }
 
     static belongsTo = [mergedLeader:MergedLeader]
 

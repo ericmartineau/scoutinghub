@@ -6,8 +6,10 @@ package scoutinghub
  */
 class DuplicateLeader implements Serializable {
 
-    Leader leader1
-    Leader leader2
+    static transients = ['leader1', 'leader2']
+
+    Integer leader1Id
+    Integer leader2Id
 
     Date createDate;
     Date updateDate;
@@ -23,5 +25,21 @@ class DuplicateLeader implements Serializable {
 
     def beforeUpdate = {
         updateDate = new Date()
+    }
+
+    Leader getLeader1() {
+        return Leader.get(leader1Id)
+    }
+
+    Leader getLeader2() {
+        return Leader.get(leader2Id)
+    }
+
+    void setLeader1(Leader leader) {
+        this.leader1Id = leader?.id
+    }
+
+    void setLeader2(Leader leader) {
+        this.leader2Id = leader?.id
     }
 }

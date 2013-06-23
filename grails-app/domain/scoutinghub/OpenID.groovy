@@ -4,7 +4,9 @@ package scoutinghub
 
 class OpenID implements Serializable {
 
-	String url
+    static mapWith = "neo4j"
+
+    String url
     Leader leader
 
     Date createDate;

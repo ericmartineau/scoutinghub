@@ -1,11 +1,11 @@
 import grails.plugins.springsecurity.SpringSecurityService
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import scoutinghub.*
-import scoutinghub.seed.SeedService
+import scoutinghub.ScoutGroupService
 import scoutinghub.seed.SeedExecutionService
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class BootStrap {
 

@@ -8,6 +8,8 @@ import scoutinghub.ScoutGroup
  * Time: 11:40 AM
  */
 class InfusionsoftScoutGroupInfo {
+    static mapWith = "neo4j"
+
     ScoutGroup scoutGroup
     int infusionsoftTagId
     Date lastSyncDate

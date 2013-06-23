@@ -2,8 +2,11 @@ package scoutinghub
 
 class LeaderGroup implements Serializable {
 
+    static mapWith = "neo4j"
+
     static searchable = {
         root false
+        only = ["scoutGroup", "admin", "leaderPosition", "pctTrained"]
         scoutGroup component: true
 //        except = ["leader"]
     }

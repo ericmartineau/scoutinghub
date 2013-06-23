@@ -54,3 +54,11 @@ environments {
         }
     }
 }
+
+grails {
+    neo4j {
+        type = "embedded"
+        location = "/var/neo4j"
+        params = []
+    }
+}

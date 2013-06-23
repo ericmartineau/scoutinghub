@@ -21,7 +21,7 @@ class PermissionsController {
     }
 
     def rebuildFT = {
-        searchableService.index()
+        elasticSearchService.index()
         render("Done")
     }
 

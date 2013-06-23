@@ -7,7 +7,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder
  */
 class LeaderRole implements Serializable {
 
-	Leader leader
+    static mapWith = "neo4j"
+
+    Leader leader
 	Role role
 
     Date createDate;

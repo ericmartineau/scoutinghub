@@ -2,7 +2,9 @@ package scoutinghub
 
 class Role implements Serializable {
 
-	String authority
+    static mapWith = "neo4j"
+
+    String authority
 
     Date createDate;
     Date updateDate;
