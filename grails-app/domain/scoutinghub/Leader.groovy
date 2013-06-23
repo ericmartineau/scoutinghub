@@ -1,7 +1,7 @@
 package scoutinghub
 
-import scoutinghub.search.MyScoutingIdMarshaller
 import scoutinghub.search.LeaderGroupMarshaller
+import scoutinghub.search.MyScoutingIdMarshaller
 
 class Leader implements Serializable {
 
@@ -9,10 +9,10 @@ class Leader implements Serializable {
         only = ['firstName', 'middleName', 'phone', 'address1', 'lastName', 'email',
                 'myScoutingIds', 'groups', 'geoPosition']
 
-        myScoutingIds converter: MyScoutingIdMarshaller.class
-//        groups converter: LeaderGroupMarshaller.class
-        groups component:true
-        geoPosition geopoint: true
+        myScoutingIds type: "string", converter: MyScoutingIdMarshaller.class
+        groups type: "object", converter: LeaderGroupMarshaller.class
+//        groups component:true
+        geoPosition component: true, type: "geo_point"
 
     }
 
