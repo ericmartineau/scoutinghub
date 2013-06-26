@@ -1,4 +1,4 @@
-
+import grails.plugins.springsecurity.SecurityConfigType
 
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
@@ -118,7 +118,7 @@ grails.plugins.springsecurity.openid.registration.autocreate=true
 grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'scoutinghub.PersistentToken'
 
-elasticSearch.bulkIndexOnStartup = false
+elasticSearch.bulkIndexOnStartup = true
 
 environments {
     development {
@@ -126,6 +126,6 @@ environments {
          * Possible values : "local", "node", "transport"
          * If set to null, "node" mode is used by default.
          */
-        elasticSearch.client.mode = 'node'
+        elasticSearch.client.mode = 'transport'
     }
 }

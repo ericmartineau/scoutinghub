@@ -23,12 +23,22 @@ class HtmlContainersTagLib {
 //        out << "<div class='ctx-menu'><div class='header-menu header-menu-pe ui-corner-all'><span class='header-icon ui-icon ui-icon-circle-triangle-s'></span>";
         //        out << "</div>"
         //        out << "<ul class='ctx-menu-pe ui-widget-header ui-corner-all'>"
-        out << "<ul class='ctx-menu-pe'>"
+        String icon
+        out << """
+            <div class="btn-group pull-right">
+                <button class="btn">Action</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <!-- dropdown menu links -->
+"""
         out << body()
-        out << "</ul>"
-//        out << "</div>"
+        out << """
+                </ul>
+            </div>
+"""
 
-        //        out << "</div>"
     }
 
     def inlineIcon = {attrs ->

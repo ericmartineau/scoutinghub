@@ -8,7 +8,7 @@
 
 <s:content>
 
-    <s:section>
+    <s:section class="offset3" span="6">
         <g:if test="${params.fail}">
             <s:msg type="error">
                 <s:div class="msg1">

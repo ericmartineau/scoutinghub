@@ -6,8 +6,6 @@ package scoutinghub
  */
 class CertificationClass {
 
-    static mapWith = "neo4j"
-
     /**
      * Which certification is being offered at the class/event
      */
@@ -15,9 +13,10 @@ class CertificationClass {
     Date classDate
     String time
     Address location
-    Integer leaderId
+    Leader creator
 
     static belongsTo = [Leader]
+
     static hasMany = [registrants:Leader]
 
     @Override

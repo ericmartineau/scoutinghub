@@ -64,7 +64,7 @@ function configureUnitAutocomplete() {
         }
 
         var idField = jQuery("#" + idName);
-        var positionField = jQuery("#" + jthis.attr("positionfield"));
+        var positionField = $("[name='" + jthis.attr("positionfield") + "']");
 
         //This nonsense is here because the selectBox component we are using
         //doesn't seem to fire or bind to the original select box - so
@@ -82,26 +82,24 @@ function configureUnitAutocomplete() {
         //Configurable function to allow a callback on change
         var onChange = jthis.attr("data-onchange");
 
-        jthis.autocomplete({
+
+        jthis.typeahead({
             source:getUnitDataClosure(positionField),
+            delay: 100,
+            minLength: 2,
             mustMatch: true,
             matchContains: false,
-            formatItem: function(data, i, total) {
-                return data[0]
-            },
-            focus: function(event, ui) {
-                idField.val(ui.item.key);
-                jthis.val(ui.item.label);
-                return false;
-            },
-            select: function(event, ui) {
-                idField.val(ui.item.key);
-                jthis.val(ui.item.label);
+            updater: function (val) {
+                var item = JSON.parse(val);
+                idField.val(item.id);
                 if(onChange) {
                     eval(onChange + "()");
                 }
                 getApplicablePositions(positionField, jthis, idField);
-                return false;
+                return item.name;
+            },
+            select: function(event, ui) {
+
             }
         });
     });
@@ -169,9 +167,43 @@ function configureUnitAutocomplete() {
  */
 function getUnitDataClosure($position) {
     return function(term, callback) {
-        term.position = $position.val();
-        jQuery.getJSON("/scoutinghub/findScoutGroup/findUnits", term, function(json) {
-            callback(json)
+        var data = {};
+        data.term = term;
+        data.position = $position.val();
+        jQuery.getJSON("/scoutinghub/findScoutGroup/findUnits", data, function(json) {
+            var $items = [];
+
+            $.map(json, function(json){
+                var group;
+                group = {
+                    id: json.key,
+                    name: json.label,
+                    toString: function () {
+                        return JSON.stringify(this);
+                        //return this.app;
+                    },
+                    toLowerCase: function () {
+                        return this.name.toLowerCase();
+                    },
+                    indexOf: function (string) {
+                        return String.prototype.indexOf.apply(this.name, arguments);
+                    },
+                    replace: function (string) {
+                        var value = '';
+                        value +=  this.name;
+                        if(typeof(this.level) != 'undefined') {
+                            value += ' <span class="pull-right muted">';
+                            value += this.level;
+                            value += '</span>';
+                        }
+//                        return String.prototype.replace.apply('<div style="padding: 10px; font-size: 1.5em;">' + value + '</div>', arguments);
+                        return String.prototype.replace.apply('<span>' + value + '</span>', arguments);
+                    }
+                };
+                $items.push(group);
+            });
+
+            callback($items);
         });
     }
 }

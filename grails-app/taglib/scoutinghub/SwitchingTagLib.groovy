@@ -16,16 +16,17 @@ class SwitchingTagLib {
 
     static namespace = "s"
 
-    def propertyList = {attrs, body ->
+    def propertyList = { attrs, body ->
         if (session.isMobile) {
             out << body()
         } else {
-            out << "<ul class='property-list ${attrs.class ?: ""}'>${body()}</ul>"
+            out << "<div class='property-list ${attrs.class ?: ""}'>${body()}</div>"
+//            out << body()
         }
 
     }
 
-    def address = {attrs, body ->
+    def address = { attrs, body ->
         Address addr = attrs.address
         if (session.isMobile) {
 //            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code)}</span><span class='value'>${body()}</span></li>"
@@ -37,19 +38,19 @@ class SwitchingTagLib {
         }
     }
 
-    def mobile = {attrs, body ->
+    def mobile = { attrs, body ->
         if (session.isMobile) {
             out << body()
         }
     }
 
-    def browser = {attrs, body ->
+    def browser = { attrs, body ->
         if (!session.isMobile) {
             out << body()
         }
     }
 
-    def mapLink = {attrs, body ->
+    def mapLink = { attrs, body ->
         if (session.isMobile) {
             //todo: Implement this!
         } else {
@@ -59,68 +60,55 @@ class SwitchingTagLib {
         }
     }
 
-    def tooltip = {attrs ->
+    def tooltip = { attrs ->
         def code = attrs.code
         def selector = attrs.selector
-        out << "<script type='text/javascript'>if(createTooltip) createTooltip('${selector}', '${message(code: code)}', '${attrs.onEvent ?: ''}', '${attrs.offEvent ?: ''}')</script>"
+        out << r.script() {
+            out << "if(createTooltip) createTooltip('${selector}', '${message(code: code)}', '${attrs.onEvent ?: ''}', '${attrs.offEvent ?: ''}');"
+        }
     }
 
-    def leaderUnit = {attrs, body ->
+    def leaderUnit = { attrs, body ->
         LeaderGroup leaderGroup = attrs.leaderGroup;
-        if (session.isMobile) {
-            if (leaderGroup) {
-                final Leader currentUser = springSecurityService?.currentUser
-                if (leaderGroup.scoutGroup?.canBeAdministeredBy(currentUser)) {
-                    out << linker(controller: "scoutGroup", action: "show", id: leaderGroup.scoutGroup.id, body)
-                } else {
-                    out << property(attrs, body)
-                }
-
-            }
-        } else {
-            out << "<li class='leader-unit ${attrs.class ?: ''}'>"
-            out << "<div class='leader-unit-position'>${message(code: attrs.code)} "
-            if (leaderGroup) {
-                out << "<div style='float:right'>"
-                out << link(controller: 'leaderGroup',
-                        action: 'confirmRemove',
-                        id: leaderGroup.id,
-                        title: message(code: 'trainingReport.removeFromUnit'),
-                        'class': 'noshow lightbox remove-button',
-                        lbwidth: '550') {
-
-                    out << "<div class='td top'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
-                    out << "<div class='td top'>&nbsp;"
-                    out << message(code: 'trainingReport.removeFromUnit')
-                    out << "</div>"
-
-
-                }
-                out << "</div>"
-            }
-            out << "</div>"
-            out << "<div class='leader-unit-unitname'>${body()}</div>"
-            out << "</li>"
+        out << "<div class='leader-unit ${attrs.class ?: ''}'>"
+        out << "<div class='leader-unit-position'><h4>${message(code: attrs.code)}</h4> "
+        if (leaderGroup) {
+//            out << "<div style='float:right'>"
+//            out << link(controller: 'leaderGroup',
+//                    action: 'confirmRemove',
+//                    id: leaderGroup.id,
+//                    title: message(code: 'trainingReport.removeFromUnit'),
+//                    'class': 'noshow lightbox remove-button',
+//                    lbwidth: '550') {
+//
+//                out << "<div class='td top'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
+//                out << "<div class='td top'>&nbsp;"
+//                out << message(code: 'trainingReport.removeFromUnit')
+//                out << "</div>"
+//
+//
+//            }
+//            out << "</div>"
         }
+        out << "</div>"
+        out << "<div class='leader-unit-unitname'><h5>${body()}</h5></div>"
+        out << "</div>"
+
     }
 
-    def property = {attrs, body ->
-        if (session.isMobile) {
-            out << "<li class='smallfield'><span class='name'>${message(code: attrs.code, args: attrs.args)}</span><span class='value'>${body()}</span></li>"
-        } else {
-            out << "<li class='prop ${attrs.class ?: ''}'>"
-            if (attrs.code) {
-                out << "<div class='propLabel ${attrs.labelClass ?: ''}'>"
-                out << message(code: attrs.code, args: attrs.args)
-                out << "</div>"
-            }
+    def property = { attrs, body ->
 
-            out << "<div class='propData'>${body()}</div>"
-            out << "</li>"
-        }
+//        out << "<li class='prop ${attrs.class ?: ''}'>"
+        out << "<div class=\"control-group ${attrs.class}\">\n"
+        out << "    <label class=\"control-label\" for=\"${attrs.name}\">${message(code: attrs.code, args: attrs.args)}</label>\n"
+        out << "    <div class=\"controls ${attrs.text ? "field-text" : ""}\">\n"
+        out << body()
+        out << "    </div>\n"
+        out << "</div>\n"
+
     }
 
-    def pageItem = {attrs, body ->
+    def pageItem = { attrs, body ->
         if (session.isMobile) {
             out << "<li class='${attrs.type}'><span class='name'>${message(code: attrs.name)}</span>${body()}</li>"
         } else {
@@ -128,7 +116,7 @@ class SwitchingTagLib {
         }
     }
 
-    def item = {attrs, body ->
+    def item = { attrs, body ->
         if (session.isMobile) {
             out << "<li class='textbox'>${body()}</li>"
         } else {
@@ -136,18 +124,21 @@ class SwitchingTagLib {
         }
     }
 
-    def content = {attrs, body ->
-        if (session.isMobile) {
-            out << iwebkit.content(attrs, body)
-        } else {
-            out << "<div class='content ${attrs.class ?: ""}'>"
-            out << body()
-//            out << "<div style='clear:both;'></div>"
-            out << "</div>"
-        }
+    def content = { attrs, body ->
+//        if (session.isMobile) {
+//            out << iwebkit.content(attrs, body)
+//        } else {
+//            out << "<div class='content ${attrs.class ?: ""}'>"
+//            out << body()
+////            out << "<div style='clear:both;'></div>"
+//            out << "</div>"
+//        }
+
+        out << body()
+
     }
 
-    def text = {attrs, body ->
+    def text = { attrs, body ->
         if (session.isMobile) {
             out << "<li class='textbox'>"
             out << body()
@@ -158,7 +149,7 @@ class SwitchingTagLib {
         }
     }
 
-    def smallHeader = {attrs, body ->
+    def smallHeader = { attrs, body ->
         if (session.isMobile) {
             out << "<span class='graytitle'>${body()}</span>"
         } else {
@@ -166,23 +157,39 @@ class SwitchingTagLib {
         }
     }
 
-    def sectionHeader = {attrs, body ->
+    def sectionHeader = { attrs, body ->
         def icon = attrs.icon
         def args = attrs.args
-        if (session.isMobile) {
-            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args: args), scope: "request");
-            //evaluate the body, but don't render it
-            out << body()
-        } else {
-            out << g.header(attrs, body)
-        }
+
+//        out << """
+//                <div class="content-box-header">
+//                    <i class="icon-$icon"></i> ${g.message(code:attrs.code, default:attrs.code, args:args)}
+//                </div>
+//
+//"""
+        out << body()
+        out << "<h2>"
+//        if (icon) {
+//            out << "<i class=\"icon-$icon\"></i> "
+//        }
+
+        out << g.message(code: attrs.code, default: attrs.code, args: args)
+        out << "</h2>"
+
+//        if (session.isMobile) {
+//            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args: args), scope: "request");
+//            //evaluate the body, but don't render it
+//            out << body()
+//        } else {
+//            out << g.header(attrs, body)
+//        }
     }
 
-    def form = {attrs, body ->
+    def form = { attrs, body ->
         out << body()
     }
 
-    def leaderTraining = {attrs ->
+    def leaderTraining = { attrs ->
         if (session.isMobile) {
             LeaderCertificationInfo certificationInfo = attrs.certificationInfo
 
@@ -195,7 +202,7 @@ class SwitchingTagLib {
         }
     }
 
-    def trainingRollup = {attrs ->
+    def trainingRollup = { attrs ->
         String msg = attrs.message
         int pct = attrs.pct
         String controller = attrs.controller
@@ -223,7 +230,7 @@ class SwitchingTagLib {
             out << "</div>"
         }
     }
-    def leaderTrainingRollup = {attrs ->
+    def leaderTrainingRollup = { attrs ->
         LeaderGroup leaderGroup = attrs.leaderGroup
         if (session.isMobile) {
             out << linker(controller: "leader", action: "view", id: leaderGroup?.leader?.id, code: 'training.completion',
@@ -237,21 +244,23 @@ class SwitchingTagLib {
         }
     }
 
-    def submit = {attrs, body ->
+    def submit = { attrs, body ->
         def name = attrs.name
         def value = attrs.value
-        if (session.isMobile) {
-            out << "<li class='button'>"
-            out << submitButton(attrs)
-            out << "</li>"
-        } else {
-            attrs.class += " ui-button"
-            out << submitButton(attrs)
-        }
+//        if (session.isMobile) {
+//            out << "<li class='button'>"
+//            out << submitButton(attrs)
+//            out << "</li>"
+//        } else {
+//
+//        }
+
+        attrs.class += " btn btn-primary"
+        out << submitButton(attrs)
 
     }
 
-    def checkbox = {attrs, body ->
+    def checkbox = { attrs, body ->
         if (session.isMobile) {
 
             out << """<li class='checkbox ${attrs.class ?: ''}'>
@@ -271,58 +280,66 @@ class SwitchingTagLib {
         }
     }
 
-    def msg = {attrs, body ->
+    def msg = { attrs, body ->
         def code = attrs.code
         def code2 = attrs.code2
 
-        if (session.isMobile) {
-            out << item {
-                out << "<div class='${attrs.type}'>"
-                if (attrs.code) {
-                    out << message(code: attrs.code)
-                }
-                out << body()
-                out << "</div>"
-            }
+        out << "<div class=\"alert alert-${attrs.type}\">"
+        if (attrs.code) {
+            out << message(code: attrs.code)
         } else {
-//            attrs.code2 = attrs.code
-            //            attrs.code = null
-            out << msgbox(attrs, body)
+            out << body()
         }
+        out << "</div>"
+
+//        if (session.isMobile) {
+//            out << item {
+//                out << "<div class='${attrs.type}'>"
+//                if (attrs.code) {
+//                    out <<
+//                }
+//                out << body()
+//                out << "</div>"
+//            }
+//        } else {
+////            attrs.code2 = attrs.code
+//            //            attrs.code = null
+//            out << msgbox(attrs, body)
+//        }
     }
 
-    def menu = {attrs, body ->
+    def menu = { attrs, body ->
         if (session.isMobile) {
             menuService.menu?.each {
                 MainMenuItem menuItem ->
 
-                //First, build a list of subItems that would
-                //be rendered
-                List<SubMenuItem> toRender = [];
-                menuItem.subItems?.each {SubMenuItem subItem ->
-                    if (subItem.requiredRoles?.size() > 0) {
-                        if (SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
+                    //First, build a list of subItems that would
+                    //be rendered
+                    List<SubMenuItem> toRender = [];
+                    menuItem.subItems?.each { SubMenuItem subItem ->
+                        if (subItem.requiredRoles?.size() > 0) {
+                            if (SpringSecurityUtils.ifAllGranted(subItem.requiredRoles?.join())) {
+                                toRender << subItem
+                            }
+                        } else {
                             toRender << subItem
                         }
-                    } else {
-                        toRender << subItem
                     }
-                }
 
 
-                if (toRender?.size() > 0) {
+                    if (toRender?.size() > 0) {
 
 
-                    out << section(code: menuItem.labelCode) {
-                        toRender?.each {SubMenuItem subItem ->
-                            attrs.controller = subItem.controller
-                            attrs.action = subItem.action
-                            out << linker(attrs) {
-                                out << message(code: subItem.labelCode)
+                        out << section(code: menuItem.labelCode) {
+                            toRender?.each { SubMenuItem subItem ->
+                                attrs.controller = subItem.controller
+                                attrs.action = subItem.action
+                                out << linker(attrs) {
+                                    out << message(code: subItem.labelCode)
+                                }
                             }
                         }
                     }
-                }
             }
 
 
@@ -332,7 +349,7 @@ class SwitchingTagLib {
 
     }
 
-    def linker = {attrs, body ->
+    def linker = { attrs, body ->
         if (session.isMobile) {
             out << "<li class='menu linker'>"
             def bodyClosure = {
@@ -364,7 +381,7 @@ class SwitchingTagLib {
         }
     }
 
-    def div = {attrs, body ->
+    def div = { attrs, body ->
         if (session.isMobile) {
             out << body()
         } else {
@@ -374,27 +391,29 @@ class SwitchingTagLib {
     }
 
 
-    def bigButton = {attrs, body ->
-        if (session.isMobile) {
-            out << linker(attrs) {
+    def bigButton = { attrs, body ->
+//        if (session.isMobile) {
+//            out << linker(attrs) {
+//                out << body()
+//            }
+//        } else {
+//            out << "<div class='big-button-container'>"
+//            attrs.class = "${attrs.class ?: ""} big-button ui-state-active"
+//
+//            out << "</div>"
+//        }
+        attrs.class += " btn btn-large"
+        out << link(attrs) {
+            if (attrs.value) {
+                out << attrs.value
+            } else {
                 out << body()
             }
-        } else {
-            out << "<div class='big-button-container'>"
-            attrs.class = "${attrs.class ?: ""} big-button ui-state-active"
-            out << link(attrs) {
-                if (attrs.value) {
-                    out << attrs.value
-                } else {
-                    out << body()
-                }
 
-            }
-            out << "</div>"
         }
     }
 
-    def radioItem = {attrs ->
+    def radioItem = { attrs ->
         if (session.isMobile) {
             out << radio(attrs)
         } else {
@@ -402,18 +421,18 @@ class SwitchingTagLib {
         }
 
     }
-    
-    def dateField = {attrs, body ->
+
+    def dateField = { attrs, body ->
         if (attrs.value instanceof Date) {
             attrs.value = attrs.value.format("MM/dd/yyyy")
         }
         attrs.size = "10"
-        attrs.class="ui-corner-all datePicker"
-        attrs.placeholder="mm/dd/yyyy"
+        attrs.class = "ui-corner-all datePicker"
+        attrs.placeholder = "mm/dd/yyyy"
         out << textField(attrs, body)
     }
 
-    def textField = {attrs, body ->
+    def textField = { attrs, body ->
         if (session.isMobile) {
             out << """<li class="smallfield">
     <span class="narrow">
@@ -432,26 +451,27 @@ class SwitchingTagLib {
 
     }
 
-    def bigTextField = {attrs, body ->
+    def bigTextField = { attrs, body ->
         def cssClass = "loginForm ${attrs.class ?: ''}"
         def code = attrs.code
-        if (session.isMobile) {
-            out << "<li class='bigfield'>"
-            def type = attrs.type ?: "text"
-            if (!attrs.otherAttrs) attrs.otherAttrs = [:]
-            attrs.otherAttrs.placeholder = attrs.placeholder ?: message(code: attrs.code) ?: ""
-            attrs.otherAttrs.value = attrs.value ?: ""
-            attrs.otherAttrs.name = attrs.name
-
-            out << f.txtField(attrs)
-//            out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
-            out << "</li>"
-        } else {
-            out << f.bigTextField(attrs, body)
-        }
+        out << f.bigTextField(attrs, body)
+//        if (session.isMobile) {
+//            out << "<li class='bigfield'>"
+//            def type = attrs.type ?: "text"
+//            if (!attrs.otherAttrs) attrs.otherAttrs = [:]
+//            attrs.otherAttrs.placeholder = attrs.placeholder ?: message(code: attrs.code) ?: ""
+//            attrs.otherAttrs.value = attrs.value ?: ""
+//            attrs.otherAttrs.name = attrs.name
+//
+//            out << f.txtField(attrs)
+////            out << "<input placeholder='${attrs.placeholder}' name='${attrs.name}' type='${type}' value='${attrs.value ?: ""}' />"
+//            out << "</li>"
+//        } else {
+//
+//        }
     }
 
-    def unitSelector = {attrs ->
+    def unitSelector = { attrs ->
         if (session.isMobile) {
             out << bigTextField(attrs)
         } else {
@@ -459,64 +479,64 @@ class SwitchingTagLib {
         }
     }
 
-    def optGroup = {attrs, body ->
+    def optGroup = { attrs, body ->
         out << "<optgroup label='${attrs.label}'>"
         out << body();
         out << "</optgroup>"
     }
 
-    def unitSelectorOptions = {attrs ->
+    def unitSelectorOptions = { attrs ->
         out << "<option value=''>${message(code: 'unitSelector.default')}</option>"
-        ScoutUnitType.values().each {ScoutUnitType scoutUnitType ->
+        ScoutUnitType.values().each { ScoutUnitType scoutUnitType ->
             out << optGroup(label: message(code: scoutUnitType.name() + ".altlabel")) {
-                LeaderPositionType.values().findAll {it.scoutUnitTypes.contains(scoutUnitType)}?.each {
+                LeaderPositionType.values().findAll { it.scoutUnitTypes.contains(scoutUnitType) }?.each {
                     LeaderPositionType leaderPositionType ->
-                    out << g.selectOption(value: leaderPositionType.name()) {
-                        out << message(code: leaderPositionType.name() + ".label")
-                    }
+                        out << g.selectOption(value: leaderPositionType.name()) {
+                            out << message(code: leaderPositionType.name() + ".label")
+                        }
                 }
             }
         }
 
-        final Closure groupTypeFilter = {it != ScoutGroupType.Unit && it != ScoutGroupType.Group}
-        ScoutGroupType.values().findAll(groupTypeFilter)?.each {ScoutGroupType scoutGroupType ->
+        final Closure groupTypeFilter = { it != ScoutGroupType.Unit && it != ScoutGroupType.Group }
+        ScoutGroupType.values().findAll(groupTypeFilter)?.each { ScoutGroupType scoutGroupType ->
             out << "<optgroup label='${message(code: scoutGroupType.name() + ".label")}'>"
-            LeaderPositionType.values().findAll {it.scoutGroupTypes.contains(scoutGroupType)}?.each {
+            LeaderPositionType.values().findAll { it.scoutGroupTypes.contains(scoutGroupType) }?.each {
                 LeaderPositionType leaderPositionType ->
-                out << "<option value='${leaderPositionType.name()}'>${message(code: leaderPositionType.name() + ".label")}</option>"
+                    out << "<option value='${leaderPositionType.name()}'>${message(code: leaderPositionType.name() + ".label")}</option>"
             }
             out << "</optgroup>"
 
         }
     }
 
-    def certificationOptions = {attrs ->
+    def certificationOptions = { attrs ->
         List<ProgramCertification> certifications = ProgramCertification.listOrderByPositionType()
         Map leaderPositionTypesToRequiredCertification = [:]
         certifications.each {
             ProgramCertification programCertification ->
-            LeaderPositionType positionType = programCertification.positionType
-            if (positionType != null) {
-                if (!leaderPositionTypesToRequiredCertification.containsKey(positionType)) {
-                    leaderPositionTypesToRequiredCertification[positionType] = []
+                LeaderPositionType positionType = programCertification.positionType
+                if (positionType != null) {
+                    if (!leaderPositionTypesToRequiredCertification.containsKey(positionType)) {
+                        leaderPositionTypesToRequiredCertification[positionType] = []
+                    }
+                    leaderPositionTypesToRequiredCertification[positionType] << programCertification.certification
                 }
-                leaderPositionTypesToRequiredCertification[positionType] << programCertification.certification
-            }
         }
 
-        leaderPositionTypesToRequiredCertification.each {entry ->
+        leaderPositionTypesToRequiredCertification.each { entry ->
             out << optGroup(label: message(code: entry.key.name() + ".label")) {
                 entry.value.each {
-                    Certification certification->
-                    out << g.selectOption(value: certification.id) {
-                        out << certification.name
-                    }
+                    Certification certification ->
+                        out << g.selectOption(value: certification.id) {
+                            out << certification.name
+                        }
                 }
             }
         }
     }
 
-    def permission = {attrs ->
+    def permission = { attrs ->
         Leader leader = attrs.leader
         Role role = attrs.role
         if (session.isMobile) {
@@ -527,7 +547,7 @@ class SwitchingTagLib {
         }
     }
 
-    def selecter = {attrs, body ->
+    def selecter = { attrs, body ->
         attrs.class = "selecter ${attrs.class ?: ''}"
         if (session.isMobile) {
             out << "<li class='select'>"
@@ -551,62 +571,66 @@ class SwitchingTagLib {
         }
     }
 
-    def bigSelecter = {attrs, body ->
-        if (session.isMobile) {
-            out << selecter(attrs, body)
-        } else {
-            String id = attrs.remove("id")
-            out << f.formControl(attrs) {
-                attrs.id = id
-                out << selectWithBody(attrs, body)
-            }
-        }
+    def bigSelecter = { attrs, body ->
+//        if (session.isMobile) {
+//            out << selecter(attrs, body)
+//        } else {
+        String id = attrs.remove("id")
+        def label = message(code: attrs.code)
+
+        attrs.placeholder = label
+        out << selectWithBody(attrs, body)
+//        }
     }
 
-    def section = {attrs, body ->
-        if (session.isMobile) {
-            def bodyEval = iwebkit.section(attrs, body)
-            def header
+    def row = { attrs, body ->
+        def rowType = attrs.class ?: (attrs.fluid ? "row-fluid" : "row")
+        out << "<div class=\"$rowType\">"
 
-            if (attrs.code) {
-                header = message(code: attrs.code, 'default': attrs.code)
-            } else if (request.sectionHeader) {
-                header = request.sectionHeader
-            }
-            if (header) {
-                out << "<span class='graytitle'>${header}</span>"
-            }
-            request.sectionHeader = null
-            out << bodyEval
-        } else {
-            out << "<div class='section ${attrs.class ?: ""}'>"
-            if (attrs.code) {
-                if (attrs.header == "small") {
-                    out << smallHeader { out << message(code: attrs.code) }
-                } else {
-                    out << header {
-                        out << message(code: attrs.code, 'default': attrs.code)
-                    }
-                }
+        out << body()
+        out << "</div>"
 
-            }
+    }
 
-            out << body()
 
+    def section = { attrs, body ->
+        def span = attrs.span ?: "12"
+
+        if (attrs.row) {
+            out << "<div class=\"row-fluid\">"
+        }
+
+        out << """
+
+        <div class="span$span ${attrs.class ?: ""} ${attrs.center ? "center" : ""}">
+            <div class="content-box content-pad">
+"""
+        if (attrs.center) {
+            out << "<div class='left-center'>"
+        }
+
+        out << body()
+
+        if (attrs.center) {
             out << "</div>"
-
         }
+
+        out << """
+            </div>
+        </div>
+"""
+
+        if (attrs.row) {
+            out << "</div>"
+        }
+
     }
 
-    def ctxmenu = {attrs, body ->
-        if (session.isMobile) {
-            out << body()
-        } else {
-            out << g.ctxmenu(attrs, body)
-        }
+    def ctxmenu = { attrs, body ->
+        out << g.ctxmenu(attrs, body)
     }
 
-    def ctxmenuItem = {attrs, body ->
+    def ctxmenuItem = { attrs, body ->
         out << g.ctxmenuItem(attrs, body)
     }
 

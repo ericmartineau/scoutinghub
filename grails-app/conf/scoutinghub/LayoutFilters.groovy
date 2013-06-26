@@ -17,11 +17,11 @@ class LayoutFilters {
                 //                }
                 if (request.getHeader('user-agent') =~ /(?i)iphone/ || params.isMobile || session.isMobile) {
                     session.isMobile = true
-                    request.layoutName = "iwebkit"
-                    request.dialogLayoutName = "iwebkit"
+                    request.layoutName = "wood"
+                    request.dialogLayoutName = "wood"
                 } else {
                     session.isMobile = false
-                    request.layoutName = "main"
+                    request.layoutName = "wood"
                     request.dialogLayoutName = "dialog"
                 }
 

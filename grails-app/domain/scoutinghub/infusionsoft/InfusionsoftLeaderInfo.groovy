@@ -8,7 +8,7 @@ import scoutinghub.Leader
  * Time: 10:24 AM
  */
 class InfusionsoftLeaderInfo {
-    static mapWith = "neo4j"
+
 
     Leader leader
     int infusionsoftContactId

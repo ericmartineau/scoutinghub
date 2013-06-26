@@ -1,3 +1,4 @@
+import org.grails.plugins.elasticsearch.ElasticSearchService
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import grails.converters.JSON
@@ -30,7 +31,7 @@ class LoginController {
 
     SocialLoginService socialLoginService
 
-    def searchableService
+    ElasticSearchService elasticSearchService
 
     MailService mailService
 
@@ -116,19 +117,19 @@ class LoginController {
         def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]
         if (exception) {
             if (exception instanceof AccountExpiredException) {
-                msg = SpringSecurityUtils.securityConfig.errors.login.expired
+                msg = g.message(code: "springSecurity.errors.login.expired")
             }
             else if (exception instanceof CredentialsExpiredException) {
-                msg = SpringSecurityUtils.securityConfig.errors.login.passwordExpired
+                msg = g.message(code: "springSecurity.errors.login.passwordExpired")
             }
             else if (exception instanceof DisabledException) {
-                msg = SpringSecurityUtils.securityConfig.errors.login.disabled
+                msg = g.message(code: "springSecurity.errors.login.disabled")
             }
             else if (exception instanceof LockedException) {
-                msg = SpringSecurityUtils.securityConfig.errors.login.locked
+                msg = g.message(code: "springSecurity.errors.login.locked")
             }
             else {
-                msg = SpringSecurityUtils.securityConfig.errors.login.fail
+                msg = g.message(code: "springSecurity.errors.login.fail")
             }
         }
 
@@ -137,9 +138,10 @@ class LoginController {
         }
         else {
             flash.message = msg
-            redirect action: auth, params: params
+            redirect action: 'auth', params: params
         }
     }
+
 
     /**
      * The Ajax success redirect url.
@@ -150,7 +152,7 @@ class LoginController {
 
     @Secured(["ROLE_LEADER"])
     def suggestSocialLogin = {
-        springSecurityService.currentUser?.reindex()
+        elasticSearchService.index(springSecurityService.currentUser)
     }
 
     /**

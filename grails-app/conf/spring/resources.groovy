@@ -83,8 +83,6 @@ beans = {
         filterProcessesUrl = '/j_spring_openid_security_check' // not configurable
     }
 
-    enumConverter(org.compass.core.converter.basic.EnumConverter)
-
     executorService(grails.plugin.executor.SessionBoundExecutorService) { bean->
         bean.destroyMethod = 'destroy' //keep this destroy method so it can try and clean up nicely
         sessionFactory = ref("sessionFactory")

@@ -2,24 +2,23 @@
 <head>
     <meta name='layout' content='${layoutName}'/>
     <title><g:message code="title.linkaccount"/></title>
+    <r:require module="jstree"/>
 
-    <g:javascript library="jquery.jstree"/>
 </head>
 
 <body>
 
 <content tag="leftNavigation">
     <iwebkit:leftnavigation navtype="arrow">
-        <iwebkit:navelement action="auth" content="${message(code:'Login')}"/>
+        <iwebkit:navelement action="auth" content="${message(code: 'Login')}"/>
     </iwebkit:leftnavigation>
 </content>
 
+<g:form action="accountLink">
 
-<s:content class="registration">
+    <s:content class="registration">
 
-    <g:form action="accountLink">
-
-        <s:section>
+        <s:section row="true" class="offset3" span="6" center="true">
             <s:sectionHeader icon="profile-icon" code="flow.locateAccount.createNewAccount"/>
 
         %{--<g:if test="${hasSocialAuth}">--}%
@@ -45,38 +44,42 @@
             </g:if>
 
 
-            <s:bigTextField name="firstName" value="${createAccount?.firstName}" code="${message(code:'leader.firstName.label')}"
-                            placeholder="${message(code:'leader.firstName.label')}"/>
+            <s:bigTextField name="firstName" value="${createAccount?.firstName}"
+                            code="${message(code: 'leader.firstName.label')}"
+                            placeholder="${message(code: 'leader.firstName.label')}"/>
 
-            <s:bigTextField name="lastName" value="${createAccount?.lastName}" code="${message(code:'leader.lastName.label')}"
-                            placeholder="${message(code:'leader.lastName.label')}"/>
-            <s:tooltip code="flow.locateAccount.emailIsYourUsername" selector="#email" />
-            <s:bigTextField name="email" value="${createAccount?.email}" code="${message(code:'leader.email.label')}"
-                            placeholder="${message(code:'leader.email.label')}"/>
-            <s:bigTextField name="scoutid" value="${createAccount?.scoutid}" code="${message(code:'label.scoutid')}"
-                            placeholder="${message(code:'label.scoutid')}"/>
+            <s:bigTextField name="lastName" value="${createAccount?.lastName}"
+                            code="${message(code: 'leader.lastName.label')}"
+                            placeholder="${message(code: 'leader.lastName.label')}"/>
+            <s:tooltip code="flow.locateAccount.emailIsYourUsername" selector="#email"/>
+            <s:bigTextField name="email" value="${createAccount?.email}" code="${message(code: 'leader.email.label')}"
+                            placeholder="${message(code: 'leader.email.label')}"/>
+            <s:bigTextField name="scoutid" value="${createAccount?.scoutid}" code="${message(code: 'label.scoutid')}"
+                            placeholder="${message(code: 'label.scoutid')}"/>
 
         </s:section>
 
-        <s:section>
+        <s:section row="true" class="offset3" span="6" center="true">
             <s:sectionHeader code="flow.locateAccount.unitInfo" icon="units-icon"/>
-            %{--<s:text>--}%
-                %{--<g:message code="flow.locateAccount.unitCreateLater"/>--}%
-            %{--</s:text>--}%
+        %{--<s:text>--}%
+        %{--<g:message code="flow.locateAccount.unitCreateLater"/>--}%
+        %{--</s:text>--}%
 
-            <s:tooltip code="flow.locateAccount.unitCreateLater" selector="a.selectBox" />
+            <s:tooltip code="flow.locateAccount.unitCreateLater" selector="a.selectBox"/>
 
 
             <s:bigSelecter class="selecter"
-                           id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}" code="${message(code:'label.unitPosition')}"
-                           placeholder="${message(code:'label.unitPosition')}">
+                           id="unitPosition" name="unitPosition" value="${createAccount?.unitPosition?.name()}"
+                           code="${message(code: 'label.unitPosition')}"
+                           placeholder="${message(code: 'label.unitPosition')}">
                 <s:unitSelectorOptions/>
             </s:bigSelecter>
 
 
-            <s:bigTextField name="unitNumber" otherAttrs="[idfield:'unitNumberId', positionfield:'unitPosition']" class="unitSelector unit-selector-style" value="${createAccount?.unit}"
-                            code="${message(code:'label.unitNumber')}"
-                            placeholder="${message(code:'label.unitNumber')}">
+            <s:bigTextField name="unitNumber" otherAttrs="[idfield: 'unitNumberId', positionfield: 'unitPosition']"
+                            class="unitSelector unit-selector-style" value="${createAccount?.unit}"
+                            code="${message(code: 'label.unitNumber')}"
+                            placeholder="${message(code: 'label.unitNumber')}">
 
             </s:bigTextField>
 
@@ -85,23 +88,21 @@
 
         </s:section>
 
-        <s:section>
+        <s:section row="true" class="offset3" span="6" center="true">
             <s:sectionHeader code="flow.locateAccount.setPassword"/>
-            <s:bigTextField type="password" name="password" value="${createAccount?.password}" code="${message(code:'label.password')}"
-                            placeholder="${message(code:'label.password')}"/>
+            <s:bigTextField type="password" name="password" value="${createAccount?.password}"
+                            code="${message(code: 'label.password')}"
+                            placeholder="${message(code: 'label.password')}"/>
 
-            <s:bigTextField type="password" name="confirmPassword" value="${createAccount?.confirmPassword}" code="${message(code:'label.confirmPassword')}"
-                            placeholder="${message(code:'label.confirmPassword')}"/>
+            <s:bigTextField type="password" name="confirmPassword" value="${createAccount?.confirmPassword}"
+                            code="${message(code: 'label.confirmPassword')}"
+                            placeholder="${message(code: 'label.confirmPassword')}"/>
 
+            <s:submit class="btn btn-large" name="createNewAccount" value="${message(code: 'flow.locateAccount.createAccount.button')}"/>
         </s:section>
 
-        <s:section class='centered'>
-            <s:submit name="createNewAccount" value="${message(code: 'flow.locateAccount.createAccount.button')}"/>
-        </s:section>
-
-    </g:form>
-
-</s:content>
+    </s:content>
+</g:form>
 
 %{--<div class='body'>--}%
 

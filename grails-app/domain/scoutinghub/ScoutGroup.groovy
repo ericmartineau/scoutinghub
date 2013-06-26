@@ -14,13 +14,11 @@ package scoutinghub
  */
 class ScoutGroup implements Serializable {
 
-    static mapWith = "neo4j"
-
     static searchable = {
 //        id name: 'scoutGroupId'
         //groupType (propertyConverter:'enumConverter')
-        except = ["childGroups", "leaderGroups", "parent"]
-//        parent(component: [maxDepth: 6, prefix: "parent_"])
+        except = ["childGroups", "leaderGroups"]
+        parent(component: true, maxDepth: 6, prefix: "parent_")
     }
 
     /**

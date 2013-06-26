@@ -5,16 +5,14 @@ import scoutinghub.search.MyScoutingIdMarshaller
 
 class Leader implements Serializable {
 
-    static mapWith = "neo4j"
-
     static searchable = {
         only = ['firstName', 'middleName', 'phone', 'address1', 'lastName', 'email',
                 'myScoutingIds', 'groups', 'geoPosition']
 
-        myScoutingIds type: "string", converter: MyScoutingIdMarshaller.class
-        groups type: "object", converter: LeaderGroupMarshaller.class
+//        myScoutingIds type: "string", converter: MyScoutingIdMarshaller.class
+//        groups type: "object", converter: LeaderGroupMarshaller.class
 //        groups component:true
-        geoPosition component: true, type: "geo_point"
+//        geoPosition component: true, type: "geo_point"
 
     }
 

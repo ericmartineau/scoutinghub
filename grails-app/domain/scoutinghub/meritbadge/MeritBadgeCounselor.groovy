@@ -5,21 +5,11 @@ import scoutinghub.Leader
 
 class MeritBadgeCounselor {
 
-    static transients = ['leader']
-
     /**
      * Attached to the leaderGroup for type "Merit Badge Counselor"
      */
-    Integer leaderId
+    Leader leader
 
-    Leader getLeader() {
-        Leader.get(leaderId)
-    }
-
-    void setLeader(Leader leader) {
-        this.leaderId = leader?.id
-    }
-    
     Date originalCertificationDate
     Date recertificationDate
 

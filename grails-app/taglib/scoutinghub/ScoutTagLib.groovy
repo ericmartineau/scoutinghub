@@ -98,24 +98,16 @@ class ScoutTagLib {
     }
 
     def bigTextField = {attrs, body ->
-        out << "<table cellpadding='0' cellspacing='0' class='fldContainer'><tr><td align='left'>"
-//        out << "<span class='fldContainerSpacer'></span>"
-        //        out << "<span class='fldContainer'>"
-        out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
-
-        out << txtField(attrs)
-
-//        out << "</td></tr>"
-        if (body) {
-            out << "<tr><td>"
-            out << body()
-            out << "</td></tr>"
-        }
-        out << "</table>"
-
-//        out << "<span class='fldContainerSpacer'></span>"
-        //        out << "</div>"
-
+        def msg = message(code: attrs.code)
+        attrs.placeholder = msg
+        out << """
+<div class="control-group">
+    <label class="control-label" for="${attrs.name}"></label>
+    <div class="controls">
+        ${txtField(attrs)}
+    </div>
+</div>
+"""
     }
 
     def txtField = {attrs ->
@@ -126,6 +118,9 @@ class ScoutTagLib {
             if(!attrs.otherAttrs) attrs.otherAttrs = [:]
             attrs.otherAttrs.tabindex = attrs.tabindex
         }
+        if (attrs.placeholder) {
+            out << " placeholder='${attrs.placeholder}'"
+        }
         attrs.otherAttrs?.each {
             out << "${it.key}='${it.value}' "
         }
@@ -134,12 +129,13 @@ class ScoutTagLib {
 
     def formControl = {attrs, body ->
         def type = attrs.type ?: "text"
-        out << "<table cellpadding='0' cellspacing='0' class='fldContainer'><tr><td align='left'>"
-        out << "<span class='fldContainerSpacer'></span>"
-        out << "<span class='fldContainer'>"
-        out << "<label class='fldLabel' for='${attrs.name}'>${message(code: attrs.code)}</label><br />"
+//        out << "<table cellpadding='0' cellspacing='0' class='fldContainer'><tr><td align='left'>"
+//        out << "<span class='fldContainerSpacer'></span>"
+//        out << "<span class='fldContainer'>"
+        def label = message(code: attrs.code)
+//        out << "<label class='fldLabel' for='${attrs.name}'>${label}</label><br />"
         out << body()
-        out << "</td></tr></table>"
+//        out << "</td></tr></table>"
     }
 
     def dynamicUnitSelector = {attrs ->

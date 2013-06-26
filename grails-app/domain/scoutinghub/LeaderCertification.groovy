@@ -6,14 +6,14 @@ package scoutinghub
 class LeaderCertification implements Serializable {
 
     transient TrainingService trainingService
-    static transients = ["trainingService", "leader", "enteredBy"]
+    static transients = ["trainingService"]
 
     Date dateEarned
     Date expirationDate
     Certification certification
 
-    Integer leaderId
-    Integer enteredById
+    Leader leader
+    Leader enteredBy
 
     Date dateEntered
     Date lastCalculationDate
@@ -22,7 +22,7 @@ class LeaderCertification implements Serializable {
     Date createDate;
     Date updateDate;
 
-    static belongsTo = [certification: Certification]
+    static belongsTo = [Certification, Leader]
     static constraints = {
         lastCalculationDate(nullable: true)
         createDate(nullable: true)
@@ -68,19 +68,5 @@ class LeaderCertification implements Serializable {
         //return "leader: certification"
     }
 
-    Leader getLeader() {
-        Leader.get(leaderId)
-    }
 
-    void setLeader(Leader leader) {
-        this.leaderId = leader?.id
-    }
-
-    Leader getEnteredBy() {
-        Leader.get(enteredById)
-    }
-
-    void setEnteredBy(Leader enteredBy) {
-        this.enteredById = enteredBy?.id
-    }
 }

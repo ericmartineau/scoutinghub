@@ -146,7 +146,7 @@ function closeDialog() {
 function decorate() {
 
     //Bridges local styles with jquery styles
-    jQueryBridge();
+//    jQueryBridge();
 
     //Common decorate
     commonDecorate();
@@ -224,22 +224,22 @@ function decorate() {
 
     configureUnitAutocomplete();
 
-    function jQueryBridge() {
-        jQuery(".big-button").button();
-        jQuery(".nav a").button();
-        jQuery(":submit").button().addClass("ui-button-style");
-        //jQuery("h1").addClass("ui-corner-all ui-widget-header ui-state-active");
-        jQuery("th").addClass("ui-widget-header");
-        var $headerMenu = jQuery("div.header-menu-pe");
-        $headerMenu
-            .mouseover(applyStyleClosure("ui-state-hover"))
-            .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
-            .removeClass("header-menu-pe").children("span").click(toggleMenu);
-        jQuery("ul.ctx-menu-pe")
-//                .menu()
-            .addClass("ctx-menu").removeClass("ctx-menu-pe");
-
-    }
+//    function jQueryBridge() {
+//        jQuery(".big-button").button();
+//        jQuery(".nav a").button();
+//        jQuery(":submit").button().addClass("ui-button-style");
+//        //jQuery("h1").addClass("ui-corner-all ui-widget-header ui-state-active");
+//        jQuery("th").addClass("ui-widget-header");
+//        var $headerMenu = jQuery("div.header-menu-pe");
+//        $headerMenu
+//            .mouseover(applyStyleClosure("ui-state-hover"))
+//            .mouseout(removeStyleClosure("ui-state-hover", "no-bottom-border"))
+//            .removeClass("header-menu-pe").children("span").click(toggleMenu);
+//        jQuery("ul.ctx-menu-pe")
+////                .menu()
+//            .addClass("ctx-menu").removeClass("ctx-menu-pe");
+//
+//    }
 
 
     function applyStyleClosure(style) {

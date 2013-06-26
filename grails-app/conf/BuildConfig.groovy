@@ -15,7 +15,9 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 
-        mavenRepo "http://martytime.com/nexus/content/repositories/martytime/"
+        mavenRepo "https://www.cubtrails.com/nexus/content/repositories/martytime/"
+        mavenRepo "https://www.cubtrails.com/nexus/content/repositories/cubtrails/"
+//        mavenRepo "http://martytime.com/nexus/content/repositories/martytime/"
 
 
         mavenRepo "http://oss.sonatype.org/content/repositories/releases/" //For elasticsearch
@@ -35,9 +37,41 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
 
+    plugins {
+        compile (":elasticsearch:0.20.6.2-martytime-10")
+
+        compile(":spring-security-core:1.2.7.3-cubtrails-3")
+
+        build(":hibernate:$grailsVersion")
+        build(":tomcat:$grailsVersion")
+        build ":release:2.0.3"
+        compile ":resources:1.1.6"
+
+        compile ":executor:0.2"
+        compile ":fixtures:1.0.7"
+        compile ":geolocation:0.1"
+        compile ":hibernate:2.2.3"
+        compile ":iwebkit:0.5"
+        compile ":mail:1.0"
+
+        compile ":oauth:0.10"
+        compile ":quartz:0.4.2"
+        compile ":rendering:0.4.3"
+        compile ":rest-client-builder:1.0.2"
+        compile ":spring-events:1.1"
+        compile ":spring-security-openid:1.0.1"
+        compile ":svn:1.0.0.M1"
+        compile ":webflow:2.0.0"
+        runtime ":jquery:1.10.0"
+
+    }
+
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
+        compile("org.codehaus.groovy.modules.http-builder:http-builder:0.5.2") {
+            excludes "groovy"
+        }
 
         compile 'net.sf.opencsv:opencsv:2.3'
         compile 'org.apache.poi:poi:3.7'

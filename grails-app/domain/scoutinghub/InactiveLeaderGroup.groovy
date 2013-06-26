@@ -6,8 +6,6 @@ package scoutinghub
  */
 class InactiveLeaderGroup {
 
-    static mapWith = "neo4j"
-
     Leader leader
     ScoutGroup scoutGroup
 
