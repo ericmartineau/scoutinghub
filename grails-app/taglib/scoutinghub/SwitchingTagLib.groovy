@@ -16,6 +16,8 @@ class SwitchingTagLib {
 
     static namespace = "s"
 
+    def iconMap = [training:"check", unit:"home"]
+
     def propertyList = { attrs, body ->
         if (session.isMobile) {
             out << body()
@@ -125,6 +127,18 @@ class SwitchingTagLib {
     }
 
     def content = { attrs, body ->
+        if (attrs.small) {
+            attrs.class = "offset2"
+            attrs.span = "8"
+        }
+
+        if (attrs.med) {
+            attrs.class = "offset1"
+            attrs.span = "10"
+        }
+
+        attrs.row = "true"
+        out << boxed(attrs, body)
 //        if (session.isMobile) {
 //            out << iwebkit.content(attrs, body)
 //        } else {
@@ -133,8 +147,6 @@ class SwitchingTagLib {
 ////            out << "<div style='clear:both;'></div>"
 //            out << "</div>"
 //        }
-
-        out << body()
 
     }
 
@@ -159,6 +171,9 @@ class SwitchingTagLib {
 
     def sectionHeader = { attrs, body ->
         def icon = attrs.icon
+
+        icon = iconMap[icon] ?: icon
+
         def args = attrs.args
 
 //        out << """
@@ -169,9 +184,9 @@ class SwitchingTagLib {
 //"""
         out << body()
         out << "<h2>"
-//        if (icon) {
-//            out << "<i class=\"icon-$icon\"></i> "
-//        }
+        if (icon) {
+            out << "<i class=\"icon-$icon\"></i> "
+        }
 
         out << g.message(code: attrs.code, default: attrs.code, args: args)
         out << "</h2>"
@@ -190,16 +205,7 @@ class SwitchingTagLib {
     }
 
     def leaderTraining = { attrs ->
-        if (session.isMobile) {
-            LeaderCertificationInfo certificationInfo = attrs.certificationInfo
-
-            out << f.completeTrainingLink(certificationInfo: certificationInfo) {
-                out << certificationInfo?.certification?.name
-            }
-
-        } else {
-            out << f.leaderTraining(certificationInfo: attrs.certificationInfo)
-        }
+        out << f.leaderTraining(certificationInfo: attrs.certificationInfo)
     }
 
     def trainingRollup = { attrs ->
@@ -586,18 +592,29 @@ class SwitchingTagLib {
     def row = { attrs, body ->
         def rowType = attrs.class ?: (attrs.fluid ? "row-fluid" : "row")
         out << "<div class=\"$rowType\">"
-
         out << body()
         out << "</div>"
-
     }
 
+    def rowFluid = { attrs, body ->
+        out << "<div class=\"row-fluid\">"
+        out << body()
+        out << "</div>"
+    }
 
-    def section = { attrs, body ->
+    def column = { attrs, body ->
+        out << "<div class=\"span${attrs.span ?: "6"} ${attrs.center ? "center" : ""}\">"
+        if (attrs.center) out << "<div class='left-center'>"
+        out << body()
+        if (attrs.center) out << "</div>"
+        out << "</div>"
+    }
+
+    def boxed = { attrs, body ->
         def span = attrs.span ?: "12"
 
         if (attrs.row) {
-            out << "<div class=\"row-fluid\">"
+            out << "<div class=\"row\">"
         }
 
         out << """
@@ -623,7 +640,23 @@ class SwitchingTagLib {
         if (attrs.row) {
             out << "</div>"
         }
+    }
 
+    def section = { attrs, body ->
+        if (attrs.row) {
+            out << "<div class=\"row-fluid\">"
+            attrs.span = "12"
+            out << "<div class=\"span${attrs.span ?: "6"}\">"
+        }
+
+        out << "<div class=\"section\">"
+        out << body()
+        out << "</div>"
+
+        if (attrs.row) {
+            out << "</div>"
+            out << "</div>"
+        }
     }
 
     def ctxmenu = { attrs, body ->

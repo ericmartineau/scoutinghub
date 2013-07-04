@@ -1,6 +1,7 @@
 package scoutinghub
 
 import grails.converters.JSON
+import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.QueryStringQueryBuilder
 
@@ -23,27 +24,34 @@ class FindScoutGroupController {
             //We need to build a compass query.  The query will use the value they've typed in,
             //plus will use the currently selected value of "position" to make sure that the
             //scoutGroup they select is appropriate for the position they've selected
-            def boolQuery = boolQuery()
+            def topLevelQuery = boolQuery()
             def query = searchTerm?.trim()?.split(" ")?.findAll { it.trim() }?.collect { "$it*" }?.join(" AND ")
             QueryStringQueryBuilder queryStringBuilder = queryString(query)
             ["groupLabel", "groupIdentifier", "groupType", "unitType"].each{queryStringBuilder.field(it)}
-            boolQuery.must(queryStringBuilder)
+            topLevelQuery.must(queryStringBuilder)
             if (position?.trim()) {
 
                 final LeaderPositionType lpType = LeaderPositionType.valueOf(params.position)
 
                 //Find all group types and unit types that match
 
+                BoolQueryBuilder types = boolQuery()
+
                 lpType.scoutGroupTypes.each { type ->
-                    boolQuery.must(termQuery("groupType", type.name().toLowerCase()))
+                    types.should(termQuery("groupType", type.name().toLowerCase()))
                 }
 
                 lpType.scoutUnitTypes.each { type ->
-                    boolQuery.must(termQuery("unitType", type.name().toLowerCase()))
+                    types.should(termQuery("unitType", type.name().toLowerCase()))
+                }
+
+                types.minimumShouldMatch("1")
+                if(types.hasClauses()) {
+                    topLevelQuery.must(types)
                 }
             }
 
-            def results = ScoutGroup.search(boolQuery)
+            def results = ScoutGroup.search(topLevelQuery)
 
             //Had some weird issues with stale objects - this should force a refresh
             results.searchResults.each { it.refresh() }

@@ -75,13 +75,14 @@ function createDialog(url, data, config) {
     if (!config.width || config.width < 1) {
         config.width = 400;
     }
-
     config.beforeClose = function(event, ui) {
         jQuery("#dialog").find("select").selectBox("destroy");
     };
 
-    var dialog = jQuery("<div id='dialog'><div class='loading-spinner'><h2>Loading</h2><img src='/scoutinghub/images/loading.gif' /></div></div>");
-    dialog.dialog(config).load(url, data);
+    var dialog = jQuery("<div class='modal' id='modal'><div class='modal-header'><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button><h3>"+ config.title + "</h3></div><div class='modal-body'><div class='loading-spinner'><h2>Loading</h2><img src='/scoutinghub/images/loading.gif' /></div></div></div>");
+    dialog.modal(config);
+    dialog.find(".modal-body").load(url, data);
+    dialog.modal("show");
 }
 
 function createOverTooltip(selector, message) {
@@ -158,6 +159,24 @@ function decorate() {
         jthis.progressbar({value:pct});
         jthis.prepend("<span class='progressMsg'>" + pct + "%</span>")
     });
+
+//    $("body").popover({
+////            selector: $this.attr("data-selector"),
+////            selector: $this.attr("data-selector"),
+//            placement: "top",
+//            trigger: "hover",
+//            selector: ".training-title",
+//            html:true,
+//            content: function() {
+//                var $this = $(this);
+//                return $($this.attr("data-selector")).html();
+//            }
+//        });
+
+
+
+//        $this.removeClass('popover');
+//    });
 
     //Creates jquery buttons
     jQuery(".ui-button").each(

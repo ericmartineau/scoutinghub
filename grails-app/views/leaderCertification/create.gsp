@@ -1,4 +1,3 @@
-<s:content>
     <g:form class="dialog-form" reload="true" controller="leaderCertification" action="save">
         <g:hiddenField name="leader.id" value="${leaderCertificationInstance.leader.id}"/>
 
@@ -23,7 +22,6 @@
         </s:section>
 
     </g:form>
-</s:content>
 <script type="text/javascript">
     configureDrillDown("#unitPosition", "#certification", "/scoutinghub/leaderCertification/certificationOptions", true);
 </script>

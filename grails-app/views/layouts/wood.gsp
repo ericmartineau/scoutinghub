@@ -33,123 +33,127 @@
                         <span class="icon-bar"></span>
                     </button>
 
+
+
+
                     <div class="nav-collapse collapse">
-                        <ul class="nav primary">
-                            <li class="brand">
-                                <span class="title"><i class="icon-cogs"></i> ScoutingHub</span>
-                            </li>
+                        <g:menu/>
+                        %{--<ul class="nav primary">--}%
+                            %{--<li class="brand">--}%
+                                %{--<span class="title"><i class="icon-cogs"></i> ScoutingHub</span>--}%
+                            %{--</li>--}%
 
-                            <li class="">
-                                <a href="pages/dashboard.html">
-                                    <i class="icon-dashboard"></i> Dashboard
-                                </a>
-                            </li>
+                            %{--<li class="">--}%
+                                %{--<a href="pages/dashboard.html">--}%
+                                    %{--<i class="icon-dashboard"></i> Dashboard--}%
+                                %{--</a>--}%
+                            %{--</li>--}%
 
-                            <!-- components -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-list"></i> Components
-                                    <b class="caret"></b>
-                                </a>
+                            %{--<!-- components -->--}%
+                            %{--<li class="dropdown">--}%
+                                %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                                    %{--<i class="icon-list"></i> Components--}%
+                                    %{--<b class="caret"></b>--}%
+                                %{--</a>--}%
 
-                                <ul class="dropdown-menu secondary">
-                                    <li class="">
-                                        <a href="pages/forms.html">
-                                            <i class="icon-tasks"></i> Forms
-                                        </a>
-                                    </li>
+                                %{--<ul class="dropdown-menu secondary">--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/forms.html">--}%
+                                            %{--<i class="icon-tasks"></i> Forms--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
 
-                                    <li class="">
-                                        <a href="pages/buttons.html">
-                                            <i class="icon-ok-sign"></i> Buttons
-                                        </a>
-                                    </li>
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/buttons.html">--}%
+                                            %{--<i class="icon-ok-sign"></i> Buttons--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
 
-                                    <li class="">
-                                        <a href="pages/widgets.html">
-                                            <i class="icon-gift"></i> Widgets
-                                        </a>
-                                    </li>
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/widgets.html">--}%
+                                            %{--<i class="icon-gift"></i> Widgets--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
 
-                                    <li class="">
-                                        <a href="pages/tables.html">
-                                            <i class="icon-table"></i> Tables
-                                        </a>
-                                    </li>
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/tables.html">--}%
+                                            %{--<i class="icon-table"></i> Tables--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
 
-                                    <li class="">
-                                        <a href="pages/charts.html">
-                                            <i class="icon-bar-chart"></i> Charts
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/grid.html">
-                                            <i class="icon-th"></i> Grid
-                                        </a>
-                                    </li>
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/charts.html">--}%
+                                            %{--<i class="icon-bar-chart"></i> Charts--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/grid.html">--}%
+                                            %{--<i class="icon-th"></i> Grid--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
 
-                                </ul>
-                            </li>
+                                %{--</ul>--}%
+                            %{--</li>--}%
 
-                            <!-- pages -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-copy"></i> Pages
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu secondary">
-                                    <li class="">
-                                        <a href="pages/gallery.html">
-                                            <i class="icon-picture"></i> Gallery
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/faq.html">
-                                            <i class="icon-question-sign"></i> FAQ
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/pricing_plans.html">
-                                            <i class="icon-money"></i> Pricing plans
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/login.html">
-                                            <i class="icon-briefcase"></i> Sign in
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/register.html">
-                                            <i class="icon-unlock"></i> Register
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/error404.html">
-                                            <i class="icon-exclamation-sign"></i> Error 404
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            %{--<!-- pages -->--}%
+                            %{--<li class="dropdown">--}%
+                                %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                                    %{--<i class="icon-copy"></i> Pages--}%
+                                    %{--<b class="caret"></b>--}%
+                                %{--</a>--}%
+                                %{--<ul class="dropdown-menu secondary">--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/gallery.html">--}%
+                                            %{--<i class="icon-picture"></i> Gallery--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/faq.html">--}%
+                                            %{--<i class="icon-question-sign"></i> FAQ--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/pricing_plans.html">--}%
+                                            %{--<i class="icon-money"></i> Pricing plans--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/login.html">--}%
+                                            %{--<i class="icon-briefcase"></i> Sign in--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/register.html">--}%
+                                            %{--<i class="icon-unlock"></i> Register--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/error404.html">--}%
+                                            %{--<i class="icon-exclamation-sign"></i> Error 404--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                %{--</ul>--}%
+                            %{--</li>--}%
 
-                            <!-- extras -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-gift"></i> Extras
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu secondary">
-                                    <li class="">
-                                        <a href="pages/icons.html">
-                                            <i class="icon-picture"></i> Icons
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="pages/fullcalendar_events.html">
-                                            <i class="icon-calendar"></i> Calendar with events
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            %{--<!-- extras -->--}%
+                            %{--<li class="dropdown">--}%
+                                %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                                    %{--<i class="icon-gift"></i> Extras--}%
+                                    %{--<b class="caret"></b>--}%
+                                %{--</a>--}%
+                                %{--<ul class="dropdown-menu secondary">--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/icons.html">--}%
+                                            %{--<i class="icon-picture"></i> Icons--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                    %{--<li class="">--}%
+                                        %{--<a href="pages/fullcalendar_events.html">--}%
+                                            %{--<i class="icon-calendar"></i> Calendar with events--}%
+                                        %{--</a>--}%
+                                    %{--</li>--}%
+                                %{--</ul>--}%
+                            %{--</li>--}%
 
                             %{--<li id="docs-trigger">--}%
                             %{--<button style="padding-left: 10px; margin-top: 14px" class="btn btn-inverse btn-mini"--}%
@@ -157,7 +161,7 @@
                             %{--<span id="dtrigger">Show Docs</span>--}%
                             %{--</button>--}%
                             %{--</li>--}%
-                        </ul>
+                        %{--</ul>--}%
 
                         <!-- profile -->
                         <ul class="nav pull-right primary">
@@ -196,9 +200,9 @@
 </div>
 
 <section id="main">
-
-    <g:layoutBody/>
-
+    <div class="container">
+        <g:layoutBody/>
+    </div>
 
 
     <div class="container">

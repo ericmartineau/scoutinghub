@@ -1,5 +1,5 @@
-<div id="navigation">
-    <ul>
+
+    <ul class="nav primary">
         <g:each in="${menuItems}" var="menuItem">
             <g:mainMenuItem menuItem="${menuItem}">
                 <g:menuItem controller="${params.controller}" action="${params.action}" menuItem="${menuItem}"/>
@@ -33,7 +33,6 @@
 
     </ul>
 
-</div>
 %{--<div class="clear"></div>--}%
 <g:subMenu controller="${params.controller}" action="${params.action}"/>
 %{--<div class="clear"></div>--}%

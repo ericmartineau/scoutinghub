@@ -3,6 +3,11 @@ h1, h2, h3, h4, h5 {
     font-weight: 300;
 }
 
+h2 i[class^="icon-"], h2 i[class*=" icon-"] {
+    margin-top: 18px;
+    padding-right: 24px;
+}
+
 .content-pad {
     padding: 10px;
 }
@@ -25,4 +30,50 @@ li.prop {
 .field-text {
     font-size: 1.5em;
     line-height: 25px;
+}
+
+h4 .training-status {
+    margin-top: 8px;
+}
+
+.training-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.training-title h4 {
+    margin-bottom: 1px;
+}
+
+.training-details {
+    padding-left: 20px;
+}
+
+.training-details h5 {
+    margin-top: 0;
+}
+
+.typeahead {
+    z-index: 1051;
+}
+
+.thumbnails .leader-unit {
+    margin-left: 0;
+    margin-right: 4px;
+}
+
+.section {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+}
+
+.leader-unit-position h4 {
+    margin-bottom:0;
+}
+
+.leader-unit-unitname h5 {
+    margin-top:0;
 }

@@ -4,9 +4,6 @@ import grails.converters.JSON
 
 class MyScoutingIdController {
 
-    def scaffold = true
-
-    def searchableService
 
     LeaderService leaderService
     TrainingService trainingService
@@ -49,23 +46,15 @@ class MyScoutingIdController {
             }
         }
 
-
-        searchableService.stopMirroring()
-        try {
-            if (myScoutingIdInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.created.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), myScoutingIdInstance.id])}"
-                rtn.success = true;
-            }
-            else {
-                rtn.success = false;
-                flash.errorObj = myScoutingIdInstance
-            }
-        } finally {
-            searchableService.startMirroring()
-            if(myScoutingIdInstance?.id > 0) {
-                myScoutingIdInstance.reindex()
-            }
+        if (myScoutingIdInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), myScoutingIdInstance.id])}"
+            rtn.success = true;
         }
+        else {
+            rtn.success = false;
+            flash.errorObj = myScoutingIdInstance
+        }
+
         render rtn as JSON
     }
 
