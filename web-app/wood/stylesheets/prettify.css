@@ -1,0 +1,105 @@
+/* line 1, prettify.css.scss */
+.pln {
+  color: #000; }
+
+@media screen {
+  /* line 1, prettify.css.scss */
+  .str {
+    color: #080; }
+
+  /* line 1, prettify.css.scss */
+  .kwd {
+    color: #008; }
+
+  /* line 1, prettify.css.scss */
+  .com {
+    color: #800; }
+
+  /* line 1, prettify.css.scss */
+  .typ {
+    color: #606; }
+
+  /* line 1, prettify.css.scss */
+  .lit {
+    color: #066; }
+
+  /* line 1, prettify.css.scss */
+  .pun, .opn, .clo {
+    color: #660; }
+
+  /* line 1, prettify.css.scss */
+  .tag {
+    color: #008; }
+
+  /* line 1, prettify.css.scss */
+  .atn {
+    color: #606; }
+
+  /* line 1, prettify.css.scss */
+  .atv {
+    color: #080; }
+
+  /* line 1, prettify.css.scss */
+  .dec, .var {
+    color: #606; }
+
+  /* line 1, prettify.css.scss */
+  .fun {
+    color: red; } }
+@media print, projection {
+  /* line 1, prettify.css.scss */
+  .str {
+    color: #060; }
+
+  /* line 1, prettify.css.scss */
+  .kwd {
+    color: #006;
+    font-weight: bold; }
+
+  /* line 1, prettify.css.scss */
+  .com {
+    color: #600;
+    font-style: italic; }
+
+  /* line 1, prettify.css.scss */
+  .typ {
+    color: #404;
+    font-weight: bold; }
+
+  /* line 1, prettify.css.scss */
+  .lit {
+    color: #044; }
+
+  /* line 1, prettify.css.scss */
+  .pun, .opn, .clo {
+    color: #440; }
+
+  /* line 1, prettify.css.scss */
+  .tag {
+    color: #006;
+    font-weight: bold; }
+
+  /* line 1, prettify.css.scss */
+  .atn {
+    color: #404; }
+
+  /* line 1, prettify.css.scss */
+  .atv {
+    color: #060; } }
+/* line 1, prettify.css.scss */
+pre.prettyprint {
+  padding: 2px;
+  border: 1px solid #888; }
+
+/* line 1, prettify.css.scss */
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0; }
+
+/* line 1, prettify.css.scss */
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+  list-style-type: none; }
+
+/* line 1, prettify.css.scss */
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+  background: #eee; }

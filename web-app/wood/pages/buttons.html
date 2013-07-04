@@ -1,0 +1,914 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>WoodAdmin Theme</title>
+
+    <link href="../stylesheets/application.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="../javascripts/application.js" type="text/javascript"></script>
+
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- there's an IE separated stylesheet with the following resets for IE -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="../javascripts/html5shiv.js" type="text/javascript"></script>
+        <script src="../javascripts/excanvas.js" type="text/javascript"></script>
+        <script src="../javascripts/ie_fix.js" type="text/javascript"></script>
+        <link href="../stylesheets/ie_fix.css" media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
+  </head>
+
+  <body onload="prettyPrint()" id="body">
+    <div class="navbar navbar-fixed-top navbar-inverse top-nav">
+  <div class="navbar-inner">
+
+    <div class="container">
+      <div class="row-fluid">
+        <div class="span12">
+
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <div class="nav-collapse collapse">
+            <ul class="nav primary">
+              <li class="brand">
+                <span class="title"> <i class="icon-cogs"></i> WoodAdmin </span>
+              </li>
+
+              <li class="">
+                <a href="dashboard.html">
+                    <i class="icon-dashboard"></i> Dashboard
+                </a>
+              </li>
+
+              <!-- components -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-list"></i> Components
+                  <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu secondary">
+                  <li class="">
+                    <a href="forms.html">
+                        <i class="icon-tasks"></i> Forms
+                    </a>
+                  </li>
+
+                  <li class="active">
+                    <a href="buttons.html">
+                        <i class="icon-ok-sign"></i> Buttons
+                    </a>
+                  </li>
+
+                  <li class="">
+                    <a href="widgets.html">
+                        <i class="icon-gift"></i> Widgets
+                    </a>
+                  </li>
+
+                  <li class="">
+                    <a href="tables.html">
+                        <i class="icon-table"></i> Tables
+                    </a>
+                  </li>
+
+                  <li class="">
+                    <a href="charts.html">
+                        <i class="icon-bar-chart"></i> Charts
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="grid.html">
+                        <i class="icon-th"></i> Grid
+                    </a>
+                  </li>
+
+                </ul>
+              </li>
+
+              <!-- pages -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-copy"></i> Pages
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu secondary">
+                  <li class="">
+                    <a href="gallery.html">
+                        <i class="icon-picture"></i> Gallery
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="faq.html">
+                        <i class="icon-question-sign"></i> FAQ
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="pricing_plans.html">
+                        <i class="icon-money"></i> Pricing plans
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="login.html">
+                        <i class="icon-briefcase"></i> Sign in
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="register.html">
+                        <i class="icon-unlock"></i> Register
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="error404.html">
+                        <i class="icon-exclamation-sign"></i> Error 404
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- extras -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-gift"></i> Extras
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu secondary">
+                  <li class="">
+                    <a href="icons.html">
+                        <i class="icon-picture"></i> Icons
+                    </a>
+                  </li>
+                  <li class="">
+                    <a href="fullcalendar_events.html">
+                        <i class="icon-calendar"></i> Calendar with events
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li id="docs-trigger">
+                <button style="padding-left: 10px; margin-top: 14px" class="btn btn-inverse btn-mini" type="button" onclick="showDocs()">
+                  <span id="dtrigger">Show Docs</span>
+                </button>
+              </li>
+            </ul>
+
+            <!-- profile -->
+            <ul class="nav pull-right primary">
+              <li class="dropdown profile">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img class="menu-avatar" src="../images/profile-thumb.png" />
+                  John Smith
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu secondary ">
+                  <li class="">
+                    <a href="account_settings.html">
+                        <i class="icon-cog"></i> Account settings
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon-lock"></i> Change password
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="">
+                    <a href="login.html">
+                        <i class="icon-off"></i> Sign out
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <section id="main">
+      <div class="container">
+  <div class="row-fluid">
+    <div class="span12">
+
+       <div class="doc-box">
+  <div class="row-fluid">
+    <div class="span12 padded">
+      <h3 class="green">Documentation</h3>
+
+      <h4>Buttons</h4>
+
+      <p>In order to style an element as a button use <code>class="btn"</code></p>
+      <p>For various sizes, add one of the following classes:</p>
+      <p>
+        <span style=" width: 200px; margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-large btn-block">btn-large btn-block</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-large">btn-large</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small">btn-small</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-mini">btn-mini</a>
+        </span>
+      </p>
+
+      <p> <b>You can also establish the color of the button by adding one of the following classes: </b></p>
+      <p>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small default">default</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-green">btn-green</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-yellow">btn-yellow</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-orange">btn-orange</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-red">btn-red</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-blue">btn-blue</a>
+        </span>
+        <span style="margin: 5px; display: inline-block;">
+          <a href="#" class="btn btn-small btn-inverse">btn-inverse</a>
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+
+      <div class="content-box">
+        <div class="content-box-header">
+          <i class="icon-ok"></i> Buttons
+        </div>
+
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="padded">
+              <h4>Classic buttons</h4>
+              <!-- Classic buttons -->
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn" type="button">Button</button>
+    <button class="btn btn-orange" type="button">Button</button>
+    <button class="btn btn-yellow" type="button">Button</button>
+    <button class="btn btn-red" type="button">Button</button>
+    <button class="btn btn-green" type="button">Button</button>
+    <button class="btn btn-blue" type="button">Button</button>
+    <button class="btn btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn btn-small" type="button">Button</button>
+    <button class="btn btn-small btn-orange" type="button">Button</button>
+    <button class="btn btn-small btn-yellow" type="button">Button</button>
+    <button class="btn btn-small btn-red" type="button">Button</button>
+    <button class="btn btn-small btn-green" type="button">Button</button>
+    <button class="btn btn-small btn-blue" type="button">Button</button>
+    <button class="btn btn-small btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn btn-mini" type="button">Button</button>
+    <button class="btn btn-mini btn-orange" type="button">Button</button>
+    <button class="btn btn-mini btn-yellow" type="button">Button</button>
+    <button class="btn btn-mini btn-red" type="button">Button</button>
+    <button class="btn btn-mini btn-green" type="button">Button</button>
+    <button class="btn btn-mini btn-blue" type="button">Button</button>
+    <button class="btn btn-mini btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+            </div>
+            <div class="divider"></div>
+            <div class="padded">
+              <h4>Disabled buttons</h4>
+              <!-- Classic buttons - disabled -->
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn disabled" type="button">Button</button>
+    <button class="btn disabled btn-orange" type="button">Button</button>
+    <button class="btn disabled btn-yellow" type="button">Button</button>
+    <button class="btn disabled btn-red" type="button">Button</button>
+    <button class="btn disabled btn-green" type="button">Button</button>
+    <button class="btn disabled btn-blue" type="button">Button</button>
+    <button class="btn disabled btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn disabled btn-small" type="button">Button</button>
+    <button class="btn disabled btn-small btn-orange" type="button">Button</button>
+    <button class="btn disabled btn-small btn-yellow" type="button">Button</button>
+    <button class="btn disabled btn-small btn-red" type="button">Button</button>
+    <button class="btn disabled btn-small btn-green" type="button">Button</button>
+    <button class="btn disabled btn-small btn-blue" type="button">Button</button>
+    <button class="btn disabled btn-small btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <button class="btn disabled btn-mini" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-orange" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-yellow" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-red" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-green" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-blue" type="button">Button</button>
+    <button class="btn disabled btn-mini btn-inverse" type="button">Button</button>
+  </div>
+</div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-box">
+  <div class="row-fluid">
+    <div class="span12 padded">
+      <h3 class="green">Documentation</h3>
+
+      <h4>Button groups and Dropdowns</h4>
+
+      <p>The button groups have the same syntax as original bootstrap. In order to change the color or the size of the buttons,
+      add the classes mentioned in the <b>Classic buttons</b> documentation. </p>
+
+      <div class="btn-group">
+        <a href="#" class="btn btm-small">Button</a>
+        <a href="#" class="btn btm-small">Button</a>
+        <a href="#" class="btn btm-small">Button</a>
+      </div>
+
+      <p>Dropdown menus have exactly the same syntax as the ones in the original bootstrap. Here, as in button groups case, you can
+      vary the colors and the sizes of the buttons.</p>
+      <p>Example:</p>
+
+<pre class="prettyprint">
+    
+      &lt;div class=&quot;btn-group&quot;&gt;
+        &lt;button class=&quot;btn btn-yellow dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;Warning &lt;span class=&quot;caret&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;button&gt;
+        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Action&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Another action&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Something else here&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+          &lt;li class=&quot;divider&quot;&gt;&lt;&#x2F;li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Separated link&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+        &lt;&#x2F;ul&gt;
+      &lt;&#x2F;div&gt;
+  </pre>
+
+      <p>You can use class <code>dropdown-left</code> on a button toggle to make it open in the left side of the toggle (right aligned)</p>
+    </div>
+  </div>
+</div>
+
+      <div class="content-box">
+        <div class="content-box-header">
+          <i class="icon-ok"></i> Button groups and dropdowns
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="padded">
+              <h4>Dropdowns</h4>
+              <!-- Buttons with dropdowns and stuffs -->
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-yellow dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-orange dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-red dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-green dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-blue dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">Button <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn">Button</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-yellow">Button</button>
+        <button class="btn btn-yellow dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-orange">Button</button>
+        <button class="btn btn-orange dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-red">Button</button>
+        <button class="btn btn-red dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-green">Button</button>
+        <button class="btn btn-green dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-blue">Button</button>
+        <button class="btn btn-blue dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group">
+        <button class="btn btn-inverse">Button</button>
+        <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group dropup">
+        <button class="btn">Dropup</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <div class="btn-group dropup">
+        <button class="btn primary">Right dropup</button>
+        <button class="btn primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div>
+  </div>
+</div>
+
+            </div>
+            <div class="divider"></div>
+            <div class="padded">
+              <h4>Groups</h4>
+              <div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-group">
+      <a class="btn btn-orange" href="#"><i class="icon-comments-alt"></i> User</a>
+      <a class="btn btn-orange dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-caret-down"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
+        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+        <li><a href="#"><i class="icon-ban-circle"></i> Ban</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="i"></i> Make admin</a></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-red" href="#"><i class="icon-gift"></i> Event</a>
+      <a class="btn btn-red dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-caret-down"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-eye-open"></i> View</a></li>
+        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+        <li><a href="#"><i class="icon-pencil"></i> Change</a></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-green" href="#"><i class="icon-leaf"></i> Go green!</a>
+      <a class="btn btn-green dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-caret-down"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
+        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+        <li><a href="#"><i class="icon-ban-circle"></i> Ban</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="i"></i> Make admin</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-group">
+      <button class="btn btn-large btn-orange">Left</button>
+      <button class="btn btn-large btn-orange">Middle</button>
+      <button class="btn btn-large btn-orange">Right</button>
+    </div>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-group">
+      <button class="btn btn-green">Left</button>
+      <button class="btn btn-green">Middle</button>
+      <button class="btn btn-green">Right</button>
+    </div>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-group">
+      <button class="btn btn-small btn-blue">Left</button>
+      <button class="btn btn-small btn-blue">Middle</button>
+      <button class="btn btn-small btn-blue">Right</button>
+    </div>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-group">
+      <button class="btn btn-mini btn-red">Left</button>
+      <button class="btn btn-mini btn-red">Middle</button>
+      <button class="btn btn-mini btn-red">Right</button>
+    </div>
+  </div>
+</div>
+
+<h4>Player buttons - Sample</h4>
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn btn-mini">
+          <i class="icon-fast-backward"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-step-backward"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-backward"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-pause"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-play"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-stop"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-forward"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-step-forward"></i>
+        </button>
+        <button class="btn btn-mini">
+          <i class="icon-fast-forward"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-fast-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-step-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-pause"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-play"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-stop"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-forward"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-step-forward"></i>
+        </button>
+        <button class="btn btn-mini btn-orange">
+          <i class="icon-fast-forward"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row-fluid">
+  <div class="span12 padded5">
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-fast-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+        <i class="icon-step-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-backward"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-pause"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-play"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-stop"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-forward"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-step-forward"></i>
+        </button>
+        <button class="btn btn-mini btn-inverse">
+          <i class="icon-fast-forward"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-box">
+  <div class="row-fluid">
+    <div class="span12 padded">
+      <h3 class="green">Documentation</h3>
+      <h4>Big buttons with icons</h4>
+
+      <h5>Square buttons</h5>
+
+      <p>These big buttons are styled using <code>class="button square"</code> or <code>class="button rectangular"</code></p>
+
+      <button class="button square" href="#">
+        <i class="icon-file icon-large"></i>
+        <span class="button-text">New Article</span>
+      </button>
+
+      <button class="button rectangular" href="#">
+        <i class="icon-file icon-large"></i>
+        <span class="button-text">New Article</span>
+      </button>
+
+      <p>These buttons can be used as quick links and are enhanced with icons to be more suggestive.</p>
+
+      <p>The code for the example above:</p>
+
+<pre class="prettyprint">
+    
+      &lt;button class=&quot;button square&quot; href=&quot;#&quot;&gt;
+        &lt;i class=&quot;icon-file icon-large&quot;&gt;&lt;&#x2F;i&gt;
+        &lt;span class=&quot;button-text&quot;&gt;New Article&lt;&#x2F;span&gt;
+      &lt;&#x2F;button&gt;
+  </pre>
+
+      <p>You can use class <code>dropdown-left</code> on a button toggle to make it open in the left side of the toggle (right aligned)</p>
+    </div>
+  </div>
+</div>
+
+      <div class="content-box">
+        <div class="content-box-header">
+          <i class="icon-ok"></i> Square buttons with icons
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="padded">
+              <h4>Square</h4>
+              <button class="button square" href="#">
+  <i class="icon-cogs icon-large"></i>
+  <span class="button-text">Settings</span>
+</button>
+
+<button class="button square" href="#">
+  <i class="icon-group icon-large"></i>
+  <span class="button-text">Users</span>
+</button>
+
+<button class="button square" href="#">
+  <i class="icon-comments icon-large"></i>
+  <span class="button-text">Comments</span>
+</button>
+
+<button class="button square" href="#">
+  <i class="icon-file icon-large"></i>
+  <span class="button-text">New Article</span>
+</button>
+
+<button class="button square" href="#">
+  <i class="icon-share icon-large"></i>
+  <span class="button-text">New Page</span>
+</button>
+
+<button class="button square" href="#">
+  <i class="icon-bar-chart icon-large"></i>
+  <span class="button-text">Stats</span>
+</button>
+            </div>
+            <div class="divider"></div>
+            <div class="padded">
+              <h4>Rectangular</h4>
+              <button class="button rectangular" href="#">
+  <i class=" icon-cogs icon-large"></i>
+  <span class="button-text">Settings</span>
+</button>
+
+<button class="button rectangular" href="#">
+  <i class="icon-group icon-large"></i>
+  <span class="button-text">Users</span>
+</button>
+
+<button class="button rectangular" href="#">
+  <i class="icon-comments icon-large"></i>
+  <span class="button-text">Comments</span>
+</button>
+
+<button class="button rectangular" href="#">
+  <i class="icon-file icon-large"></i>
+  <span class="button-text">New Article</span>
+</button>
+
+<button class="button rectangular" href="#">
+  <i class="icon-share icon-large"></i>
+  <span class="button-text">New Page</span>
+</button>
+
+<button class="button rectangular" href="#">
+  <i class="icon-bar-chart icon-large"></i>
+  <span class="button-text">Stats</span>
+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+    </section>
+
+    <div class="container">
+  <div class="row-fluid">
+    <div class="span12">
+
+      <div class="footer">
+        <h5 class="transparent-text center">
+          <div>2012 &copy; WoodAdmin Theme</div>
+          <div>Created by Adritha84</div>
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>

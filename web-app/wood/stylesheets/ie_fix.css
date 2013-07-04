@@ -1,0 +1,81 @@
+/* line 4, ie_fix.css.scss */
+.tags a:before, .tags a:after {
+  display: none; }
+
+/* line 8, ie_fix.css.scss */
+.badge.top {
+  position: static; }
+
+/* line 12, ie_fix.css.scss */
+body {
+  min-width: 1024px; }
+
+/* line 16, ie_fix.css.scss */
+.normal-check, .normal-radio {
+  display: inline;
+  width: auto !important; }
+  /* line 20, ie_fix.css.scss */
+  .normal-check:checked + label:before, .normal-radio:checked + label:before {
+    background-position: 0 0; }
+  /* line 24, ie_fix.css.scss */
+  .normal-check:checked + label:hover:before, .normal-radio:checked + label:hover:before {
+    background-position: 0 0; }
+  /* line 28, ie_fix.css.scss */
+  .normal-check + label, .normal-radio + label {
+    padding-left: 0px;
+    display: inline-block; }
+    /* line 32, ie_fix.css.scss */
+    .normal-check + label:before, .normal-radio + label:before {
+      content: "";
+      background: none;
+      background-position: 0 0;
+      height: 0;
+      width: 0;
+      position: static;
+      margin-left: 0; }
+    /* line 42, ie_fix.css.scss */
+    .normal-check + label:hover:before, .normal-radio + label:hover:before {
+      background-position: 0 0; }
+    /* line 46, ie_fix.css.scss */
+    .normal-check + label:active:before, .normal-radio + label:active:before {
+      background-position: 0 0; }
+
+/* line 53, ie_fix.css.scss */
+textarea.input-transparent, input[type="text"].input-transparent, input[type="password"].input-transparent, input[type="datetime"].input-transparent, input[type="datetime-local"].input-transparent, input[type="date"].input-transparent, input[type="month"].input-transparent, input[type="time"].input-transparent, input[type="week"].input-transparent, input[type="number"].input-transparent, input[type="email"].input-transparent, input[type="url"].input-transparent, input[type="search"].input-transparent, input[type="tel"].input-transparent, input[type="color"].input-transparent, .uneditable-input.input-transparent {
+  background: transparent;
+  border: 1px solid #000; }
+
+/* line 59, ie_fix.css.scss */
+input[type="checkbox"].checky {
+  display: inline;
+  width: auto !important; }
+  /* line 63, ie_fix.css.scss */
+  input[type="checkbox"].checky:checked + label.checky span {
+    margin-left: 0px; }
+
+/* line 68, ie_fix.css.scss */
+label.checky {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  display: inline-block;
+  margin-bottom: auto; }
+  /* line 75, ie_fix.css.scss */
+  label.checky span {
+    background: none;
+    display: inline;
+    height: auto;
+    margin-left: auto; }
+  /* line 82, ie_fix.css.scss */
+  label.checky.green span {
+    background: none; }
+
+/* line 90, ie_fix.css.scss */
+.top-nav.navbar-inner > ul > li > a {
+  background: #222; }
+  /* line 92, ie_fix.css.scss */
+  .top-nav.navbar-inner > ul > li > a:hover {
+    background: #222; }
+/* line 97, ie_fix.css.scss */
+.top-nav.navbar-inner > ul > li.active > a {
+  background: #333; }
