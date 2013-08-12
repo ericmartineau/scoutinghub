@@ -16,7 +16,7 @@ class SwitchingTagLib {
 
     static namespace = "s"
 
-    def iconMap = [training:"check", unit:"home"]
+    def iconMap = [training: "check", unit: "home"]
 
     def propertyList = { attrs, body ->
         if (session.isMobile) {
@@ -72,39 +72,35 @@ class SwitchingTagLib {
 
     def leaderUnit = { attrs, body ->
         LeaderGroup leaderGroup = attrs.leaderGroup;
-        out << "<div class='leader-unit ${attrs.class ?: ''}'>"
-        out << "<div class='leader-unit-position'><h4>${message(code: attrs.code)}</h4> "
-        if (leaderGroup) {
-//            out << "<div style='float:right'>"
-//            out << link(controller: 'leaderGroup',
-//                    action: 'confirmRemove',
-//                    id: leaderGroup.id,
-//                    title: message(code: 'trainingReport.removeFromUnit'),
-//                    'class': 'noshow lightbox remove-button',
-//                    lbwidth: '550') {
-//
-//                out << "<div class='td top'><img align='top' width='16' src='/scoutinghub/images/knobs/PNG/Knob Remove Red.png' /></div>"
-//                out << "<div class='td top'>&nbsp;"
-//                out << message(code: 'trainingReport.removeFromUnit')
-//                out << "</div>"
-//
-//
-//            }
-//            out << "</div>"
+
+        def groupName = message(code:attrs.code)
+        Leader leader = leaderGroup.leader
+
+        String unitName = body()
+        if(leaderGroup?.scoutGroup?.canBeAdministeredBy(leader)) {
+            unitName += " (admin)"
         }
-        out << "</div>"
-        out << "<div class='leader-unit-unitname'><h5>${body()}</h5></div>"
-        out << "</div>"
+
+        def model = [:]
+        model.leaderGroup = leaderGroup
+        model.unitName=unitName
+        model.groupName=groupName
+
+        out << render(template:"/leaderGroup/display", model: model)
 
     }
 
     def property = { attrs, body ->
 
 //        out << "<li class='prop ${attrs.class ?: ''}'>"
-        out << "<div class=\"control-group ${attrs.class}\">\n"
-        out << "    <label class=\"control-label\" for=\"${attrs.name}\">${message(code: attrs.code, args: attrs.args)}</label>\n"
-        out << "    <div class=\"controls ${attrs.text ? "field-text" : ""}\">\n"
+        out << "<div class=\"control-group row-fluid ${attrs.class}\">\n"
+        out << "<div class=\"span6 label-span\">"
+        out << "    <label class=\"control-label\" for=\"${attrs.name}\"><h4>${message(code: attrs.code, args: attrs.args)}</h4></label>\n"
+        out << "</div>"
+        out << "    <div class=\"span6 controls ${attrs.text ? "field-text" : ""}\">\n"
+        out << "<h5>"
         out << body()
+        out << "</h5>"
         out << "    </div>\n"
         out << "</div>\n"
 
@@ -182,7 +178,7 @@ class SwitchingTagLib {
 //                </div>
 //
 //"""
-        out << body()
+
         out << "<h2>"
         if (icon) {
             out << "<i class=\"icon-$icon\"></i> "
@@ -190,6 +186,7 @@ class SwitchingTagLib {
 
         out << g.message(code: attrs.code, default: attrs.code, args: args)
         out << "</h2>"
+        out << body()
 
 //        if (session.isMobile) {
 //            g.set(var: "sectionHeader", value: message(code: attrs.code, default: attrs.code, args: args), scope: "request");
@@ -277,11 +274,12 @@ class SwitchingTagLib {
         } else {
             out << "<div class='${attrs?.class}'>"
             out << "<span class='chk-input'>"
+            String name = attrs.id ?: attrs.name
             out << g.checkBox(attrs)
             out << "</span>"
-            out << "<span class='chk-label'>"
+            out << "<span class='chk-label'><label for='$name'><h4>"
             out << message(code: attrs?.code)
-            out << "</span>"
+            out << "</h4></label></span>"
             out << "</div>"
         }
     }
@@ -356,6 +354,9 @@ class SwitchingTagLib {
     }
 
     def linker = { attrs, body ->
+        if(attrs.menu) {
+            attrs.class += " btn btn-small"
+        }
         if (session.isMobile) {
             out << "<li class='menu linker'>"
             def bodyClosure = {

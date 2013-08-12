@@ -97,7 +97,11 @@ class MeritBadgeCounselorController {
                 }
             }
             meritBadgeCounselorInstance.properties = params
-            meritBadgeCounselorInstance.badges.each {
+
+            def badges = []
+            meritBadgeCounselorInstance?.badges?.each {badges << it}
+
+            badges.each {
                 meritBadgeCounselorInstance.removeFromBadges(it)
             }
             

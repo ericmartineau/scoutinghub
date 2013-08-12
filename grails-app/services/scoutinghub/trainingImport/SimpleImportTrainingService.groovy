@@ -1,9 +1,10 @@
 package scoutinghub.trainingImport
 
-import org.apache.commons.httpclient.util.DateParseException
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
 import scoutinghub.*
+
+import java.text.ParseException
 
 /**
  * Created by IntelliJ IDEA.
@@ -106,7 +107,7 @@ class SimpleImportTrainingService {
                                 Date trainingDate
                                 try {
                                     trainingDate = Date.parse("MM/dd/yy", dateValue)
-                                } catch (DateParseException de) {
+                                } catch (ParseException de) {
                                     println "Failed to parse date: ${dateValue}"
                                 }
 

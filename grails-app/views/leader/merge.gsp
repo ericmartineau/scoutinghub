@@ -26,7 +26,7 @@
         </div>
     </div>
     <div style="padding:15px">
-        <g:link class="ui-button ui-button-style" controller="leader" action="doMerge" params="[leaderA:leaderA.id, leaderB:leaderB.id]">
+        <g:link class="btn btn-primary" controller="leader" action="doMerge" params="[leaderA:leaderA.id, leaderB:leaderB.id]">
             <g:message code="leader.merge.perform"/>
         </g:link>
     </div>

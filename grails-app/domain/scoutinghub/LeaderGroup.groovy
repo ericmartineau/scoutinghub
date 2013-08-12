@@ -2,8 +2,6 @@ package scoutinghub
 
 class LeaderGroup implements Serializable {
 
-
-
     static searchable = {
         root false
         only = ["scoutGroup", "admin", "leaderPosition", "pctTrained"]

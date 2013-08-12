@@ -2,7 +2,6 @@
         <g:hiddenField name="leaderId" value="${leader.id}"/>
         <g:hiddenField name="certificationId" value="${certification.id}"/>
 
-        <s:section>
             <s:sectionHeader code="${certification.name}" />
             <s:text>
                 <ul class="list">
@@ -14,7 +13,6 @@
 
             <s:textField type="text" code="leaderCertification.dateEarned.label" placeholder="MM-dd-yyyy" name="dateEarned" size="10" class=""/>
 
-        </s:section>
         <s:div class="buttons" />
 
         <s:submit name="save" value="Save"/>

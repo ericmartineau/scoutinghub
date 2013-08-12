@@ -2,8 +2,8 @@
     <div class="msg1">The following records already exist and may be a match:</div>
 
     <f:leaderList leaders="${leaders}">
-        <div>
+        <td>
             <a href="javascript:useLeader(${request.leaderInList.id})">Use This Record</a>
-        </div>
+        </td>
     </f:leaderList>
 </s:msg>

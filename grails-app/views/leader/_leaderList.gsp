@@ -1,43 +1,36 @@
-                <div class="msg2">
-                    <div class="duplicate-results">
-                        <div class="header">
-                            <div>Name</div>
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>BSA ID</th>
+        <th></th>
+        <th></th>    
+    </tr>
 
-                            <div>Phone</div>
+    <g:each in="${leaders}" var="duplicate">
 
-                            <div>Email</div>
+        <tr>
+            <td>${duplicate}</td>
 
-                            <div>Address</div>
+            <td>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</td>
 
-                            <div>BSA ID</div>
+            <td>${duplicate.email ?: "No Email"}</td>
+            <td>${duplicate.address1 ?: "No Address"}</td>
 
-                            <div></div>
+            <td>
+                <g:if test="${duplicate.myScoutingIds?.size() > 0}">
+                    ${duplicate.myScoutingIds?.iterator()?.next()}
+                </g:if>
+                <g:else>No BSA ID</g:else>
 
-                            <div></div>
-                        </div>
-                        <g:each in="${leaders}" var="duplicate">
+            </td>
+            <g:set var="leaderInList" scope="request" value="${duplicate}" />
+            ${body()}
+            <g:set var="leaderInList" scope="request" value="${null}" />
+        </tr>
 
-                            <div>
-                                <div>${duplicate}</div>
-
-                                <div>${f.formatPhone(phone: duplicate.phone) ?: "No Phone"}</div>
-
-                                <div>${duplicate.email ?: "No Email"}</div>
-                                <div>${duplicate.address1 ?: "No Address"}</div>
-
-                                <div>
-                                    <g:if test="${duplicate.myScoutingIds?.size() > 0}">
-                                        ${duplicate.myScoutingIds?.iterator()?.next()}
-                                    </g:if>
-                                    <g:else>No BSA ID</g:else>
-
-                                </div>
-                                <g:set var="leaderInList" scope="request" value="${duplicate}" />
-                                ${body()}
-                                <g:set var="leaderInList" scope="request" value="${null}" />
-                            </div>
-
-                        </g:each>
-                    </div>
-
-                </div>
+    </g:each>
+    
+</table>

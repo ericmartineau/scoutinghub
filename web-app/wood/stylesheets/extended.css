@@ -8,8 +8,26 @@ h2 i[class^="icon-"], h2 i[class*=" icon-"] {
     padding-right: 24px;
 }
 
+h4 i, h5 i {
+    line-height: 20px !important;
+}
+
+.control-label h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.controls h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.control-group .label-span {
+    min-height: 20px;
+}
+
 .content-pad {
-    padding: 10px;
+    padding: 5px;
 }
 
 .left-center {
@@ -28,8 +46,8 @@ li.prop {
 }
 
 .field-text {
-    font-size: 1.5em;
-    line-height: 25px;
+    /*font-size: 1.5em;*/
+    /*line-height: 25px;*/
 }
 
 h4 .training-status {
@@ -67,13 +85,57 @@ h4 .training-status {
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
 }
 
-.leader-unit-position h4 {
+.leader-unit-position h4,.leader-unit-position h5 {
     margin-bottom:0;
+    margin-top:0;
+}
+
+.control-group .field-text {
+    padding-left: 15px;
+}
+
+.add-unit {
+    padding: 8px;
+    background-color: #E8E8E8;
 }
 
 .leader-unit-unitname h5 {
     margin-top:0;
+    margin-bottom:0;
+}
+
+.leader-unit {
+    margin-bottom: 15px;
+}
+
+.context-menu {
+    margin-bottom: 10px;
+}
+
+.section > h2 {
+    margin-bottom: 5px;
+}
+
+.modal-body h2 {
+    margin-top: 0;
+}
+
+.checker {
+    float:left;
+}
+.chk-input  {
+    float:left;
+    padding-right: 10px;
+}
+
+.navbar-search {
+    width: 100%;
+}
+
+.merit-badge-list h5 {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }

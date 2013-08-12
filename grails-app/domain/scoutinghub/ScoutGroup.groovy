@@ -106,10 +106,10 @@ class ScoutGroup implements Serializable {
 
     boolean canBeAdministeredBy(Leader leader) {
         boolean rtn
-        if (leader.hasRole("ROLE_ADMIN")) {
+        if (leader?.hasRole("ROLE_ADMIN")) {
             rtn = true
         } else {
-            LeaderGroup found = leader.groups?.find {LeaderGroup lg ->
+            LeaderGroup found = leader?.groups?.find {LeaderGroup lg ->
                 return lg.scoutGroup.id == this.id && lg.admin
             }
 

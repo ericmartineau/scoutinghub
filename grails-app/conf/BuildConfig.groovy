@@ -15,7 +15,9 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 
-        mavenRepo "https://www.cubtrails.com/nexus/content/repositories/martytime/"
+        mavenRepo "https://www.cubtrails.com/nexus/content/repositories/martytime-snapshot"
+        mavenRepo "https://www.cubtrails.com/nexus/content/repositories/martytime"
+
         mavenRepo "https://www.cubtrails.com/nexus/content/repositories/cubtrails/"
 //        mavenRepo "http://martytime.com/nexus/content/repositories/martytime/"
 
@@ -26,48 +28,71 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
 
-
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
-        //mavenLocal()
+        mavenLocal()
         mavenCentral()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
+
+        mavenRepo "http://repository.codehaus.org"
         mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
+//        mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://maven.springframework.org/milestone/"
+        mavenRepo "https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads"
+
+        mavenRepo "http://snapshots.repository.codehaus.org"
+
     }
 
     plugins {
-        compile (":elasticsearch:0.20.6.2-martytime-10")
+
+        compile ":elasticsearch:0.20.6.3"
 
         compile(":spring-security-core:1.2.7.3-cubtrails-3")
 
-        build(":hibernate:$grailsVersion")
-        build(":tomcat:$grailsVersion")
+        compile ":hibernate:3.6.10.M4"
+        build ":tomcat:7.0.41"
+
         build ":release:2.0.3"
         compile ":resources:1.1.6"
 
         compile ":executor:0.2"
         compile ":fixtures:1.0.7"
         compile ":geolocation:0.1"
-        compile ":hibernate:2.2.3"
+
         compile ":iwebkit:0.5"
         compile ":mail:1.0"
 
         compile ":oauth:0.10"
         compile ":quartz:0.4.2"
-        compile ":rendering:0.4.3"
+//        compile ":rendering:0.4.3"
         compile ":rest-client-builder:1.0.2"
-        compile ":spring-events:1.1"
-        compile ":spring-security-openid:1.0.1"
+        compile ":spring-events:1.2"
+        compile (":spring-security-openid:1.0.4") {
+            excludes "spring-security-core"
+        }
         compile ":svn:1.0.0.M1"
-        compile ":webflow:2.0.0"
+        compile ":webflow:2.0.8.1"
         runtime ":jquery:1.10.0"
+
+        //Solves issue with "No thread-bound request"
+        runtime ":webxml:1.4.1"
+
 
     }
 
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
+
+        compile "org.grails:grails-datastore-core:2.0.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-web:2.0.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-gorm:2.0.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-gorm-plugin-support:2.0.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-gorm-hibernate:2.0.0.BUILD-SNAPSHOT"
+
+//        compile "org.grails:grails-datastore-gorm-hibernate4:2.0.0.BUILD-SNAPSHOT"
+        // These are specifically for mongo
+        compile "org.grails:grails-datastore-gorm-mongo:1.3.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-mongo:1.3.0.BUILD-SNAPSHOT"
+        compile "org.grails:grails-datastore-gorm-neo4j:1.0.0.BUILD-SNAPSHOT"
 
         compile("org.codehaus.groovy.modules.http-builder:http-builder:0.5.2") {
             excludes "groovy"
@@ -92,6 +117,13 @@ grails.project.dependency.resolution = {
 //        compile('org.igniterealtime.smack:smack:3.1.0') {
 //            transitive = false
 //        }
+        compile("org.springframework:spring-test:3.2.3.RELEASE") {
+            transitive = false
+        }
+
+//        compile("org.springframework.security:spring-security-core:3.1.4.RELEASE")
+//        compile("org.springframework.security:spring-security-web:3.1.4.RELEASE")
+//        compile("org.springframework.security:spring-security-openid:3.1.4.RELEASE")
 
         compile 'org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0'
         compile 'com.google.code.facebookapi:facebook-java-api:3.0.2'

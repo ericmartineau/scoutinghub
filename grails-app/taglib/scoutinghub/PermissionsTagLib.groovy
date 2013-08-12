@@ -9,9 +9,17 @@ class PermissionsTagLib {
     static namespace = "p"
 
     def canAdministerGroup = {attrs, body ->
-        ScoutGroup scoutGroup = attrs.scoutGroup
-        Leader leader = attrs.leader ?: springSecurityService.currentUser
+        ScoutGroup scoutGroup = attrs.leaderGroup?.scoutGroup ?: attrs.scoutGroup
+        Leader leader = attrs.leaderGroup?.leader ?: attrs.leader ?: springSecurityService.currentUser
         if (scoutGroup.canBeAdministeredBy(leader)) {
+            out << body()
+        }
+    }
+
+    def cantAdministerGroup = {attrs, body ->
+        ScoutGroup scoutGroup = attrs.leaderGroup?.scoutGroup ?: attrs.scoutGroup
+        Leader leader = attrs.leaderGroup?.leader ?: attrs.leader ?: springSecurityService.currentUser
+        if (!scoutGroup.canBeAdministeredBy(leader)) {
             out << body()
         }
     }
@@ -57,14 +65,7 @@ class PermissionsTagLib {
         def id = attrs.id
         def checked = attrs.checked
         out << s.checkbox(name: "grp" + id, checked: checked, value: true, code:label)
-//        out << "<li class='permission ${attrs.class ?: ''}'>"
-//        out << "<div class='permission-label'>"
-//        out << label
-//        out << "</div>"
-//        out << "<div class='permission-checkbox'>"
-//        out << checkBox()
-//        out << "</div>"
-//        out << "</li>"
+
     }
 }
 

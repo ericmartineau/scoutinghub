@@ -11,7 +11,7 @@
     </ul>
 
     <div class="buttons">
-        <g:submitButton name="proceed" value="Proceed"/>
+        <g:submitButton class="btn btn-primary" name="proceed" value="Proceed"/>
     </div>
 
 </g:form>

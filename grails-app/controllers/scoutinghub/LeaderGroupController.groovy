@@ -84,8 +84,6 @@ class LeaderGroupController {
             leader.save(failOnError: true)
 
             leaderGroup.delete(failOnError: true)
-            leader.reindex();
-
 
             rtn.success = true;
         } catch (Exception e) {
@@ -94,7 +92,8 @@ class LeaderGroupController {
             flash.error = "Unable to remove from group"
             flash.error2 = e.message
         }
-        render rtn as JSON
+
+        redirect(controller: "leader", action: "profile", id: leaderGroup.leaderId)
     }
 
     def confirmRemove = {
@@ -117,6 +116,24 @@ class LeaderGroupController {
         Leader leader = Leader.get(params.id)
         return [leader: leader]
     }
+
+    def revokeAdmin(Long id) {
+        LeaderGroup leaderGroup = LeaderGroup.get(id)
+        if(leaderGroup.scoutGroup.canBeAdministeredBy(springSecurityService.currentUser)) {
+            leaderGroup.admin = false
+        }
+        redirect(controller: "leader", action:"profile", id:leaderGroup.leaderId)
+    }
+
+    def makeAdmin(Long id) {
+        LeaderGroup leaderGroup = LeaderGroup.get(id)
+        if(leaderGroup.scoutGroup.canBeAdministeredBy(springSecurityService.currentUser)) {
+            leaderGroup.admin = true
+        }
+        redirect(controller: "leader", action:"profile", id:leaderGroup.leaderId)
+    }
+
+
 
     def rebuildTraining = {
         ScoutGroup scoutGroup = ScoutGroup.get(params.id)
@@ -198,7 +215,7 @@ class LeaderGroupController {
         if (leaderGroupInstance2 && leaderGroupInstance2.save(flush: true)) {
             leaderGroupInstance2.leader.addToGroups(leaderGroupInstance2)
             leaderGroupInstance2.leader.save(failOnError: true)
-            leaderGroupInstance2.leader.reindex()
+//            leaderGroupInstance2.leader.reindex()
             rtn.success = true
         } else {
             rtn.success = false;

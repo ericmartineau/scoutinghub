@@ -46,4 +46,8 @@ modules = {
         resource url:"js/jquery.jstree.js"
     }
 
+    meritBadgeCounselor {
+        resource url:'css/meritBadgeCounselor.css'
+    }
+
 }

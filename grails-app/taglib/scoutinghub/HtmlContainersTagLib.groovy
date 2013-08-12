@@ -24,20 +24,23 @@ class HtmlContainersTagLib {
         //        out << "</div>"
         //        out << "<ul class='ctx-menu-pe ui-widget-header ui-corner-all'>"
         String icon
-        out << """
-            <div class="btn-group pull-right">
-                <button class="btn">Action</button>
-                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <!-- dropdown menu links -->
-"""
+        out << "<div class=\"context-menu btn-group\">"
         out << body()
-        out << """
-                </ul>
-            </div>
-"""
+        out << "</div>"
+//        out << """
+//
+//                <button class="btn">Action</button>
+//                <button class="btn dropdown-toggle" data-toggle="dropdown">
+//                    <span class="caret"></span>
+//                </button>
+//                <ul class="dropdown-menu">
+//                    <!-- dropdown menu links -->
+//"""
+//
+//        out << """
+//                </ul>
+//            </div>
+//"""
 
     }
 
@@ -71,7 +74,7 @@ class HtmlContainersTagLib {
     }
 
     def ctxmenuItem = {attrs, body ->
-        out << "<li class='ctx-menu-item ${attrs.class ?: ""}'>"
+//        out << "<li class='ctx-menu-item ${attrs.class ?: ""}'>"
 //        out << "<span class='ui-icon menu-icon ${attrs.class ?: ""}'></span>"
         //        out << "<span class='menu-text'>"
         if (attrs.controller) {
@@ -79,7 +82,7 @@ class HtmlContainersTagLib {
             if(!img && attrs.iconType) {
                 img = "${attrs.iconType}-icon"
             }
-            def linkAttrs = [img:img, controller: attrs.controller, style: "white-space:nowrap;", action: attrs.action, id: attrs.id, params: attrs.params]
+            def linkAttrs = [img:img, menu: "true", class: "btn btn-small", controller: attrs.controller, style: "white-space:nowrap;", action: attrs.action, id: attrs.id, params: attrs.params]
             if(attrs.onclick) {
                 linkAttrs.onclick=attrs.onclick
             }
@@ -95,7 +98,7 @@ class HtmlContainersTagLib {
             out << body()
         }
 //        out << "</span>"
-        out << "</li>"
+//        out << "</li>"
     }
 
     def ctxmenuLabel = {attrs, body ->
@@ -127,6 +130,28 @@ class HtmlContainersTagLib {
         }
         out << body()
         out << "</td>"
+    }
+
+    def modal = {attrs, body->
+        out << "<div id=\"${attrs.id}\" class=\"modal hide\">"
+        out << "    <div class=\"modal-header\">"
+        out << "    <button class=\"close\" data-dismiss=\"modal\">×</button>"
+        out << "        <h2>${g.message(attrs)}</h2>"
+        out << "    </div>"
+        out << body()
+        out << "</div>"
+    }
+
+    def modalBody = {attrs, body->
+        out << "<div class=\"modal-body\">"
+        out << body()
+        out << "</div>"
+    }
+
+    def modalFooter = {attrs, body->
+        out << "<div class=\"modal-footer\">"
+        out << body()
+        out << "</div>"
     }
 
 

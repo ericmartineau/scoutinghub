@@ -9,7 +9,7 @@ class MyScoutingIdController {
     TrainingService trainingService
 
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST"]
 
 //    def list = {
 //        params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -101,20 +101,23 @@ class MyScoutingIdController {
 
     def delete = {
         def myScoutingIdInstance = MyScoutingId.get(params.id)
+        Leader leader = myScoutingIdInstance.leader
         if (myScoutingIdInstance) {
             try {
                 myScoutingIdInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), params.id])}"
-                redirect(action: "list")
+                redirect(controller: "leader", action: "profile", id: leader.id)
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(controller: "leader", action: "profile", id: leader.id)
+
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'myScoutingId.label', default: 'MyScoutingId'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "leader", action: "profile", id: leader.id)
+
         }
     }
 }
